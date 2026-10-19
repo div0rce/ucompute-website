@@ -17,6 +17,8 @@ for (const url of publicUrls) {
   record(r.status === 200 && body.includes('The network is taking shape.'), `${url} -> ${r.status}, prelaunch page`);
   record(!/noindex/.test(body) && !r.headers.get('x-robots-tag'), `${url} is indexable`);
   record(!!r.headers.get('content-security-policy'), `${url} sends a Content-Security-Policy`);
+  record(!!r.headers.get('strict-transport-security'), `${url} sends Strict-Transport-Security`);
+  record(!/cloudflareinsights/.test(await (await fetch(url, { headers: { accept: 'text/html', 'user-agent': 'Mozilla/5.0 Chrome/130' } })).text()), `${url} has no injected analytics beacon`);
   for (const p of fullSitePaths) {
     const s = await get(new URL(p, url));
     record(s.status === 404, `${new URL(p, url)} -> ${s.status} (complete site not served)`);

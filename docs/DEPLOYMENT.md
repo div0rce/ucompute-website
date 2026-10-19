@@ -9,7 +9,7 @@ One Cloudflare Pages project, `ucompute-website`, connected to this GitHub repos
 | Production | `main` | `prelaunch` | The public prelaunch page only | `ucompute.org`, `ucompute-website.pages.dev` |
 | Preview | `preview` and any other branch | `preview` | The complete site, noindex, plus `/prelaunch/` for review | `preview.ucompute.org`, `preview.ucompute-website.pages.dev`, `<hash>.ucompute-website.pages.dev`, `<branch>.ucompute-website.pages.dev` |
 
-Build settings: build command `npm run cf-build` (build, then `check.mjs` on the output, so a failing check fails the deployment), output directory `dist`, root directory empty. `NODE_VERSION` is 24 for Preview; Production moves from 22 to 24 once a preview build has passed on 24.
+Build settings: build command `npm run cf-build` (build, then `check.mjs` on the output, so a failing check fails the deployment), output directory `dist`, root directory empty. `NODE_VERSION` is 24 for Preview (passed) and 22 for Production; move Production to 24 at the next production change.
 
 Why one project rather than two: a single Git connection and build configuration, and the security boundary is still at Cloudflare's edge. The production build physically contains only the prelaunch files (`check.mjs` enforces an allow-list), so the production `pages.dev` address is safe to leave public. Every non-production address is behind Access.
 
@@ -37,6 +37,13 @@ The Cloudflare Workers and Pages GitHub app is installed on `div0rce` with acces
 |---|---|---|---|---|
 | `ucompute.org` | CNAME (flattened) | `ucompute-website.pages.dev` | Yes | Created by Pages when the custom domain is added |
 | `preview` | CNAME | `preview.ucompute-website.pages.dev` | Yes | Pages custom domain, retargeted to the `preview` branch alias. Must stay proxied, or Cloudflare serves production instead |
+
+## Zone rules
+
+| Rule | Type | What it does |
+|---|---|---|
+| www.ucompute.org to ucompute.org | Single Redirect | `http*://www.ucompute.org/*` → `https://ucompute.org/${2}`, 301, query string preserved. Needs the proxied placeholder record `www A 192.0.2.1` |
+| No analytics injection | Configuration Rule, all requests | Disable Real User Monitoring. Cloudflare had started injecting its Web Analytics beacon into HTML responses; the site uses no third-party analytics (spec section 29.5) |
 
 ## Everyday workflow
 

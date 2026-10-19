@@ -1,5 +1,18 @@
 # Verification record
 
+## 2026-10-19: deployment verification (live)
+
+| Check | Result |
+|---|---|
+| `node verify-live.mjs` plus hash and branch aliases | All checks pass: public routing, HTTPS and www redirect, complete-site paths 404 publicly, every private address 302 to Access without a session |
+| Authorized access (owner signed in with the PIN) | All 18 private pages 200 (404 page 404), noindex meta and header, robots Disallow, no console errors |
+| Live equals source | SHA-256 of 8 live files equals the local build of the deployed commit |
+| Live public accessibility | axe-core 0 violations at 1440 and 390 px and on the 404 |
+| Third-party requests on ucompute.org | None, after disabling Cloudflare's injected Web Analytics beacon with a Configuration Rule |
+| Final local suite on the deployed commit | 57 page views 0 axe violations; no overflow 320–1440 px; menu, tabs, copy, skip link, reduced motion pass; no console errors |
+
+Full report: `docs/REPORT-2026-10-19.md`.
+
 ## 2026-10-19: alignment with the committed website rules (spec eec6d6e)
 
 Source of rules: `docs/SPEC_HANDOFF_V2.md` at `div0rce/common` commit eec6d6e, sections 26.1, 26.2, 29.1, 29.5 and WP-13.

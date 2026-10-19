@@ -233,6 +233,7 @@ export function build(mode, out) {
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000
 ${mode === 'preview' ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
