@@ -1,0 +1,118 @@
+<!--
+title: Developers
+description: Use UCompute from your own application: an OpenAI-compatible HTTP API on 127.0.0.1:8192, an explicit target for running on paired devices, typed errors and an OpenAPI document.
+-->
+<div class="page-hero shell">
+<h1>Build on the compute people already have.</h1>
+<p class="lede">A local-first execution interface for supported models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
+<div class="page-hero-meta"><span class="pill pill-dev">API v1.0.0, development build</span><span class="pill pill-planned">SDKs planned</span></div>
+</div>
+
+<section class="section-tight" aria-labelledby="quickstart">
+<div class="shell evidence">
+<div>
+<h2 class="h-sub" id="quickstart">Quickstart</h2>
+<ol class="steps stack">
+<li><div><h3>Install and set up</h3><p>Build the <code>common</code> command (see <a href="/docs/install/">Install</a>), then run <code>common setup</code> to download and verify the pinned engine.</p></div></li>
+<li><div><h3>Get a model</h3><p><code>common models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license, then downloads and verifies 491 MB.</p></div></li>
+<li><div><h3>Start the daemon</h3><p><code>common serve</code> listens on <code>http://127.0.0.1:8192</code>. The desktop app starts the same daemon for you.</p></div></li>
+<li><div><h3>Call it</h3><p>Use any OpenAI client with the base URL changed. The model loads on the first request.</p></div></li>
+</ol>
+</div>
+<div class="code-panel">
+<div class="code-bar">
+<div class="code-tabs" role="tablist" aria-label="Example language">
+<button class="code-tab" type="button" role="tab" id="q-py" aria-controls="qp-py" aria-selected="true">Python</button>
+<button class="code-tab" type="button" role="tab" id="q-js" aria-controls="qp-js" aria-selected="false" tabindex="-1">JavaScript</button>
+<button class="code-tab" type="button" role="tab" id="q-sh" aria-controls="qp-sh" aria-selected="false" tabindex="-1">curl</button>
+</div>
+<button class="copy-btn" type="button" aria-live="polite">Copy</button>
+</div>
+<div role="tabpanel" id="qp-py" aria-labelledby="q-py" tabindex="0">
+<pre><code><span class="tok-c"># pip install openai</span>
+<span class="tok-k">from</span> openai <span class="tok-k">import</span> OpenAI
+
+client = <span class="tok-f">OpenAI</span>(base_url=<span class="tok-s">"http://127.0.0.1:8192/v1"</span>, api_key=<span class="tok-s">"unused-on-loopback"</span>)
+
+stream = client.chat.completions.<span class="tok-f">create</span>(
+    model=<span class="tok-s">"qwen2.5-0.5b-instruct-q4_k_m"</span>,
+    messages=[{<span class="tok-s">"role"</span>: <span class="tok-s">"user"</span>, <span class="tok-s">"content"</span>: <span class="tok-s">"Explain unified memory in two sentences."</span>}],
+    stream=<span class="tok-k">True</span>,
+)
+<span class="tok-k">for</span> chunk <span class="tok-k">in</span> stream:
+    <span class="tok-k">if</span> chunk.choices <span class="tok-k">and</span> chunk.choices[0].delta.content:
+        <span class="tok-f">print</span>(chunk.choices[0].delta.content, end=<span class="tok-s">""</span>, flush=<span class="tok-k">True</span>)</code></pre>
+</div>
+<div role="tabpanel" id="qp-js" aria-labelledby="q-js" tabindex="0" hidden>
+<pre><code><span class="tok-c">// npm install openai</span>
+<span class="tok-k">import</span> OpenAI <span class="tok-k">from</span> <span class="tok-s">"openai"</span>;
+
+<span class="tok-k">const</span> client = <span class="tok-k">new</span> <span class="tok-f">OpenAI</span>({
+  baseURL: <span class="tok-s">"http://127.0.0.1:8192/v1"</span>,
+  apiKey: <span class="tok-s">"not-needed-on-loopback"</span>,
+});
+
+<span class="tok-k">const</span> stream = <span class="tok-k">await</span> client.chat.completions.<span class="tok-f">create</span>({
+  model: <span class="tok-s">"qwen2.5-0.5b-instruct-q4_k_m"</span>,
+  messages: [{ role: <span class="tok-s">"user"</span>, content: <span class="tok-s">"Explain unified memory in two sentences."</span> }],
+  stream: <span class="tok-k">true</span>,
+});
+<span class="tok-k">for await</span> (<span class="tok-k">const</span> chunk <span class="tok-k">of</span> stream) {
+  process.stdout.<span class="tok-f">write</span>(chunk.choices[0]?.delta?.content ?? <span class="tok-s">""</span>);
+}</code></pre>
+</div>
+<div role="tabpanel" id="qp-sh" aria-labelledby="q-sh" tabindex="0" hidden>
+<pre><code>curl http://127.0.0.1:8192/v1/chat/completions \
+  -H <span class="tok-s">'Content-Type: application/json'</span> \
+  -d <span class="tok-s">'{"model":"qwen2.5-0.5b-instruct-q4_k_m","messages":[{"role":"user","content":"Hello"}],"stream":true}'</span></code></pre>
+</div>
+<p class="code-note">The repository runs the official OpenAI Python and JavaScript clients against a live daemon in its tests: model listing, completions, chat, streaming and typed errors.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" aria-labelledby="targets">
+<div class="shell split">
+<div><h2 class="h-sub" id="targets">Choosing where it runs</h2></div>
+<div class="prose">
+<p>Chat and completion requests accept one extension, <code>target</code>:</p>
+<ul>
+<li><code>"local"</code> runs here. It is the default; a missing or empty value means local.</li>
+<li><code>"peer:&lt;id&gt;"</code> runs the whole request on that paired device. The id is the 64-hex peer id or its <code>xxxx-xxxx-xxxx</code> short label.</li>
+</ul>
+<p>Send it in the JSON body, or as the <code>X-Common-Target</code> header; the body wins when both are present. Every response and every streamed chunk carries <code>"target"</code>, so nothing runs elsewhere silently. Embeddings always run locally.</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \
+  -H 'X-Common-Target: peer:1a2b-3c4d-5e6f' \
+  -d '{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</code></pre></div>
+<p>A peer target is refused with <code>policy_denied</code> or <code>peer_unauthorized</code> unless trusted devices are enabled, networking is on, the device is paired and a group on both sides allows it. With the Python client, pass <code>extra_body={"target": "peer:…"}</code>.</p>
+<p><a class="link-arrow" href="/docs/mesh/">Set up a paired device</a></p>
+</div>
+</div>
+</section>
+
+<section class="section-tight" aria-labelledby="contract">
+<div class="shell split">
+<div><h2 class="h-sub" id="contract">The contract</h2></div>
+<div class="prose">
+<h3>Routes</h3>
+<p>OpenAI-compatible: <code>GET /v1/models</code>, <code>POST /v1/chat/completions</code>, <code>POST /v1/completions</code>, <code>POST /v1/embeddings</code>. UCompute's own routes live under <code>/api</code>: hardware, status, the model catalog with a per-model memory fit verdict, downloads with progress, loading and unloading, and the trusted-device routes. The versioned OpenAPI 3.1 document is served at <code>GET /openapi.json</code>, and a test keeps it identical to the routes the server actually serves.</p>
+<h3>Errors</h3>
+<p>Every error uses the OpenAI shape, with a stable code from a fixed list and a hint:</p>
+<pre class="code-block"><code>{"error": {"message": "…", "type": "…", "code": "model_not_downloaded", "param": null, "hint": "…"}}</code></pre>
+<h3>Authentication and browsers</h3>
+<p>On loopback no key is needed. Listening on any other address requires <code>--api-key</code>, and then every route except <code>/health</code> needs <code>Authorization: Bearer &lt;key&gt;</code>. Web pages cannot call the daemon: browser origins other than the desktop app's are refused, so a website you visit can't use your computer.</p>
+<p><a class="link-arrow" href="/docs/api/">Full API reference</a></p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-tint" aria-labelledby="later-dev">
+<div class="shell">
+<h2 class="h-sub" id="later-dev">Planned for developers</h2>
+<div class="grid-3 stack">
+<div class="card"><div class="card-top"><h3>Python and TypeScript SDKs</h3><span class="pill pill-planned">Planned</span></div><p>Versioned clients with streaming, cancellation, typed errors and explicit targets, tested against a live server. Success is measured by independent developers getting a first real stream within 30 minutes without help.</p></div>
+<div class="card"><div class="card-top"><h3>An independent protocol</h3><span class="pill pill-planned">Planned</span></div><p>A written peer profile with test vectors, so a separate implementation can pair and exchange work. Until it exists, the peer protocol is experimental.</p></div>
+<div class="card"><div class="card-top"><h3>A workload contract</h3><span class="pill pill-research">Later</span></div><p>A versioned envelope around today's inference requests, declaring resources, permissions and privacy, so other kinds of work can be added safely.</p></div>
+</div>
+</div>
+</section>

@@ -1,0 +1,278 @@
+<!--
+title: UCompute: compute better, together
+description: UCompute is building an open computing layer for the devices you own and trust. Run AI models on your own computer, or send a request to another computer you have paired.
+-->
+<div class="shell hero">
+<div class="hero-copy">
+<h1>Compute<br><span class="accent">better.</span><br>Together<span class="stop">.</span></h1>
+<p class="hero-lede">Your devices were never meant to work alone. UCompute is building an open computing layer that connects them. Today it runs AI models on your own computer, or on another computer you have paired and chosen to trust.</p>
+<div class="hero-actions">
+<a class="btn btn-lime btn-lg" href="#demo">See it run on two computers</a>
+<a class="link-arrow" href="/download/">How to get it</a>
+</div>
+<p class="hero-note"><span class="live-dot" aria-hidden="true"></span><span><strong>Development builds, not a public release.</strong> Everything on the right was recorded on one MacBook Air and one Windows laptop.</span></p>
+</div>
+
+<figure class="duo" aria-labelledby="duo-caption">
+<div class="duo-head"><span><strong>Recorded run</strong>, 19 October 2026</span><span>Both apps on one phone hotspot</span></div>
+<div class="duo-stage">
+<div class="device device-mac">
+<div class="device-screen" aria-hidden="true">
+<div class="device-os"><span>macOS 26.2</span><span>Common.app</span></div>
+<div class="device-line">remote_request <b>done</b></div>
+<div class="device-line">served on MTL0</div>
+<div class="device-line">Apple M2 GPU</div>
+<span class="device-chip">Metal</span>
+</div>
+<div class="device-base" aria-hidden="true"></div>
+<p class="device-name">MacBook Air</p>
+<p class="device-spec">Apple M2, 8 GB</p>
+</div>
+<div class="duo-link" aria-hidden="true">
+<svg viewBox="0 0 180 120" preserveAspectRatio="none"><path class="wire" d="M 0 40 C 60 0, 120 0, 180 40"/><path class="wire" d="M 180 80 C 120 120, 60 120, 0 80"/><circle class="packet packet-out" r="4"/><circle class="packet packet-back" r="4"/></svg>
+<span class="duo-link-label">paired<br>QUIC + TLS 1.3</span>
+</div>
+<div class="device device-win">
+<div class="device-screen" aria-hidden="true">
+<div class="device-os"><span>Windows 11</span><span>Common app</span></div>
+<div class="device-line">Run on: <b>Mous</b></div>
+<div class="device-line">Ran on Mous.</div>
+<div class="device-line">112 tokens</div>
+<span class="device-chip">Vulkan</span>
+</div>
+<div class="device-base" aria-hidden="true"></div>
+<p class="device-name">Windows laptop</p>
+<p class="device-spec">Core Ultra 7 258V, Arc 140V</p>
+</div>
+</div>
+<div class="duo-readouts">
+<div class="readout"><p class="readout-dir">Windows app → Mac</p><p class="readout-num">508<small>tok/s</small></p><p class="readout-gpu">on Apple M2, Metal</p></div>
+<div class="readout"><p class="readout-dir">Mac → Windows</p><p class="readout-num">910<small>tok/s</small></p><p class="readout-gpu">on Intel Arc 140V, Vulkan</p></div>
+</div>
+<figcaption class="duo-foot" id="duo-caption">Measured with stories15M, a 15-million-parameter test model (Q4_0). The numbers show the path works end to end; they are not what a larger model would do. Each request ran whole on one machine. <a href="/demo/">Full evidence and limits</a></figcaption>
+</figure>
+</div>
+
+<section class="status-strip" aria-label="What exists today">
+<ul class="shell">
+<li>Run <span class="pill pill-dev">Development build</span></li>
+<li>Mesh <span class="pill pill-experimental">Experimental: one request, one paired device</span></li>
+<li>One model across devices <span class="pill pill-planned">Not built yet</span></li>
+<li>Swarm <span class="pill pill-gated">Off until security gates pass</span></li>
+</ul>
+</section>
+
+<section class="section section-dark" id="demo" aria-labelledby="demo-title">
+<div class="shell">
+<div class="section-head">
+<h2 class="h-display" id="demo-title">Two computers.<br><span class="soft">One request.</span></h2>
+<p class="lede">On 19 October 2026 we paired two installed development builds through their own screens, on one phone hotspot, and ran prompts in both directions. Nothing on this page is an animation of work that didn't happen.</p>
+</div>
+<div class="evidence">
+<figure class="shot">
+<img src="/assets/img/windows-app-chat-ran-on-mac-2026-10-19.webp" width="1200" height="785" alt="The Windows app's Chat view. Run on is set to Mous, the Mac. The reply ends with: 112 tokens, first token in 2,325 ms, 508.3 tok/s. Ran on Mous.">
+<figcaption>The Windows app after the run, unedited. The request went to the Mac (Run on: Mous) and the reply says “Ran on Mous”. The header names the model loaded on the laptop itself: Chat still requires one even when running elsewhere, a known defect. The apps carry the working name Common.</figcaption>
+</figure>
+<div>
+<ol class="steps">
+<li><div><h3>Pair</h3><p>The Mac shows a six-digit code under Peers, Pair this device. The laptop finds the Mac under Nearby, not paired, and joins with the code. A wrong code is refused.</p></div></li>
+<li><div><h3>Allow</h3><p>Each machine puts the other in a group that may run prompts. Without that, on both sides, nothing runs remotely.</p></div></li>
+<li><div><h3>Choose</h3><p>In Chat, Run on lists the paired Mac. The request goes to the device you pick and never silently anywhere else.</p></div></li>
+<li><div><h3>Run</h3><p>The request crosses UCompute's own QUIC connection, encrypted with TLS 1.3 and pinned device keys. The Mac loads the model on demand and runs it on its GPU. Both sides log the request without its text.</p></div></li>
+<li><div><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second.</p></div></li>
+</ol>
+<p class="callout" role="note"><strong>Remote execution, not pooling.</strong> One whole request ran on one other machine. No model has been split across devices yet; that is milestone M4.</p>
+<p class="stack"><a class="link-arrow" href="/demo/">Hardware, timings, open issues</a></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="products-title">
+<div class="shell">
+<div class="section-head">
+<h2 class="h-section" id="products-title">Today, two computers.<br><span class="soft">Tomorrow, an open computing layer.</span></h2>
+<p class="lede">UCompute starts with AI inference because it is useful now and demanding enough to prove the foundations: hardware detection, verified downloads, policy, device identity and transport. The same foundations are meant to carry other work later.</p>
+</div>
+<div class="product-grid">
+<article class="product-card product-run">
+<div class="card-top"><span class="card-label">UCompute Run</span><span class="pill pill-dev">Development build</span></div>
+<h3>Your AI.<br>Your machine.</h3>
+<p>Pick a model, see whether it fits before you download it, and run it. Local by default, no account, with an OpenAI-compatible API for your own apps.</p>
+<div class="product-figure">
+<div class="model-stack" aria-hidden="true">
+<div class="model-row"><span class="model-mark">Q</span><span><strong>Qwen2.5 0.5B Instruct</strong><small>Q4_K_M, 491 MB, Apache-2.0</small></span><span class="model-fit">fit check</span></div>
+<div class="model-row"><span class="model-mark">S</span><span><strong>SmolLM2 360M Instruct</strong><small>Q8_0, 386 MB, Apache-2.0</small></span></div>
+</div>
+<p class="figure-note">Two entries from the pinned, hash-verified model catalog</p>
+</div>
+<a class="product-foot" href="/product/#run">Explore UCompute Run <span class="link-arrow" aria-hidden="true"></span></a>
+</article>
+<article class="product-card product-mesh">
+<div class="card-top"><span class="card-label">UCompute Mesh</span><span class="pill pill-experimental">Experimental</span></div>
+<h3>Better<br>together.</h3>
+<p>Pair computers you trust, decide what each may do, and send a request to the one with the hardware for it. Explicit, revocable and audited.</p>
+<div class="product-figure">
+<svg class="mesh-svg" viewBox="0 0 460 190" aria-hidden="true"><path d="M95 95H365" stroke="#b8fdbd" stroke-width="2" stroke-dasharray="6 7"/><path d="M365 95L420 40" stroke="#5f7d67" stroke-width="1.5" stroke-dasharray="3 6"/><circle cx="95" cy="95" r="44" fill="#28362d" stroke="#b9fc6c" stroke-width="2"/><circle cx="365" cy="95" r="44" fill="#28362d" stroke="#b9fc6c" stroke-width="2"/><circle cx="420" cy="40" r="16" fill="#203329" stroke="#5f7d67" stroke-width="1.5" stroke-dasharray="3 4"/><text x="95" y="91" text-anchor="middle">Mac</text><text x="95" y="109" text-anchor="middle" class="lbl-soft">Metal</text><text x="365" y="91" text-anchor="middle">Windows</text><text x="365" y="109" text-anchor="middle" class="lbl-soft">Vulkan</text><text x="230" y="84" text-anchor="middle" class="lbl-soft">paired</text></svg>
+<p class="figure-note">The pair recorded so far. The dashed third device is the next one.</p>
+</div>
+<a class="product-foot" href="/product/#mesh">Explore UCompute Mesh <span class="link-arrow" aria-hidden="true"></span></a>
+</article>
+</div>
+<div class="grid-2 stack">
+<div class="card"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-gated">Planned, off by default</span></div><p>Opt-in sharing of spare capacity with people you don't know. It stays disabled until isolation, metering, verification and abuse protections pass independent review.</p></div>
+<div class="card"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Hypothesis</span></div><p>Optional managed services on the same open contracts, for teams that want them. Never required for local or private use.</p></div>
+</div>
+<p class="subsystems"><span>Built on four open subsystems:</span><span><strong>Core</strong>, the portable runtime</span><span><strong>Protocol</strong>, device-to-device contracts</span><span><strong>Scheduler</strong>, where work should run</span><span><strong>SDK</strong>, for developers</span><a class="link-arrow" href="/architecture/">Architecture</a></p>
+</div>
+</section>
+
+<section class="section section-white" aria-labelledby="journeys-title">
+<div class="shell">
+<div class="section-head">
+<h2 class="h-section" id="journeys-title">Start where you are.</h2>
+<p class="lede">Three ways in, each with a guide that matches what the software does today.</p>
+</div>
+<div class="grid-3">
+<div class="journey">
+<h3>Use it on one computer</h3>
+<ol aria-label="Steps"><li>Download</li><li>Install</li><li>Pick a model</li><li>Run</li></ol>
+<p>Today that means a development build for Apple Silicon Macs, built from source. A signed public installer is not available yet.</p>
+<a class="link-arrow" href="/docs/install/">Install guide</a>
+</div>
+<div class="journey">
+<h3>Add a second computer</h3>
+<ol aria-label="Steps"><li>Install on both</li><li>Pair</li><li>Allow in a group</li><li>Run on</li></ol>
+<p>Both machines on one local network. Automatic discovery needs a network that carries mDNS, such as home Wi-Fi or a phone hotspot; you can also pair by address.</p>
+<a class="link-arrow" href="/docs/mesh/">Trusted devices guide</a>
+</div>
+<div class="journey">
+<h3>Build an app on it</h3>
+<ol aria-label="Steps"><li>Start the daemon</li><li>Call the API</li><li>Stream</li><li>Pick a target</li></ol>
+<p>Point an unmodified OpenAI client at 127.0.0.1:8192, then add a target to run on a paired device.</p>
+<a class="link-arrow" href="/developers/">Developer guide</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section section-dark-2 section-dark" aria-labelledby="dev-title">
+<div class="shell evidence">
+<div>
+<h2 class="h-section" id="dev-title">One API.<br><span class="soft">Real possibilities.</span></h2>
+<p class="lede stack">The daemon speaks the OpenAI-compatible HTTP API that existing clients already use. One extra field, <code>target</code>, chooses where a request runs, and every response says where it ran.</p>
+<ul class="ticks stack">
+<li><div><strong class="step-title">Official OpenAI Python and JavaScript clients</strong><p>Tested against the daemon with only the base URL changed.</p></div></li>
+<li><div><strong class="step-title">Streaming and typed errors</strong><p>Server-sent events, and one error shape with stable codes.</p></div></li>
+<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it.</p></div></li>
+</ul>
+<p class="stack"><a class="btn btn-lime" href="/developers/">Read the developer guide</a></p>
+</div>
+<div class="code-panel">
+<div class="code-bar">
+<div class="code-tabs" role="tablist" aria-label="Example language">
+<button class="code-tab" type="button" role="tab" id="t-curl" aria-controls="p-curl" aria-selected="true">curl</button>
+<button class="code-tab" type="button" role="tab" id="t-py" aria-controls="p-py" aria-selected="false" tabindex="-1">Python</button>
+<button class="code-tab" type="button" role="tab" id="t-js" aria-controls="p-js" aria-selected="false" tabindex="-1">JavaScript</button>
+</div>
+<button class="copy-btn" type="button" aria-live="polite">Copy</button>
+</div>
+<div role="tabpanel" id="p-curl" aria-labelledby="t-curl" tabindex="0">
+<pre><code><span class="tok-c"># Runs on this computer</span>
+curl http://127.0.0.1:8192/v1/chat/completions \
+  -H <span class="tok-s">'Content-Type: application/json'</span> \
+  -d <span class="tok-s">'{"model": "qwen2.5-0.5b-instruct-q4_k_m",
+       "messages": [{"role": "user", "content": "Hello"}],
+       "stream": true}'</span>
+
+<span class="tok-c"># Runs the whole request on a paired device</span>
+curl http://127.0.0.1:8192/v1/completions \
+  -H <span class="tok-s">'Content-Type: application/json'</span> \
+  -H <span class="tok-s">'X-Common-Target: peer:1a2b-3c4d-5e6f'</span> \
+  -d <span class="tok-s">'{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</span></code></pre>
+</div>
+<div role="tabpanel" id="p-py" aria-labelledby="t-py" tabindex="0" hidden>
+<pre><code><span class="tok-k">from</span> openai <span class="tok-k">import</span> OpenAI
+
+client = <span class="tok-f">OpenAI</span>(base_url=<span class="tok-s">"http://127.0.0.1:8192/v1"</span>, api_key=<span class="tok-s">"unused-on-loopback"</span>)
+
+reply = client.chat.completions.<span class="tok-f">create</span>(
+    model=<span class="tok-s">"qwen2.5-0.5b-instruct-q4_k_m"</span>,
+    messages=[{<span class="tok-s">"role"</span>: <span class="tok-s">"user"</span>, <span class="tok-s">"content"</span>: <span class="tok-s">"Hello"</span>}],
+)
+<span class="tok-f">print</span>(reply.choices[0].message.content)
+
+<span class="tok-c"># Run the whole request on a paired device instead</span>
+remote = client.chat.completions.<span class="tok-f">create</span>(
+    model=<span class="tok-s">"qwen2.5-0.5b-instruct-q4_k_m"</span>,
+    messages=[{<span class="tok-s">"role"</span>: <span class="tok-s">"user"</span>, <span class="tok-s">"content"</span>: <span class="tok-s">"Hello"</span>}],
+    extra_body={<span class="tok-s">"target"</span>: <span class="tok-s">"peer:1a2b-3c4d-5e6f"</span>},
+)</code></pre>
+</div>
+<div role="tabpanel" id="p-js" aria-labelledby="t-js" tabindex="0" hidden>
+<pre><code><span class="tok-k">import</span> OpenAI <span class="tok-k">from</span> <span class="tok-s">"openai"</span>;
+
+<span class="tok-k">const</span> client = <span class="tok-k">new</span> <span class="tok-f">OpenAI</span>({
+  baseURL: <span class="tok-s">"http://127.0.0.1:8192/v1"</span>,
+  apiKey: <span class="tok-s">"not-needed-on-loopback"</span>,
+});
+
+<span class="tok-k">const</span> stream = <span class="tok-k">await</span> client.chat.completions.<span class="tok-f">create</span>({
+  model: <span class="tok-s">"qwen2.5-0.5b-instruct-q4_k_m"</span>,
+  messages: [{ role: <span class="tok-s">"user"</span>, content: <span class="tok-s">"Hello"</span> }],
+  stream: <span class="tok-k">true</span>,
+});
+<span class="tok-k">for await</span> (<span class="tok-k">const</span> chunk <span class="tok-k">of</span> stream) {
+  process.stdout.<span class="tok-f">write</span>(chunk.choices[0]?.delta?.content ?? <span class="tok-s">""</span>);
+}</code></pre>
+</div>
+<p class="code-note">Local examples follow the repository's client smoke tests. The peer target is documented in the <a href="/docs/api/#targets">API reference</a>; use a label from <code>GET /api/peers</code>.</p>
+</div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="trust-title">
+<div class="shell split">
+<div>
+<h2 class="h-section" id="trust-title">Share your compute.<br><span class="soft">Not your computer.</span></h2>
+<p class="lede stack">Consent comes before computation. These defaults are in the code today and covered by tests.</p>
+<p class="stack"><a class="link-arrow" href="/open-source/#security">Security policy and threat model</a></p>
+</div>
+<div class="rows">
+<div class="row"><h3>Local by default</h3><p>The API listens on 127.0.0.1 only. Peer networking and discovery stay off until you turn them on.</p></div>
+<div class="row"><h3>Permission, not assumption</h3><p>A device needs a one-time pairing code, a group that allows remote runs, and permission on both ends. A revoked key is refused inside the encrypted handshake.</p></div>
+<div class="row"><h3>Honest about the risk</h3><p>A paired device decrypts your prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer. You see this before trusted devices can be enabled.</p></div>
+<div class="row"><h3>Prompts stay out of logs</h3><p>Audit entries record ids, counts, codes and timings, never prompt or answer text.</p></div>
+<div class="row"><h3>Public compute waits</h3><p>Running work for strangers stays disabled until isolation, verification and abuse protections pass independent review.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section section-white" aria-labelledby="road-title">
+<div class="shell">
+<div class="section-head">
+<h2 class="h-section" id="road-title">Built one milestone<br><span class="soft">at a time.</span></h2>
+<p class="lede">Progress is counted against a public requirements ledger: 148 original requirements, 36 verified with recorded evidence at commit af3e37c. Nothing is marked done on a report alone.</p>
+</div>
+<ol class="milestones">
+<li class="milestone"><span class="milestone-id">M1</span><div><h3>Local inference</h3><p>Real models on CPU and Apple Metal, streaming, CLI and API.</p></div><span class="pill pill-verified">18 of 21 verified</span></li>
+<li class="milestone"><span class="milestone-id">M2</span><div><h3>Desktop app and installers</h3><p>macOS and Windows development builds work; installers are unsigned and not released.</p></div><span class="pill pill-verified">3 of 6 verified</span></li>
+<li class="milestone"><span class="milestone-id">M3</span><div><h3>Trusted devices</h3><p>Discovery, pairing, encrypted remote runs and revocation, recorded on two physical machines.</p></div><span class="pill pill-verified">14 of 17 verified</span></li>
+<li class="milestone"><span class="milestone-id">M4</span><div><h3>One model across two machines</h3><p>Genuine partitioned inference with correctness and memory checks.</p></div><span class="pill pill-planned">Not started</span></li>
+</ol>
+<p class="stack"><a class="link-arrow" href="/roadmap/">All fifteen milestones</a></p>
+</div>
+</section>
+
+<section class="section-lime cta-band" aria-labelledby="cta-title">
+<div class="shell section">
+<div class="cta-deco" aria-hidden="true">u.</div>
+<h2 id="cta-title">Make more<br>possible<span>.</span></h2>
+<p class="lede">UCompute is licensed Apache-2.0 and developed against a public requirements ledger. The source repository is being prepared for publication on GitHub.</p>
+<div class="cta-actions">
+<a class="btn btn-dark btn-lg" href="{{github}}">Follow on GitHub</a>
+<a class="link-arrow" href="/open-source/">How to contribute</a>
+</div>
+<p class="cta-foot"><span>macOS, Apple Silicon: development build</span><span>Windows 11 x64: development build</span><span>Linux: planned</span></p>
+</div>
+</section>

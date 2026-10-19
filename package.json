@@ -1,0 +1,15 @@
+{
+  "name": "ucompute-website",
+  "private": true,
+  "description": "ucompute.org: the public prelaunch page and the complete UCompute website, from one source.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build.mjs",
+    "cf-build": "node build.mjs && node check.mjs dist",
+    "dev": "node build.mjs preview && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
+    "test": "node check.mjs",
+    "test:links": "node check.mjs --external"
+  }
+}

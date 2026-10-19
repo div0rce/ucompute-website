@@ -1,0 +1,98 @@
+<!--
+title: Open source
+description: UCompute's license, how to contribute, how decisions are made, how the protocol stays open, and how to report a security problem.
+-->
+<div class="page-hero shell">
+<h1>Open by design, honest by rule.</h1>
+<p class="lede">UCompute is licensed Apache-2.0. Its working rules are written down: no fake inference, no fabricated benchmarks, nothing marked done without evidence. Those rules apply to every contributor, human or AI.</p>
+<div class="page-hero-meta"><span class="pill pill-verified">Apache-2.0</span><span class="pill pill-planned">Source publication in preparation</span></div>
+</div>
+
+<section class="section-tight" id="source" aria-labelledby="source-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="source-title">License and source</h2></div>
+<div class="prose">
+<p>The project lives at <a href="{{github}}">github.com/div0rce/common</a>. Today that repository holds the license and the founding brief; the code, the specification and the evidence records are being prepared for publication there.</p>
+<p>The code is Apache-2.0. Contributors keep ownership of their work and contribute under the same license. There is no copyright assignment and no extra contributor agreement.</p>
+<p>Model weights have their own licenses, shown in the catalog and before every download. The bundled inference engine, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, is MIT licensed. The website's fonts, DM Sans, DM Mono and Space Grotesk, are under the SIL Open Font License.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" id="contribute" aria-labelledby="contribute-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="contribute-title">How to contribute</h2></div>
+<div class="prose">
+<h3>Ground rules</h3>
+<ol>
+<li><strong>Real over fake.</strong> No mocked inference presented as real, no fabricated benchmark numbers, no feature marked done without evidence.</li>
+<li><strong>Requirements are tracked.</strong> Every feature maps to a row in the requirements ledger, and status changes need evidence. The ledger validator must pass before a commit.</li>
+<li><strong>Secure by default.</strong> No plaintext peer transport, no non-loopback default, nothing that sends prompts off the device without explicit consent.</li>
+<li><strong>Licenses matter.</strong> Never copy code from GPL or AGPL projects. New dependencies must be permissively licensed and justified.</li>
+</ol>
+<h3>The development loop</h3>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cargo build
+scripts/fetch-fixtures.sh                    # pinned engine and tiny fixtures into ./.common
+COMMON_HOME=$PWD/.common cargo test          # includes real-inference tests
+cargo clippy --all-targets -- -D warnings
+cargo fmt --all
+python3 scripts/validate_registry.py         # the requirements ledger must stay valid</code></pre></div>
+<p>Tests that need hardware the project doesn't have, such as a second machine or a particular GPU, are labelled in their names and skip with a message. Never make them pass by faking the hardware. Tests that run several daemons on one computer are labelled single-host and never count as two-machine evidence.</p>
+<h3>Good first contributions</h3>
+<p>A good first task links to a work package or requirement, touches a bounded set of files, comes with fixture instructions and has a reproducible acceptance check. Each pull request that changes behavior updates its contract, tests, ledger evidence and user instructions, and says what was verified on which hardware.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight" id="governance" aria-labelledby="gov-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="gov-title">How decisions are made</h2></div>
+<div class="prose">
+<ul>
+<li>The repository owner is the current decision and merge authority. The ledger names areas of responsibility; that is not a claim that a staffed team exists.</li>
+<li>A maintainer reviews correctness, security, evidence and license impact before merging. Security and protocol changes need a reviewer other than their author.</li>
+<li>Architectural changes are proposed as decision records. Unresolved objections are written into the record, and the owner decides with a stated rationale.</li>
+<li>Bug reports are triaged by reproducible impact, not votes. The beta target is a first response within seven days, and the project will say so when volunteer capacity can't meet it.</li>
+<li>The goal is at least two active maintainers who can each run a release. That has not been reached.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" id="interop" aria-labelledby="interop-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="interop-title">Keeping the protocol open</h2></div>
+<div class="prose">
+<p>Independent clients and devices must remain possible without proprietary accounts or the official desktop app. Protocol and schema changes start as a decision record with compatibility and migration tests, and invite review from independent implementers.</p>
+<p>Conformance test vectors will be published under the project's open license. A future extension registry will separate “compatible” from “security-approved”, and will never run an extension just because it is listed. Plain descriptive compatibility statements are preferred over certification claims that haven't passed conformance.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-dark" id="security" aria-labelledby="security-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="security-title">Reporting a security problem</h2></div>
+<div class="prose">
+<p>Security problems can expose prompts, model files or your computer, so please report them privately.</p>
+<ul>
+<li>Use GitHub's private vulnerability reporting on <a href="{{github}}">div0rce/common</a>, or contact the maintainers through the repository owner's GitHub profile. Do not open a public issue for an unpatched vulnerability.</li>
+<li>Include the affected version or commit, platform, steps to reproduce, impact and any proof of concept.</li>
+<li>Targets: acknowledgement within 7 days and an update at least every 14 days. These are volunteer targets, not a contracted service level.</li>
+<li>Please allow 90 days before public disclosure unless we agree otherwise.</li>
+</ul>
+<p>The project's own policy requires the private reporting route to be tested, and a responsible responder named, before any external beta.</p>
+<h3>Trust boundaries</h3>
+<p>A trusted device that serves your request sees what it processes; encrypted transport is not confidential execution. Same-user processes are inside today's local trust boundary. Engine supervision contains crashes but is not a sandbox. Public contribution and arbitrary downloaded programs remain disabled until their own gates pass. No security certification is claimed.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight" id="conduct" aria-labelledby="conduct-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="conduct-title">Code of conduct</h2></div>
+<div class="prose">
+<p>Be respectful, assume good faith, and keep discussion about the work. Harassment, discrimination, personal attacks and sustained disruption are not tolerated in any project space. Maintainers may edit, remove or reject contributions and comments that break this, and may ban contributors for repeated or severe violations. Report conduct problems privately through the same contact as security reports.</p>
+<p><a class="link-arrow" href="/community/">Ways to take part</a></p>
+</div>
+</div>
+</section>

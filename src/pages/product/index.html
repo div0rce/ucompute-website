@@ -1,0 +1,117 @@
+<!--
+title: Product
+description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works today, and what is still planned.
+-->
+<div class="page-hero shell">
+<h1>Run a model here, or on a device you trust.</h1>
+<p class="lede">UCompute is one open foundation offered four ways. Run and Mesh exist today as development builds. Swarm and Cloud are planned, and stay switched off until they can be made safe and useful.</p>
+<div class="page-hero-meta"><a class="link-arrow" href="/roadmap/#status-labels">What the status labels mean</a></div>
+</div>
+
+<section class="section-tight" id="run" aria-labelledby="run-title">
+<div class="shell split">
+<div>
+<p class="kicker">UCompute Run</p>
+<h2 class="h-section" id="run-title">Your AI.<br><span class="soft">Your machine.</span></h2>
+<p class="stack"><span class="pill pill-dev">Development build</span></p>
+</div>
+<div class="prose">
+<p class="lede">Install, pick a model, press Run. No account and no cloud: the model runs on the computer in front of you, through a desktop app, a command-line tool, or an OpenAI-compatible API on <code>127.0.0.1:8192</code>.</p>
+<h3>Works today</h3>
+<ul>
+<li>Real GGUF models through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan.</li>
+<li>A catalog of eight pinned models, each with its revision, SHA-256 and license. The license is shown before every download.</li>
+<li>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint.</li>
+<li>Streaming, cancellation, and one error format with stable codes.</li>
+<li>No silent substitutions: if a model, quantization or GPU isn't available, you are told why instead of being given something else.</li>
+</ul>
+<h3>Not yet</h3>
+<ul>
+<li>A signed public installer for any platform. Mac builds are ad-hoc signed and Windows builds unsigned; neither is released.</li>
+<li>Linux execution, a second inference engine, and a verified tool-calling round trip.</li>
+<li>A fresh-account, interface-only first run on a clean Mac, which the desktop milestone still requires.</li>
+</ul>
+<p><a class="link-arrow" href="/docs/run/">Run models: the guide</a></p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-dark" id="mesh" aria-labelledby="mesh-title">
+<div class="shell split">
+<div>
+<p class="kicker">UCompute Mesh</p>
+<h2 class="h-section" id="mesh-title">Better<br><span class="soft">together.</span></h2>
+<p class="stack"><span class="pill pill-experimental">Experimental</span></p>
+</div>
+<div class="prose">
+<p class="lede">Pair computers you control, decide which ones may run work for each other, and send a whole request to the one with the right hardware. Everything is off until you turn it on.</p>
+<h3>Works today</h3>
+<ul>
+<li>Pairing with a six-digit code or a QR payload, bound to the encrypted session so a relay in the middle cannot complete it. More than five wrong attempts within a minute lock the window.</li>
+<li>Each device holds its own Ed25519 key. Connections use QUIC with TLS 1.3 and pinned keys; a revoked key fails inside the handshake.</li>
+<li>Groups decide who may run prompts, and both the sending and the serving device must agree. Peers get per-device quotas and can never take this device's last engine slot.</li>
+<li>Discovery on the local network with signed mDNS adverts, or pairing by address when the network blocks multicast.</li>
+<li>Recorded on two physical machines: a MacBook Air and a Windows laptop running each other's prompts. <a href="/demo/">See the evidence</a>.</li>
+</ul>
+<h3>Not yet</h3>
+<ul>
+<li>Pooling: splitting one model across devices so they compute parts of it together. This is milestone M4 and has not started.</li>
+<li>Connections across the internet, through NAT or relays.</li>
+<li>The promotion checks for a stable Mesh: default fairness when peers flood a device, Windows key-file protection, and many more independent pairs.</li>
+</ul>
+<p><a class="link-arrow" href="/docs/mesh/">Trusted devices: the guide</a></p>
+</div>
+</div>
+</section>
+
+<section class="section-tight" aria-labelledby="modes-title">
+<div class="shell">
+<h2 class="h-sub" id="modes-title">Where a request can run</h2>
+<p class="lede stack">The specification names four execution modes. They keep their meaning everywhere on this site.</p>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Mode</th><th scope="col">What happens</th><th scope="col">Status</th></tr></thead>
+<tbody>
+<tr><th scope="row">A. Local</th><td>The request runs on this computer.</td><td><span class="pill pill-dev">Development build</span></td></tr>
+<tr><th scope="row">B. Remote</th><td>The whole request runs on one paired device you chose.</td><td><span class="pill pill-experimental">Experimental</span></td></tr>
+<tr><th scope="row">C. Partitioned</th><td>One model is split across devices; each computes part of every token.</td><td><span class="pill pill-planned">Planned, M4</span></td></tr>
+<tr><th scope="row">D. Independent jobs</th><td>Separate jobs, such as batches, are spread over several devices.</td><td><span class="pill pill-planned">Planned, M7</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" aria-labelledby="later-title">
+<div class="shell">
+<h2 class="h-sub" id="later-title">Later, and only when it's safe</h2>
+<div class="grid-2 stack">
+<div class="card" id="swarm"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-gated">Planned, off by default</span></div><p>Opt-in contribution of spare capacity to people you don't know, with limits you set before any work is admitted. It stays disabled in the code until isolation, metering, verification and abuse protections pass an independent security review. No payments, credits with cash value or tokens are part of the plan today.</p></div>
+<div class="card" id="cloud"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Hypothesis</span></div><p>Optional managed services built on the same open contracts, such as operated deployments for teams. It is a business hypothesis to be tested with real users, not a product. Local and private use will never require an account or a subscription.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section-tight" aria-labelledby="subsystems-title">
+<div class="shell">
+<h2 class="h-sub" id="subsystems-title">One foundation underneath</h2>
+<p class="lede stack">Core, Protocol, Scheduler and SDK are parts of the system, not separate products.</p>
+<div class="grid-4 stack">
+<div class="card"><div class="card-top"><h3>Core</h3><span class="pill pill-dev">Exists</span></div><p>The runtime: hardware detection, model planning, verified artifacts, the supervised inference engine and the local API.</p></div>
+<div class="card"><div class="card-top"><h3>Protocol</h3><span class="pill pill-experimental">Experimental</span></div><p>How devices identify, pair, authorize and exchange work. No stability promise until an independent implementation interoperates.</p></div>
+<div class="card"><div class="card-top"><h3>Scheduler</h3><span class="pill pill-planned">Planned, M5</span></div><p>Choosing where work should run from measured hardware, network and policy, and saying so when local is better.</p></div>
+<div class="card"><div class="card-top"><h3>SDK</h3><span class="pill pill-planned">Planned</span></div><p>Versioned Python and TypeScript clients. Until then, the official OpenAI clients work against the local API.</p></div>
+</div>
+<p class="stack"><a class="link-arrow" href="/architecture/">How the pieces fit</a></p>
+</div>
+</section>
+
+<section class="section-tight section-tint" aria-labelledby="platforms-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="platforms-title">Platforms</h2></div>
+<div class="prose">
+<p>No platform is declared supported yet. A Mac with Apple Silicon (tested on an M2 with macOS 26.2) and a Windows 11 laptop with Intel Arc graphics have recorded evidence and are experimental. Linux, other GPUs and mobile devices are planned and untested.</p>
+<p><a class="link-arrow" href="/download/#platforms">Platform-by-platform status</a></p>
+</div>
+</div>
+</section>

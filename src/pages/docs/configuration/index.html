@@ -1,0 +1,64 @@
+<!--
+title: Configuration
+description: Configure the UCompute daemon: the data folder, common serve options, config.json settings for privacy and peer networking, and environment variables.
+layout: docs
+-->
+<h1>Configuration</h1>
+<p class="lede">The defaults are the safe ones: local only, networking off, bound to this computer. You only need this page to change that, or to move the data folder.</p>
+
+<h2 id="serve">Options for <code>common serve</code></h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Option</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>--host</code></td><td><code>127.0.0.1</code></td><td>Address the HTTP API listens on. Must be an IP address.</td></tr>
+<tr><td><code>--port</code></td><td><code>8192</code></td><td>HTTP API port</td></tr>
+<tr><td><code>--api-key</code></td><td>none</td><td>Required for any non-loopback host; then every route except <code>/health</code> needs <code>Authorization: Bearer &lt;key&gt;</code></td></tr>
+<tr><td><code>--max-concurrent</code></td><td><code>4</code></td><td>Generation slots</td></tr>
+<tr><td><code>--network</code></td><td>off</td><td>Turn on peer networking. Saved to <code>config.json</code>, not just for this run.</td></tr>
+<tr><td><code>--serve-peers</code></td><td>off</td><td>Let paired devices run work here. Implies <code>--network</code>; also saved.</td></tr>
+<tr><td><code>--listen-addr</code>, <code>--listen-port</code></td><td><code>0.0.0.0</code>, <code>8193</code></td><td>The UDP peer endpoint</td></tr>
+<tr><td><code>--no-mdns</code></td><td>mDNS on when networking is on</td><td>Don't advertise or discover on the local network</td></tr>
+<tr><td><code>--exit-with-parent</code></td><td>off</td><td>Used by the desktop app so the daemon ends with it</td></tr>
+</tbody>
+</table></div>
+<p>Starting with a non-loopback <code>--host</code> and no key is refused before anything is bound: <code>refusing to listen on … without --api-key</code>.</p>
+
+<h2 id="config">Settings in <code>config.json</code></h2>
+<p>The daemon keeps its settings in <code>config.json</code> in the data folder, readable only by your user. The desktop app and the API change them for you.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Field</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>privacy</code></td><td><code>local_only</code></td><td><code>local_only</code>, <code>trusted_group</code> (after acknowledging the disclosure) or <code>swarm_allowed</code> (refused until its security gate)</td></tr>
+<tr><td><code>network_enabled</code></td><td><code>false</code></td><td>Peer networking on or off</td></tr>
+<tr><td><code>serve_peers</code></td><td><code>false</code></td><td>Whether paired devices may run work here</td></tr>
+<tr><td><code>peer_quota.requests_per_minute</code></td><td><code>120</code></td><td>Per paired device</td></tr>
+<tr><td><code>peer_quota.tokens_per_minute</code></td><td><code>200000</code></td><td>Per paired device</td></tr>
+<tr><td><code>peer_quota.max_concurrent</code></td><td><code>4</code></td><td>Per paired device; peers never get the last engine slot</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="data-folder">The data folder</h2>
+<p>Defaults: <code>~/Library/Application Support/Common</code> on macOS, <code>%LOCALAPPDATA%\Common</code> on Windows, <code>$XDG_DATA_HOME/common</code> or <code>~/.local/share/common</code> on Linux. Override it with <code>COMMON_HOME</code>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Path</th><th scope="col">Contents</th></tr></thead>
+<tbody>
+<tr><td><code>backends/llama.cpp/&lt;release&gt;/</code></td><td>The verified engine</td></tr>
+<tr><td><code>models/blobs/</code>, <code>models/manifests/</code></td><td>Model files by SHA-256, and what each id points to</td></tr>
+<tr><td><code>identity/</code></td><td>This device's key pair and its paired peers</td></tr>
+<tr><td><code>logs/audit.jsonl</code></td><td>The audit log: ids, counts, codes and timings, never prompts</td></tr>
+<tr><td><code>runs/</code></td><td>Manifests saved with <code>--save-prompt</code></td></tr>
+<tr><td><code>config.json</code>, <code>serve.json</code></td><td>Settings, and the address of the running daemon</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="env">Environment variables</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Variable</th><th scope="col">Effect</th></tr></thead>
+<tbody>
+<tr><td><code>COMMON_HOME</code></td><td>Use this data folder instead of the default</td></tr>
+<tr><td><code>COMMON_MDNS=0</code></td><td>Turn off mDNS discovery</td></tr>
+<tr><td><code>COMMON_API_KEY</code></td><td>Key the CLI's peer and group commands use to reach a key-protected daemon</td></tr>
+<tr><td><code>RUST_LOG</code></td><td>Log filter; overrides <code>-v</code> and <code>-vv</code></td></tr>
+</tbody>
+</table></div>
+<p>Every command also accepts <code>--json</code> for machine-readable output and errors.</p>

@@ -1,0 +1,109 @@
+<!--
+title: API reference
+description: The UCompute local API v1.0.0: OpenAI-compatible routes, UCompute model and status routes, trusted-device routes, authentication, the target extension and every error code.
+layout: docs
+-->
+<h1>API reference</h1>
+<p class="lede">The daemon serves an OpenAI-compatible HTTP API on <code>http://127.0.0.1:8192</code>. The authoritative description is the OpenAPI 3.1 document at <code>GET /openapi.json</code>; a test keeps it identical to the routes the server serves.</p>
+
+<h2 id="security">Security defaults</h2>
+<ul>
+<li>Listens on 127.0.0.1 only. A non-loopback <code>--host</code> without <code>--api-key</code> is refused before anything is bound.</li>
+<li>With an API key, every route except <code>/health</code> needs <code>Authorization: Bearer &lt;key&gt;</code>. A wrong or missing key gets 401 <code>unauthorized</code>.</li>
+<li>Browser requests from origins other than the desktop app (<code>tauri://localhost</code>, <code>http://tauri.localhost</code>, <code>https://tauri.localhost</code>) and its development server (<code>http://localhost:1420</code>) are refused with 403.</li>
+<li>Request bodies are capped at 2 MiB. Generation slots and the queue are bounded: 429 when full, 503 when a wait times out.</li>
+<li>The engine's own port is never exposed, and prompts never appear in logs or metrics.</li>
+</ul>
+
+<h2 id="routes">Routes</h2>
+<div class="table-wrap"><table>
+<caption>OpenAI-compatible</caption>
+<thead><tr><th scope="col">Route</th><th scope="col">Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>GET /v1/models</code>, <code>GET /v1/models/{id}</code></td><td>Model list, with a <code>common</code> extension: downloaded, license, bytes, loaded</td></tr>
+<tr><td><code>POST /v1/chat/completions</code></td><td>Chat, with streaming over server-sent events when <code>"stream": true</code>; <code>response_format</code> JSON schema or JSON object; <code>tools</code> passed through</td></tr>
+<tr><td><code>POST /v1/completions</code></td><td>Text completion</td></tr>
+<tr><td><code>POST /v1/embeddings</code></td><td>Embeddings, from a model loaded in embeddings mode; always local</td></tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<caption>Models, status and operations</caption>
+<thead><tr><th scope="col">Route</th><th scope="col">Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>GET /health</code></td><td>Liveness: <code>{"status":"ok","version":"0.1.0"}</code>; never needs a key</td></tr>
+<tr><td><code>GET /ready</code></td><td>Whether the loaded engine is ready</td></tr>
+<tr><td><code>GET /metrics</code></td><td>Prometheus text: requests, tokens, time to first token, queue depth, rejections</td></tr>
+<tr><td><code>GET /api/hardware</code></td><td>The same document as <code>common hardware --json</code></td></tr>
+<tr><td><code>GET /api/status</code></td><td>Version, loaded model with device and offloaded layers, queue</td></tr>
+<tr><td><code>GET /api/models</code></td><td>Catalog and local store, with a memory estimate and fit verdict for this machine</td></tr>
+<tr><td><code>POST /api/models/{id}/pull</code></td><td>Download with progress as server-sent events; resumable and hash-verified</td></tr>
+<tr><td><code>POST /api/models/{id}/load</code>, <code>POST /api/unload</code></td><td>Load or unload a model</td></tr>
+<tr><td><code>DELETE /api/models/{id}</code>, <code>POST /api/models/import</code></td><td>Remove or import a model</td></tr>
+<tr><td><code>GET /openapi.json</code></td><td>This API's OpenAPI document</td></tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<caption>Trusted devices. <code>{id}</code> is a 64-hex peer id or an <code>xxxx-xxxx-xxxx</code> short label.</caption>
+<thead><tr><th scope="col">Route</th><th scope="col">Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>GET /api/network</code>, <code>PUT /api/network</code></td><td>Status and settings: <code>{enabled?, serve_peers?}</code>. Changing them restarts the peer endpoint and closes any pairing window.</td></tr>
+<tr><td><code>GET /api/peers</code></td><td>Paired devices with health and groups, devices discovered nearby, and held revocations</td></tr>
+<tr><td><code>DELETE /api/peers/{id}</code></td><td>Unpair without revoking (204)</td></tr>
+<tr><td><code>POST /api/peers/{id}/revoke</code></td><td>Unpair, record a signed revocation and propagate it to shared groups</td></tr>
+<tr><td><code>POST /api/pair/start</code></td><td>Open a 120 s pairing window; returns <code>code</code>, <code>pair_addr</code>, <code>qr_payload</code>, <code>expires_at</code></td></tr>
+<tr><td><code>GET /api/pair/status</code></td><td><code>{active, result}</code></td></tr>
+<tr><td><code>POST /api/pair/join</code></td><td><code>{code, addr?, name?}</code>: six digits plus an address, or a whole <code>common-pair:v1:…</code> QR payload</td></tr>
+<tr><td><code>GET /api/groups</code>, <code>PUT /api/groups</code></td><td>List groups, or insert or replace one: <code>{name, members, policy: {allow_remote_inference, allow_pooled_inference}}</code></td></tr>
+<tr><td><code>GET /api/privacy</code>, <code>PUT /api/privacy</code></td><td>Privacy mode and its disclosure; see below</td></tr>
+<tr><td><code>GET /api/audit?n=</code></td><td>The last <code>n</code> audit events (1–1000, default 100)</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="targets">The <code>target</code> extension</h2>
+<p><code>POST /v1/chat/completions</code> and <code>POST /v1/completions</code> accept <code>"target"</code> in the body or <code>X-Common-Target</code> as a header; the body wins.</p>
+<ul>
+<li><code>"local"</code>, missing or empty: run here.</li>
+<li><code>"peer:&lt;64-hex id or short label&gt;"</code>: run the whole request on that paired device. It is never split.</li>
+</ul>
+<p>Every response and every streamed chunk carries <code>"target"</code>. A peer target on embeddings, or a malformed one, is <code>invalid_request</code>. Browser clients must use the body field, because the header is not in the allowed CORS headers.</p>
+
+<h2 id="privacy">Turning on trusted devices</h2>
+<ol>
+<li><code>GET /api/privacy</code> returns <code>mode</code> and <code>disclosure</code>. Show the disclosure to the user.</li>
+<li><code>PUT /api/privacy {"mode": "trusted_group"}</code> without acknowledgement returns 403 <code>policy_denied</code>, with the disclosure as the message.</li>
+<li><code>PUT /api/privacy {"mode": "trusted_group", "acknowledged": true}</code> succeeds and is saved.</li>
+<li><code>{"mode": "local_only"}</code> always succeeds. <code>{"mode": "swarm_allowed"}</code> is refused until its security gate.</li>
+</ol>
+
+<h2 id="errors">Errors</h2>
+<p>Errors use the OpenAI shape, <code>{"error": {"message", "type", "code", "param", "hint"}}</code>. <code>overloaded</code> responses also send <code>Retry-After: 1</code>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Code</th><th scope="col">HTTP</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>invalid_request</code></td><td>400</td><td>Malformed request, a violated bound, or an unknown route (404)</td></tr>
+<tr><td><code>context_too_long</code></td><td>400</td><td>Longer than the trained or planned context</td></tr>
+<tr><td><code>unauthorized</code></td><td>401</td><td>Missing or wrong API key</td></tr>
+<tr><td><code>pairing_failed</code></td><td>401</td><td>Wrong code, relayed connection, a QR naming another device, or an expired window</td></tr>
+<tr><td><code>policy_denied</code></td><td>403</td><td>Refused by settings or policy: local-only mode, networking off, disclosure not acknowledged, device not serving peers</td></tr>
+<tr><td><code>peer_unauthorized</code></td><td>403</td><td>Not paired, unknown label, or no group allows it on one of the sides</td></tr>
+<tr><td><code>peer_revoked</code></td><td>403</td><td>The device is revoked here, or revoked this device</td></tr>
+<tr><td><code>model_not_found</code></td><td>404</td><td>Not in the catalog, or no known hash for it</td></tr>
+<tr><td><code>model_not_downloaded</code></td><td>404</td><td>Known, but the file isn't downloaded</td></tr>
+<tr><td><code>frame_too_large</code></td><td>413</td><td>A peer frame exceeded its bound</td></tr>
+<tr><td><code>model_file_invalid</code></td><td>422</td><td>Truncated, corrupt or not GGUF</td></tr>
+<tr><td><code>integrity_mismatch</code></td><td>422</td><td>SHA-256 mismatch, here or on the serving device</td></tr>
+<tr><td><code>insufficient_memory</code></td><td>422</td><td>Would not fit in memory</td></tr>
+<tr><td><code>protocol_incompatible</code></td><td>426</td><td>The devices speak different protocol major versions</td></tr>
+<tr><td><code>overloaded</code></td><td>429</td><td>At capacity, or a peer quota or slot limit reached</td></tr>
+<tr><td><code>pairing_locked</code></td><td>429</td><td>More than five failed attempts within 60 s; open a new window</td></tr>
+<tr><td><code>cancelled</code></td><td>499</td><td>The client went away, or networking was turned off during pairing</td></tr>
+<tr><td><code>backend_failed</code>, <code>download_failed</code>, <code>io</code>, <code>internal</code></td><td>500</td><td>Engine failure, download failure, filesystem error (including an audit entry that could not be written, so nothing was sent), or an unexpected failure</td></tr>
+<tr><td><code>not_implemented</code></td><td>501</td><td>Not built yet</td></tr>
+<tr><td><code>peer_lost</code></td><td>502</td><td>No known address, unreachable, or the connection dropped mid-request</td></tr>
+<tr><td><code>backend_unavailable</code>, <code>gpu_unavailable</code></td><td>503</td><td>Engine missing or failed verification; GPU requested but unavailable</td></tr>
+<tr><td><code>timeout</code></td><td>504</td><td>Load, first-token or between-token timeout</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="compat">Compatibility</h2>
+<p>This is API v1.0.0 of a development build. The official OpenAI Python and JavaScript clients are tested for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility. No compatibility window is promised until a beta release publishes one.</p>

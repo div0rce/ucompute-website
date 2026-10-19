@@ -1,0 +1,85 @@
+<!--
+title: Vision
+description: Why UCompute exists: computing resources are scattered across devices, operating systems, applications and owners. An open computing layer can make the authorized ones usable.
+-->
+<div class="page-hero shell">
+<h1>Computing that isn't confined to one machine.</h1>
+<p class="lede">The laptop you work on and the desktop with a capable GPU sit a metre apart and can't help each other. Every application that wants more compute builds its own networking, authentication and scheduling, or sends your data to someone else's servers. UCompute exists to change that, carefully.</p>
+</div>
+
+<section class="section-tight" aria-labelledby="layer">
+<div class="shell split">
+<div><h2 class="h-sub" id="layer">An open computing layer</h2></div>
+<div class="prose">
+<p>The goal is a layer that lets applications use authorized computing resources across supported devices, operating systems and networks, including applications that this project doesn't write or control.</p>
+<p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. An <strong>open protocol</strong> lets devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. A <strong>scheduler</strong> decides where work should run, and says when the answer is “right here”.</p>
+<p>Linux is the inspiration for the openness, portability and ecosystem reach. UCompute is not trying to replace an operating system. It runs across them.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" aria-labelledby="examples">
+<div class="shell">
+<h2 class="h-sub" id="examples">What that looks like, from real to far</h2>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Example</th><th scope="col">Where it stands</th></tr></thead>
+<tbody>
+<tr><td>A MacBook sends a prompt to a trusted Windows laptop and its Arc GPU, and the reverse.</td><td><span class="pill pill-verified">Demonstrated</span> on one pair of computers, 19 October 2026. <a href="/demo/">Evidence</a></td></tr>
+<tr><td>One model too large for either machine runs split across both, each computing part of every token.</td><td><span class="pill pill-planned">Milestone M4, not started</span></td></tr>
+<tr><td>An application picks the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Milestone M5, not started</span></td></tr>
+<tr><td>An app on your phone uses your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned, mobile as a consumer first</span></td></tr>
+<tr><td>Kinds of work beyond AI inference, each with its own isolation and threat review.</td><td><span class="pill pill-research">Future evaluation</span></td></tr>
+<tr><td>People opt in to share spare capacity with others, with limits and readable receipts.</td><td><span class="pill pill-gated">Gated on independent security review</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="section-tight" aria-labelledby="roles">
+<div class="shell split">
+<div><h2 class="h-sub" id="roles">Every device plays a role</h2></div>
+<div class="prose">
+<p>The specification defines four roles. A device can hold several, and none requires a GPU.</p>
+<ul>
+<li><strong>Consumer</strong>: submits work it is permitted to submit.</li>
+<li><strong>Provider</strong>: executes supported kinds of work for authorized consumers.</li>
+<li><strong>Coordinator</strong>: plans and supervises authorized work across providers.</li>
+<li><strong>Relay</strong>: carries encrypted traffic but can never authorize computation itself.</li>
+</ul>
+<p>Today a Mac and a Windows laptop act as consumer and provider for each other. There is no general coordinator or public relay yet.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-dark" aria-labelledby="path">
+<div class="shell">
+<h2 class="h-sub" id="path">A staged path, each stage with a way to fail</h2>
+<p class="lede stack">Adoption is planned as experiments, not assumed. Each stage names what would prove it wrong.</p>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Stage</th><th scope="col">What it must show</th><th scope="col">What would count as failure</th></tr></thead>
+<tbody>
+<tr><th scope="row">Private alpha</th><td>A clean install and a real first answer, with an honest list of supported platforms</td><td>Testers often need terminal rescue, or license, fit and lifecycle are unclear</td></tr>
+<tr><th scope="row">Developer alpha</th><td>Python and TypeScript examples with explicit control over where requests run</td><td>Developers need the authors' help for routine streaming, cancelling and errors</td></tr>
+<tr><th scope="row">Private Mesh beta</th><td>Two-device install, discovery or explained manual pairing, revoke and recover</td><td>Pairing works but nobody has a useful second-device workload</td></tr>
+<tr><th scope="row">Pooling demonstration</th><td>One model split across real devices, with correctness and memory proof</td><td>No capacity benefit, or slower than a single capable device</td></tr>
+<tr><th scope="row">Public developer beta</th><td>Qualified installers, a support contact, migration and rollback, published limits</td><td>Support load exceeds capacity, or compatibility keeps breaking</td></tr>
+<tr><th scope="row">Contributor and managed pilots</th><td>Bounded work, receipts, explicit costs and an incident owner</td><td>Verification and operations cost more than the compute is worth</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="section-tight" aria-labelledby="principles">
+<div class="shell split">
+<div><h2 class="h-sub" id="principles">Principles and non-goals</h2></div>
+<div class="prose">
+<p>Local-first. Accounts optional. Secure by default: the API binds to this computer only, the engine's port is never exposed, and prompts are never logged. No silent substitution of a model, precision or privacy mode. No fabricated benchmarks. No cryptocurrency.</p>
+<p>Not on the plan for current delivery: a new operating system, custom inference kernels, running arbitrary downloaded programs, public anonymous access, mandatory accounts or tokens, always-on servers on phones, or claims that any model runs on any device.</p>
+<p><a class="link-arrow" href="/architecture/">Read the architecture</a></p>
+</div>
+</div>
+</section>

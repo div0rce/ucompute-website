@@ -1,0 +1,66 @@
+<!--
+title: Run models
+description: Find, download, inspect and run models with the common command: the pinned catalog, memory fit, CPU and GPU selection, chat, benchmarks and replay.
+layout: docs
+-->
+<h1>Run models</h1>
+<p class="lede">Every model comes from a pinned catalog with a fixed revision, SHA-256 and license, or from a GGUF file you import yourself. Nothing is substituted behind your back.</p>
+
+<h2 id="hardware">Check your hardware</h2>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common hardware          # CPU, memory, GPU, backend and free disk
+common hardware --json   # the same, machine-readable</code></pre></div>
+
+<h2 id="catalog">The model catalog</h2>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models list                 # size, license and whether it fits on this machine
+common models search qwen
+common models inspect qwen2.5-0.5b-instruct-q4_k_m
+common models pull qwen2.5-0.5b-instruct-q4_k_m   # shows the license, asks, downloads and verifies</code></pre></div>
+<p>Downloads use HTTPS only, resume after interruption and are checked against the pinned SHA-256 before they are kept. Add <code>-y</code> to <code>pull</code> to accept the license without the prompt.</p>
+<div class="table-wrap"><table>
+<caption>Models in the pinned catalog at af3e37c</caption>
+<thead><tr><th scope="col">Id</th><th scope="col">Size</th><th scope="col">Quantization</th><th scope="col">Download</th><th scope="col">License</th><th scope="col">Use</th></tr></thead>
+<tbody>
+<tr><td><code>qwen2.5-0.5b-instruct-q4_k_m</code></td><td>0.5B</td><td>Q4_K_M</td><td>491 MB</td><td>Apache-2.0</td><td>Chat, recommended</td></tr>
+<tr><td><code>qwen2.5-0.5b-instruct-q8_0</code></td><td>0.5B</td><td>Q8_0</td><td>676 MB</td><td>Apache-2.0</td><td>Chat</td></tr>
+<tr><td><code>qwen2.5-0.5b-instruct-q2_k</code></td><td>0.5B</td><td>Q2_K</td><td>415 MB</td><td>Apache-2.0</td><td>Chat</td></tr>
+<tr><td><code>qwen2.5-1.5b-instruct-q4_k_m</code></td><td>1.5B</td><td>Q4_K_M</td><td>1.12 GB</td><td>Apache-2.0</td><td>Chat</td></tr>
+<tr><td><code>smollm2-360m-instruct-q8_0</code></td><td>360M</td><td>Q8_0</td><td>386 MB</td><td>Apache-2.0</td><td>Chat</td></tr>
+<tr><td><code>nomic-embed-text-v1.5-q8_0</code></td><td>137M</td><td>Q8_0</td><td>146 MB</td><td>Apache-2.0</td><td>Embeddings</td></tr>
+<tr><td><code>stories15M-q4_0</code></td><td>15M</td><td>Q4_0</td><td>19 MB</td><td>Unknown</td><td>Test fixture only</td></tr>
+<tr><td><code>stories260K</code></td><td>260K</td><td>F32</td><td>1.2 MB</td><td>Unknown</td><td>Test fixture only</td></tr>
+</tbody>
+</table></div>
+<p>The two stories models are tiny test fixtures. Their license is unverified, so they are downloaded for tests and never bundled. They write short children's stories and are not useful for real work.</p>
+
+<h3 id="import">Your own GGUF files</h3>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models import ./my-model.gguf --id my-model --license "Apache-2.0"
+common models verify my-model
+common models rm my-model</code></pre></div>
+
+<h2 id="run">Run a prompt</h2>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Explain unified memory in two sentences."
+common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave</code></pre></div>
+<div class="table-wrap"><table>
+<caption>Options for <code>common run</code></caption>
+<thead><tr><th scope="col">Option</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>-p</code>, <code>--prompt</code></td><td>required</td><td>The prompt text</td></tr>
+<tr><td><code>--chat</code></td><td>off</td><td>Send the prompt as a chat message so the model's chat template applies</td></tr>
+<tr><td><code>-n</code>, <code>--max-tokens</code></td><td>256</td><td>Maximum tokens to generate</td></tr>
+<tr><td><code>--device</code></td><td><code>auto</code></td><td><code>auto</code>, <code>cpu</code> or <code>gpu</code></td></tr>
+<tr><td><code>--ctx</code></td><td>planned</td><td>Context length, capped to the model's trained context with a stated reason</td></tr>
+<tr><td><code>--threads</code></td><td>engine's choice</td><td>Engine threads; the run manifest records what ran</td></tr>
+<tr><td><code>--temp</code>, <code>--top-p</code>, <code>--seed</code></td><td>0.7, 0.95, random</td><td>Sampling; the manifest records the seed that ran</td></tr>
+<tr><td><code>--save-prompt</code></td><td>off</td><td>Also store the prompt text in the run manifest, so <code>common replay</code> can repeat it</td></tr>
+<tr><td><code>--peer</code></td><td>none</td><td>Run on a paired device instead (see <a href="/docs/mesh/">Trusted devices</a>). Can't be combined with <code>--device</code>, <code>--ctx</code> or <code>--threads</code>.</td></tr>
+</tbody>
+</table></div>
+<p>With <code>--device auto</code> the GPU is used when the engine can offload to it (Metal on a Mac). If it can't, the run falls back to the CPU and tells you why. If a model will not fit in memory, it is refused with <code>insufficient_memory</code> before loading.</p>
+
+<h2 id="bench">Benchmarks and replay</h2>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common bench qwen2.5-0.5b-instruct-q4_k_m --runs 3 -n 64   # writes results under ./benchmarks/results/
+common replay ~/Library/Application\ Support/Common/runs/&lt;run&gt;/manifest.json</code></pre></div>
+<p>Benchmark results record the hardware, command line and versions with every number. Small-model results don't predict how large models behave.</p>
+
+<h2 id="app">In the desktop app</h2>
+<p>The Models view shows the same catalog with size, license and a fit verdict for this computer. Chat runs the loaded model, and on a computer with trusted devices enabled its Run on menu lists paired devices.</p>

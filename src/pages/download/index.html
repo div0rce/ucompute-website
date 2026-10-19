@@ -1,0 +1,80 @@
+<!--
+title: Download and releases
+description: UCompute has no public release yet. Platform-by-platform status, the internal development builds that exist, and what has to happen before a download appears here.
+-->
+<div class="page-hero shell">
+<h1>Download UCompute</h1>
+<p class="lede">There is no public release yet, so there is no download button. Here is exactly what exists for each platform, and what has to happen before an installer appears on this page.</p>
+<div class="page-hero-meta"><span class="pill pill-dev">Version 0.1.0, development</span><span class="pill pill-planned">No public release</span></div>
+</div>
+
+<section class="section-tight" id="platforms" aria-labelledby="platforms-title">
+<div class="shell">
+<h2 class="h-sub" id="platforms-title">Platforms</h2>
+<p class="lede stack">No platform is declared supported yet. “Supported” will mean an exact operating system, hardware, engine and installer passed a release gate with reproducible evidence and a named maintainer.</p>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Platform</th><th scope="col">Status</th><th scope="col">What exists</th></tr></thead>
+<tbody>
+<tr><th scope="row">macOS, Apple Silicon</th><td><span class="pill pill-experimental">Experimental</span></td><td>CPU and Metal inference verified on an M2 with macOS 26.2. Desktop app development build, ad-hoc signed. <a href="/docs/install/#mac">Build from source</a></td></tr>
+<tr><th scope="row">Windows 11 x64</th><td><span class="pill pill-experimental">Experimental</span></td><td>Daemon and desktop development build verified on one laptop with Intel Arc 140V, Vulkan. Unsigned installer, internal only. <a href="/docs/install/#windows">Build notes</a></td></tr>
+<tr><th scope="row">Windows on ARM</th><td><span class="pill pill-planned">Planned</span></td><td>An engine build is pinned; nothing has run on real hardware</td></tr>
+<tr><th scope="row">Other Macs</th><td><span class="pill pill-planned">Planned</span></td><td>Other Apple Silicon chips and Intel Macs are untested</td></tr>
+<tr><th scope="row">Linux x64</th><td><span class="pill pill-planned">Planned</span></td><td>Hardware probing exists; no engine build or recorded inference. Headless daemon first</td></tr>
+<tr><th scope="row">Linux ARM64, single-board computers</th><td><span class="pill pill-planned">Planned</span></td><td>To be measured: engine support, memory, storage and thermals</td></tr>
+<tr><th scope="row">Android and iOS</th><td><span class="pill pill-planned">Planned</span></td><td>As consumers first: sending work to your own computers. Running work on phones needs research</td></tr>
+<tr><th scope="row">Browser</th><td><span class="pill pill-planned">Planned</span></td><td>A consumer, and later a sandboxed experiment</td></tr>
+<tr><th scope="row">Cloud VM or headless GPU server</th><td><span class="pill pill-planned">Planned</span></td><td>As a private provider. Any paid deployment needs explicit approval</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-white" id="builds" aria-labelledby="builds-title">
+<div class="shell">
+<h2 class="h-sub" id="builds-title">Internal development builds</h2>
+<p class="lede stack">These exist and were verified, but they are test builds for the people building UCompute. They are not offered for download and are not releases.</p>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Build</th><th scope="col">From</th><th scope="col">Verified</th></tr></thead>
+<tbody>
+<tr><td><code>Common_0.1.0_x64-setup.exe</code>, NSIS, 4.24 MiB<br><span class="fine">SHA-256 df13fe79e80a…4a4ce0</span></td><td>Commit caf1497, built on the Windows laptop</td><td>19 Oct 2026: installed, launched, paired with a Mac and ran prompts both ways; crash cleanup checked</td></tr>
+<tr><td><code>Common_0.1.0_aarch64.dmg</code>, ad-hoc signed</td><td>Commit 08e267e</td><td>17 Oct 2026: passed all 15 checks of the packaged-app verifier, including real inference</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="section-tight" id="releases" aria-labelledby="releases-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="releases-title">Release information</h2></div>
+<div class="prose">
+<p>There are no tagged releases and no release notes yet. When the owner approves a release, this page will link to its installers and their SHA-256 checksums.</p>
+<p>Before any supported release, the project's rules require it to record:</p>
+<ul>
+<li>supported platforms and the pinned engine for each;</li>
+<li>artifact hashes and the exact source commit;</li>
+<li>dependency and model license notices;</li>
+<li>the compatibility and deprecation policy;</li>
+<li>known issues, and upgrade and rollback instructions.</li>
+</ul>
+<p>Installers must also be signed by a publicly trusted identity: an Apple Developer ID with notarization on macOS, and a code-signing certificate on Windows. Neither exists yet. Installation, data retention, crash cleanup and rejection of a tampered update are rehearsed on the exact files before they ship.</p>
+<p>Free local use will never require an account.</p>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-tint" id="path" aria-labelledby="path-title">
+<div class="shell">
+<h2 class="h-sub" id="path-title">The path to a download</h2>
+<p class="lede stack">Each stage has measured targets in the specification. These are targets, not results, and a failed security or update check blocks a stage even if everything else passes.</p>
+<ol class="milestones stack">
+<li class="milestone"><span class="milestone-id">1</span><div><h3>Private alpha</h3><p>At least five consenting testers; four of five reach a first answer from a clean account, through the interface only, within 15 minutes; 20 quit, crash and restart cycles with nothing left running.</p></div><span class="pill pill-planned">Next</span></li>
+<li class="milestone"><span class="milestone-id">2</span><div><h3>External developer alpha</h3><p>Independent developers integrate without help; live Python and TypeScript tests on every advertised platform; a tested security contact.</p></div><span class="pill pill-planned">Planned</span></li>
+<li class="milestone"><span class="milestone-id">3</span><div><h3>Public developer beta</h3><p>Twenty or more independent testers, at least 90% install success per operating system, signed installers, and update, tamper and rollback tests.</p></div><span class="pill pill-planned">Planned</span></li>
+<li class="milestone"><span class="milestone-id">4</span><div><h3>Stable Run, then stable Mesh</h3><p>Thirty days of beta, at least 99% successful local requests per supported combination, and for Mesh at least ten independent device pairs.</p></div><span class="pill pill-planned">Planned</span></li>
+</ol>
+</div>
+</section>

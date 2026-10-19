@@ -1,0 +1,91 @@
+<!--
+title: Roadmap
+description: The UCompute roadmap: fifteen milestones ordered by dependency, measured against a public requirements ledger, with current work packages and recent progress.
+-->
+<div class="page-hero shell">
+<h1>Fifteen milestones, ordered by dependency.</h1>
+<p class="lede">The roadmap comes from the project specification. Progress is counted against its requirements ledger: 148 original requirements, each with acceptance criteria. A requirement counts as verified only when every criterion has been demonstrated, with evidence and a commit recorded. Counts below are from the ledger at commit af3e37c.</p>
+<div class="page-hero-meta"><span class="pill pill-verified">36 of 148 verified</span><span class="pill pill-dev">8 implemented, awaiting verification</span><span class="pill pill-planned">101 not started</span></div>
+</div>
+
+<section class="section-tight" id="status-labels" aria-labelledby="labels-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="labels-title">What the labels mean</h2></div>
+<dl class="legend">
+<dt><span class="pill pill-verified">Verified</span></dt><dd>Demonstrated with recorded evidence: specific hardware, configuration and commit.</dd>
+<dt><span class="pill pill-dev">Development build</span></dt><dd>The code exists and runs in internal builds. It is not a release.</dd>
+<dt><span class="pill pill-experimental">Experimental</span></dt><dd>Code and some real evidence exist, but the checks for calling it supported are incomplete.</dd>
+<dt><span class="pill pill-planned">Planned</span></dt><dd>Committed scope with no qualified implementation yet.</dd>
+<dt><span class="pill pill-research">Hypothesis</span></dt><dd>An idea or research question to be tested, not a commitment.</dd>
+<dt><span class="pill pill-gated">Gated</span></dt><dd>Deliberately switched off until a named security review passes.</dd>
+</dl>
+</div>
+</section>
+
+<section class="section-tight section-white" aria-labelledby="milestones-title">
+<div class="shell">
+<div class="section-head">
+<h2 class="h-sub" id="milestones-title">Milestones</h2>
+<p class="meter-legend"><span class="lg-v">Verified</span><span class="lg-i">Implemented, awaiting verification</span><span class="lg-p">In progress</span><span>Not started</span></p>
+</div>
+<ol class="milestones">
+<li class="milestone" id="m0"><span class="milestone-id">M0</span><div><h3>Research and foundations</h3><p>Research, scaffolding, licenses, threat model, benchmark harness and requirement IDs.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="1 verified, of 1"><rect class="m-bg" width="100" height="8"/><rect class="m-v" x="0" width="100.0" height="8"/></svg></div><span class="pill pill-verified">Verified</span></li>
+<li class="milestone" id="m1"><span class="milestone-id">M1</span><div><h3>Local inference</h3><p>Real local GGUF inference, hardware detection, streaming, CLI and API.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="18 verified, 3 implemented, awaiting verification, of 21"><rect class="m-bg" width="100" height="8"/><rect class="m-v" x="0" width="85.7" height="8"/><rect class="m-i" x="85.7" width="14.3" height="8"/></svg></div><span class="pill pill-verified">18 of 21 verified</span></li>
+<li class="milestone" id="m2"><span class="milestone-id">M2</span><div><h3>Desktop app and installers</h3><p>Desktop application, model library, hardware diagnostics and installers.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="3 verified, 3 implemented, awaiting verification, of 6"><rect class="m-bg" width="100" height="8"/><rect class="m-v" x="0" width="50.0" height="8"/><rect class="m-i" x="50.0" width="50.0" height="8"/></svg></div><span class="pill pill-verified">3 of 6 verified</span></li>
+<li class="milestone" id="m3"><span class="milestone-id">M3</span><div><h3>Trusted devices</h3><p>Discovery on the local network, pairing, device identity, encrypted networking and remote inference.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="14 verified, 2 implemented, awaiting verification, 1 not started, of 17"><rect class="m-bg" width="100" height="8"/><rect class="m-v" x="0" width="82.4" height="8"/><rect class="m-i" x="82.4" width="11.8" height="8"/></svg></div><span class="pill pill-verified">14 of 17 verified</span></li>
+<li class="milestone" id="m4"><span class="milestone-id">M4</span><div><h3>One model across two machines</h3><p>Genuine two-node partitioned inference, with correctness and memory tests.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="5 not started, of 5"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m5"><span class="milestone-id">M5</span><div><h3>Scheduler</h3><p>Hardware- and network-aware placement, adaptive decisions and comparative benchmarks.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="17 not started, of 17"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m6"><span class="milestone-id">M6</span><div><h3>Model distribution</h3><p>Model chunking and seeding, caching, deduplication and integrity.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="14 not started, of 14"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m7"><span class="milestone-id">M7</span><div><h3>Independent jobs</h3><p>Distributed independent jobs, batch inference, embeddings and contribution metering.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="10 not started, of 10"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m8"><span class="milestone-id">M8</span><div><h3>Reliability</h3><p>Self-healing, checkpoints, migration, fault injection and observability.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="14 not started, of 14"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m9"><span class="milestone-id">M9</span><div><h3>Beyond the local network</h3><p>Internet connections, NAT traversal, public identity, trust and abuse defenses.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="4 not started, of 4"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m10"><span class="milestone-id">M10</span><div><h3>Credits and receipts</h3><p>Reputation, verified receipts and economic mechanisms. No payments are enabled; settlement needs legal review first.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="1 in progress, 9 not started, of 10"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="10.0" height="8"/></svg></div><span class="pill pill-research">Research started</span></li>
+<li class="milestone" id="m11"><span class="milestone-id">M11</span><div><h3>Advanced models</h3><p>Multimodal and mixture-of-experts models, speculative decoding, advanced caching and adapters.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="8 not started, of 8"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m12"><span class="milestone-id">M12</span><div><h3>Mobile and enterprise</h3><p>Mobile and browser participation, power and thermal controls, enterprise federation.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="11 not started, of 11"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m13"><span class="milestone-id">M13</span><div><h3>Release readiness</h3><p>Security review, cross-platform CI, documentation, release packaging and a public beta.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="8 not started, of 8"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone" id="m14"><span class="milestone-id">M14</span><div><h3>Research validation</h3><p>Confidential computing, verifiable inference and economic feasibility. No breakthroughs will be claimed that haven't happened.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="2 in progress, of 2"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="100.0" height="8"/></svg></div><span class="pill pill-research">Research started</span></li>
+</ol>
+<p class="fine stack">The order reflects dependencies, not importance. Every milestone is part of the full product's scope; a limited release can ship earlier ones and must say what it leaves out.</p>
+</div>
+</section>
+
+<section class="section-tight" id="now" aria-labelledby="now-title">
+<div class="shell">
+<h2 class="h-sub" id="now-title">Work packages</h2>
+<p class="lede stack">The specification breaks the milestones into twelve work packages. Two are under way.</p>
+<div class="table-wrap stack">
+<table>
+<thead><tr><th scope="col">Package</th><th scope="col">Goal</th><th scope="col">Status</th></tr></thead>
+<tbody>
+<tr><th scope="row">WP-01</th><td>Qualify the native Windows desktop app: clean install to first answer through the interface, pairing with a Mac, quit, crash, restart and uninstall, keyboard and screen reader</td><td><span class="pill pill-dev">In progress</span></td></tr>
+<tr><th scope="row">WP-02</th><td>Fair default sharing when peers flood a device, and protection of Windows key files from other users</td><td><span class="pill pill-dev">In progress</span></td></tr>
+<tr><th scope="row">WP-03</th><td>A supported Linux path and continuous testing across platforms</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-04</th><td>Static pooling: one model's layers split across two physical machines over the encrypted connection</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-05</th><td>A scheduler that improves real workloads, compared against local and the best manual choice</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-06</th><td>Python and TypeScript SDKs, and a study of independent developers using them</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-07</th><td>A written peer protocol with test vectors and an independent implementation</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-08</th><td>Release cohorts from private beta to stable, with signed updates and rollback</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-09</th><td>Private job pools, model distribution and recovery before any public supply</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-10</th><td>A versioned workload contract and mobile consumers, without a general-purpose executor</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-11</th><td>Feasibility work for a public network: relays, abuse defenses and verification costs, as experiments, not a launch</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-12</th><td>Sustainable services and an independent ecosystem, starting with interviews and cost models</td><td><span class="pill pill-planned">Not started</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="stack"><a class="link-arrow" href="/download/#path">Release stages and their targets</a></p>
+</div>
+</section>
+
+<section class="section-tight section-white" id="progress" aria-labelledby="progress-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="progress-title">Recent progress</h2></div>
+<ol class="log" reversed>
+<li><time datetime="2026-10-19">19 October 2026</time><p><strong>Desktop to desktop.</strong> The Windows app was built natively on the laptop. The Mac and Windows apps paired through their screens and ran prompts in both directions. <a href="/demo/">Evidence</a></p></li>
+<li><time datetime="2026-10-19">19 October 2026</time><p><strong>Discovery on a phone hotspot.</strong> Each machine found the other within about a second, completing the discovery requirement.</p></li>
+<li><time datetime="2026-10-18">18 October 2026</time><p><strong>The UCompute program.</strong> The specification was extended with the open computing infrastructure program, keeping every original requirement.</p></li>
+<li><time datetime="2026-10-18">18 October 2026</time><p><strong>Windows and a second machine.</strong> The daemon ran on Windows 11 with Intel Arc through Vulkan, and the full trusted-device flow passed twice between two physical machines.</p></li>
+<li><time datetime="2026-10-15">15 October 2026</time><p><strong>Trusted devices on one host.</strong> Device identity, default-deny policy, encrypted transport, discovery, pairing and remote execution: 13 requirements verified on a single machine, after five adversarial reviews.</p></li>
+<li><time datetime="2026-10-14">14 October 2026</time><p><strong>Local inference.</strong> Real models on CPU and Metal, the CLI and the OpenAI-compatible API, with the official clients passing.</p></li>
+</ol>
+</div>
+</section>
