@@ -9,7 +9,7 @@ One Cloudflare Pages project, `ucompute-website`, connected to this GitHub repos
 | Production | `main` | `prelaunch` | The public prelaunch page only | `ucompute.org`, `ucompute-website.pages.dev` |
 | Preview | `preview` and any other branch | `preview` | The complete site, noindex, plus `/prelaunch/` for review | `preview.ucompute.org`, `preview.ucompute-website.pages.dev`, `<hash>.ucompute-website.pages.dev`, `<branch>.ucompute-website.pages.dev` |
 
-Build settings: build command `npm run cf-build` (build, then `check.mjs` on the output, so a failing check fails the deployment), output directory `dist`, root directory empty, `NODE_VERSION=22`.
+Build settings: build command `npm run cf-build` (build, then `check.mjs` on the output, so a failing check fails the deployment), output directory `dist`, root directory empty. `NODE_VERSION` is 24 for Preview; Production moves from 22 to 24 once a preview build has passed on 24.
 
 Why one project rather than two: a single Git connection and build configuration, and the security boundary is still at Cloudflare's edge. The production build physically contains only the prelaunch files (`check.mjs` enforces an allow-list), so the production `pages.dev` address is safe to leave public. Every non-production address is behind Access.
 
@@ -22,10 +22,12 @@ Cloudflare Zero Trust, Access, with the One-time PIN login method. One reusable 
 
 Everyone else is denied: Access denies by default when no Allow policy matches.
 
-Two Access applications use that policy:
+Two Access applications use that policy (team domain `sparkling-brook-03de.cloudflareaccess.com`):
 
-1. **preview.ucompute.org**: self-hosted application for the whole hostname.
-2. **ucompute-website preview deployments**: created by Pages, Settings, Access policy, for `*.ucompute-website.pages.dev`. Its default policy (Cloudflare account members) is replaced with the UCompute team policy. This covers every hash URL and branch alias, including `preview.ucompute-website.pages.dev`.
+1. **UCompute preview site**: self-hosted application for `preview.ucompute.org`. Login method One-time PIN only, instant authentication, 24-hour session.
+2. **ucompute-website - Cloudflare Pages**: created by Pages, Settings, General, Preview access ("Restrict previews"), for `*.ucompute-website.pages.dev`. Its default policy (one Cloudflare account member) was removed and replaced with the UCompute team policy. Login method One-time PIN only. This covers every hash URL and branch alias, including `preview.ucompute-website.pages.dev` and `main.ucompute-website.pages.dev`.
+
+The Cloudflare Workers and Pages GitHub app is installed on `div0rce` with access to `div0rce/ucompute-website` only.
 
 `noindex` (meta tag, `X-Robots-Tag` header and `robots.txt`) is set on the preview as well, but Access is the protection; `noindex` only keeps search engines quiet.
 
