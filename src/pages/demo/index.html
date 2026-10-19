@@ -5,7 +5,8 @@ description: The full record of UCompute's first run between installed desktop a
 <div class="page-hero shell">
 <h1>Two computers, one request.</h1>
 <p class="lede">The full record of the first run between installed UCompute desktop apps on a Mac and a Windows laptop: the machines, what we did, what we measured, and what is still broken.</p>
-<div class="page-hero-meta"><span class="pill pill-verified">Verified engineering demonstration</span><span class="pill pill-dev">Development builds</span><span class="pill pill-planned">Recorded 19 October 2026</span></div>
+<div class="page-hero-meta"><span class="pill pill-verified">Verified</span><span class="pill pill-experimental">Experimental</span></div>
+<p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started.</p>
 </div>
 
 <section class="section-tight" aria-labelledby="machines">
@@ -50,18 +51,19 @@ description: The full record of UCompute's first run between installed desktop a
 <section class="section-tight" aria-labelledby="results">
 <div class="shell">
 <h2 class="h-sub" id="results">What we measured</h2>
+<p class="lede stack">Model: stories15M-q4_0, a 15-million-parameter test fixture. Builds: Mac app from commit 5f0c580, Windows app from caf1497. Evidence: <code>docs/evidence/desktop-two-machine-2026-10-19.md</code> at af3e37c.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Direction</th><th scope="col">How it was driven</th><th scope="col">Result</th></tr></thead>
 <tbody>
 <tr><th scope="row">Windows app → Mac</th><td>In the Windows window: Chat, load stories15M, Run on: Mous, send</td><td>112 tokens. First token after 2,325 ms, including the Mac loading the model on demand. 508 tokens per second. The app reported “Ran on Mous”; the Mac's audit log shows <code>remote_request</code> done, served on MTL0 (Apple M2).</td></tr>
-<tr><th scope="row">Mac → Windows</th><td>Mac daemon API, the request its Chat view sends</td><td>48 tokens. Engine time to first token 128 ms. 910 tokens per second on the Arc GPU. The laptop's audit log shows <code>remote_request</code> done.</td></tr>
+<tr><th scope="row">Mac daemon API → Windows</th><td>Not through the Mac window: the Mac daemon's API, sending the request its Chat view sends</td><td>48 tokens. Engine time to first token 128 ms. 910 tokens per second on the Arc GPU. The laptop's audit log shows <code>remote_request</code> done.</td></tr>
 </tbody>
 </table>
 </div>
 <div class="grid-2 stack">
-<div class="callout"><strong>What the numbers mean</strong>stories15M is a 15-million-parameter test model, quantized to Q4_0. Throughput this high is a property of a tiny model. The numbers prove the request travelled, ran on the other GPU and streamed back; they say nothing about how a useful chat model would perform.</div>
-<div class="callout callout-limit"><strong>What this is not</strong>It is not pooling: each request ran whole on one machine, and no model has been split across devices. It is not internet-wide: both machines shared one local network. It is one pair of computers, not a compatibility claim for other hardware.</div>
+<div class="callout"><strong>Path checks, not performance</strong>stories15M is a 15-million-parameter test fixture, quantized to Q4_0. Throughput this high is a property of a tiny model. The numbers prove the request travelled, ran on the other GPU and streamed back; they say nothing about how a useful chat model would perform. The fixture is never redistributed.</div>
+<div class="callout callout-limit"><strong>What this is not</strong>It is not pooling: each request ran whole on one chosen machine (Mode B), and no model has been split across devices. It is not internet-wide: both machines shared one local network. It is one pair of computers, not a compatibility claim for other hardware.</div>
 </div>
 </div>
 </section>
@@ -108,7 +110,7 @@ description: The full record of UCompute's first run between installed desktop a
 
 <section class="section-tight section-white" aria-labelledby="issues">
 <div class="shell split">
-<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs and being fixed now. None is marked solved here until the engineering evidence says so.</p></div>
+<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs and being fixed now. None is marked solved here until committed engineering evidence says so. The list is kept in the evidence file and <code>docs/BLOCKERS.md</code>.</p></div>
 <ul class="ticks open-items" aria-label="Open issues">
 <li><div><strong class="step-title">Mac wording on Windows</strong><p>Windows shows “Run on: This Mac” and similar text, and defaults its own device name to “This Mac”.</p></div></li>
 <li><div><strong class="step-title">Remote runs need a local model</strong><p>Chat stays disabled until a model is loaded on this machine, even when the request will run elsewhere.</p></div></li>

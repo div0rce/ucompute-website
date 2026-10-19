@@ -25,12 +25,12 @@ description: Why UCompute exists: computing resources are scattered across devic
 <table>
 <thead><tr><th scope="col">Example</th><th scope="col">Where it stands</th></tr></thead>
 <tbody>
-<tr><td>A MacBook sends a prompt to a trusted Windows laptop and its Arc GPU, and the reverse.</td><td><span class="pill pill-verified">Demonstrated</span> on one pair of computers, 19 October 2026. <a href="/demo/">Evidence</a></td></tr>
-<tr><td>One model too large for either machine runs split across both, each computing part of every token.</td><td><span class="pill pill-planned">Milestone M4, not started</span></td></tr>
-<tr><td>An application picks the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Milestone M5, not started</span></td></tr>
-<tr><td>An app on your phone uses your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned, mobile as a consumer first</span></td></tr>
-<tr><td>Kinds of work beyond AI inference, each with its own isolation and threat review.</td><td><span class="pill pill-research">Future evaluation</span></td></tr>
-<tr><td>People opt in to share spare capacity with others, with limits and readable receipts.</td><td><span class="pill pill-gated">Gated on independent security review</span></td></tr>
+<tr><td>A Windows laptop's app runs a prompt on a trusted Mac's GPU, and a Mac request runs on the laptop's Arc GPU. Each request runs whole on one device.</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
+<tr><td>One model too large for either machine would run split across both, each computing part of every token.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M4, not started</span></td></tr>
+<tr><td>An application picks the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M5, not started</span></td></tr>
+<tr><td>An app on your phone uses your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned</span> as a consumer first</td></tr>
+<tr><td>Kinds of work beyond AI inference, each with its own isolation and threat review.</td><td><span class="pill pill-research">Strategic hypothesis</span></td></tr>
+<tr><td>People opt in to share spare capacity with others, with limits and readable receipts, inside one credit system. <a href="#economics">The direction</a></td><td><span class="pill pill-planned">Planned</span> disabled until an independent security review (Gate F)</td></tr>
 </tbody>
 </table>
 </div>
@@ -69,6 +69,22 @@ description: Why UCompute exists: computing resources are scattered across devic
 <tr><th scope="row">Contributor and managed pilots</th><td>Bounded work, receipts, explicit costs and an incident owner</td><td>Verification and operations cost more than the compute is worth</td></tr>
 </tbody>
 </table>
+</div>
+</div>
+</section>
+
+<section class="section-tight section-tint" id="economics" aria-labelledby="econ-title">
+<div class="shell split">
+<div><h2 class="h-sub" id="econ-title">One network, one credit system</h2><p class="stack"><span class="pill pill-research">Strategic hypothesis</span></p></div>
+<div class="prose">
+<p class="lede">The economic direction being specified now: one computing network and one compute-credit system, with contributors in control of their hardware.</p>
+<ul>
+<li><strong>Contribute compute, earn compute.</strong> Capacity you choose to share, within limits you set, would earn credits.</li>
+<li><strong>Buy compute when you need more.</strong> Credits would be spent, or eventually bought, only through resource-sharing arrangements you have explicitly authorized.</li>
+<li><strong>Contributors decide.</strong> You would choose whether your capacity serves paid requests. Capacity given only as a donation would never be sold.</li>
+<li><strong>The core stays free.</strong> Run and private Mesh remain free and open source. Cloud would be an optional managed service, never a requirement.</li>
+</ul>
+<div class="callout"><strong>None of this exists yet</strong>There are no credits, purchases or payments today. The public Swarm is not operating, and UCompute Cloud is not a deployed service. The current specification enables no payment, transferable token or public credit promise, and any settlement needs separate technical, abuse and legal decisions first. No cryptocurrency.</div>
 </div>
 </div>
 </section>

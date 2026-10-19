@@ -5,7 +5,8 @@ description: Use UCompute from your own application: an OpenAI-compatible HTTP A
 <div class="page-hero shell">
 <h1>Build on the compute people already have.</h1>
 <p class="lede">A local-first execution interface for supported models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
-<div class="page-hero-meta"><span class="pill pill-dev">API v1.0.0, development build</span><span class="pill pill-planned">SDKs planned</span></div>
+<div class="page-hero-meta"><span class="pill pill-verified">HTTP API v1.0.0: Verified</span><span class="pill pill-planned">SDKs: Planned</span></div>
+<p class="fine stack">The OpenAI-compatible API, streaming and versioned API documentation are verified requirements <span class="ref">F-09-01, F-09-02, F-09-04</span>. SDKs are planned <span class="ref">F-09-05, U-04</span>.</p>
 </div>
 
 <section class="section-tight" aria-labelledby="quickstart">
@@ -112,7 +113,7 @@ stream = client.chat.completions.<span class="tok-f">create</span>(
 <div class="grid-3 stack">
 <div class="card"><div class="card-top"><h3>Python and TypeScript SDKs</h3><span class="pill pill-planned">Planned</span></div><p>Versioned clients with streaming, cancellation, typed errors and explicit targets, tested against a live server. Success is measured by independent developers getting a first real stream within 30 minutes without help.</p></div>
 <div class="card"><div class="card-top"><h3>An independent protocol</h3><span class="pill pill-planned">Planned</span></div><p>A written peer profile with test vectors, so a separate implementation can pair and exchange work. Until it exists, the peer protocol is experimental.</p></div>
-<div class="card"><div class="card-top"><h3>A workload contract</h3><span class="pill pill-research">Later</span></div><p>A versioned envelope around today's inference requests, declaring resources, permissions and privacy, so other kinds of work can be added safely.</p></div>
+<div class="card"><div class="card-top"><h3>A workload contract</h3><span class="pill pill-planned">Planned</span></div><p>A versioned envelope around today's inference requests, declaring resources, permissions and privacy, so other kinds of work can be added safely.</p></div>
 </div>
 </div>
 </section>

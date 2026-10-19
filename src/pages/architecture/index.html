@@ -106,7 +106,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 
 <section class="section-tight" aria-labelledby="protocol">
 <div class="shell split">
-<div><h2 class="h-sub" id="protocol">The protocol</h2><p class="stack"><span class="pill pill-experimental">Experimental, no stability promise</span></p></div>
+<div><h2 class="h-sub" id="protocol">The protocol</h2><p class="stack"><span class="pill pill-experimental">Experimental</span></p></div>
 <div class="prose">
 <ul>
 <li><strong>Transport</strong>: QUIC with TLS 1.3 only. Devices authenticate with raw Ed25519 public keys (RFC 7250), and the pinned-key check runs inside the handshake, including on session resumption.</li>
@@ -115,7 +115,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/common/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
 <li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection.</li>
 </ul>
-<p>The Rust code mirrors the schema by hand, and the only implementation is this one. Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
+<p>The Rust code mirrors the schema by hand, and the only implementation is this one. Protocol compatibility negotiation is a verified requirement <span class="ref">F-08-10</span>; independent interoperability is not <span class="ref">U-01 not started</span>. Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
 </div>
 </div>
 </section>

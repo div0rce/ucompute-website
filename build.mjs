@@ -142,7 +142,7 @@ function footer(mode) {
 ${FOOTER.map(([h, links]) => `<div><h2>${h}</h2><ul>${links.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('\n')}
 </nav>
 </div>
-<div class="footer-bottom"><span>© 2026 UCompute project. Apache-2.0. UCompute is a proposed name; the software currently ships as Common.</span>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
+<div class="footer-bottom"><span>© 2026 UCompute project. Apache-2.0. UCompute is the public name in use; trademark clearance is open. The implementation is named Common.</span>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
 </div>
 </footer>`;
 }

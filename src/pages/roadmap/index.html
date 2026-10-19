@@ -4,20 +4,20 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 -->
 <div class="page-hero shell">
 <h1>Fifteen milestones, ordered by dependency.</h1>
-<p class="lede">The roadmap comes from the project specification. Progress is counted against its requirements ledger: 148 original requirements, each with acceptance criteria. A requirement counts as verified only when every criterion has been demonstrated, with evidence and a commit recorded. Counts below are from the ledger at commit af3e37c.</p>
-<div class="page-hero-meta"><span class="pill pill-verified">36 of 148 verified</span><span class="pill pill-dev">8 implemented, awaiting verification</span><span class="pill pill-planned">101 not started</span></div>
+<p class="lede">The roadmap comes from the project specification. Progress is counted against its requirements ledger: 148 original requirements, each with acceptance criteria. A requirement counts as verified only when every criterion has been demonstrated, with evidence and a commit recorded. Counts below are from the ledger at commit eec6d6e (evidence cutoff: 19 October 2026). The roadmap shows status and dependencies, not dates.</p>
+<div class="page-hero-meta"><span class="pill pill-verified">36 of 148 verified</span><span class="pill pill-dev">8 implemented, awaiting verification</span><span class="pill pill-experimental">3 in progress</span><span class="pill pill-planned">101 not started</span></div>
+<p class="fine stack">Four additional requirements extend the original 148 for the UCompute program: an independently implementable protocol (U-01), a versioned workload contract (U-02), evidence-scoped device participation (U-03) and independent developer integration (U-04). All four are not started.</p>
 </div>
 
 <section class="section-tight" id="status-labels" aria-labelledby="labels-title">
 <div class="shell split">
 <div><h2 class="h-sub" id="labels-title">What the labels mean</h2></div>
 <dl class="legend">
-<dt><span class="pill pill-verified">Verified</span></dt><dd>Demonstrated with recorded evidence: specific hardware, configuration and commit.</dd>
-<dt><span class="pill pill-dev">Development build</span></dt><dd>The code exists and runs in internal builds. It is not a release.</dd>
-<dt><span class="pill pill-experimental">Experimental</span></dt><dd>Code and some real evidence exist, but the checks for calling it supported are incomplete.</dd>
-<dt><span class="pill pill-planned">Planned</span></dt><dd>Committed scope with no qualified implementation yet.</dd>
-<dt><span class="pill pill-research">Hypothesis</span></dt><dd>An idea or research question to be tested, not a commitment.</dd>
-<dt><span class="pill pill-gated">Gated</span></dt><dd>Deliberately switched off until a named security review passes.</dd>
+<dt><span class="pill pill-verified">Verified</span></dt><dd>Demonstrated with recorded evidence for a specific configuration, build and commit (the specification's "verified reality"). A ledger row is VERIFIED only when every acceptance criterion has been shown.</dd>
+<dt><span class="pill pill-dev">Implemented, awaiting verification</span></dt><dd>The code exists; its acceptance criteria are not all demonstrated yet ("current implementation", ledger status IMPLEMENTED_UNVERIFIED).</dd>
+<dt><span class="pill pill-planned">Planned</span></dt><dd>Specified and committed, not built yet ("committed engineering scope"). Never a date.</dd>
+<dt><span class="pill pill-research">Strategic hypothesis</span></dt><dd>A direction, experiment or business idea still to be decided. Nothing to use, buy or download.</dd>
+<dt><span class="pill pill-experimental">Experimental</span></dt><dd>For platforms and products: code or bounded real evidence exists, but the support gate is incomplete. No platform is SUPPORTED yet.</dd>
 </dl>
 </div>
 </section>
@@ -39,11 +39,11 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 <li class="milestone" id="m7"><span class="milestone-id">M7</span><div><h3>Independent jobs</h3><p>Distributed independent jobs, batch inference, embeddings and contribution metering.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="10 not started, of 10"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
 <li class="milestone" id="m8"><span class="milestone-id">M8</span><div><h3>Reliability</h3><p>Self-healing, checkpoints, migration, fault injection and observability.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="14 not started, of 14"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
 <li class="milestone" id="m9"><span class="milestone-id">M9</span><div><h3>Beyond the local network</h3><p>Internet connections, NAT traversal, public identity, trust and abuse defenses.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="4 not started, of 4"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
-<li class="milestone" id="m10"><span class="milestone-id">M10</span><div><h3>Credits and receipts</h3><p>Reputation, verified receipts and economic mechanisms. No payments are enabled; settlement needs legal review first.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="1 in progress, 9 not started, of 10"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="10.0" height="8"/></svg></div><span class="pill pill-research">Research started</span></li>
+<li class="milestone" id="m10"><span class="milestone-id">M10</span><div><h3>Credits and receipts</h3><p>Reputation, verified receipts and economic mechanisms. No payments are enabled; settlement needs legal review first.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="1 in progress, 9 not started, of 10"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="10.0" height="8"/></svg></div><span class="pill pill-experimental">In progress</span></li>
 <li class="milestone" id="m11"><span class="milestone-id">M11</span><div><h3>Advanced models</h3><p>Multimodal and mixture-of-experts models, speculative decoding, advanced caching and adapters.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="8 not started, of 8"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
 <li class="milestone" id="m12"><span class="milestone-id">M12</span><div><h3>Mobile and enterprise</h3><p>Mobile and browser participation, power and thermal controls, enterprise federation.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="11 not started, of 11"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
 <li class="milestone" id="m13"><span class="milestone-id">M13</span><div><h3>Release readiness</h3><p>Security review, cross-platform CI, documentation, release packaging and a public beta.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="8 not started, of 8"><rect class="m-bg" width="100" height="8"/></svg></div><span class="pill pill-planned">Not started</span></li>
-<li class="milestone" id="m14"><span class="milestone-id">M14</span><div><h3>Research validation</h3><p>Confidential computing, verifiable inference and economic feasibility. No breakthroughs will be claimed that haven't happened.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="2 in progress, of 2"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="100.0" height="8"/></svg></div><span class="pill pill-research">Research started</span></li>
+<li class="milestone" id="m14"><span class="milestone-id">M14</span><div><h3>Research validation</h3><p>Confidential computing, verifiable inference and economic feasibility. No breakthroughs will be claimed that haven't happened.</p><svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="2 in progress, of 2"><rect class="m-bg" width="100" height="8"/><rect class="m-p" x="0" width="100.0" height="8"/></svg></div><span class="pill pill-experimental">In progress</span></li>
 </ol>
 <p class="fine stack">The order reflects dependencies, not importance. Every milestone is part of the full product's scope; a limited release can ship earlier ones and must say what it leaves out.</p>
 </div>
@@ -52,13 +52,13 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 <section class="section-tight" id="now" aria-labelledby="now-title">
 <div class="shell">
 <h2 class="h-sub" id="now-title">Work packages</h2>
-<p class="lede stack">The specification breaks the milestones into twelve work packages. Two are under way.</p>
+<p class="lede stack">The specification breaks the milestones into thirteen work packages. Two are implemented and awaiting verification; the website is in progress.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Package</th><th scope="col">Goal</th><th scope="col">Status</th></tr></thead>
 <tbody>
-<tr><th scope="row">WP-01</th><td>Qualify the native Windows desktop app: clean install to first answer through the interface, pairing with a Mac, quit, crash, restart and uninstall, keyboard and screen reader</td><td><span class="pill pill-dev">In progress</span></td></tr>
-<tr><th scope="row">WP-02</th><td>Fair default sharing when peers flood a device, and protection of Windows key files from other users</td><td><span class="pill pill-dev">In progress</span></td></tr>
+<tr><th scope="row">WP-01</th><td>Qualify the native Windows desktop app: clean install to first answer through the interface, pairing with a Mac, quit, crash, restart and uninstall, keyboard and screen reader</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
+<tr><th scope="row">WP-02</th><td>Fair default sharing when peers flood a device, and protection of Windows key files from other users</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
 <tr><th scope="row">WP-03</th><td>A supported Linux path and continuous testing across platforms</td><td><span class="pill pill-planned">Not started</span></td></tr>
 <tr><th scope="row">WP-04</th><td>Static pooling: one model's layers split across two physical machines over the encrypted connection</td><td><span class="pill pill-planned">Not started</span></td></tr>
 <tr><th scope="row">WP-05</th><td>A scheduler that improves real workloads, compared against local and the best manual choice</td><td><span class="pill pill-planned">Not started</span></td></tr>
@@ -69,6 +69,7 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 <tr><th scope="row">WP-10</th><td>A versioned workload contract and mobile consumers, without a general-purpose executor</td><td><span class="pill pill-planned">Not started</span></td></tr>
 <tr><th scope="row">WP-11</th><td>Feasibility work for a public network: relays, abuse defenses and verification costs, as experiments, not a launch</td><td><span class="pill pill-planned">Not started</span></td></tr>
 <tr><th scope="row">WP-12</th><td>Sustainable services and an independent ecosystem, starting with interviews and cost models</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">WP-13</th><td>This website: it presents the specification, the ledger and committed evidence, and defines no claims of its own</td><td><span class="pill pill-experimental">In progress</span></td></tr>
 </tbody>
 </table>
 </div>
@@ -76,16 +77,3 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 </div>
 </section>
 
-<section class="section-tight section-white" id="progress" aria-labelledby="progress-title">
-<div class="shell split">
-<div><h2 class="h-sub" id="progress-title">Recent progress</h2></div>
-<ol class="log" reversed>
-<li><time datetime="2026-10-19">19 October 2026</time><p><strong>Desktop to desktop.</strong> The Windows app was built natively on the laptop. The Mac and Windows apps paired through their screens and ran prompts in both directions. <a href="/demo/">Evidence</a></p></li>
-<li><time datetime="2026-10-19">19 October 2026</time><p><strong>Discovery on a phone hotspot.</strong> Each machine found the other within about a second, completing the discovery requirement.</p></li>
-<li><time datetime="2026-10-18">18 October 2026</time><p><strong>The UCompute program.</strong> The specification was extended with the open computing infrastructure program, keeping every original requirement.</p></li>
-<li><time datetime="2026-10-18">18 October 2026</time><p><strong>Windows and a second machine.</strong> The daemon ran on Windows 11 with Intel Arc through Vulkan, and the full trusted-device flow passed twice between two physical machines.</p></li>
-<li><time datetime="2026-10-15">15 October 2026</time><p><strong>Trusted devices on one host.</strong> Device identity, default-deny policy, encrypted transport, discovery, pairing and remote execution: 13 requirements verified on a single machine, after five adversarial reviews.</p></li>
-<li><time datetime="2026-10-14">14 October 2026</time><p><strong>Local inference.</strong> Real models on CPU and Metal, the CLI and the OpenAI-compatible API, with the official clients passing.</p></li>
-</ol>
-</div>
-</section>

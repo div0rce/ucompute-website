@@ -47,18 +47,18 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="duo-readouts">
 <div class="readout"><p class="readout-dir">Windows app → Mac</p><p class="readout-num">508<small>tok/s</small></p><p class="readout-gpu">on Apple M2, Metal</p></div>
-<div class="readout"><p class="readout-dir">Mac → Windows</p><p class="readout-num">910<small>tok/s</small></p><p class="readout-gpu">on Intel Arc 140V, Vulkan</p></div>
+<div class="readout"><p class="readout-dir">Mac daemon API → Windows</p><p class="readout-num">910<small>tok/s</small></p><p class="readout-gpu">on Intel Arc 140V, Vulkan</p></div>
 </div>
-<figcaption class="duo-foot" id="duo-caption">Measured with stories15M, a 15-million-parameter test model (Q4_0). The numbers show the path works end to end; they are not what a larger model would do. Each request ran whole on one machine. <a href="/demo/">Full evidence and limits</a></figcaption>
+<figcaption class="duo-foot" id="duo-caption">Path checks, not performance: stories15M, a 15-million-parameter test fixture (Q4_0). Windows app built from commit caf1497, Mac app from 5f0c580; evidence af3e37c. The Mac-to-Windows request went through the Mac daemon API, the same request its Chat view sends. Each request ran whole on one machine; no model was split. <a href="/demo/">Full evidence and limits</a></figcaption>
 </figure>
 </div>
 
 <section class="status-strip" aria-label="What exists today">
 <ul class="shell">
-<li>Run <span class="pill pill-dev">Development build</span></li>
-<li>Mesh <span class="pill pill-experimental">Experimental: one request, one paired device</span></li>
-<li>One model across devices <span class="pill pill-planned">Not built yet</span></li>
-<li>Swarm <span class="pill pill-gated">Off until security gates pass</span></li>
+<li>Run <span class="pill pill-experimental">Experimental</span></li>
+<li>Mesh, one request on one paired device <span class="pill pill-experimental">Experimental</span></li>
+<li>One model across devices <span class="pill pill-planned">Planned</span></li>
+<li>Swarm, disabled until its security gate <span class="pill pill-planned">Planned</span></li>
 </ul>
 </section>
 
@@ -79,9 +79,10 @@ description: UCompute is building an open computing layer for the devices you ow
 <li><div><h3>Allow</h3><p>Each machine puts the other in a group that may run prompts. Without that, on both sides, nothing runs remotely.</p></div></li>
 <li><div><h3>Choose</h3><p>In Chat, Run on lists the paired Mac. The request goes to the device you pick and never silently anywhere else.</p></div></li>
 <li><div><h3>Run</h3><p>The request crosses UCompute's own QUIC connection, encrypted with TLS 1.3 and pinned device keys. The Mac loads the model on demand and runs it on its GPU. Both sides log the request without its text.</p></div></li>
-<li><div><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second.</p></div></li>
+<li><div><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second on the stories15M test fixture: a path check, not a performance figure.</p></div></li>
 </ol>
 <p class="callout" role="note"><strong>Remote execution, not pooling.</strong> One whole request ran on one other machine. No model has been split across devices yet; that is milestone M4.</p>
+<p class="fine stack">Verified for these builds and this hardware only, not an offer to download them. Evidence: <code>docs/evidence/desktop-two-machine-2026-10-19.md</code> at af3e37c.</p>
 <p class="stack"><a class="link-arrow" href="/demo/">Hardware, timings, open issues</a></p>
 </div>
 </div>
@@ -96,7 +97,7 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="product-grid">
 <article class="product-card product-run">
-<div class="card-top"><span class="card-label">UCompute Run</span><span class="pill pill-dev">Development build</span></div>
+<div class="card-top"><span class="card-label">UCompute Run</span><span class="pill pill-experimental">Experimental</span></div>
 <h3>Your AI.<br>Your machine.</h3>
 <p>Pick a model, see whether it fits before you download it, and run it. Local by default, no account, with an OpenAI-compatible API for your own apps.</p>
 <div class="product-figure">
@@ -120,8 +121,8 @@ description: UCompute is building an open computing layer for the devices you ow
 </article>
 </div>
 <div class="grid-2 stack">
-<div class="card"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-gated">Planned, off by default</span></div><p>Opt-in sharing of spare capacity with people you don't know. It stays disabled until isolation, metering, verification and abuse protections pass independent review.</p></div>
-<div class="card"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Hypothesis</span></div><p>Optional managed services on the same open contracts, for teams that want them. Never required for local or private use.</p></div>
+<div class="card"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>Opt-in sharing of spare capacity with people you don't know. It stays disabled until isolation, metering, verification and abuse protections pass independent review. <span class="ref">Gate F; F-06-08 not started</span></p></div>
+<div class="card"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Strategic hypothesis</span></div><p>Optional managed services on the same open contracts, for teams that want them. Never required for local or private use.</p></div>
 </div>
 <p class="subsystems"><span>Built on four open subsystems:</span><span><strong>Core</strong>, the portable runtime</span><span><strong>Protocol</strong>, device-to-device contracts</span><span><strong>Scheduler</strong>, where work should run</span><span><strong>SDK</strong>, for developers</span><a class="link-arrow" href="/architecture/">Architecture</a></p>
 </div>
@@ -235,15 +236,15 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <div class="shell split">
 <div>
 <h2 class="h-section" id="trust-title">Share your compute.<br><span class="soft">Not your computer.</span></h2>
-<p class="lede stack">Consent comes before computation. These defaults are in the code today and covered by tests.</p>
+<p class="lede stack">Consent comes before computation. Each of these is a verified requirement in the ledger, cited by ID.</p>
 <p class="stack"><a class="link-arrow" href="/open-source/#security">Security policy and threat model</a></p>
 </div>
 <div class="rows">
-<div class="row"><h3>Local by default</h3><p>The API listens on 127.0.0.1 only. Peer networking and discovery stay off until you turn them on.</p></div>
-<div class="row"><h3>Permission, not assumption</h3><p>A device needs a one-time pairing code, a group that allows remote runs, and permission on both ends. A revoked key is refused inside the encrypted handshake.</p></div>
-<div class="row"><h3>Honest about the risk</h3><p>A paired device decrypts your prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer. You see this before trusted devices can be enabled.</p></div>
-<div class="row"><h3>Prompts stay out of logs</h3><p>Audit entries record ids, counts, codes and timings, never prompt or answer text.</p></div>
-<div class="row"><h3>Public compute waits</h3><p>Running work for strangers stays disabled until isolation, verification and abuse protections pass independent review.</p></div>
+<div class="row"><h3>Local by default</h3><p>The API listens on 127.0.0.1 only. Peer networking and discovery stay off until you turn them on. <span class="ref">F-06-06, F-10-10</span></p></div>
+<div class="row"><h3>Permission, not assumption</h3><p>A device needs a one-time pairing code, a group that allows remote runs, and permission on both ends. A revoked key is refused inside the encrypted handshake. <span class="ref">F-02-02, F-06-02, F-06-05</span></p></div>
+<div class="row"><h3>Honest about the risk</h3><p>A paired device decrypts your prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer. You see this before trusted devices can be enabled. <span class="ref">F-06-07</span></p></div>
+<div class="row"><h3>Prompts stay out of logs</h3><p>Audit entries record ids, counts, codes and timings, never prompt or answer text. <span class="ref">F-06-10</span></p></div>
+<div class="row"><h3>Public compute waits</h3><p>Running work for strangers stays disabled until isolation, verification and abuse protections pass independent review. <span class="ref">Gate F; F-06-08 not started</span></p></div>
 </div>
 </div>
 </section>
@@ -252,7 +253,7 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <div class="shell">
 <div class="section-head">
 <h2 class="h-section" id="road-title">Built one milestone<br><span class="soft">at a time.</span></h2>
-<p class="lede">Progress is counted against a public requirements ledger: 148 original requirements, 36 verified with recorded evidence at commit af3e37c. Nothing is marked done on a report alone.</p>
+<p class="lede">Progress is counted against the requirements ledger: 148 original requirements, 36 verified with recorded evidence, at commit eec6d6e. Nothing is marked done on a report alone.</p>
 </div>
 <ol class="milestones">
 <li class="milestone"><span class="milestone-id">M1</span><div><h3>Local inference</h3><p>Real models on CPU and Apple Metal, streaming, CLI and API.</p></div><span class="pill pill-verified">18 of 21 verified</span></li>
@@ -268,7 +269,7 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <div class="shell section">
 <div class="cta-deco" aria-hidden="true">u.</div>
 <h2 id="cta-title">Make more<br>possible<span>.</span></h2>
-<p class="lede">UCompute is licensed Apache-2.0 and developed against a public requirements ledger. The source repository is being prepared for publication on GitHub.</p>
+<p class="lede">UCompute is licensed Apache-2.0 and developed against a requirements ledger. The source repository is being prepared for publication on GitHub.</p>
 <div class="cta-actions">
 <a class="btn btn-dark btn-lg" href="{{github}}">Follow on GitHub</a>
 <a class="link-arrow" href="/open-source/">How to contribute</a>

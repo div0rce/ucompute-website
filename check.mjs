@@ -102,8 +102,38 @@ function check(root, mode) {
     const text = readFileSync(join(root, f), 'utf8');
     if (/-----BEGIN [A-Z ]*PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b|\bsk-[A-Za-z0-9]{20,}/.test(text)) fail(`${mode}/${f}`, 'looks like a secret');
   }
+  claimCheck(root, pages, mode);
   console.log(`${mode}: ${pages.length} pages, ${files.length} files checked`);
   return externalLinks;
+}
+
+// WP-13 claim check (spec section 29.5): risky wording must sit in a sentence that limits it.
+// ponytail: sentence-level keyword heuristic; a reviewer still reads the output, it only catches regressions.
+const RISKY = [
+  [/\b(pool(?:ed|ing)?|split|partition(?:ed|ing)?|combined[- ]device|across devices)\b/i, 'pooling/split'],
+  [/\bsupported\b/i, 'SUPPORTED'],
+  [/\b(speed-?ups?|faster than)\b/i, 'speedup'],
+  [/\b(privacy guarantee|guaranteed privacy|complete(?:ly)? private|fully private)\b/i, 'privacy guarantee'],
+  [/\b(swarm|cloud|credits?|purchase|buy)\b.*\b(available|live|launched|operational|open now|today)\b/i, 'Swarm/Cloud/credits availability'],
+];
+const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|M4|M7|yet|only|says nothing)\b|n't\b/i;
+const ALLOW = /\bsupported (models?|kinds?|work|workloads?|release)\b/i;
+function claims(html) {
+  const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<pre[\s\S]*?<\/pre>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ');
+  const out = [];
+  for (const sentence of text.split(/(?<=[.!?])\s+/)) {
+    for (const [re, label] of RISKY) {
+      if (re.test(sentence) && !LIMIT.test(sentence) && !(label === 'SUPPORTED' && ALLOW.test(sentence))) out.push(`${label}: "${sentence.trim().slice(0, 160)}"`);
+    }
+  }
+  return out;
+}
+function claimCheck(root, pages, mode) {
+  for (const f of pages) {
+    const html = readFileSync(join(root, f), 'utf8');
+    for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
+    for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href)) fail(`${mode}/${f}`, `download link with no promotion record: ${href}`);
+  }
 }
 
 const links = new Set();

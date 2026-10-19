@@ -1,5 +1,7 @@
 # Implementation facts the docs were written against
 
+Website rules: `docs/SPEC_HANDOFF_V2.md` at eec6d6e, sections 26.1, 26.2, 29.1, 29.5 and WP-13. Ledger counts unchanged at eec6d6e for the 148 original rows; U-01..U-04 added, all NOT_STARTED.
+
 Source: `div0rce/common`, commit `af3e37c` (2026-10-18), read on 2026-10-19. The engineering working copy had uncommitted changes at the time; nothing below relies on them. When the engineering repository moves, re-check each line and update the pages listed in brackets.
 
 ## Evidence used for claims
