@@ -75,16 +75,30 @@ description: Why UCompute exists: computing resources are scattered across devic
 
 <section class="section-tight section-tint" id="economics" aria-labelledby="econ-title">
 <div class="shell split">
-<div><h2 class="h-sub" id="econ-title">One network, one credit system</h2><p class="stack"><span class="pill pill-research">Strategic hypothesis</span></p></div>
+<div><h2 class="h-sub" id="econ-title">One network, one credit balance</h2><p class="stack"><span class="pill pill-planned">Planned</span></p><p class="fine stack">Direction set by the owner on 19 October 2026 (specification section 26.5, decision D-019). Not started.</p></div>
 <div class="prose">
-<p class="lede">The economic direction being specified now: one computing network and one compute-credit system, with contributors in control of their hardware.</p>
+<blockquote class="quote"><p>“Use your own compute for free. Share compute to earn credits. Let trusted people use your hardware for free. Spend credits to access compensated compute. Purchase credits when you need more.”</p></blockquote>
 <ul>
-<li><strong>Contribute compute, earn compute.</strong> Capacity you choose to share, within limits you set, would earn credits.</li>
-<li><strong>Buy compute when you need more.</strong> Credits would be spent, or eventually bought, only through resource-sharing arrangements you have explicitly authorized.</li>
-<li><strong>Contributors decide.</strong> You would choose whether your capacity serves paid requests. Capacity given only as a donation would never be sold.</li>
-<li><strong>The core stays free.</strong> Run and private Mesh remain free and open source. Cloud would be an optional managed service, never a requirement.</li>
+<li><strong>Your own computing stays free.</strong> Run, private Mesh and self-hosting are free and open source. Computing for yourself never costs or earns credits, however many devices or accounts you have.</li>
+<li><strong>Each device chooses how it shares, and sharing is off by default.</strong> Private: only you and people you trust. Donate: free capacity for others, within your limits and schedule. Share for credits: paid requests, on your price floor, limits and schedule. Capacity you donate is never sold.</li>
+<li><strong>Trusted people use your hardware free.</strong> You would keep a list of the people and devices allowed to use your hardware at no charge, even on a device that also serves paid requests. Free access comes first, and a request never moves to paid capacity without the requester's say-so.</li>
+<li><strong>One balance for everything else.</strong> Credits earned by sharing, or bought when you need more, would pay for compensated compute from other owners. You would see the price before anything runs, and the platform fee would be shown openly. Free is not unlimited: free capacity is only what owners choose to share.</li>
+<li><strong>Cloud stays optional.</strong> A managed service on the same open infrastructure, never required.</li>
 </ul>
-<div class="callout"><strong>None of this exists yet</strong>There are no credits, purchases or payments today. The public Swarm is not operating, and UCompute Cloud is not a deployed service. The current specification enables no payment, transferable token or public credit promise, and any settlement needs separate technical, abuse and legal decisions first. No cryptocurrency.</div>
+<div class="table-wrap"><table>
+<caption>Intended behaviour once credits exist</caption>
+<thead><tr><th scope="col">Situation</th><th scope="col">Credits spent</th><th scope="col">Credits earned</th></tr></thead>
+<tbody>
+<tr><td>Run a model on your own Mac or Windows PC</td><td>0</td><td>0</td></tr>
+<tr><td>Use your own Windows GPU from your Mac through your own Mesh</td><td>0</td><td>0</td></tr>
+<tr><td>A friend or family member you allowlisted uses your GPU</td><td>0</td><td>0</td></tr>
+<tr><td>Someone uses capacity you donated</td><td>0</td><td>0</td></tr>
+<tr><td>Someone uses your GPU under a compensated arrangement</td><td>Yes, by them</td><td>Yes, by you</td></tr>
+<tr><td>You buy more credits</td><td>Purchased balance added</td><td>None</td></tr>
+</tbody>
+</table></div>
+<p><strong>“Share your compute. Not your computer.”</strong> is the design goal for sharing with others: people would use your compute, never your files, desktop or accounts. The isolation that would make this safe with strangers is not built yet, and public participation stays disabled until it passes an independent security review.</p>
+<div class="callout"><strong>None of this exists yet</strong>There are no credits, purchases, payments, trusted-access lists, public Swarm or Cloud service today, and no stage that involves money is authorized. Earned credits would not be transferable or redeemable for cash. No cryptocurrency.</div>
 </div>
 </div>
 </section>
