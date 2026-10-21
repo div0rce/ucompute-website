@@ -1,0 +1,44 @@
+PASS  https://ucompute.org/ -> 200, prelaunch page
+PASS  https://ucompute.org/ is indexable
+PASS  https://ucompute.org/ sends a Content-Security-Policy
+PASS  https://ucompute.org/ sends Strict-Transport-Security
+PASS  https://ucompute.org/ has no injected analytics beacon
+PASS  https://ucompute.org/docs/ -> 404 (complete site not served)
+PASS  https://ucompute.org/demo/ -> 404 (complete site not served)
+PASS  https://ucompute.org/product/ -> 404 (complete site not served)
+PASS  https://ucompute.org/prelaunch/ -> 404 (complete site not served)
+PASS  https://ucompute.org/assets/site.js -> 404 (complete site not served)
+PASS  https://ucompute.org/assets/img/windows-app-chat-ran-on-mac-2026-10-19.webp -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/ -> 200, prelaunch page
+PASS  https://ucompute-website.pages.dev/ is indexable
+PASS  https://ucompute-website.pages.dev/ sends a Content-Security-Policy
+PASS  https://ucompute-website.pages.dev/ sends Strict-Transport-Security
+PASS  https://ucompute-website.pages.dev/ has no injected analytics beacon
+PASS  https://ucompute-website.pages.dev/docs/ -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/demo/ -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/product/ -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/prelaunch/ -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/assets/site.js -> 404 (complete site not served)
+PASS  https://ucompute-website.pages.dev/assets/img/windows-app-chat-ran-on-mac-2026-10-19.webp -> 404 (complete site not served)
+PASS  http://ucompute.org/ -> 301 https://ucompute.org/
+PASS  https://www.ucompute.org/docs/?x=1 -> 301 https://ucompute.org/docs/?x=1
+PASS  https://preview.ucompute.org/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/preview.ucompute.org
+PASS  https://preview.ucompute.org/ does not leak complete-site content
+PASS  https://preview.ucompute.org/docs/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/preview.ucompute.org
+PASS  https://preview.ucompute.org/docs/ does not leak complete-site content
+PASS  https://preview.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/preview.ucompute-website.pages.dev
+PASS  https://preview.ucompute-website.pages.dev/ does not leak complete-site content
+PASS  https://cb1c15c4.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/cb1c15c4.ucompute-website.pages.dev
+PASS  https://cb1c15c4.ucompute-website.pages.dev/ does not leak complete-site content
+PASS  https://cb1c15c4.ucompute-website.pages.dev/docs/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/cb1c15c4.ucompute-website.pages.dev
+PASS  https://cb1c15c4.ucompute-website.pages.dev/docs/ does not leak complete-site content
+PASS  https://2d1af1eb.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/2d1af1eb.ucompute-website.pages.dev
+PASS  https://2d1af1eb.ucompute-website.pages.dev/ does not leak complete-site content
+PASS  https://a78cee1a.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/a78cee1a.ucompute-website.pages.dev
+PASS  https://a78cee1a.ucompute-website.pages.dev/ does not leak complete-site content
+PASS  https://e04995d9.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/e04995d9.ucompute-website.pages.dev
+PASS  https://e04995d9.ucompute-website.pages.dev/ does not leak complete-site content
+PASS  https://main.ucompute-website.pages.dev/ -> 302 https://sparkling-brook-03de.cloudflareaccess.com/cdn-cgi/access/login/main.ucompute-website.pages.dev
+PASS  https://main.ucompute-website.pages.dev/ does not leak complete-site content
+
+all live checks passed

@@ -1,5 +1,40 @@
 # Verification record
 
+## 2026-10-21: final QA (cross-browser, denied email, economics refresh)
+
+Evidence: `docs/evidence/2026-10-21-qa/` (compressed screenshots, `xbrowser-results.json`, `live-verify.txt`).
+
+Environment: macOS 26.2 on an Apple M2, Playwright 1.49.1. Public pages were tested live on ucompute.org. Private pages were tested on a local preview-mode build of a3ac99a, which is the commit deployed to `preview` (Cloudflare Pages check run: success).
+
+| Engine | Version | Desktop | Mobile |
+|---|---|---|---|
+| Chrome (installed, driven by Playwright) | 155.0.8059.85 | 1440×900 | Pixel 7 emulation (412×915, touch, mobile UA) |
+| Firefox (Playwright build) | 132.0 | 1440×900 | 390×844 viewport only (Playwright cannot emulate mobile Firefox) |
+| WebKit (Playwright build) | 18.2 | 1440×900 | iPhone 13 emulation (390×844, touch, iOS UA) |
+
+Playwright WebKit is Safari's engine, but it is not Safari. Native Safari on macOS and Mobile Safari on iOS were not tested. An iOS Simulator run was started but stopped because it hung while the Mac was heavily loaded by the engineering acceptance tests.
+
+| Check | Result in all six runs |
+|---|---|
+| ucompute.org | 200, prelaunch page, no horizontal overflow |
+| `www.ucompute.org/docs/?q=1` | Redirects to `https://ucompute.org/docs/?q=1` |
+| `ucompute.org/docs/` | 404 |
+| preview.ucompute.org with no session | Lands on `sparkling-brook-03de.cloudflareaccess.com` |
+| 18 private pages | 200, no horizontal overflow |
+| Code tabs | Switch panels |
+| Mobile menu | Opens; Escape closes it |
+
+Console errors:
+- Chrome: one, on Cloudflare's own Access login page (its CSP blocks a `data:` SVG). Nothing from this site.
+- Firefox: none.
+- WebKit: one report on ucompute.org, "Refused to apply a stylesheet ... style-src". It did not reproduce in three replays, and the served HTML has no inline style. Recorded as not reproducible.
+
+| Other check | Result |
+|---|---|
+| Denied email | An address not on the allowlist was entered on preview.ucompute.org and on preview.ucompute-website.pages.dev. Access showed its usual "code sent" page, which it shows for every address, and no code arrived. The screenshots show the tester's address, so they are kept outside the repository |
+| `node verify-live.mjs` with hash and branch aliases | 42/42 pass |
+| Economics refresh (a3ac99a, from spec ae552bf section 26.5, D-019) | `/vision/#economics` is labelled Planned with "Not started", quotes the owner's model verbatim, and says "None of this exists yet" and "No cryptocurrency". The home headline is described as a design goal, not achieved isolation. The production prelaunch page is unchanged |
+
 ## 2026-10-19: deployment verification (live)
 
 | Check | Result |
@@ -55,5 +90,5 @@ Screenshots are kept outside the repository with the session evidence.
 ## Known limits of this verification
 
 - Assistive technology was exercised through axe and the accessibility tree, not with a human screen-reader session.
-- Browsers tested: Chromium (Playwright) and Chrome. Safari and Firefox were not run.
+- Browsers tested: Chrome, Playwright Firefox 132 and Playwright WebKit 18.2, all on macOS (see 2026-10-21). Native Safari, Mobile Safari on a device or simulator, the Firefox app, Windows and Android were not tested.
 - Lighthouse was not run; no performance scores are claimed. Page weight is small (one stylesheet, under 10 kB of script, four self-hosted fonts).
