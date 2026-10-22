@@ -97,6 +97,8 @@ function check(root, mode) {
   }
   if (mode === 'prelaunch') {
     for (const f of files) if (!PRELAUNCH_ALLOWED.test(f)) fail(mode, `file not allowed in the public prelaunch build: ${f}`);
+    // Source is unpublished: the public page links to no repository (snapshot 2026-10-22, section 9).
+    for (const f of files) if (/\.html$/.test(f) && /github\.com/i.test(readFileSync(join(root, f), 'utf8'))) fail(mode, `repository link in the public prelaunch build: ${f}`);
   }
   for (const f of files.filter(f => /\.(html|css|js|txt|json|xml)$/.test(f) || f === '_headers')) {
     const text = readFileSync(join(root, f), 'utf8');

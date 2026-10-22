@@ -471,7 +471,6 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
   .table-wrap th,.table-wrap td{padding:10px 12px}
   .pl-header{padding:14px 0}
   .pl-header nav{gap:2px 14px}
-  .pl-gh-label{display:none}
   .pill{white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){

@@ -80,7 +80,7 @@ function head({ meta, path, mode, assets }) {
   const ld = path === '/' ? `\n<script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'Organization', '@id': ORIGIN + '/#org', name: 'UCompute', url: ORIGIN + '/', logo: ORIGIN + '/assets/img/ucompute-mark.png', sameAs: [GITHUB] },
+      { '@type': 'Organization', '@id': ORIGIN + '/#org', name: 'UCompute', url: ORIGIN + '/', logo: ORIGIN + '/assets/img/ucompute-mark.png' },
       { '@type': 'WebSite', '@id': ORIGIN + '/#site', name: 'UCompute', url: ORIGIN + '/', publisher: { '@id': ORIGIN + '/#org' } },
     ],
   })}</script>` : '';
