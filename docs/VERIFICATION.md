@@ -2,13 +2,14 @@
 
 ## 2026-10-22: repository links removed from the public page (live)
 
-Owner approved 2026-10-22, following capability snapshot 2026-10-22 section 9 (no repository link while the source is unpublished). Commit 3574e43 on `main` removes the GitHub header and footer links and the structured-data `sameAs`, and adds "source not yet published" to the footer. `check.mjs` now fails on any `github.com` link in the prelaunch build; a test with an injected link confirmed it fails. Cloudflare Pages build: success.
+Owner approved 2026-10-22, following capability snapshot 2026-10-22 section 9 (no repository link while the source is unpublished). Commit 3574e43 on `main` removes the GitHub header and footer links and the structured-data `sameAs`, and added "source not yet published" to the footer. The owner asked for a links-only change, so commit 1267b34 restores the footer to "Apache-2.0 licensed."; compared with 2dc0aed, the prelaunch source now differs only by the removed links. `check.mjs` now fails on any `github.com` link in the prelaunch build; a test with an injected link confirmed it fails. Cloudflare Pages builds: success for both commits.
 
 | Check | Result |
 |---|---|
-| `node verify-live.mjs` plus the new deployment, `main` and `preview` aliases | 36/36 pass |
-| `github` on ucompute.org and its 404 page | 0 occurrences |
-| Phone width (375 px) | No horizontal overflow; the header keeps the brand and "Team preview" |
+| `node verify-live.mjs` plus the new deployment (62fa94b0), `main` and `preview` aliases, after 1267b34 | 36/36 pass: 200 prelaunch page, CSP, HSTS, no analytics beacon, full-site paths 404, http and www redirects, every preview and pages.dev alias 302 to Access with no content |
+| `github` on ucompute.org and its 404 page | 0 occurrences; live links are `#main`, `/` and preview.ucompute.org |
+| Footer | "© 2026 UCompute project. Apache-2.0 licensed." (unchanged from 2dc0aed) |
+| Desktop (1024 px) and phone (375 px) | No horizontal overflow; the header keeps the brand and "Team preview" |
 
 ## 2026-10-21: final QA (cross-browser, denied email, economics refresh)
 
