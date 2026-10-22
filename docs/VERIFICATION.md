@@ -1,5 +1,15 @@
 # Verification record
 
+## 2026-10-22: repository links removed from the public page (live)
+
+Owner approved 2026-10-22, following capability snapshot 2026-10-22 section 9 (no repository link while the source is unpublished). Commit 3574e43 on `main` removes the GitHub header and footer links and the structured-data `sameAs`, and adds "source not yet published" to the footer. `check.mjs` now fails on any `github.com` link in the prelaunch build; a test with an injected link confirmed it fails. Cloudflare Pages build: success.
+
+| Check | Result |
+|---|---|
+| `node verify-live.mjs` plus the new deployment, `main` and `preview` aliases | 36/36 pass |
+| `github` on ucompute.org and its 404 page | 0 occurrences |
+| Phone width (375 px) | No horizontal overflow; the header keeps the brand and "Team preview" |
+
 ## 2026-10-21: final QA (cross-browser, denied email, economics refresh)
 
 Evidence: `docs/evidence/2026-10-21-qa/` (compressed screenshots, `xbrowser-results.json`, `live-verify.txt`).
