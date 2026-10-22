@@ -35,7 +35,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <div class="device device-win">
 <div class="device-screen" aria-hidden="true">
 <div class="device-os"><span>Windows 11</span><span>Common app</span></div>
-<div class="device-line">Run on: <b>the Mac</b></div>
+<div class="device-line">Sent to: <b>the Mac</b></div>
 <div class="device-line">Ran on the Mac.</div>
 <div class="device-line">112 tokens</div>
 <span class="device-chip">Vulkan</span>
@@ -70,9 +70,9 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="evidence">
 <ol class="steps">
-<li><div><h3>Pair</h3><p>The Mac shows a six-digit code under Peers, Pair this device. The laptop finds the Mac under Nearby, not paired, and joins with the code. A wrong code is refused.</p></div></li>
+<li><div><h3>Pair</h3><p>The Mac shows a six-digit code. The laptop finds the Mac on the local network and joins with the code. A wrong code is refused.</p></div></li>
 <li><div><h3>Allow</h3><p>Each machine puts the other in a group that may run prompts. Without that, on both sides, nothing runs remotely. On the Mac this was set through its local API, not its window.</p></div></li>
-<li><div><h3>Choose</h3><p>In Chat, Run on lists the paired Mac. The request goes to the device you pick and never silently anywhere else.</p></div></li>
+<li><div><h3>Choose</h3><p>In the laptop's chat, the paired Mac can be chosen as the device to run on. The request goes to the device you pick and never silently anywhere else.</p></div></li>
 <li><div><h3>Run</h3><p>The request crosses UCompute's own QUIC connection, encrypted with TLS 1.3 and pinned device keys. The Mac loads the model on demand and runs it on its GPU. Both sides log the request without its text.</p></div></li>
 <li><div><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second on the stories15M test fixture: a path check, not a performance figure.</p></div></li>
 </ol>
@@ -139,7 +139,7 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="journey">
 <h3>Add a second computer</h3>
-<ol aria-label="Steps"><li>Install on both</li><li>Pair</li><li>Allow in a group</li><li>Run on</li></ol>
+<ol aria-label="Steps"><li>Install on both</li><li>Pair with a code</li><li>Allow remote runs</li><li>Choose a device</li></ol>
 <p>Both machines on one local network. Devices on the same home network or hotspot can find each other; otherwise pair by address.{{claim:discovery}}</p>
 <a class="link-arrow" href="/docs/mesh/">Trusted devices guide</a>
 </div>
@@ -252,10 +252,10 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <p class="lede">Progress is counted against the requirements ledger: 148 original requirements, 36 verified with recorded evidence, as of 22 October 2026. Nothing is marked done on a report alone.{{claim:ledger}}</p>
 </div>
 <ol class="milestones">
-<li class="milestone"><span class="milestone-id">M1</span><div><h3>Local inference</h3><p>Real models on CPU and Apple Metal, streaming, CLI and API.</p></div><span class="pill pill-verified">18 of 21 verified</span></li>
-<li class="milestone"><span class="milestone-id">M2</span><div><h3>Desktop app and installers</h3><p>macOS and Windows development builds work; installers are unsigned and not released.</p></div><span class="pill pill-verified">3 of 6 verified</span></li>
-<li class="milestone"><span class="milestone-id">M3</span><div><h3>Trusted devices</h3><p>Discovery, pairing, encrypted remote runs and revocation, recorded on two physical machines.</p></div><span class="pill pill-verified">14 of 17 verified</span></li>
-<li class="milestone"><span class="milestone-id">M4</span><div><h3>One model across two machines</h3><p>Genuine partitioned inference with correctness and memory checks.</p></div><span class="pill pill-planned">Not started</span></li>
+<li class="milestone"><span class="milestone-id">2</span><div><h3>Local inference</h3><p>Real models on CPU and Apple Metal, streaming, CLI and API.</p></div><span class="pill pill-verified">18 of 21 verified</span></li>
+<li class="milestone"><span class="milestone-id">3</span><div><h3>Desktop app and installers</h3><p>macOS and Windows development builds work; installers are unsigned and not released.</p></div><span class="pill pill-verified">3 of 6 verified</span></li>
+<li class="milestone"><span class="milestone-id">4</span><div><h3>Trusted devices</h3><p>Discovery, pairing, encrypted remote runs and revocation, recorded on two physical machines.</p></div><span class="pill pill-verified">14 of 17 verified</span></li>
+<li class="milestone"><span class="milestone-id">5</span><div><h3>One model across two machines</h3><p>Planned: genuine partitioned inference with correctness and memory checks.</p></div><span class="pill pill-planned">Not started</span></li>
 </ol>
 <p class="stack"><a class="link-arrow" href="/roadmap/">All fifteen milestones</a></p>
 </div>

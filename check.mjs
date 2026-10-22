@@ -118,7 +118,7 @@ const RISKY = [
   [/\b(privacy guarantee|guaranteed privacy|complete(?:ly)? private|fully private)\b/i, 'privacy guarantee'],
   [/\b(swarm|cloud|credits?|purchase|buy)\b.*\b(available|live|launched|operational|open now|today)\b/i, 'Swarm/Cloud/credits availability'],
 ];
-const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|M4|M7|yet|only|says nothing)\b|n't\b/i;
+const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|yet|only|says nothing)\b|n't\b/i;
 const ALLOW = /\bsupported (models?|kinds?|work|workloads?|release)\b/i;
 function claims(html) {
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<pre[\s\S]*?<\/pre>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ');
@@ -132,7 +132,7 @@ function claims(html) {
 }
 // While the source is unpublished, evidence identifiers stay in reference/claims.json, not on pages
 // (capability snapshot 2026-10-22, "How to read references"); addresses only from the documentation range.
-const IDENT = /\b(?:[FXIU]-\d{2}(?:-\d{2})?|B-0\d{2}|D-0\d{2}|WP-\d{2})\b|§|\b[0-9a-f]{7}\b/;
+const IDENT = /\b(?:[FXIU]-\d{2}(?:-\d{2})?|B-0\d{2}|D-0\d{2}|WP-\d{2})\b|(?<!Apple )\bM(?:1[0-4]|\d)\b|§|\b[0-9a-f]{7}\b/;
 const IP = /\b(?!127\.0\.0\.1\b|0\.0\.0\.0\b|192\.0\.2\.)\d{1,3}(?:\.\d{1,3}){3}\b/;
 function claimCheck(root, pages, mode) {
   for (const f of pages) {

@@ -15,22 +15,22 @@ layout: docs
 </ul>
 
 <h2 id="enable">1. Turn on trusted devices</h2>
-<p>In the app, open Privacy, choose trusted devices and acknowledge the disclosure. From the command line:</p>
+<p>In the app, switch the privacy mode to trusted devices and acknowledge the disclosure. From the command line:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common privacy trusted-devices      # shows the disclosure and asks y/N; --yes accepts it
 common privacy                      # shows the current mode</code></pre></div>
 <p>This also turns on peer networking. The public option exists in the app only as a disabled placeholder.</p>
 
 <h2 id="networking">2. Start networking</h2>
-<p>In the app, switch networking on under Peers. A daemon you run yourself needs:</p>
+<p>In the app, switch networking on. A daemon you run yourself needs:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common serve --network --serve-peers   # both settings are saved, not just for this run</code></pre></div>
 <p>Use <code>--serve-peers</code> only on a computer that should run work for others.</p>
 
 <h2 id="pair">3. Pair</h2>
 <p>Open the pairing window on one computer and join from the other. The window lasts 120 seconds, and more than five wrong codes within a minute lock it.</p>
 <ol>
-<li>On the first computer: Peers, then <strong>Pair this device</strong>. It shows a six-digit code, the address to dial and a QR payload.</li>
-<li>On the second computer: Peers, find the first one under <strong>Nearby, not paired</strong> and choose <strong>Pair</strong>, or use <strong>Join a device</strong> with the address. Enter the code and choose Join.</li>
-<li>Both now list each other under Paired devices as Connected.</li>
+<li>On the first computer, start pairing. It shows a six-digit code, the address to dial and a QR payload.</li>
+<li>On the second computer, pick the first one from the devices found on the network, or join it by address. Enter the code.</li>
+<li>Both now list each other as paired and connected.</li>
 </ol>
 <div class="callout callout-warn"><strong>Pairing a Mac and a Windows PC</strong>Open the pairing window on the Mac and join from Windows. When Windows opens the window, Windows Firewall currently drops the connection. This is a known issue.</div>
 <p>From the command line:</p>
@@ -44,10 +44,10 @@ common peers list</code></pre></div>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common groups create home --allow-remote
 common groups add home 1a2b-3c4d-5e6f
 common groups policy home --allow-remote=false   # take it back later</code></pre></div>
-<p>In the app, Groups on the Peers screen has the same switches. The pooled-inference permission is reserved for pooling, which is planned and not started, and does nothing useful yet.</p>
+<p>The app has the same switches for groups. The pooled-inference permission is reserved for pooling, which is planned and not started, and does nothing useful yet.</p>
 
 <h2 id="run">5. Run on the other device</h2>
-<p>In Chat, pick the device under <strong>Run on</strong>; the reply says where it ran. From the command line or your own code:</p>
+<p>In the app's chat, pick the paired device to run on; the reply says where it ran. From the command line or your own code:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Hello" --peer 1a2b-3c4d-5e6f
 
 curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \

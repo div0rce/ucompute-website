@@ -35,10 +35,10 @@ description: The full record of UCompute's first run between installed desktop a
 <div>
 <h2 class="h-sub" id="steps">What we did</h2>
 <ol class="steps stack">
-<li><div><h3>Paired through the two screens</h3><p>On the Mac: Peers, then Pair this device, which shows a six-digit code. On Windows: Peers, Nearby, not paired, Pair, the code, then Join. Both apps then listed the other as Connected, and both audit logs recorded <code>pairing_succeeded</code> at 03:39:18 UTC.</p></div></li>
+<li><div><h3>Paired through the two screens</h3><p>The Mac app showed a six-digit code; the Windows app found the Mac on the local network and joined with the code. Both apps then listed the other as connected, and both audit logs recorded <code>pairing_succeeded</code> at 03:39:18 UTC.</p></div></li>
 <li><div><h3>Checked that a wrong code fails</h3><p>A wrong code entered in the real Windows app was refused with a plain message. For this check the code was typed into the Windows app by automation through its WebView2 developer port, not by hand, and the Mac's pairing window was opened through its local API.</p></div></li>
 <li><div><h3>Allowed remote runs</h3><p>On Windows, a group with the Mac and “Members may run prompts” ticked, set in the app. The Mac's group was created through its local API, because the Mac window could not be clicked in that session.</p></div></li>
-<li><div><h3>Ran prompts both ways</h3><p>Windows to Mac from the Windows Chat view; Mac to Windows through the Mac's local API rather than its app window.</p></div></li>
+<li><div><h3>Ran prompts both ways</h3><p>Windows to Mac from the Windows app's chat; Mac to Windows through the Mac's local API rather than its app window.</p></div></li>
 </ol>
 </div>
 <div class="callout"><strong>The wrong-code result</strong>The Windows app refused the join with a plain message, “Pairing did not complete. Check the code and that both devices are on the same network, then try again.”, and the typed error <code>pairing_failed</code>. The Mac stayed paired from the successful attempt.{{claim:demo-2026-10-19}}</div>
@@ -53,7 +53,7 @@ description: The full record of UCompute's first run between installed desktop a
 <table>
 <thead><tr><th scope="col">Direction</th><th scope="col">How it was driven</th><th scope="col">Result</th></tr></thead>
 <tbody>
-<tr><th scope="row">Windows app → Mac</th><td>In the Windows window: Chat, load stories15M, Run on: the Mac, send</td><td>112 tokens. First token after 2,325 ms, including the Mac loading the model on demand. 508 tokens per second. The app reported that the request ran on the Mac; the Mac's audit log shows <code>remote_request</code> done, served on MTL0 (Apple M2).</td></tr>
+<tr><th scope="row">Windows app → Mac</th><td>From the Windows app's chat, with stories15M loaded and the Mac chosen as the device to run on</td><td>112 tokens. First token after 2,325 ms, including the Mac loading the model on demand. 508 tokens per second. The app reported that the request ran on the Mac; the Mac's audit log shows <code>remote_request</code> done, served on MTL0 (Apple M2).</td></tr>
 <tr><th scope="row">Mac local API → Windows</th><td>Not through the Mac window: the Mac's local API</td><td>48 tokens. Engine time to first token 128 ms. 910 tokens per second on the Arc GPU. The laptop's audit log shows <code>remote_request</code> done.</td></tr>
 </tbody>
 </table>
@@ -109,7 +109,7 @@ description: The full record of UCompute's first run between installed desktop a
 <div class="shell split">
 <div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs. {{if:acceptance}}Fixes were confirmed on the same two machines with rebuilt apps on 22 October 2026; each item says what changed.{{claim:acceptance-fixes}}{{else}}Fixes exist in newer builds but are not yet confirmed on both machines, so none is marked solved here until committed engineering evidence says so.{{/if}}{{claim:open-defects}}</p></div>
 <ul class="ticks open-items" aria-label="Open issues">
-<li><div><strong class="step-title">Mac wording on Windows</strong><p>{{if:acceptance}}Fixed: the wording is platform-neutral, and each device takes its own computer name.{{claim:acceptance-fixes}}{{else}}Windows shows “Run on: This Mac” and similar text, and defaults its own device name to “This Mac”.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Mac wording on Windows</strong><p>{{if:acceptance}}Fixed: the wording is platform-neutral, and each device takes its own computer name.{{claim:acceptance-fixes}}{{else}}The Windows app shows Mac wording such as “This Mac”, and defaults its own device name to “This Mac”.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Remote runs need a local model</strong><p>{{if:acceptance}}Fixed: Chat can send a request to a paired device without a model loaded locally.{{claim:acceptance-fixes}}{{else}}Chat stays disabled until a model is loaded on this machine, even when the request will run elsewhere.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Endless redials</strong><p>{{if:acceptance}}Fixed: an unreachable device no longer fills the audit log.{{claim:acceptance-fixes}}{{else}}An unreachable paired device is redialled about every 35 seconds, forever, with an audit line each time.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Shutdown and stale records</strong><p>{{if:acceptance}}Fixed: quitting shuts the daemon down cleanly, and the other device sees it leave.{{claim:acceptance-fixes}}{{else}}Quitting on Windows does not shut the daemon down gracefully, and discovery can keep stale entries.{{/if}}</p></div></li>

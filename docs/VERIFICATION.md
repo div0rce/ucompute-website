@@ -14,8 +14,9 @@ Staged against the DRAFT capability snapshot (div0rce/common dc2502c) for a mech
 | Section 9 wording | "Download" button and labels became "Release status"; "Open source" nav became "Project"; "Apple Silicon" claims narrowed to Apple M2; "open protocol" and "open source" removed from the vision and project pages; direction text introduced with "Our direction" plus "Credits do not exist yet. Free does not mean unlimited."; OpenAI-client claim gained "tool calling is not yet verified" |
 | Ledger | As of 22 October 2026: original 148 unchanged (36 verified); five added requirements, all not started |
 | Layout fix | A sticky section heading overlapped its intro text when the column held both; the heading now sticks only when it is alone |
+| Engineering answers (2026-10-22) | Milestone badges M0–M14 replaced by list position 1–15, and the check now also fails on M-numbers (except "Apple M2"). App step text made UI-neutral: no screen names such as Peers, Nearby, Run on or Models view, because tonight's run drives the daemon APIs and certifies no UI flow. The Remote label stays Experimental; Mac-to-Mac stays outside the gate; ledger counts wait for the final snapshot |
 
-Results on the local preview build: `npm test` passes in all three modes. axe-core 4.10.2 (wcag2a/aa, 21a/aa, 22aa, best-practice) reports 0 violations on 19 pages at 1440, 768 and 375 px (57 page views). There is no horizontal overflow at 1440, 768, 375 or 320 px.
+Results on the local preview build: `npm test` passes in all three modes. axe-core 4.10.2 (wcag2a/aa, 21a/aa, 22aa, best-practice) reports 0 violations on 19 pages at 1440, 768 and 375 px (57 page views), before and after the follow-up. There is no horizontal overflow at 1440, 768, 375 or 320 px.
 
 ## 2026-10-22: repository links removed from the public page (live)
 
