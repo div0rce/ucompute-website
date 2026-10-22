@@ -1,19 +1,18 @@
 <!--
-title: Open source
-description: UCompute's license, how to contribute, how decisions are made, how the protocol stays open, and how to report a security problem.
+title: License and project rules
+description: UCompute's license, how contributions will work, how decisions are made, the aim for independent implementations, and how to report a security problem.
 -->
 <div class="page-hero shell">
-<h1>Open by design, honest by rule.</h1>
-<p class="lede">UCompute is licensed Apache-2.0. Its working rules are written down: no fake inference, no fabricated benchmarks, nothing marked done without evidence. Those rules apply to every contributor, human or AI.</p>
-<p class="fine stack">License: Apache-2.0. Source publication on GitHub is in preparation.</p>
+<h1>Written rules, honest by default.</h1>
+<p class="lede">UCompute's code is licensed under Apache-2.0. The source has not been published yet. Its working rules are written down: no fake inference, no fabricated benchmarks, nothing marked done without evidence. Those rules apply to every contributor, human or AI.{{claim:license}}</p>
 </div>
 
 <section class="section-tight" id="source" aria-labelledby="source-title">
 <div class="shell split">
 <div><h2 class="h-sub" id="source-title">License and source</h2></div>
 <div class="prose">
-<p>The project lives at <a href="{{github}}">github.com/div0rce/common</a>. Today that repository holds the license and the founding brief; the code, the specification and the evidence records are being prepared for publication there.</p>
-<p>The code is Apache-2.0. Contributors keep ownership of their work and contribute under the same license. There is no copyright assignment and no extra contributor agreement.</p>
+<p>The source has not been published yet. When it is, this page will link to it.{{claim:license}}</p>
+<p>The code is licensed under Apache-2.0. Contributors will keep ownership of their work and contribute under the same license, with no copyright assignment and no extra contributor agreement.</p>
 <p>Model weights have their own licenses, shown in the catalog and before every download. The bundled inference engine, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, is MIT licensed. The website's fonts, DM Sans, DM Mono and Space Grotesk, are under the SIL Open Font License.</p>
 </div>
 </div>
@@ -21,8 +20,9 @@ description: UCompute's license, how to contribute, how decisions are made, how 
 
 <section class="section-tight section-white" id="contribute" aria-labelledby="contribute-title">
 <div class="shell split">
-<div><h2 class="h-sub" id="contribute-title">How to contribute</h2></div>
+<div><h2 class="h-sub" id="contribute-title">How contributions will work</h2></div>
 <div class="prose">
+<p>Contributions open once the source is published. These are the rules the project already works by.</p>
 <h3>Ground rules</h3>
 <ol>
 <li><strong>Real over fake.</strong> No mocked inference presented as real, no fabricated benchmark numbers, no feature marked done without evidence.</li>
@@ -61,10 +61,10 @@ python3 scripts/validate_registry.py         # the requirements ledger must stay
 
 <section class="section-tight section-white" id="interop" aria-labelledby="interop-title">
 <div class="shell split">
-<div><h2 class="h-sub" id="interop-title">Keeping the protocol open</h2></div>
+<div><h2 class="h-sub" id="interop-title">Room for independent implementations</h2></div>
 <div class="prose">
-<p>Independent clients and devices must remain possible without proprietary accounts or the official desktop app. Protocol and schema changes start as a decision record with compatibility and migration tests, and invite review from independent implementers.</p>
-<p>Conformance test vectors will be published under the project's open license. A future extension registry will separate “compatible” from “security-approved”, and will never run an extension just because it is listed. Plain descriptive compatibility statements are preferred over certification claims that haven't passed conformance.</p>
+<p>This is an aim, not a result: today there is one implementation, and its peer protocol is experimental.{{claim:protocol}} Independent clients and devices must remain possible without proprietary accounts or the official desktop app. Protocol and schema changes start as a decision record with compatibility and migration tests, and invite review from independent implementers.</p>
+<p>Conformance test vectors are planned, under the project's license. A future extension registry will separate “compatible” from “security-approved”, and will never run an extension just because it is listed. Plain descriptive compatibility statements are preferred over certification claims that haven't passed conformance.</p>
 </div>
 </div>
 </section>

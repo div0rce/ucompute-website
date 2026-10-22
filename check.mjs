@@ -130,9 +130,15 @@ function claims(html) {
   }
   return out;
 }
+// While the source is unpublished, evidence identifiers stay in reference/claims.json, not on pages
+// (capability snapshot 2026-10-22, "How to read references"); addresses only from the documentation range.
+const IDENT = /\b(?:[FXIU]-\d{2}(?:-\d{2})?|B-0\d{2}|D-0\d{2}|WP-\d{2})\b|§|\b[0-9a-f]{7}\b/;
+const IP = /\b(?!127\.0\.0\.1\b|0\.0\.0\.0\b|192\.0\.2\.)\d{1,3}(?:\.\d{1,3}){3}\b/;
 function claimCheck(root, pages, mode) {
   for (const f of pages) {
     const html = readFileSync(join(root, f), 'utf8');
+    const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ');
+    for (const re of [IDENT, IP]) { const m = text.match(re); if (m) fail(`${mode}/${f}`, `identifier on a rendered page: "${text.slice(Math.max(0, m.index - 40), m.index + 30).replace(/\s+/g, ' ').trim()}"`); }
     for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
     for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href)) fail(`${mode}/${f}`, `download link with no promotion record: ${href}`);
   }

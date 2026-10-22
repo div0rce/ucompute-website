@@ -6,7 +6,7 @@ description: The full record of UCompute's first run between installed desktop a
 <h1>Two computers, one request.</h1>
 <p class="lede">The full record of the first run between installed UCompute desktop apps on a Mac and a Windows laptop: the machines, what we did, what we measured, and what is still broken.</p>
 <div class="page-hero-meta"><span class="pill pill-verified">Verified</span><span class="pill pill-experimental">Experimental</span></div>
-<p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started.</p>
+<p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started.{{claim:demo-2026-10-19}}{{claim:no-release}}</p>
 </div>
 
 <section class="section-tight" aria-labelledby="machines">
@@ -21,7 +21,7 @@ description: The full record of UCompute's first run between installed desktop a
 <tr><th scope="row">Operating system</th><td>macOS 26.2</td><td>Windows 11 Home, build 26200</td></tr>
 <tr><th scope="row">GPU and backend</th><td>Apple M2 GPU through Metal</td><td>Intel Arc 140V through Vulkan</td></tr>
 <tr><th scope="row">Inference engine</th><td colspan="2">llama.cpp release b11609, pinned and hash-verified, the macOS arm64 build on the Mac and the Windows Vulkan build on the laptop</td></tr>
-<tr><th scope="row">App</th><td><code>Common.app</code> built from commit 5f0c580, verified 15–17 October</td><td><code>Common_0.1.0_x64-setup.exe</code> (NSIS, 4.24 MiB) built natively on the laptop from commit caf1497, installed per user</td></tr>
+<tr><th scope="row">App</th><td><code>Common.app</code>, a development build verified 15–17 October</td><td><code>Common_0.1.0_x64-setup.exe</code> (NSIS, 4.24 MiB), a development build made natively on the laptop, installed per user</td></tr>
 <tr><th scope="row">Daemon</th><td colspan="2"><code>common serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, started by each app as its child process</td></tr>
 </tbody>
 </table>
@@ -36,34 +36,31 @@ description: The full record of UCompute's first run between installed desktop a
 <h2 class="h-sub" id="steps">What we did</h2>
 <ol class="steps stack">
 <li><div><h3>Paired through the two screens</h3><p>On the Mac: Peers, then Pair this device, which shows a six-digit code. On Windows: Peers, Nearby, not paired, Pair, the code, then Join. Both apps then listed the other as Connected, and both audit logs recorded <code>pairing_succeeded</code> at 03:39:18 UTC.</p></div></li>
-<li><div><h3>Checked that a wrong code fails</h3><p>A wrong code entered in the real Windows app was refused with a plain message (screenshot). For this check the Windows app was driven through its WebView2 developer port, and the Mac's pairing window was opened through its daemon API.</p></div></li>
-<li><div><h3>Allowed remote runs</h3><p>On Windows, a group called home with the Mac and “Members may run prompts” ticked, set in the app. The Mac's group was created through its daemon API, because the Mac window could not be clicked in that session.</p></div></li>
-<li><div><h3>Ran prompts both ways</h3><p>Windows to Mac from the Windows Chat view; Mac to Windows through the Mac daemon's API, sending the same request its Chat view sends.</p></div></li>
+<li><div><h3>Checked that a wrong code fails</h3><p>A wrong code entered in the real Windows app was refused with a plain message. For this check the code was typed into the Windows app by automation through its WebView2 developer port, not by hand, and the Mac's pairing window was opened through its local API.</p></div></li>
+<li><div><h3>Allowed remote runs</h3><p>On Windows, a group with the Mac and “Members may run prompts” ticked, set in the app. The Mac's group was created through its local API, because the Mac window could not be clicked in that session.</p></div></li>
+<li><div><h3>Ran prompts both ways</h3><p>Windows to Mac from the Windows Chat view; Mac to Windows through the Mac's local API rather than its app window.</p></div></li>
 </ol>
 </div>
-<figure class="shot">
-<img src="/assets/img/windows-app-wrong-pairing-code-2026-10-19.webp" width="1200" height="785" loading="lazy" alt="The Windows app's Peers view after a wrong code: a message reads Pairing did not complete. Check the code and that both devices are on the same network, then try again. The Mac, Mous, is listed under Paired devices as Connected, in group home.">
-<figcaption>The Windows app after a deliberately wrong code: the join is refused with a plain message and the typed error <code>pairing_failed</code>. The Mac (Mous) remains paired from the successful attempt. Unedited screenshot.</figcaption>
-</figure>
+<div class="callout"><strong>The wrong-code result</strong>The Windows app refused the join with a plain message, “Pairing did not complete. Check the code and that both devices are on the same network, then try again.”, and the typed error <code>pairing_failed</code>. The Mac stayed paired from the successful attempt.{{claim:demo-2026-10-19}}</div>
 </div>
 </section>
 
 <section class="section-tight" aria-labelledby="results">
 <div class="shell">
 <h2 class="h-sub" id="results">What we measured</h2>
-<p class="lede stack">Model: stories15M-q4_0, a 15-million-parameter test fixture. Builds: Mac app from commit 5f0c580, Windows app from caf1497. Evidence: <code>docs/evidence/desktop-two-machine-2026-10-19.md</code> at af3e37c.</p>
+<p class="lede stack">Model: stories15M-q4_0, a 15-million-parameter test fixture, so speeds from it are not performance figures. Builds: the development builds of the Mac and Windows apps described above.{{claim:demo-2026-10-19}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Direction</th><th scope="col">How it was driven</th><th scope="col">Result</th></tr></thead>
 <tbody>
-<tr><th scope="row">Windows app → Mac</th><td>In the Windows window: Chat, load stories15M, Run on: Mous, send</td><td>112 tokens. First token after 2,325 ms, including the Mac loading the model on demand. 508 tokens per second. The app reported “Ran on Mous”; the Mac's audit log shows <code>remote_request</code> done, served on MTL0 (Apple M2).</td></tr>
-<tr><th scope="row">Mac daemon API → Windows</th><td>Not through the Mac window: the Mac daemon's API, sending the request its Chat view sends</td><td>48 tokens. Engine time to first token 128 ms. 910 tokens per second on the Arc GPU. The laptop's audit log shows <code>remote_request</code> done.</td></tr>
+<tr><th scope="row">Windows app → Mac</th><td>In the Windows window: Chat, load stories15M, Run on: the Mac, send</td><td>112 tokens. First token after 2,325 ms, including the Mac loading the model on demand. 508 tokens per second. The app reported that the request ran on the Mac; the Mac's audit log shows <code>remote_request</code> done, served on MTL0 (Apple M2).</td></tr>
+<tr><th scope="row">Mac local API → Windows</th><td>Not through the Mac window: the Mac's local API</td><td>48 tokens. Engine time to first token 128 ms. 910 tokens per second on the Arc GPU. The laptop's audit log shows <code>remote_request</code> done.</td></tr>
 </tbody>
 </table>
 </div>
 <div class="grid-2 stack">
 <div class="callout"><strong>Path checks, not performance</strong>stories15M is a 15-million-parameter test fixture, quantized to Q4_0. Throughput this high is a property of a tiny model. The numbers prove the request travelled, ran on the other GPU and streamed back; they say nothing about how a useful chat model would perform. The fixture is never redistributed.</div>
-<div class="callout callout-limit"><strong>What this is not</strong>It is not pooling: each request ran whole on one chosen machine (Mode B), and no model has been split across devices. It is not internet-wide: both machines shared one local network. It is one pair of computers, not a compatibility claim for other hardware.</div>
+<div class="callout callout-limit"><strong>What this is not</strong>It is not pooling: each request ran whole on one chosen machine, and no model has been split across devices. It is not internet-wide: both machines shared one local network. It is one pair of computers, not a compatibility claim for other hardware.{{claim:planned}}</div>
 </div>
 </div>
 </section>
@@ -88,7 +85,7 @@ description: The full record of UCompute's first run between installed desktop a
 <section class="section-tight" aria-labelledby="earlier">
 <div class="shell">
 <h2 class="h-sub" id="earlier">The daemon runs before it (18–19 October)</h2>
-<p class="lede stack">Before the desktop apps, the same two machines ran the full trusted-device flow with the <code>common</code> daemons alone, the laptop driven from the Mac over SSH. All peer traffic used UCompute's own encrypted transport over the local network.</p>
+<p class="lede stack">Before the desktop apps, the same two machines ran the full trusted-device flow with the <code>common</code> daemons alone, the laptop driven from the Mac over SSH. All peer traffic used UCompute's own encrypted transport over the local network.{{claim:daemon-runs}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Step</th><th scope="col">Campus Wi-Fi (two runs)</th><th scope="col">Phone hotspot</th></tr></thead>
@@ -104,21 +101,21 @@ description: The full record of UCompute's first run between installed desktop a
 </tbody>
 </table>
 </div>
-<p class="fine stack">These runs also found and fixed three Windows defects: free disk space read as zero, GPU names cut at the first bracket, and a killed daemon leaving its engine running. The last is now handled with a Windows job object, so the engine ends with the daemon.</p>
+<p class="fine stack">These runs also found and fixed three Windows defects: free disk space read as zero, GPU names cut at the first bracket, and a killed daemon leaving its engine running. The last is now handled with a Windows job object, so the engine ends with the daemon.{{claim:daemon-runs}}</p>
 </div>
 </section>
 
 <section class="section-tight section-white" aria-labelledby="issues">
 <div class="shell split">
-<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs and being fixed now. None is marked solved here until committed engineering evidence says so. The list is kept in the evidence file and <code>docs/BLOCKERS.md</code>.</p></div>
+<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs. {{if:acceptance}}Fixes were confirmed on the same two machines with rebuilt apps on 22 October 2026; each item says what changed.{{claim:acceptance-fixes}}{{else}}Fixes exist in newer builds but are not yet confirmed on both machines, so none is marked solved here until committed engineering evidence says so.{{/if}}{{claim:open-defects}}</p></div>
 <ul class="ticks open-items" aria-label="Open issues">
-<li><div><strong class="step-title">Mac wording on Windows</strong><p>Windows shows “Run on: This Mac” and similar text, and defaults its own device name to “This Mac”.</p></div></li>
-<li><div><strong class="step-title">Remote runs need a local model</strong><p>Chat stays disabled until a model is loaded on this machine, even when the request will run elsewhere.</p></div></li>
-<li><div><strong class="step-title">Endless redials</strong><p>An unreachable paired device is redialled about every 35 seconds, forever, with an audit line each time.</p></div></li>
-<li><div><strong class="step-title">Shutdown and stale records</strong><p>Quitting on Windows does not shut the daemon down gracefully, and discovery can keep stale entries.</p></div></li>
-<li><div><strong class="step-title">Addresses after a network change</strong><p>The wrong advertised address can be chosen, and a paired device may not reconnect after its address changes.</p></div></li>
-<li><div><strong class="step-title">Connection state is hard to see</strong><p>Discovery and connection progress need clearer display; “Last seen” does not advance while a connection stays up.</p></div></li>
-<li><div><strong class="step-title">Pairing started on Windows</strong><p>Windows Firewall drops the pairing connection when the Windows machine opens the pairing window. Open it on the Mac and join from Windows instead.</p></div></li>
+<li><div><strong class="step-title">Mac wording on Windows</strong><p>{{if:acceptance}}Fixed: the wording is platform-neutral, and each device takes its own computer name.{{claim:acceptance-fixes}}{{else}}Windows shows “Run on: This Mac” and similar text, and defaults its own device name to “This Mac”.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Remote runs need a local model</strong><p>{{if:acceptance}}Fixed: Chat can send a request to a paired device without a model loaded locally.{{claim:acceptance-fixes}}{{else}}Chat stays disabled until a model is loaded on this machine, even when the request will run elsewhere.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Endless redials</strong><p>{{if:acceptance}}Fixed: an unreachable device no longer fills the audit log.{{claim:acceptance-fixes}}{{else}}An unreachable paired device is redialled about every 35 seconds, forever, with an audit line each time.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Shutdown and stale records</strong><p>{{if:acceptance}}Fixed: quitting shuts the daemon down cleanly, and the other device sees it leave.{{claim:acceptance-fixes}}{{else}}Quitting on Windows does not shut the daemon down gracefully, and discovery can keep stale entries.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Addresses after a network change</strong><p>{{if:acceptance}}Fixed: a paired device can be reconnected at its new address.{{claim:acceptance-fixes}}{{else}}The wrong advertised address can be chosen, and a paired device may not reconnect after its address changes.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Connection state is hard to see</strong><p>{{if:acceptance}}Fixed: “Last seen” advances while a connection stays up.{{claim:acceptance-fixes}}{{else}}Discovery and connection progress need clearer display; “Last seen” does not advance while a connection stays up.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Pairing started on Windows</strong><p>{{if:acceptance}}Fixed: the app now asks once to allow paired-device traffic on private networks, and pairing started on Windows succeeds.{{claim:windows-pairing}}{{else}}Windows Firewall drops the pairing connection when the Windows machine opens the pairing window. Open it on the Mac and join from Windows instead.{{/if}}</p></div></li>
 </ul>
 </div>
 </section>
@@ -126,7 +123,7 @@ description: The full record of UCompute's first run between installed desktop a
 <section class="section-tight" aria-labelledby="sources">
 <div class="shell">
 <h2 class="h-sub" id="sources">Sources</h2>
-<p class="lede stack">Everything on this page comes from two evidence records in the project repository, committed at af3e37c: <code>docs/evidence/desktop-two-machine-2026-10-19.md</code> and <code>docs/evidence/m3-two-machine-2026-10-18.md</code>. Screenshots are unedited apart from compression.</p>
+<p class="lede stack">Everything on this page comes from two engineering evidence records, for the desktop-app run on 19 October and the daemon runs on 18 and 19 October 2026. They will be linked here once the source is published.{{claim:demo-2026-10-19}}{{claim:daemon-runs}}{{claim:license}}</p>
 <p class="stack"><a class="link-arrow" href="/architecture/#remote">How a remote request works</a></p>
 </div>
 </section>

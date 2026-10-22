@@ -36,7 +36,7 @@ common privacy                      # shows the current mode</code></pre></div>
 <p>From the command line:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers discover               # devices advertising nearby; untrusted until paired
 common peers pair                   # first computer: shows the code and waits (Ctrl-C cancels)
-common peers join 192.168.1.20:51234 123456   # second computer: pairing address and code
+common peers join 192.0.2.20:51234 123456   # second computer: pairing address and code
 common peers list</code></pre></div>
 
 <h2 id="allow">4. Allow it in a group, on both computers</h2>
@@ -44,7 +44,7 @@ common peers list</code></pre></div>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common groups create home --allow-remote
 common groups add home 1a2b-3c4d-5e6f
 common groups policy home --allow-remote=false   # take it back later</code></pre></div>
-<p>In the app, Groups on the Peers screen has the same switches. The pooled-inference permission is reserved for milestone M4 and does nothing useful yet.</p>
+<p>In the app, Groups on the Peers screen has the same switches. The pooled-inference permission is reserved for pooling, which is planned and not started, and does nothing useful yet.</p>
 
 <h2 id="run">5. Run on the other device</h2>
 <p>In Chat, pick the device under <strong>Run on</strong>; the reply says where it ran. From the command line or your own code:</p>

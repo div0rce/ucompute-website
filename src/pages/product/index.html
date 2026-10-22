@@ -19,17 +19,17 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <p class="lede">Install, pick a model, press Run. No account and no cloud: the model runs on the computer in front of you, through a desktop app, a command-line tool, or an OpenAI-compatible API on <code>127.0.0.1:8192</code>.</p>
 <h3>Works today</h3>
 <ul>
-<li>Real GGUF models through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan. <span class="ref">F-01-02, F-01-04 verified</span></li>
-<li>A catalog of eight pinned models, each with its revision, SHA-256 and license. The license is shown before every download. <span class="ref">F-01-05, F-05-01, F-05-04 verified</span></li>
-<li>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint. <span class="ref">F-01-03 verified</span></li>
-<li>Streaming, cancellation, and one error format with stable codes. <span class="ref">F-09-02, F-08-02, F-08-03 verified</span></li>
-<li>No silent substitutions: if a model, quantization or GPU isn't available, you are told why instead of being given something else. <span class="ref">F-01-04, F-10-06 verified</span></li>
+<li>Small open models in GGUF format through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan.{{claim:engine}}</li>
+<li>A catalog of eight pinned models. Before you download one, you see its size, its license and whether it fits in memory, and every download is checked against a pinned SHA-256 hash.{{claim:catalog}}</li>
+<li>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint. The estimates are calibrated for Apple Silicon Macs.{{claim:memory-fit}}</li>
+<li>Streaming, cancellation, and one error format with stable codes.{{claim:reliability}}</li>
+<li>No silent substitutions: if the GPU fails, the run falls back to the CPU and the reason is logged, and every error comes with a plain-language explanation.{{claim:gpu-fallback}}</li>
 </ul>
 <h3>Not yet</h3>
 <ul>
-<li>A signed public installer for any platform. Mac builds are ad-hoc signed and Windows builds unsigned; neither is released. <span class="ref">F-10-01 implemented, unverified; B-008</span></li>
-<li>Linux execution, a second inference engine, and a verified tool-calling round trip. <span class="ref">WP-03; F-01-06, F-01-12 implemented, unverified</span></li>
-<li>A fresh-account, interface-only first run on a clean Mac, which the desktop milestone still requires.</li>
+<li>A public release or download for any platform. Mac development builds are ad-hoc signed and not notarized, Windows builds carry no code-signing certificate, and neither is released.{{claim:no-release}}{{claim:installer}}</li>
+<li>Linux execution, a second inference engine, and a verified tool-calling round trip.{{claim:not-yet-run}}</li>
+<li>An install, from a fresh user account, that reaches a first answer through the interface alone, on macOS and on Windows.{{claim:installer}}</li>
 </ul>
 <p><a class="link-arrow" href="/docs/run/">Run models: the guide</a></p>
 </div>
@@ -44,20 +44,20 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <p class="stack"><span class="pill pill-experimental">Experimental</span></p>
 </div>
 <div class="prose">
-<p class="lede">Pair computers you control, decide which ones may run work for each other, and send a whole request to the one with the right hardware. Everything is off until you turn it on.</p>
+<p class="lede">Pair computers you control with a short code, decide which ones may run work for each other, and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. Everything is off until you turn it on.{{claim:mesh-pair-choose}}</p>
 <h3>Works today</h3>
 <ul>
-<li>Pairing with a six-digit code or a QR payload, bound to the encrypted session so a relay in the middle cannot complete it. More than five wrong attempts within a minute lock the window. <span class="ref">F-02-02 verified</span></li>
-<li>Each device holds its own Ed25519 key. Connections use QUIC with TLS 1.3 and pinned keys; a revoked key fails inside the handshake. <span class="ref">F-06-01, F-02-03, F-06-03, F-06-05 verified</span></li>
-<li>Groups decide who may run prompts, and both the sending and the serving device must agree. Peers get per-device quotas and can never take this device's last engine slot. <span class="ref">F-02-09, F-06-02 verified; F-06-04 implemented, unverified</span></li>
-<li>Discovery on the local network with signed mDNS adverts, or pairing by address when the network blocks multicast. <span class="ref">F-02-01 verified</span></li>
-<li>Recorded on two physical machines: a MacBook Air and a Windows laptop running each other's prompts, the Mac direction through its daemon API. <a href="/demo/">See the evidence</a>. <span class="ref">F-10-05 implemented, unverified; evidence af3e37c</span></li>
+<li>Pairing with a six-digit code or a QR payload, bound to the encrypted session so a relay in the middle cannot complete it. More than five wrong attempts within a minute lock the window.{{claim:mesh-pair-choose}}{{claim:pairing-lockout}}</li>
+<li>Traffic between paired devices is encrypted and both ends are authenticated: QUIC with TLS 1.3 and device keys pinned at pairing. You can revoke a paired device at any time; in two-machine tests its connection closed less than a tenth of a second later.{{claim:transport}}{{claim:revocation}}{{claim:device-identity}}</li>
+<li>Groups decide who may run prompts, and both the sending and the serving device must agree. Per-device quotas for peers exist but are not yet verified at their default settings.{{claim:groups}}{{claim:local-only}}{{claim:quotas}}</li>
+<li>Devices on the same home network or phone hotspot can find each other; otherwise you pair by address.{{if:acceptance}} A paired device can also be reached at a new address on a network that blocks discovery.{{claim:connect-at-address}}{{else}}{{/if}}{{claim:discovery}}</li>
+<li>Tested between one Apple M2 Mac and one Windows 11 laptop with Intel Arc 140V on the same Wi-Fi network or phone hotspot, with development builds. {{if:acceptance}}Pairing works whichever of the two shows the code.{{claim:windows-pairing}}{{else}}The Mac showed the code; pairing started on Windows is not yet shown to work.{{/if}} Mac-to-Mac pairing is not yet shown to work. <a href="/demo/">See the evidence</a>.{{claim:mesh-pair-choose}}{{claim:demo-2026-10-19}}</li>
 </ul>
 <h3>Not yet</h3>
 <ul>
-<li>Pooling: splitting one model across devices so they compute parts of it together. This is milestone M4 and has not started. <span class="ref">F-03-01 not started</span></li>
-<li>Connections across the internet, through NAT or relays. <span class="ref">M9, WP-11</span></li>
-<li>The promotion checks for a stable Mesh: default fairness when peers flood a device, Windows key-file protection, and many more independent pairs. <span class="ref">WP-02; Stable Mesh cohort</span></li>
+<li>Pooling: splitting one model across devices so they compute parts of it together. It is planned and has not started.{{claim:planned}}</li>
+<li>Connections across the internet, through NAT or relays. Mesh works on one local network only.{{claim:planned}}</li>
+<li>The checks for a stable Mesh: default fairness when peers flood a device, Windows key-file protection, and many more independent pairs.{{claim:quotas}}{{claim:device-identity}}{{claim:release-stages}}</li>
 </ul>
 <p><a class="link-arrow" href="/docs/mesh/">Trusted devices: the guide</a></p>
 </div>
@@ -67,15 +67,15 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <section class="section-tight" aria-labelledby="modes-title">
 <div class="shell">
 <h2 class="h-sub" id="modes-title">Where a request can run</h2>
-<p class="lede stack">The specification names four execution modes. They keep their meaning everywhere on this site.</p>
+<p class="lede stack">Four ways a request could run. They keep their meaning everywhere on this site.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Mode</th><th scope="col">What happens</th><th scope="col">Status</th></tr></thead>
 <tbody>
-<tr><th scope="row">A. Local</th><td>The request runs on this computer.</td><td><span class="pill pill-verified">Verified</span> <span class="ref">macOS; F-01-02</span></td></tr>
-<tr><th scope="row">B. Remote</th><td>The whole request runs on one paired device you chose.</td><td><span class="pill pill-experimental">Experimental</span> <span class="ref">one Mac and Windows pair</span></td></tr>
-<tr><th scope="row">C. Partitioned</th><td>One model would be split across devices, each computing part of every token. Not built yet.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M4</span></td></tr>
-<tr><th scope="row">D. Independent jobs</th><td>Separate jobs, such as batches, are spread over several devices.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M7</span></td></tr>
+<tr><th scope="row">Local</th><td>The request runs on this computer.</td><td><span class="pill pill-verified">Verified</span> on an Apple M2 Mac{{claim:run-local}}</td></tr>
+<tr><th scope="row">Remote</th><td>The whole request runs on one paired device you chose.</td><td><span class="pill pill-experimental">Experimental</span> on one Mac and Windows pair{{claim:mesh-pair-choose}}</td></tr>
+<tr><th scope="row">Split model</th><td>One model would be split across devices, each computing part of every token. Not built yet.</td><td><span class="pill pill-planned">Planned</span>{{claim:planned}}</td></tr>
+<tr><th scope="row">Spread jobs</th><td>Separate jobs, such as batches, would be spread over several devices. Not built yet.</td><td><span class="pill pill-planned">Planned</span>{{claim:planned}}</td></tr>
 </tbody>
 </table>
 </div>
@@ -86,7 +86,7 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="shell">
 <h2 class="h-sub" id="later-title">Later, and only when it's safe</h2>
 <div class="grid-2 stack">
-<div class="card" id="swarm"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>Disabled, with no date. Opt-in contribution of spare capacity to people you don't know, with limits you set before any work is admitted. It stays disabled in the code until isolation, metering, verification and abuse protections pass an independent security review. Run, private Mesh and self-hosting stay free; a future network would use one credit balance, with sharing modes each owner chooses per device and free access for people they trust. None of it exists today. <a href="/vision/#economics">The direction</a></p></div>
+<div class="card" id="swarm"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>Disabled, with no date. Opt-in contribution of spare capacity to people you don't know, with limits you set before any work is admitted. It stays disabled in the code until isolation, metering, verification and abuse protections pass an independent security review. {{claim:planned}} Our direction: Run, private Mesh and self-hosting stay free, and a future network would use one credit balance, with sharing modes each owner chooses per device and free access for people they trust. Credits do not exist yet. Free does not mean unlimited. <a href="/vision/#economics">The direction</a>{{claim:direction}}</p></div>
 <div class="card" id="cloud"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Strategic hypothesis</span></div><p>Optional managed services built on the same open contracts, such as operated deployments for teams. No date, and no paid service is authorized; it is a business hypothesis to be tested with real users, not a product. Local and private use will never require an account or a subscription.</p></div>
 </div>
 </div>
@@ -98,9 +98,9 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <p class="lede stack">Core, Protocol, Scheduler and SDK are parts of the system, not separate products.</p>
 <div class="grid-4 stack">
 <div class="card"><div class="card-top"><h3>Core</h3><span class="pill pill-experimental">Experimental</span></div><p>The runtime: hardware detection, model planning, verified artifacts, the supervised inference engine and the local API.</p></div>
-<div class="card"><div class="card-top"><h3>Protocol</h3><span class="pill pill-experimental">Experimental</span></div><p>The local HTTP API and the peer profile. The peer profile has no stability promise until an independent implementation interoperates. <span class="ref">U-01</span></p></div>
-<div class="card"><div class="card-top"><h3>Scheduler</h3><span class="pill pill-planned">Planned</span></div><p>Choosing where work should run from measured hardware, network and policy, and saying so when local is better. Today you choose the target yourself. <span class="ref">M5, WP-05</span></p></div>
-<div class="card"><div class="card-top"><h3>SDK</h3><span class="pill pill-planned">Planned</span></div><p>Versioned Python and TypeScript clients. Until then, the official OpenAI clients work against the local API. <span class="ref">F-09-05, U-04</span></p></div>
+<div class="card"><div class="card-top"><h3>Protocol</h3><span class="pill pill-experimental">Experimental</span></div><p>The local HTTP API and an experimental peer protocol. There is one implementation, and no stability promise until an independent one interoperates.{{claim:protocol}}</p></div>
+<div class="card"><div class="card-top"><h3>Scheduler</h3><span class="pill pill-planned">Planned</span></div><p>Choosing where work should run from measured hardware, network and policy, and saying so when local is better. Not built: today you choose the target yourself.{{claim:planned}}</p></div>
+<div class="card"><div class="card-top"><h3>SDK</h3><span class="pill pill-planned">Planned</span></div><p>Versioned Python and TypeScript clients, not built yet. Until then, the official OpenAI clients work against the local API.{{claim:planned}}{{claim:openai-clients}}</p></div>
 </div>
 <p class="stack"><a class="link-arrow" href="/architecture/">How the pieces fit</a></p>
 </div>
@@ -110,7 +110,7 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="shell split">
 <div><h2 class="h-sub" id="platforms-title">Platforms</h2></div>
 <div class="prose">
-<p>No platform is declared SUPPORTED. A Mac with Apple Silicon (an M2 with macOS 26.2) and a Windows 11 laptop with Intel Arc graphics have recorded evidence and are EXPERIMENTAL. Linux, other GPUs and mobile devices are planned and untested.</p>
+<p>No platform is declared supported yet. macOS on Apple M2 and Windows 11 on Intel Arc 140V are experimental; Linux, other GPUs and mobile are planned.{{claim:platforms}}</p>
 <p><a class="link-arrow" href="/download/#platforms">Platform-by-platform status</a></p>
 </div>
 </div>

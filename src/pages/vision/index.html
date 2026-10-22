@@ -12,7 +12,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 <div><h2 class="h-sub" id="layer">An open computing layer</h2></div>
 <div class="prose">
 <p>The goal is a layer that lets applications use authorized computing resources across supported devices, operating systems and networks, including applications that this project doesn't write or control.</p>
-<p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. An <strong>open protocol</strong> lets devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. A <strong>scheduler</strong> decides where work should run, and says when the answer is “right here”.</p>
+<p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. A <strong>protocol</strong> would let devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. Today there is one implementation, and its peer protocol is experimental.{{claim:protocol}} A <strong>scheduler</strong> decides where work should run, and says when the answer is “right here”.</p>
 <p>Linux is the inspiration for the openness, portability and ecosystem reach. UCompute is not trying to replace an operating system. It runs across them.</p>
 </div>
 </div>
@@ -25,12 +25,12 @@ description: Why UCompute exists: computing resources are scattered across devic
 <table>
 <thead><tr><th scope="col">Example</th><th scope="col">Where it stands</th></tr></thead>
 <tbody>
-<tr><td>A Windows laptop's app runs a prompt on a trusted Mac's GPU, and a Mac request runs on the laptop's Arc GPU. Each request runs whole on one device.</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
-<tr><td>One model too large for either machine would run split across both, each computing part of every token.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M4, not started</span></td></tr>
-<tr><td>An application picks the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Planned</span> <span class="ref">M5, not started</span></td></tr>
+<tr><td>A Windows laptop's app runs a prompt on a trusted Mac's GPU, and a request sent through the Mac's local API runs on the laptop's Arc GPU. Each request runs whole on one device.{{claim:demo-2026-10-19}}</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
+<tr><td>One model too large for either machine would run split across both, each computing part of every token.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
+<tr><td>An application picks the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
 <tr><td>An app on your phone uses your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned</span> as a consumer first</td></tr>
 <tr><td>Kinds of work beyond AI inference, each with its own isolation and threat review.</td><td><span class="pill pill-research">Strategic hypothesis</span></td></tr>
-<tr><td>People opt in to share spare capacity with others, with limits and readable receipts, inside one credit system. <a href="#economics">The direction</a></td><td><span class="pill pill-planned">Planned</span> disabled until an independent security review (Gate F)</td></tr>
+<tr><td>People opt in to share spare capacity with others, with limits and readable receipts, inside one credit system. <a href="#economics">The direction</a></td><td><span class="pill pill-planned">Planned</span> disabled until an independent security review{{claim:planned}}</td></tr>
 </tbody>
 </table>
 </div>
@@ -75,11 +75,11 @@ description: Why UCompute exists: computing resources are scattered across devic
 
 <section class="section-tight section-tint" id="economics" aria-labelledby="econ-title">
 <div class="shell split">
-<div><h2 class="h-sub" id="econ-title">One network, one credit balance</h2><p class="stack"><span class="pill pill-planned">Planned</span></p><p class="fine stack">Direction set by the owner on 19 October 2026 (specification section 26.5, decision D-019). Not started.</p></div>
+<div><h2 class="h-sub" id="econ-title">One network, one credit balance</h2><p class="stack"><span class="pill pill-planned">Planned</span></p><p class="fine stack">Our direction, set by the owner on 19 October 2026. Not started. Credits do not exist yet. Free does not mean unlimited.{{claim:direction}}</p></div>
 <div class="prose">
 <blockquote class="quote"><p>“Use your own compute for free. Share compute to earn credits. Let trusted people use your hardware for free. Spend credits to access compensated compute. Purchase credits when you need more.”</p></blockquote>
 <ul>
-<li><strong>Your own computing stays free.</strong> Run, private Mesh and self-hosting are free and open source. Computing for yourself never costs or earns credits, however many devices or accounts you have.</li>
+<li><strong>Your own computing stays free.</strong> Run, private Mesh and self-hosting are meant to stay free. Computing for yourself never costs or earns credits, however many devices or accounts you have.</li>
 <li><strong>Each device chooses how it shares, and sharing is off by default.</strong> Private: only you and people you trust. Donate: free capacity for others, within your limits and schedule. Share for credits: paid requests, on your price floor, limits and schedule. Capacity you donate is never sold.</li>
 <li><strong>Trusted people use your hardware free.</strong> You would keep a list of the people and devices allowed to use your hardware at no charge, even on a device that also serves paid requests. Free access comes first, and a request never moves to paid capacity without the requester's say-so.</li>
 <li><strong>One balance for everything else.</strong> Credits earned by sharing, or bought when you need more, would pay for compensated compute from other owners. You would see the price before anything runs, and the platform fee would be shown openly. Free is not unlimited: free capacity is only what owners choose to share.</li>

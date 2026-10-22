@@ -4,7 +4,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 -->
 <div class="page-hero shell">
 <h1>How the pieces fit.</h1>
-<p class="lede">A small daemon runs on each device. Applications talk to it over a local HTTP API; it decides what is allowed, runs supported work on a pinned engine, and talks to paired devices over its own encrypted protocol. This page describes the code as committed at af3e37c.</p>
+<p class="lede">A small daemon runs on each device. Applications talk to it over a local HTTP API; it decides what is allowed, runs supported work on a pinned engine, and talks to paired devices over its own encrypted protocol. This page describes the code as of 19 October 2026.{{claim:demo-2026-10-19}}</p>
 </div>
 
 <section class="section-tight" aria-labelledby="overview">
@@ -113,9 +113,9 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li><strong>Pairing</strong>: SPAKE2 with a six-digit code or a QR payload, bound to the TLS exporter so a relayed connection cannot complete it.</li>
 <li><strong>Discovery</strong>: signed mDNS adverts on the local network. A discovered device is only a label; trust comes from pairing.</li>
 <li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/common/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
-<li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection.</li>
+<li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection.{{claim:daemon-runs}}</li>
 </ul>
-<p>The Rust code mirrors the schema by hand, and the only implementation is this one. Protocol compatibility negotiation is a verified requirement <span class="ref">F-08-10</span>; independent interoperability is not <span class="ref">U-01 not started</span>. Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
+<p>The Rust code mirrors the schema by hand, and the only implementation is this one: the peer protocol is experimental. Two builds of it negotiate protocol versions correctly; interoperability with an independent implementation has not been shown.{{claim:protocol}} Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
 </div>
 </div>
 </section>
@@ -140,8 +140,8 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div class="shell split">
 <div><h2 class="h-sub" id="next-arch">What comes next</h2></div>
 <div class="prose">
-<p><strong>Pooling (M4)</strong> starts with a static split of a model's layers across two physical machines over the existing encrypted connection, measured for correctness, memory, and the real network traffic per token.</p>
-<p><strong>Scheduling (M5)</strong> starts deterministic: filter out anything that breaks privacy, memory, quota or spend limits, then compare local and remote choices, and decline to distribute work when the overhead outweighs the benefit.</p>
+<p><strong>Pooling</strong>, planned and not started, would begin with a static split of a model's layers across two physical machines over the existing encrypted connection, measured for correctness, memory, and the real network traffic per token.{{claim:planned}}</p>
+<p><strong>Scheduling</strong>, also planned, would start deterministic: filter out anything that breaks privacy, memory, quota or spend limits, then compare local and remote choices, and decline to distribute work when the overhead outweighs the benefit.</p>
 <p><strong>A workload contract</strong> will wrap today's inference requests in a versioned envelope that declares inputs, pinned runtime, resources, permissions and privacy. Unknown kinds of work are refused before anything starts.</p>
 <p><a class="link-arrow" href="/roadmap/">Roadmap</a></p>
 </div>

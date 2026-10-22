@@ -1,5 +1,22 @@
 # Verification record
 
+## 2026-10-22: snapshot refresh staged (branch `stage-snapshot`, not on preview.ucompute.org)
+
+Staged against the DRAFT capability snapshot (div0rce/common dc2502c) for a mechanical swap when the final snapshot lands. It is built by Cloudflare Pages as a branch preview behind Access; `preview` and production are unchanged.
+
+| Change | Detail |
+|---|---|
+| Claim map | `reference/claims.json`: each claim → snapshot row, requirement IDs, evidence file, commit. Pages carry `{{claim:ID}}` markers that the build strips; an unknown ID fails the build |
+| Acceptance gate | Wording that depends on tonight's Mac and Windows acceptance run sits in `{{if:acceptance}}…{{else}}…{{/if}}`. It covers pairing started on Windows, connecting at a new address, and the six open demo issues. Flipping `gates.acceptance` to true switches all of it; both states build and pass `check.mjs` |
+| Identifiers off pages | `check.mjs` fails if requirement, blocker, decision or work-package IDs, `§`, a 7-character commit or a non-documentation IPv4 address appears in rendered text. Removed 34 citation tags and every commit, evidence path and mode letter from the pages |
+| Private data | Both internal screenshots deleted; the host name replaced by "the Mac"; example address moved to 192.0.2.20 |
+| Repository links | All removed; "Licensed under Apache-2.0; the source has not been published yet" in the footer, home, project, community and install pages (snapshot claim 15) |
+| Section 9 wording | "Download" button and labels became "Release status"; "Open source" nav became "Project"; "Apple Silicon" claims narrowed to Apple M2; "open protocol" and "open source" removed from the vision and project pages; direction text introduced with "Our direction" plus "Credits do not exist yet. Free does not mean unlimited."; OpenAI-client claim gained "tool calling is not yet verified" |
+| Ledger | As of 22 October 2026: original 148 unchanged (36 verified); five added requirements, all not started |
+| Layout fix | A sticky section heading overlapped its intro text when the column held both; the heading now sticks only when it is alone |
+
+Results on the local preview build: `npm test` passes in all three modes. axe-core 4.10.2 (wcag2a/aa, 21a/aa, 22aa, best-practice) reports 0 violations on 19 pages at 1440, 768 and 375 px (57 page views). There is no horizontal overflow at 1440, 768, 375 or 320 px.
+
 ## 2026-10-22: repository links removed from the public page (live)
 
 Owner approved 2026-10-22, following capability snapshot 2026-10-22 section 9 (no repository link while the source is unpublished). Commit 3574e43 on `main` removes the GitHub header and footer links and the structured-data `sameAs`, and added "source not yet published" to the footer. The owner asked for a links-only change, so commit 1267b34 restores the footer to "Apache-2.0 licensed."; compared with 2dc0aed, the prelaunch source now differs only by the removed links. `check.mjs` now fails on any `github.com` link in the prelaunch build; a test with an injected link confirmed it fails. Cloudflare Pages builds: success for both commits.

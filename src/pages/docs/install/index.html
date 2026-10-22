@@ -1,15 +1,14 @@
 <!--
 title: Install
-description: How to build and install the UCompute development build: the common command and the desktop app on Apple Silicon Macs, and the Windows development build.
+description: How the project builds the UCompute development builds: the common command and the desktop app on an Apple M2 Mac, and the Windows build. The source has not been published yet.
 layout: docs
 -->
 <h1>Install</h1>
-<p class="lede">There is no public installer yet. Today you build UCompute from source. These steps are the ones the project's own engineering uses.</p>
-<div class="callout callout-warn"><strong>Source access</strong>The source repository is being prepared for publication on GitHub. Until it is published, these steps need access to the project repository.</div>
+<p class="lede">UCompute is in development. There is no public release or download yet, and the source has not been published yet. These are the steps the project's own engineering uses, recorded here for when the source is available.{{claim:no-release}}{{claim:license}}</p>
 
-<h2 id="mac">macOS with Apple Silicon</h2>
+<h2 id="mac">macOS on Apple M2</h2>
 <p>Tested on a MacBook Air with an Apple M2 and macOS 26.2. You need the Rust toolchain pinned in the repository's <code>rust-toolchain.toml</code> and free disk space for the Rust build, the engine (about 12 MB) and the models you download (491 MB for the recommended chat model).</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>git clone https://github.com/div0rce/common &amp;&amp; cd common
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cd common          # a checkout of the source, once published
 cargo build --release -p common-cli
 export PATH="$PWD/target/release:$PATH"
 

@@ -301,7 +301,7 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
 .prose hr{border:0;border-top:1px solid var(--line);margin:2.4em 0}
 .prose .lede{font-size:18px}
 .split{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,80px)}
-.split>:first-child h2{position:sticky;top:110px}
+.split>:first-child h2:only-child{position:sticky;top:110px}
 .split>*,.evidence>*,.docs>*,.hero>*,.section-head>*,.grid-2>*,.grid-3>*,.grid-4>*{min-width:0}
 .hash{overflow-wrap:anywhere;word-break:break-all}
 

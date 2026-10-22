@@ -4,9 +4,9 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 -->
 <div class="page-hero shell">
 <h1>Fifteen milestones, ordered by dependency.</h1>
-<p class="lede">The roadmap comes from the project specification. Progress is counted against its requirements ledger: 148 original requirements, each with acceptance criteria. A requirement counts as verified only when every criterion has been demonstrated, with evidence and a commit recorded. Counts below are from the ledger at commit eec6d6e (evidence cutoff: 19 October 2026). The roadmap shows status and dependencies, not dates.</p>
+<p class="lede">The roadmap comes from the project specification. Progress is counted against its requirements ledger: 148 original requirements, each with acceptance criteria. A requirement counts as verified only when every criterion has been demonstrated, with evidence and a commit recorded. Counts below are from the ledger as of 22 October 2026. The roadmap shows status and dependencies, not dates.{{claim:ledger}}</p>
 <div class="page-hero-meta"><span class="pill pill-verified">36 of 148 verified</span><span class="pill pill-dev">8 implemented, awaiting verification</span><span class="pill pill-experimental">3 in progress</span><span class="pill pill-planned">101 not started</span></div>
-<p class="fine stack">Four additional requirements extend the original 148 for the UCompute program: an independently implementable protocol (U-01), a versioned workload contract (U-02), evidence-scoped device participation (U-03) and independent developer integration (U-04). All four are not started.</p>
+<p class="fine stack">Five additional requirements extend the original 148 for the UCompute program: an independently implementable protocol, a versioned workload contract, evidence-scoped device participation, independent developer integration, and the compute-credit direction. All five are not started.{{claim:ledger}}{{claim:direction}}</p>
 </div>
 
 <section class="section-tight" id="status-labels" aria-labelledby="labels-title">
@@ -52,24 +52,24 @@ description: The UCompute roadmap: fifteen milestones ordered by dependency, mea
 <section class="section-tight" id="now" aria-labelledby="now-title">
 <div class="shell">
 <h2 class="h-sub" id="now-title">Work packages</h2>
-<p class="lede stack">The specification breaks the milestones into thirteen work packages. Two are implemented and awaiting verification; the website is in progress.</p>
+<p class="lede stack">The specification breaks the milestones into thirteen work packages. Two are implemented and awaiting verification; the website is in progress.{{claim:work-packages}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Package</th><th scope="col">Goal</th><th scope="col">Status</th></tr></thead>
 <tbody>
-<tr><th scope="row">WP-01</th><td>Qualify the native Windows desktop app: clean install to first answer through the interface, pairing with a Mac, quit, crash, restart and uninstall, keyboard and screen reader</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
-<tr><th scope="row">WP-02</th><td>Fair default sharing when peers flood a device, and protection of Windows key files from other users</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
-<tr><th scope="row">WP-03</th><td>A supported Linux path and continuous testing across platforms</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-04</th><td>Static pooling: one model's layers split across two physical machines over the encrypted connection</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-05</th><td>A scheduler that improves real workloads, compared against local and the best manual choice</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-06</th><td>Python and TypeScript SDKs, and a study of independent developers using them</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-07</th><td>A written peer protocol with test vectors and an independent implementation</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-08</th><td>Release cohorts from private beta to stable, with signed updates and rollback</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-09</th><td>Private job pools, model distribution and recovery before any public supply</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-10</th><td>A versioned workload contract and mobile consumers, without a general-purpose executor</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-11</th><td>Feasibility work for a public network: relays, abuse defenses and verification costs, as experiments, not a launch</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-12</th><td>Sustainable services and an independent ecosystem, starting with interviews and cost models</td><td><span class="pill pill-planned">Not started</span></td></tr>
-<tr><th scope="row">WP-13</th><td>This website: it presents the specification, the ledger and committed evidence, and defines no claims of its own</td><td><span class="pill pill-experimental">In progress</span></td></tr>
+<tr><th scope="row">Windows app</th><td>Qualify the native Windows desktop app: clean install to first answer through the interface, pairing with a Mac, quit, crash, restart and uninstall, keyboard and screen reader</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
+<tr><th scope="row">Fair sharing</th><td>Fair default sharing when peers flood a device, and protection of Windows key files from other users</td><td><span class="pill pill-dev">Implemented, awaiting verification</span></td></tr>
+<tr><th scope="row">Linux</th><td>A supported Linux path and continuous testing across platforms</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Static pooling</th><td>Static pooling: one model's layers split across two physical machines over the encrypted connection</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Scheduler</th><td>A scheduler that improves real workloads, compared against local and the best manual choice</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">SDKs</th><td>Python and TypeScript SDKs, and a study of independent developers using them</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Peer protocol</th><td>A written peer protocol with test vectors and an independent implementation</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Release cohorts</th><td>Release cohorts from private beta to stable, with signed updates and rollback</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Private job pools</th><td>Private job pools, model distribution and recovery before any public supply</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Workload contract</th><td>A versioned workload contract and mobile consumers, without a general-purpose executor</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Public network research</th><td>Feasibility work for a public network: relays, abuse defenses and verification costs, as experiments, not a launch</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Sustainability</th><td>Sustainable services and an independent ecosystem, starting with interviews and cost models</td><td><span class="pill pill-planned">Not started</span></td></tr>
+<tr><th scope="row">Website</th><td>This website: it presents the specification, the ledger and committed evidence, and defines no claims of its own</td><td><span class="pill pill-experimental">In progress</span></td></tr>
 </tbody>
 </table>
 </div>
