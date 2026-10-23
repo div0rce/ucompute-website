@@ -14,7 +14,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div class="diagram">
 <svg viewBox="0 0 1000 460" role="img" aria-labelledby="arch-t arch-d">
 <title id="arch-t">UCompute architecture</title>
-<desc id="arch-d">Applications call the local API of the common daemon on 127.0.0.1 port 8192. Inside the daemon, policy and admission, the model manager and identity and audit sit between the API and a pinned inference engine bound to loopback, which uses the CPU and GPU. A mesh endpoint on UDP port 8193 connects to a paired device's daemon over QUIC with TLS 1.3 and pinned keys.</desc>
+<desc id="arch-d">Applications call the local API of the UCompute daemon on 127.0.0.1 port 8192. Inside the daemon, policy and admission, the model manager and identity and audit sit between the API and a pinned inference engine bound to loopback, which uses the CPU and GPU. A mesh endpoint on UDP port 8193 connects to a paired device's daemon over QUIC with TLS 1.3 and pinned keys.</desc>
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4c5c4d"/></marker></defs>
 <text class="h" x="20" y="72">APPLICATIONS</text>
 <rect class="box" x="20" y="90" width="200" height="56" rx="8"/><text class="t" x="36" y="114">Desktop app</text><text class="s" x="36" y="133">Tauri, bundles the daemon</text>
@@ -22,7 +22,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <rect class="box" x="20" y="250" width="200" height="56" rx="8"/><text class="t" x="36" y="274">common CLI</text><text class="s" x="36" y="293">run, chat, peers, groups</text>
 <path class="arrow" d="M220 118H300"/><path class="arrow" d="M220 198C260 198 260 130 300 126"/><path class="arrow" d="M220 278C268 278 262 138 300 134"/>
 <rect class="frame" x="290" y="40" width="360" height="400" rx="14"/>
-<text class="h" x="310" y="70">THIS DEVICE: COMMON DAEMON</text>
+<text class="h" x="310" y="70">THIS DEVICE: UCOMPUTE DAEMON</text>
 <rect class="box-strong" x="310" y="90" width="320" height="56" rx="8"/><text class="t" x="326" y="114">Local API on 127.0.0.1:8192</text><text class="s" x="326" y="133">OpenAI-compatible and /api routes</text>
 <rect class="box" x="310" y="170" width="100" height="64" rx="8"/><text class="t" x="322" y="197">Policy</text><text class="s" x="322" y="217">admission</text>
 <rect class="box" x="420" y="170" width="100" height="64" rx="8"/><text class="t" x="432" y="197">Models</text><text class="s" x="432" y="217">hash, fit</text>
@@ -35,7 +35,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <text class="s" x="685" y="274" text-anchor="middle">QUIC + TLS 1.3</text><text class="s" x="685" y="306" text-anchor="middle">pinned keys</text>
 <rect class="box-dark" x="740" y="170" width="240" height="232" rx="12"/>
 <text class="t-light" x="760" y="202">Paired device</text>
-<text class="s-light" x="760" y="232">its own common daemon</text>
+<text class="s-light" x="760" y="232">its own UCompute daemon</text>
 <text class="s-light" x="760" y="258">checks its own policy,</text>
 <text class="s-light" x="760" y="278">quotas and model hash</text>
 <text class="s-light" x="760" y="308">runs the whole request</text>
@@ -51,7 +51,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <section class="section-tight section-white" aria-labelledby="code-map">
 <div class="shell">
 <h2 class="h-sub" id="code-map">The code, crate by crate</h2>
-<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app. The implementation and its commands still carry the working name Common.</p>
+<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app. UCompute was formerly called Common, and the crates and commands still use the old name.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Crate</th><th scope="col">Responsibility</th></tr></thead>
