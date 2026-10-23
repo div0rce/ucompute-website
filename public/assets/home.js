@@ -82,6 +82,11 @@ void main(){
     }
   }
 
+  // ---- Header: dark while the fabric is on screen, paper once it has scrolled away.
+  const header = document.querySelector('.header-over-hero');
+  const hero = document.querySelector('.fabric');
+  if (header && hero) new IntersectionObserver(([e]) => header.classList.toggle('header-over-hero', e.isIntersecting), { rootMargin: '-76px 0px 0px 0px' }).observe(hero);
+
   // ---- Scroll story: the step crossing the middle of the screen drives the diagram.
   const story = document.querySelector('.story');
   if (story) {

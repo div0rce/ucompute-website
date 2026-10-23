@@ -9,6 +9,49 @@ description: The full record of UCompute's first run between installed desktop a
 <p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started.{{claim:demo-2026-10-19}}{{claim:no-release}}</p>
 </div>
 
+<section class="section-tight demo-duo-sec" aria-label="The recorded run at a glance">
+<div class="shell demo-duo">
+<figure class="duo" aria-labelledby="duo-caption">
+<div class="duo-head"><span><strong>Recorded run</strong>, 19 October 2026</span><span>Both apps on one phone hotspot</span></div>
+<div class="duo-stage">
+<div class="device device-mac">
+<div class="device-screen" aria-hidden="true">
+<div class="device-os"><span>macOS 26.2</span><span>Desktop app</span></div>
+<div class="device-line">remote_request <b>done</b></div>
+<div class="device-line">served on MTL0</div>
+<div class="device-line">Apple M2 GPU</div>
+<span class="device-chip">Metal</span>
+</div>
+<div class="device-base" aria-hidden="true"></div>
+<p class="device-name">MacBook Air</p>
+<p class="device-spec">Apple M2, 8 GB</p>
+</div>
+<div class="duo-link" aria-hidden="true">
+<svg viewBox="0 0 180 120" preserveAspectRatio="none"><path class="wire" d="M 0 40 C 60 0, 120 0, 180 40"/><path class="wire" d="M 180 80 C 120 120, 60 120, 0 80"/><circle class="packet packet-out" r="4"/><circle class="packet packet-back" r="4"/></svg>
+<span class="duo-link-label">paired<br>QUIC + TLS 1.3</span>
+</div>
+<div class="device device-win">
+<div class="device-screen" aria-hidden="true">
+<div class="device-os"><span>Windows 11</span><span>Desktop app</span></div>
+<div class="device-line">Sent to: <b>the Mac</b></div>
+<div class="device-line">Ran on the Mac.</div>
+<div class="device-line">112 tokens</div>
+<span class="device-chip">Vulkan</span>
+</div>
+<div class="device-base" aria-hidden="true"></div>
+<p class="device-name">Windows laptop</p>
+<p class="device-spec">Core Ultra 7 258V, Arc 140V</p>
+</div>
+</div>
+<div class="duo-readouts">
+<div class="readout"><p class="readout-dir">Windows app → Mac</p><p class="readout-num">508<small>tok/s</small></p><p class="readout-gpu">on Apple M2, Metal</p></div>
+<div class="readout"><p class="readout-dir">Mac local API → Windows</p><p class="readout-num">910<small>tok/s</small></p><p class="readout-gpu">on Intel Arc 140V, Vulkan</p></div>
+</div>
+<figcaption class="duo-foot" id="duo-caption">The test model was a 15-million-parameter fixture (stories15M, Q4_0), so speeds from it are not performance figures. Development builds of 19 October 2026. The Mac-to-Windows request went through the Mac's local API, not its app window. Each request ran whole on one device; no model was split. <a href="/demo/">Full evidence and limits</a>{{claim:demo-2026-10-19}}</figcaption>
+</figure>
+</div>
+</section>
+
 <section class="section-tight" aria-labelledby="machines">
 <div class="shell">
 <h2 class="h-sub" id="machines">The machines</h2>

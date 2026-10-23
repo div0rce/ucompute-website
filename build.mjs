@@ -115,7 +115,7 @@ function header(path, mode) {
     : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 19 October 2026 with development builds: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
   return `<a href="#main" class="skip-link">Skip to content</a>
 ${announce}
-<header class="site-header">
+<header class="site-header${path === '/' ? ' header-over-hero' : ''}">
 <nav class="nav shell" aria-label="Main">
 <a class="brand" href="/" aria-label="UCompute home">${brand}</a>
 <div class="nav-links" id="nav-links">
