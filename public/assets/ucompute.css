@@ -814,6 +814,7 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 .path-jump a:hover{border-color:var(--leaf);color:var(--leaf)}
 .path{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);padding:clamp(52px,6vw,92px) 0;scroll-margin-top:80px}
 .path+.path{border-top:1px solid var(--line)}
+.path-intro{position:sticky;top:100px;align-self:start}
 .path-intro .pill{margin:16px 0 18px}
 .path-intro .fine{margin-top:18px;max-width:34em}
 .path-steps{list-style:none;margin:0;padding:0;counter-reset:step}
@@ -827,7 +828,7 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 .path-steps .link-arrow{margin-top:8px}
 .path-stop{margin:4px 0 0 56px;padding:14px 18px;border-left:3px solid var(--line-2);background:var(--paper-2);border-radius:0 8px 8px 0;font-size:15px;color:var(--text-2)}
 .path-stop strong{color:var(--ink)}
-@media (max-width:860px){.path{grid-template-columns:1fr}.path-stop{margin-left:0}}
+@media (max-width:860px){.path{grid-template-columns:1fr}.path-intro{position:static}.path-stop{margin-left:0}}
 @media (forced-colors:active){.path-steps li::before{border:2px solid CanvasText}}
 
 /* Home: the three ways in, right under the hero. */

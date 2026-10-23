@@ -55,6 +55,7 @@ common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave<
 <tr><td><code>--peer</code></td><td>none</td><td>Run on a paired device instead (see <a href="/docs/mesh/">Trusted devices</a>). Can't be combined with <code>--device</code>, <code>--ctx</code> or <code>--threads</code>.</td></tr>
 </tbody>
 </table></div>
+<p>Every flag of every command is in the <a href="/docs/cli/#run">command-line reference</a>.</p>
 <p>With <code>--device auto</code> the GPU is used when the engine can offload to it (Metal on a Mac). If it can't, the run falls back to the CPU and tells you why. If a model will not fit in memory, it is refused with <code>insufficient_memory</code> before loading.</p>
 
 <h2 id="bench">Benchmarks and replay</h2>

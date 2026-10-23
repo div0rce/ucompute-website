@@ -1,5 +1,32 @@
 # Verification record
 
+## 2026-10-23: platform pass (staging only)
+
+On `stage-snapshot`, behind Access. preview.ucompute.org and the live prelaunch page (D-023) are unchanged: the prelaunch build's `/` and `/404.html` are byte-identical to production's apart from asset hashes, with the same file list.
+
+| Piece | What changed | How it is checked |
+|---|---|---|
+| Interfaces from the source | `tools/interfaces.mjs` exports every CLI command and flag, route, error code with its HTTP status, and environment variable from the engineering repository at d00fa7e, read-only through `git show` | `check.mjs` fails on any command, subcommand, flag, route, base URL, error code, status or `COMMON_*` variable a page names that the export lacks, and on any route or error code left undocumented. Negative test: six planted mistakes, six failures |
+| Command-line reference | `/docs/cli/`, rendered from the export, with website wording for empty help text in `reference/cli-notes.json` | The build fails if a note matches nothing, or if a command, argument or variable has no text |
+| Start here | `/start/`: four paths (run locally, connect a trusted computer, build on the API, follow the project). Each path is a run of real steps linking to the docs, ending in "Where it stops today". Also in the home band, the header button, the docs index and the footer | Claim markers on every capability sentence. Snapshot qualifiers are quoted verbatim |
+| Structured data | BreadcrumbList on docs pages, next to the existing Organization and WebSite on home | `check.mjs` parses every JSON-LD block |
+| Engineering review | 22 October revocation timing marked as a development-build API run. Linux wording no longer states what the newer source contradicts, and adds nothing until a snapshot records it | Engineering's WP-13 review of 167d734 |
+| Downloads | No release-records file yet. `docs/DEPLOYMENT.md` gives the procedure for the first approved artifact | `check.mjs` still fails on any installer link |
+
+Browsers, run on the Linux test host (sentinel, Ubuntu 26.04) with `tools/browsers.mjs`, so that engineering's load-sensitive tests keep this Mac to themselves. Setup:
+- Node 24.22.1 and Playwright 1.64.0, user-level in `~/ucompute-website-check`;
+- five WebKit libraries extracted there from Ubuntu packages, with no sudo and no system changes.
+
+Every page was checked at 1440 and 390 px in Chromium 156, Firefox 157 and WebKit 27.2. Results:
+- no page errors, console errors, failed requests or horizontal overflow;
+- axe-core 4.10.2 WCAG 2.2 AA: 0 violations;
+- the mobile menu opens;
+- the home fabric animates in Chromium and WebKit (26 to 32 frames a second in software GL);
+- 0 frames a second when paused or with reduced motion;
+- without WebGL, the static dot field appears and the canvas stays hidden.
+
+Firefox headless on that host has no WebGL, so the fallback was seen there for real. Screenshots are with the session evidence, not in the repository.
+
 ## 2026-10-23: living redesign (staging only)
 
 The owner asked for a site that feels alive. These changes are on `stage-snapshot`, behind Access; preview.ucompute.org and the live prelaunch page (D-023) are unchanged.
@@ -15,7 +42,7 @@ The owner asked for a site that feels alive. These changes are on `stage-snapsho
 | Pause motion (WCAG 2.2.2) | A "Pause motion" button in every full-site footer and in the home hero pauses CSS animations, SVG animations and the shader. It is remembered per viewer in localStorage and hidden when reduced motion is set | Tested: pausing on home carries to the architecture page, where the SVG animations report paused; resuming restarts them |
 | Smaller touches | Dark header over the home hero; recorded-run figure on the demo page; dot-field page headers; packets on the architecture diagram; interactive target switch on the developers page | All motion is switched off under reduced motion |
 
-Browsers: the redesign was verified in Chromium (Playwright). The WebKit and Firefox runs are deferred, because the Mac was swapping (about 55 MB free), had 4.6 GB of disk free, and engineering's load-sensitive tests were due. The features used were checked by hand against Safari support: prefixed `-webkit-mask`, SVG `transform-box`, `:is()`, `aspect-ratio`, optional chaining and WebGL 1. Run `scratchpad`-style Playwright WebKit and Firefox before the swap to `preview`.
+Browsers: the redesign was verified in Chromium (Playwright). The WebKit and Firefox runs are deferred, because the Mac was swapping (about 55 MB free), had 4.6 GB of disk free, and engineering's load-sensitive tests were due. The features used were checked by hand against Safari support: prefixed `-webkit-mask`, SVG `transform-box`, `:is()`, `aspect-ratio`, optional chaining and WebGL 1. WebKit and Firefox were run later the same day on the Linux test host; see the platform pass above.
 
 Frozen prelaunch page (D-023): the prelaunch build was rendered with staging's stylesheet and with production's (1267b34), at 1440 and 390 px, for `/` and `/404.html`, with reduced motion and the pointer parked. Wherever production renders identically to itself, the two are byte-identical. The pairs that differ also differ between two captures of production alone, which is rendering noise. Print and forced-colors rules are scoped to full-site markup, and page cross-fades were dropped because they can't be scoped.
 
@@ -166,5 +193,5 @@ Screenshots are kept outside the repository with the session evidence.
 ## Known limits of this verification
 
 - Assistive technology was exercised through axe and the accessibility tree, not with a human screen-reader session.
-- Browsers tested: Chrome, Playwright Firefox 132 and Playwright WebKit 18.2, all on macOS (see 2026-10-21). Native Safari, Mobile Safari on a device or simulator, the Firefox app, Windows and Android were not tested.
+- Browsers tested: Chrome, Playwright Firefox 132 and Playwright WebKit 18.2 on macOS (2026-10-21); Playwright Chromium 156, Firefox 157 and WebKit 27.2 headless on Ubuntu 26.04 (2026-10-23). Native Safari, Mobile Safari on a device or simulator, the Firefox app, Windows and Android were not tested.
 - Lighthouse was not run; no performance scores are claimed. Page weight is small (one stylesheet, under 10 kB of script, four self-hosted fonts).
