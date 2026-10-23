@@ -111,7 +111,9 @@
         el.style.setProperty('--p', p.toFixed(3));
       }
     };
-    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+    const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
     update();
   }
 
@@ -121,7 +123,8 @@
     const root = document.documentElement;
     const apply = paused => {
       root.classList.toggle('motion-paused', paused);
-      for (const t of toggles) { t.setAttribute('aria-pressed', String(paused)); t.textContent = paused ? 'Play motion' : 'Pause motion'; t.hidden = false; }
+      // A toggle button keeps one label; aria-pressed carries the state.
+      for (const t of toggles) { t.setAttribute('aria-pressed', String(paused)); t.hidden = false; }
       for (const svg of document.querySelectorAll('svg')) paused ? svg.pauseAnimations?.() : svg.unpauseAnimations?.();
       dispatchEvent(new CustomEvent('motionchange', { detail: { paused } }));
     };

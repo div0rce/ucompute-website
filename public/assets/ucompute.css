@@ -774,6 +774,7 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 .motion-paused *,.motion-paused *::before,.motion-paused *::after{animation-play-state:paused!important}
 .motion-toggle{font:500 12.5px var(--mono);color:#d9f2d2;background:none;border:1px solid #3d5c46;border-radius:6px;padding:4px 10px;min-height:28px}
 .motion-toggle:hover{border-color:var(--lime);color:var(--lime)}
+.motion-toggle[aria-pressed=true]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 .motion-toggle-hero{margin-top:18px;color:var(--on-dark-2)}
 
 /* Release status: the four stages as a track */
