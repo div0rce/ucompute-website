@@ -83,9 +83,11 @@ void main(){
         gl.uniform1f(uDrift, still ? 0 : scrolled * .12);
         place(still ? 0 : scrolled * .12);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        raf = !still && visible && !document.hidden ? requestAnimationFrame(frame) : 0;
+        raf = !still && !paused && visible && !document.hidden ? requestAnimationFrame(frame) : 0;
       };
-      const resume = () => { if (!raf && !still && visible && !document.hidden) raf = requestAnimationFrame(frame); };
+      let paused = document.documentElement.classList.contains('motion-paused');
+      const resume = () => { if (!raf && !still && !paused && visible && !document.hidden) raf = requestAnimationFrame(frame); };
+      addEventListener('motionchange', e => { paused = e.detail.paused; resume(); });
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; resume(); }).observe(canvas);
       document.addEventListener('visibilitychange', resume);
       addEventListener('resize', () => { if (still) frame(0); });

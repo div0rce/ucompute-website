@@ -114,4 +114,24 @@
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
     update();
   }
+
+  // Pause motion (WCAG 2.2.2): one switch for every looping animation on the site, remembered per viewer.
+  const toggles = [...document.querySelectorAll('.motion-toggle')];
+  if (toggles.length && !still) {
+    const root = document.documentElement;
+    const apply = paused => {
+      root.classList.toggle('motion-paused', paused);
+      for (const t of toggles) { t.setAttribute('aria-pressed', String(paused)); t.textContent = paused ? 'Play motion' : 'Pause motion'; t.hidden = false; }
+      for (const svg of document.querySelectorAll('svg')) paused ? svg.pauseAnimations?.() : svg.unpauseAnimations?.();
+      dispatchEvent(new CustomEvent('motionchange', { detail: { paused } }));
+    };
+    let saved = false;
+    try { saved = localStorage.getItem('ucompute-motion') === 'paused'; } catch {}
+    apply(saved);
+    for (const t of toggles) t.addEventListener('click', () => {
+      const paused = !root.classList.contains('motion-paused');
+      try { localStorage.setItem('ucompute-motion', paused ? 'paused' : 'on'); } catch {}
+      apply(paused);
+    });
+  }
 })();
