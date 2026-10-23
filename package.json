@@ -13,6 +13,6 @@
     "dev": "node build.mjs preview && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
     "test": "node check.mjs",
     "test:links": "node check.mjs --external",
-    "check:interfaces": "node tools/interface-drift.mjs \"${COMMON_REPO:-../../../..}\" \"${COMMON_REF:-integration/recover-codex-m1}\""
+    "interfaces:update": "node tools/interfaces.mjs \"${COMMON_REPO:?set COMMON_REPO to the engineering repository}\" \"${COMMON_REF:-integration/recover-codex-m1}\""
   }
 }
