@@ -112,6 +112,7 @@ function check(root, mode) {
     if (bytes > 250 * 1024) fail(`${mode}/${f}`, `page weight ${(bytes / 1024).toFixed(0)} KB is over the 250 KB budget`);
   }
   claimCheck(root, pages, mode);
+  if (mode !== 'prelaunch') interfaceCheck(root, pages, mode);
   console.log(`${mode}: ${pages.length} pages, ${files.length} files checked`);
   return externalLinks;
 }
@@ -159,6 +160,61 @@ function claimCheck(root, pages, mode) {
     for (const re of [IDENT, IP]) { const m = text.match(re); if (m) fail(`${mode}/${f}`, `identifier on a rendered page: "${text.slice(Math.max(0, m.index - 40), m.index + 30).replace(/\s+/g, ' ').trim()}"`); }
     for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
     for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href)) fail(`${mode}/${f}`, `download link with no promotion record: ${href}`);
+  }
+}
+
+// Interface check: commands, flags, routes, error codes and environment variables named in code on a page
+// must exist in reference/interfaces.json, exported from the engineering source by tools/interfaces.mjs.
+const I = JSON.parse(readFileSync(new URL('./reference/interfaces.json', import.meta.url), 'utf8'));
+const CMD = new Map(I.commands.map(c => [c.path, c]));
+const FLAGS = c => new Set([...I.global, ...(c?.args || [])].flatMap(a => [a.long, a.short]).filter(Boolean));
+const ALL_FLAGS = new Set(I.commands.flatMap(c => [...FLAGS(c)]));
+// A documented path matches a route segment by segment; {param} in the route matches anything.
+const routeKnown = (path, method) => I.routes.some(r => {
+  const a = r.path.split('/'), b = path.split('/');
+  return (!method || r.method === method) && a.length === b.length && a.every((s, i) => s === b[i] || /^\{.+\}$/.test(s));
+});
+const unescape = s => s.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+function interfaceCheck(root, pages, mode) {
+  const errorRows = new Map();
+  for (const f of pages) {
+    const html = readFileSync(join(root, f), 'utf8');
+    const where = `${mode}/${f}`;
+    for (const m of html.matchAll(/<code\b[^>]*>([\s\S]*?)<\/code>/g)) {
+      const code = unescape(m[1]);
+      for (const r of code.matchAll(/\b(GET|POST|PUT|DELETE) (\/[\w/{}.-]*)/g)) {
+        if (!routeKnown(r[2], r[1])) fail(where, `unknown route ${r[1]} ${r[2]}`);
+      }
+      for (const u of code.matchAll(/https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[\w/{}.-]*)/g)) if (u[1] !== '/' && !routeKnown(u[1]) && !I.routes.some(r => r.path.startsWith(u[1] + '/'))) fail(where, `unknown route ${u[1]}`);
+      for (const line of code.split('\n')) {
+        const cm = line.replace(/\s#.*$/, '').match(/^\s*(?:\$\s*)?common\s+(.+)$/);
+        if (!cm) continue;
+        const words = cm[1].trim().split(/\s+/);
+        let path = 'common', i = 0;
+        for (; i < words.length && !words[i].startsWith('-') && CMD.has(`${path} ${words[i]}`); i++) path += ` ${words[i]}`;
+        if ((path === 'common' || CMD.get(path).group) && words[i] && !words[i].startsWith('-')) { fail(where, `unknown command: ${path} ${words[i]}`); continue; }
+        const ok = FLAGS(CMD.get(path));
+        for (const fl of cm[1].matchAll(/(?:^|\s)(--?[a-zA-Z][\w-]*)/g)) {
+          const flag = fl[1].replace(/^-([a-zA-Z])\1+$/, '-$1');
+          if (!ok.has(flag)) fail(where, `${path} has no ${fl[1]}`);
+        }
+      }
+      const lone = code.match(/^(--?[a-zA-Z][\w-]*)(?:[ =,].*)?$/);
+      if (lone && !ALL_FLAGS.has(lone[1].replace(/^-([a-zA-Z])\1+$/, '-$1'))) fail(where, `no command takes ${lone[1]}`);
+    }
+    for (const v of html.matchAll(/\bCOMMON_[A-Z_]+\b/g)) if (!I.env.includes(v[0])) fail(where, `unknown environment variable ${v[0]}`);
+    // The error table: a row of codes and the HTTP status they return.
+    for (const row of html.matchAll(/<tr><td>((?:<code>[a-z_]+<\/code>(?:, )?)+)<\/td><td>(\d{3})<\/td>/g)) {
+      for (const c of row[1].matchAll(/<code>([a-z_]+)<\/code>/g)) errorRows.set(c[1], [+row[2], where]);
+    }
+  }
+  if (errorRows.size) {
+    for (const [code, [status, where]] of errorRows) {
+      const e = I.errors.find(e => e.code === code);
+      if (!e) fail(where, `unknown error code ${code}`);
+      else if (e.status !== status) fail(where, `${code} returns ${e.status}, the page says ${status}`);
+    }
+    for (const e of I.errors) if (!errorRows.has(e.code)) fail(mode, `error code ${e.code} (${e.status}) is not documented`);
   }
 }
 
