@@ -54,7 +54,7 @@ Every capability statement carries a `{{claim:ID}}` marker that resolves in `ref
 
 ### Interfaces
 
-`reference/interfaces.json` is exported read-only from the engineering repository: every CLI command and flag, HTTP route, error code with its status, and environment variable. Refresh it with `COMMON_REPO=<path> COMMON_REF=<commit> npm run interfaces:update`. `/docs/cli/` and the request-body tables on `/docs/api/` (from the API's OpenAPI document) are rendered from it, with website wording for empty help text in `reference/cli-notes.json`. The build fails on a stale or missing note, and `check.mjs` fails on anything a page names that the export lacks, including a JSON key in an example request that the route does not accept.
+`reference/interfaces.json` is exported read-only from the engineering repository: every CLI command and flag, HTTP route, error code with its status, and environment variable. Refresh it with `COMMON_REPO=<path> COMMON_REF=<commit> npm run interfaces:update`. `/docs/cli/` and the request and response tables on `/docs/api/` (from the API's OpenAPI document) are rendered from it, with website wording for empty help text in `reference/cli-notes.json`. The build fails on a stale or missing note, and `check.mjs` fails on anything a page names that the export lacks, including a JSON key in an example request that the route does not accept.
 
 ### Browsers
 

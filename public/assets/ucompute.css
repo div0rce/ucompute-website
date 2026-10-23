@@ -828,3 +828,6 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 
 code.hash{word-break:break-all;font-size:13px}
 .paths-note{grid-column:1/-1;margin:0;padding:12px 0 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text-2)}
+.api-response{border-top:1px solid var(--line);padding:10px 0}
+.api-response summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.api-response .table-wrap{margin-top:12px}

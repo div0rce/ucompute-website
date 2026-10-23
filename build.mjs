@@ -242,6 +242,25 @@ ${r.body.fields.map(f => `<tr><td><code>${esc(f.name)}</code>${f.required ? '<br
 </table></div>`; }).join('\n');
 }
 
+// {{api-responses}}: success status, content types, error statuses and response fields for every route.
+export function apiResponses() {
+  const I = JSON.parse(readFileSync(join(ROOT, 'reference/interfaces.json'), 'utf8'));
+  const code = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  const kind = t => ({ 'application/json': 'JSON', 'text/event-stream': 'server-sent events', 'text/plain': 'plain text' })[t] || t;
+  return I.routes.filter(r => r.response).map(r => {
+    const x = r.response, helps = x.fields.some(f => f.help);
+    const what = `${x.status}${x.types.length ? `, ${x.types.map(kind).join(' or ')}` : ', no content'}${x.errors.length ? `; errors ${x.errors.join(', ')}` : ''}`;
+    return `<details class="api-response"><summary><code>${r.method} ${esc(r.path)}</code> <span class="fine">${what}</span></summary>
+${x.fields.length ? `<div class="table-wrap"><table>
+<thead><tr><th scope="col">Field</th><th scope="col">Type</th>${helps ? '<th scope="col">Meaning</th>' : ''}</tr></thead>
+<tbody>
+${x.fields.map(f => `<tr><td><code>${esc(f.name)}</code></td><td>${esc(f.type)}</td>${helps ? `<td>${f.help ? code(f.help) : ''}</td>` : ''}</tr>`).join('\n')}
+</tbody>
+</table></div>` : `<p>${x.types.includes('text/event-stream') ? 'A stream of server-sent events.' : x.types.length ? 'The document is not described field by field.' : 'No body.'}</p>`}
+</details>`;
+  }).join('\n');
+}
+
 // {{releases}}: approved downloads from reference/releases.json. A record missing any field fails the build,
 // so nothing reaches the page without its checksum, signature status and both approvals.
 export const RELEASES = JSON.parse(readFileSync(join(ROOT, 'reference/releases.json'), 'utf8')).releases;
@@ -279,6 +298,7 @@ const fill = (s, file) => {
   s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
   if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml());
   if (s.includes('{{api-bodies}}')) s = s.replace('{{api-bodies}}', apiBodies());
+  if (s.includes('{{api-responses}}')) s = s.replace('{{api-responses}}', apiResponses());
   return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;
 };
 

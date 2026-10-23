@@ -134,7 +134,15 @@ const bodyOf = (method, path) => {
   const schema = rb?.content?.['application/json']?.schema;
   return schema ? { required: rb.required === true, fields: flatten(schema) } : undefined;
 };
-const routes = [...table.matchAll(/\("(GET|POST|PUT|DELETE)", "([^"]+)"\)/g)].map(m => ({ method: m[1], path: m[2], body: bodyOf(m[1], m[2]) }));
+const responseOf = (method, path) => {
+  const rs = oa.paths[path]?.[method.toLowerCase()]?.responses;
+  if (!rs) return undefined;
+  const ok = Object.keys(rs).find(s => s.startsWith('2'));
+  const content = rs[ok]?.content || {};
+  const schema = content['application/json']?.schema;
+  return { status: +ok, types: Object.keys(content), errors: Object.keys(rs).filter(s => !s.startsWith('2')).map(Number), fields: schema ? flatten(schema) : [] };
+};
+const routes = [...table.matchAll(/\("(GET|POST|PUT|DELETE)", "([^"]+)"\)/g)].map(m => ({ method: m[1], path: m[2], body: bodyOf(m[1], m[2]), response: responseOf(m[1], m[2]) }));
 const errSrc = show('crates/common-core/src/error.rs');
 const statusOf = {};
 for (const m of errSrc.matchAll(/((?:ErrorCode::\w+\s*\|?\s*)+)=>\s*(\d{3})/g)) for (const c of m[1].matchAll(/ErrorCode::(\w+)/g)) statusOf[c[1]] = +m[2];

@@ -787,27 +787,189 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/health"
+      "path": "/health",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "status",
+            "type": "\"ok\"",
+            "required": true
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true
+          }
+        ]
+      }
     },
     {
       "method": "GET",
-      "path": "/ready"
+      "path": "/ready",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          503
+        ],
+        "fields": [
+          {
+            "name": "status",
+            "type": "\"ready\""
+          },
+          {
+            "name": "model",
+            "type": "string,null"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
-      "path": "/metrics"
+      "path": "/metrics",
+      "response": {
+        "status": 200,
+        "types": [
+          "text/plain"
+        ],
+        "errors": [],
+        "fields": []
+      }
     },
     {
       "method": "GET",
-      "path": "/openapi.json"
+      "path": "/openapi.json",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": []
+      }
     },
     {
       "method": "GET",
-      "path": "/v1/models"
+      "path": "/v1/models",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "object",
+            "type": "\"list\""
+          },
+          {
+            "name": "data",
+            "type": "array of object"
+          },
+          {
+            "name": "data[].id",
+            "type": "string"
+          },
+          {
+            "name": "data[].object",
+            "type": "\"model\""
+          },
+          {
+            "name": "data[].created",
+            "type": "integer"
+          },
+          {
+            "name": "data[].owned_by",
+            "type": "string"
+          },
+          {
+            "name": "data[].common",
+            "type": "object"
+          },
+          {
+            "name": "data[].common.downloaded",
+            "type": "boolean"
+          },
+          {
+            "name": "data[].common.license",
+            "type": "string"
+          },
+          {
+            "name": "data[].common.bytes",
+            "type": "integer"
+          },
+          {
+            "name": "data[].common.redistribution",
+            "type": "string"
+          },
+          {
+            "name": "data[].common.loaded",
+            "type": "boolean"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
-      "path": "/v1/models/{id}"
+      "path": "/v1/models/{id}",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          404
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "object",
+            "type": "\"model\""
+          },
+          {
+            "name": "created",
+            "type": "integer"
+          },
+          {
+            "name": "owned_by",
+            "type": "string"
+          },
+          {
+            "name": "common",
+            "type": "object"
+          },
+          {
+            "name": "common.downloaded",
+            "type": "boolean"
+          },
+          {
+            "name": "common.license",
+            "type": "string"
+          },
+          {
+            "name": "common.bytes",
+            "type": "integer"
+          },
+          {
+            "name": "common.redistribution",
+            "type": "string"
+          },
+          {
+            "name": "common.loaded",
+            "type": "boolean"
+          }
+        ]
+      }
     },
     {
       "method": "POST",
@@ -914,6 +1076,117 @@
             "type": "any"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json",
+          "text/event-stream"
+        ],
+        "errors": [
+          400,
+          403,
+          404,
+          429,
+          502,
+          503
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "object",
+            "type": "\"chat.completion\""
+          },
+          {
+            "name": "created",
+            "type": "integer"
+          },
+          {
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "name": "choices",
+            "type": "array of object"
+          },
+          {
+            "name": "choices[].index",
+            "type": "integer"
+          },
+          {
+            "name": "choices[].message",
+            "type": "object"
+          },
+          {
+            "name": "choices[].message.role",
+            "type": "\"assistant\""
+          },
+          {
+            "name": "choices[].message.content",
+            "type": "string,null"
+          },
+          {
+            "name": "choices[].message.tool_calls",
+            "type": "array of object"
+          },
+          {
+            "name": "choices[].logprobs",
+            "type": "null"
+          },
+          {
+            "name": "choices[].finish_reason",
+            "type": "string"
+          },
+          {
+            "name": "usage",
+            "type": "object"
+          },
+          {
+            "name": "usage.prompt_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "usage.completion_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "usage.total_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "timings",
+            "type": "object",
+            "help": "Common extension: engine timings."
+          },
+          {
+            "name": "timings.time_to_first_token_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.prompt_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.prompt_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.decode_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.decode_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "target",
+            "type": "string",
+            "help": "Where it ran: `local` or `peer:<peer id>`."
+          }
+        ]
       }
     },
     {
@@ -1004,6 +1277,105 @@
             "required": true
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json",
+          "text/event-stream"
+        ],
+        "errors": [
+          400,
+          403,
+          404,
+          429,
+          502,
+          503
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "object",
+            "type": "\"text_completion\""
+          },
+          {
+            "name": "created",
+            "type": "integer"
+          },
+          {
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "name": "choices",
+            "type": "array of object"
+          },
+          {
+            "name": "choices[].index",
+            "type": "integer"
+          },
+          {
+            "name": "choices[].text",
+            "type": "string"
+          },
+          {
+            "name": "choices[].logprobs",
+            "type": "null"
+          },
+          {
+            "name": "choices[].finish_reason",
+            "type": "string"
+          },
+          {
+            "name": "usage",
+            "type": "object"
+          },
+          {
+            "name": "usage.prompt_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "usage.completion_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "usage.total_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "timings",
+            "type": "object",
+            "help": "Common extension: engine timings."
+          },
+          {
+            "name": "timings.time_to_first_token_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.prompt_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.prompt_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.decode_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "timings.decode_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "target",
+            "type": "string",
+            "help": "Where it ran: `local` or `peer:<peer id>`."
+          }
+        ]
       }
     },
     {
@@ -1027,23 +1399,278 @@
             "type": "\"float\" | \"base64\""
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          404,
+          429
+        ],
+        "fields": [
+          {
+            "name": "object",
+            "type": "\"list\""
+          },
+          {
+            "name": "data",
+            "type": "array of object"
+          },
+          {
+            "name": "data[].object",
+            "type": "\"embedding\""
+          },
+          {
+            "name": "data[].index",
+            "type": "integer"
+          },
+          {
+            "name": "data[].embedding",
+            "type": "array of number or string"
+          },
+          {
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "name": "usage",
+            "type": "object"
+          },
+          {
+            "name": "usage.prompt_tokens",
+            "type": "integer"
+          },
+          {
+            "name": "usage.total_tokens",
+            "type": "integer"
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/hardware"
+      "path": "/api/hardware",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          500
+        ],
+        "fields": []
+      }
     },
     {
       "method": "GET",
-      "path": "/api/status"
+      "path": "/api/status",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "uptime_seconds",
+            "type": "integer"
+          },
+          {
+            "name": "engine",
+            "type": "object"
+          },
+          {
+            "name": "engine.state",
+            "type": "\"idle\" | \"loading\" | \"ready\"",
+            "required": true
+          },
+          {
+            "name": "engine.loading_model_id",
+            "type": "string,null",
+            "required": true
+          },
+          {
+            "name": "engine.loading_for_ms",
+            "type": "integer,null",
+            "required": true
+          },
+          {
+            "name": "loaded",
+            "type": "object or null"
+          },
+          {
+            "name": "queue",
+            "type": "object"
+          },
+          {
+            "name": "queue.inflight",
+            "type": "integer"
+          },
+          {
+            "name": "queue.queued",
+            "type": "integer"
+          },
+          {
+            "name": "queue.max_concurrent",
+            "type": "integer"
+          },
+          {
+            "name": "queue.max_queue",
+            "type": "integer"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
-      "path": "/api/models"
+      "path": "/api/models",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "models",
+            "type": "array of object"
+          },
+          {
+            "name": "models[].id",
+            "type": "string"
+          },
+          {
+            "name": "models[].name",
+            "type": "string"
+          },
+          {
+            "name": "models[].bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].license",
+            "type": "string"
+          },
+          {
+            "name": "models[].license_url",
+            "type": "string,null"
+          },
+          {
+            "name": "models[].source",
+            "type": "string"
+          },
+          {
+            "name": "models[].family",
+            "type": "string,null"
+          },
+          {
+            "name": "models[].parameters",
+            "type": "string,null"
+          },
+          {
+            "name": "models[].quantization",
+            "type": "string,null"
+          },
+          {
+            "name": "models[].chat",
+            "type": "boolean"
+          },
+          {
+            "name": "models[].redistribution",
+            "type": "string"
+          },
+          {
+            "name": "models[].tags",
+            "type": "array of string"
+          },
+          {
+            "name": "models[].downloaded",
+            "type": "boolean"
+          },
+          {
+            "name": "models[].loaded",
+            "type": "boolean"
+          },
+          {
+            "name": "models[].fit",
+            "type": "object"
+          },
+          {
+            "name": "models[].fit.verdict",
+            "type": "\"fits\" | \"too_large\""
+          },
+          {
+            "name": "models[].fit.headroom_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].fit.needed_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].fit.available_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].fit.reason",
+            "type": "string"
+          },
+          {
+            "name": "models[].estimate",
+            "type": "object"
+          },
+          {
+            "name": "models[].estimate.weights_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate.kv_cache_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate.compute_buffer_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate.overhead_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate.total_bytes",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate.n_ctx",
+            "type": "integer"
+          },
+          {
+            "name": "models[].estimate_basis",
+            "type": "\"gguf\" | \"file_size\""
+          }
+        ]
+      }
     },
     {
       "method": "POST",
-      "path": "/api/models/{id}/pull"
+      "path": "/api/models/{id}/pull",
+      "response": {
+        "status": 200,
+        "types": [
+          "text/event-stream"
+        ],
+        "errors": [
+          404,
+          429
+        ],
+        "fields": []
+      }
     },
     {
       "method": "POST",
@@ -1060,15 +1687,103 @@
             "type": "integer (≥ 1)"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          404,
+          422,
+          503
+        ],
+        "fields": [
+          {
+            "name": "model_id",
+            "type": "string"
+          },
+          {
+            "name": "model_sha256",
+            "type": "string"
+          },
+          {
+            "name": "backend_name",
+            "type": "string"
+          },
+          {
+            "name": "backend_version",
+            "type": "string"
+          },
+          {
+            "name": "device_requested",
+            "type": "string"
+          },
+          {
+            "name": "device_actual",
+            "type": "string"
+          },
+          {
+            "name": "offloaded_layers",
+            "type": "integer"
+          },
+          {
+            "name": "total_layers",
+            "type": "integer"
+          },
+          {
+            "name": "n_ctx",
+            "type": "integer"
+          },
+          {
+            "name": "threads",
+            "type": "integer"
+          },
+          {
+            "name": "parallel_slots",
+            "type": "integer"
+          },
+          {
+            "name": "fallback_reason",
+            "type": "string,null"
+          },
+          {
+            "name": "context_note",
+            "type": "string,null",
+            "help": "Set when the planner changed what was asked for: context capped to the trained context, reduced to fit memory, or the KV cache downgraded."
+          },
+          {
+            "name": "load_ms",
+            "type": "number"
+          },
+          {
+            "name": "pid",
+            "type": "integer,null"
+          }
+        ]
       }
     },
     {
       "method": "POST",
-      "path": "/api/unload"
+      "path": "/api/unload",
+      "response": {
+        "status": 204,
+        "types": [],
+        "errors": [],
+        "fields": []
+      }
     },
     {
       "method": "DELETE",
-      "path": "/api/models/{id}"
+      "path": "/api/models/{id}",
+      "response": {
+        "status": 204,
+        "types": [],
+        "errors": [
+          404
+        ],
+        "fields": []
+      }
     },
     {
       "method": "POST",
@@ -1090,11 +1805,96 @@
             "type": "string"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          422
+        ],
+        "fields": []
       }
     },
     {
       "method": "GET",
-      "path": "/api/network"
+      "path": "/api/network",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "serve_peers",
+            "type": "boolean"
+          },
+          {
+            "name": "listen_addr",
+            "type": "string,null",
+            "help": "`ip:port` of the QUIC endpoint while enabled."
+          },
+          {
+            "name": "mdns",
+            "type": "boolean"
+          },
+          {
+            "name": "peer_id",
+            "type": "string",
+            "help": "This device's 64-hex id (its Ed25519 public key)."
+          },
+          {
+            "name": "short_label",
+            "type": "string"
+          },
+          {
+            "name": "connections",
+            "type": "integer"
+          },
+          {
+            "name": "device_name",
+            "type": "string",
+            "help": "This host's name (the Computer Name on macOS, the hostname on other unix, COMPUTERNAME on Windows): the default name a paired device sees."
+          },
+          {
+            "name": "dial_addr",
+            "type": "string,null",
+            "help": "`ip:port` other devices should dial (the default-route address when the endpoint is bound on every interface); null while networking is off or when no route gives one."
+          },
+          {
+            "name": "peer_quota",
+            "type": "object",
+            "help": "`config.json` `peer_quota` in force (read at daemon start): per paired device, requests per minute and generated tokens per minute (0 = unlimited; a request's whole max_tokens is charged when it starts) and generations at once (also the cap across all devices, see `peer_slots`)."
+          },
+          {
+            "name": "peer_quota.requests_per_minute",
+            "type": "integer",
+            "default": "120"
+          },
+          {
+            "name": "peer_quota.tokens_per_minute",
+            "type": "integer",
+            "default": "200000"
+          },
+          {
+            "name": "peer_quota.max_concurrent",
+            "type": "integer",
+            "default": "4"
+          },
+          {
+            "name": "peer_slots",
+            "type": "integer",
+            "help": "Peer generations this device runs at once across all devices: `peer_quota.max_concurrent`, at most the engine slots (`--max-concurrent`) minus one."
+          }
+        ]
+      }
     },
     {
       "method": "PUT",
@@ -1111,19 +1911,271 @@
             "type": "boolean"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          500
+        ],
+        "fields": [
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "serve_peers",
+            "type": "boolean"
+          },
+          {
+            "name": "listen_addr",
+            "type": "string,null",
+            "help": "`ip:port` of the QUIC endpoint while enabled."
+          },
+          {
+            "name": "mdns",
+            "type": "boolean"
+          },
+          {
+            "name": "peer_id",
+            "type": "string",
+            "help": "This device's 64-hex id (its Ed25519 public key)."
+          },
+          {
+            "name": "short_label",
+            "type": "string"
+          },
+          {
+            "name": "connections",
+            "type": "integer"
+          },
+          {
+            "name": "device_name",
+            "type": "string",
+            "help": "This host's name (the Computer Name on macOS, the hostname on other unix, COMPUTERNAME on Windows): the default name a paired device sees."
+          },
+          {
+            "name": "dial_addr",
+            "type": "string,null",
+            "help": "`ip:port` other devices should dial (the default-route address when the endpoint is bound on every interface); null while networking is off or when no route gives one."
+          },
+          {
+            "name": "peer_quota",
+            "type": "object",
+            "help": "`config.json` `peer_quota` in force (read at daemon start): per paired device, requests per minute and generated tokens per minute (0 = unlimited; a request's whole max_tokens is charged when it starts) and generations at once (also the cap across all devices, see `peer_slots`)."
+          },
+          {
+            "name": "peer_quota.requests_per_minute",
+            "type": "integer",
+            "default": "120"
+          },
+          {
+            "name": "peer_quota.tokens_per_minute",
+            "type": "integer",
+            "default": "200000"
+          },
+          {
+            "name": "peer_quota.max_concurrent",
+            "type": "integer",
+            "default": "4"
+          },
+          {
+            "name": "peer_slots",
+            "type": "integer",
+            "help": "Peer generations this device runs at once across all devices: `peer_quota.max_concurrent`, at most the engine slots (`--max-concurrent`) minus one."
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/peers"
+      "path": "/api/peers",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "peers",
+            "type": "array of object"
+          },
+          {
+            "name": "peers[].id",
+            "type": "string"
+          },
+          {
+            "name": "peers[].short_label",
+            "type": "string"
+          },
+          {
+            "name": "peers[].name",
+            "type": "string"
+          },
+          {
+            "name": "peers[].paired_at_utc",
+            "type": "string"
+          },
+          {
+            "name": "peers[].last_seen_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "peers[].last_addr",
+            "type": "string,null"
+          },
+          {
+            "name": "peers[].connected",
+            "type": "boolean"
+          },
+          {
+            "name": "peers[].health",
+            "type": "\"connected\" | \"unhealthy\" | \"reconnecting\" | \"disconnected\"",
+            "help": "Liveness from keep-alives, updated within one keep-alive interval: `unhealthy` = still open but 3 intervals without a datagram; `reconnecting` = lost, a reconnect is expected; `disconnected` = closed on purpose, networking off, or never connected since networking started."
+          },
+          {
+            "name": "peers[].last_error",
+            "type": "null or object",
+            "help": "The latest failed dial to this device since its last connection (either direction); null when there is none or networking is off."
+          },
+          {
+            "name": "peers[].groups",
+            "type": "array of string"
+          },
+          {
+            "name": "peers[].held",
+            "type": "boolean",
+            "help": "Disconnected by this device's user (`POST /api/peers/{id}/disconnect`) until Connect, turning networking off and on, or a service restart (a Sharing change keeps it); false while networking is off."
+          },
+          {
+            "name": "peers[].capabilities",
+            "type": "object or null",
+            "help": "null while not connected."
+          },
+          {
+            "name": "peers[].connection",
+            "type": "object or null",
+            "help": "The connection in use; null while not connected."
+          },
+          {
+            "name": "discovered",
+            "type": "array of object"
+          },
+          {
+            "name": "discovered[].id",
+            "type": "string"
+          },
+          {
+            "name": "discovered[].addr",
+            "type": "string",
+            "help": "The best address, `addrs[0]`."
+          },
+          {
+            "name": "discovered[].addrs",
+            "type": "array of string (at least 1, at most 2)",
+            "help": "ip:port addresses from the signed record, best first (routable before loopback and link-local, IPv4 first)."
+          },
+          {
+            "name": "discovered[].pairing",
+            "type": "boolean"
+          },
+          {
+            "name": "discovered[].pair_port",
+            "type": "integer,null"
+          },
+          {
+            "name": "discovered[].proto",
+            "type": "string"
+          },
+          {
+            "name": "discovered[].trusted",
+            "type": "boolean"
+          },
+          {
+            "name": "discovered[].seen_utc",
+            "type": "string"
+          },
+          {
+            "name": "revocations",
+            "type": "array of object"
+          },
+          {
+            "name": "revocations[].seq",
+            "type": "integer"
+          },
+          {
+            "name": "revocations[].peer_id",
+            "type": "string"
+          },
+          {
+            "name": "revocations[].revoked_by",
+            "type": "string"
+          },
+          {
+            "name": "revocations[].at_utc",
+            "type": "string"
+          },
+          {
+            "name": "revocations[].signature",
+            "type": "string",
+            "help": "Ed25519 by `revoked_by`, hex."
+          }
+        ]
+      }
     },
     {
       "method": "DELETE",
-      "path": "/api/peers/{id}"
+      "path": "/api/peers/{id}",
+      "response": {
+        "status": 204,
+        "types": [],
+        "errors": [
+          400,
+          403
+        ],
+        "fields": []
+      }
     },
     {
       "method": "POST",
-      "path": "/api/peers/{id}/revoke"
+      "path": "/api/peers/{id}/revoke",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          403
+        ],
+        "fields": [
+          {
+            "name": "seq",
+            "type": "integer"
+          },
+          {
+            "name": "peer_id",
+            "type": "string"
+          },
+          {
+            "name": "revoked_by",
+            "type": "string"
+          },
+          {
+            "name": "at_utc",
+            "type": "string"
+          },
+          {
+            "name": "signature",
+            "type": "string",
+            "help": "Ed25519 by `revoked_by`, hex."
+          }
+        ]
+      }
     },
     {
       "method": "POST",
@@ -1137,11 +2189,70 @@
             "help": "This device's name as the other side will see it (<= 64 bytes); empty or absent: this host's name (`device_name` in GET /api/network)."
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          403,
+          409
+        ],
+        "fields": [
+          {
+            "name": "code",
+            "type": "string"
+          },
+          {
+            "name": "port",
+            "type": "integer"
+          },
+          {
+            "name": "pair_addr",
+            "type": "string",
+            "help": "ip:port of the pairing endpoint as another device dials it"
+          },
+          {
+            "name": "qr_payload",
+            "type": "string"
+          },
+          {
+            "name": "expires_at",
+            "type": "integer",
+            "help": "Unix seconds"
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/pair/status"
+      "path": "/api/pair/status",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "active",
+            "type": "boolean"
+          },
+          {
+            "name": "port",
+            "type": "integer"
+          },
+          {
+            "name": "expires_at",
+            "type": "integer"
+          },
+          {
+            "name": "result",
+            "type": "null or object or object"
+          }
+        ]
+      }
     },
     {
       "method": "POST",
@@ -1164,11 +2275,119 @@
             "help": "This device's name as the other side will see it; empty or absent: this host's name."
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          401,
+          403,
+          429
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "short_label",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "paired_at_utc",
+            "type": "string"
+          },
+          {
+            "name": "last_seen_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "last_addr",
+            "type": "string,null"
+          },
+          {
+            "name": "connected",
+            "type": "boolean"
+          },
+          {
+            "name": "health",
+            "type": "\"connected\" | \"unhealthy\" | \"reconnecting\" | \"disconnected\"",
+            "help": "Liveness from keep-alives, updated within one keep-alive interval: `unhealthy` = still open but 3 intervals without a datagram; `reconnecting` = lost, a reconnect is expected; `disconnected` = closed on purpose, networking off, or never connected since networking started."
+          },
+          {
+            "name": "last_error",
+            "type": "null or object",
+            "help": "The latest failed dial to this device since its last connection (either direction); null when there is none or networking is off."
+          },
+          {
+            "name": "groups",
+            "type": "array of string"
+          },
+          {
+            "name": "held",
+            "type": "boolean",
+            "help": "Disconnected by this device's user (`POST /api/peers/{id}/disconnect`) until Connect, turning networking off and on, or a service restart (a Sharing change keeps it); false while networking is off."
+          },
+          {
+            "name": "capabilities",
+            "type": "object or null",
+            "help": "null while not connected."
+          },
+          {
+            "name": "connection",
+            "type": "object or null",
+            "help": "The connection in use; null while not connected."
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/groups"
+      "path": "/api/groups",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "groups",
+            "type": "array of object"
+          },
+          {
+            "name": "groups[].name",
+            "type": "string (up to 64 characters)",
+            "required": true
+          },
+          {
+            "name": "groups[].members",
+            "type": "array of string (at most 256)",
+            "required": true
+          },
+          {
+            "name": "groups[].policy",
+            "type": "object"
+          },
+          {
+            "name": "groups[].policy.allow_remote_inference",
+            "type": "boolean",
+            "default": "false"
+          },
+          {
+            "name": "groups[].policy.allow_pooled_inference",
+            "type": "boolean",
+            "default": "false"
+          }
+        ]
+      }
     },
     {
       "method": "PUT",
@@ -1201,11 +2420,67 @@
             "default": "false"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400
+        ],
+        "fields": [
+          {
+            "name": "groups",
+            "type": "array of object"
+          },
+          {
+            "name": "groups[].name",
+            "type": "string (up to 64 characters)",
+            "required": true
+          },
+          {
+            "name": "groups[].members",
+            "type": "array of string (at most 256)",
+            "required": true
+          },
+          {
+            "name": "groups[].policy",
+            "type": "object"
+          },
+          {
+            "name": "groups[].policy.allow_remote_inference",
+            "type": "boolean",
+            "default": "false"
+          },
+          {
+            "name": "groups[].policy.allow_pooled_inference",
+            "type": "boolean",
+            "default": "false"
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/privacy"
+      "path": "/api/privacy",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "mode",
+            "type": "\"local_only\" | \"trusted_group\" | \"swarm_allowed\""
+          },
+          {
+            "name": "disclosure",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "method": "PUT",
@@ -1224,11 +2499,62 @@
             "default": "false"
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          403
+        ],
+        "fields": [
+          {
+            "name": "mode",
+            "type": "\"local_only\" | \"trusted_group\" | \"swarm_allowed\""
+          },
+          {
+            "name": "disclosure",
+            "type": "string"
+          }
+        ]
       }
     },
     {
       "method": "GET",
-      "path": "/api/audit"
+      "path": "/api/audit",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          500
+        ],
+        "fields": [
+          {
+            "name": "events",
+            "type": "array of object"
+          },
+          {
+            "name": "events[].ts_utc",
+            "type": "string"
+          },
+          {
+            "name": "events[].kind",
+            "type": "string"
+          },
+          {
+            "name": "events[].peer_id",
+            "type": "string"
+          },
+          {
+            "name": "events[].fields",
+            "type": "object"
+          }
+        ]
+      }
     },
     {
       "method": "POST",
@@ -1242,19 +2568,420 @@
             "help": "ip:port where the device can be reached now (not port 0, an unspecified or a multicast address)."
           }
         ]
+      },
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          403,
+          426,
+          502,
+          504
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "short_label",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "paired_at_utc",
+            "type": "string"
+          },
+          {
+            "name": "last_seen_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "last_addr",
+            "type": "string,null"
+          },
+          {
+            "name": "connected",
+            "type": "boolean"
+          },
+          {
+            "name": "health",
+            "type": "\"connected\" | \"unhealthy\" | \"reconnecting\" | \"disconnected\"",
+            "help": "Liveness from keep-alives, updated within one keep-alive interval: `unhealthy` = still open but 3 intervals without a datagram; `reconnecting` = lost, a reconnect is expected; `disconnected` = closed on purpose, networking off, or never connected since networking started."
+          },
+          {
+            "name": "last_error",
+            "type": "null or object",
+            "help": "The latest failed dial to this device since its last connection (either direction); null when there is none or networking is off."
+          },
+          {
+            "name": "groups",
+            "type": "array of string"
+          },
+          {
+            "name": "held",
+            "type": "boolean",
+            "help": "Disconnected by this device's user (`POST /api/peers/{id}/disconnect`) until Connect, turning networking off and on, or a service restart (a Sharing change keeps it); false while networking is off."
+          },
+          {
+            "name": "capabilities",
+            "type": "object or null",
+            "help": "null while not connected."
+          },
+          {
+            "name": "connection",
+            "type": "object or null",
+            "help": "The connection in use; null while not connected."
+          }
+        ]
       }
     },
     {
       "method": "POST",
-      "path": "/api/shutdown"
+      "path": "/api/shutdown",
+      "response": {
+        "status": 202,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "status",
+            "type": "\"shutting_down\""
+          }
+        ]
+      }
     },
     {
       "method": "GET",
-      "path": "/api/jobs"
+      "path": "/api/jobs",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [],
+        "fields": [
+          {
+            "name": "active",
+            "type": "array of object",
+            "required": true,
+            "help": "Oldest first."
+          },
+          {
+            "name": "active[].id",
+            "type": "string",
+            "required": true,
+            "help": "The response id (`chatcmpl-…`, `cmpl-…`); `embd-…` for embeddings; the requesting device's `request_id` for `served_for_peer`."
+          },
+          {
+            "name": "active[].client_ref",
+            "type": "string,null",
+            "required": true,
+            "help": "`X-Common-Client-Ref` of the request."
+          },
+          {
+            "name": "active[].kind",
+            "type": "\"chat\" | \"completion\" | \"embeddings\" | \"served_for_peer\"",
+            "required": true
+          },
+          {
+            "name": "active[].model_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "active[].target",
+            "type": "string",
+            "required": true,
+            "help": "`local` or `peer:<hex>`: where it runs."
+          },
+          {
+            "name": "active[].origin",
+            "type": "string",
+            "required": true,
+            "help": "`local` or `peer:<hex>`: who asked."
+          },
+          {
+            "name": "active[].state",
+            "type": "\"queued\" | \"connecting\" | \"loading\" | \"running\" | \"done\" | \"error\" | \"cancelled\"",
+            "required": true,
+            "help": "`queued` waiting for an engine slot, `connecting` a request to a paired device (no slot or load here) while this device reaches it, through the dial until the request is sent on the connection, `loading` in the model step, `running` generating (or sent to the device); `cancelled` when the requester went away or stopped it (`error_code` `cancelled` or `client_gone`). Daemons before `connecting` report that phase as `queued` with a `peer:` target; a client should read an unknown state as not known, never as an outcome."
+          },
+          {
+            "name": "active[].created_at_utc",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "active[].started_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "active[].first_token_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "active[].finished_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "active[].queue_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "active[].load_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "active[].ttft_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "active[].prompt_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "active[].decode_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "active[].duration_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "active[].prompt_tokens",
+            "type": "integer,null"
+          },
+          {
+            "name": "active[].completion_tokens",
+            "type": "integer,null",
+            "help": "Counted per streamed piece while active; the engine's count once done."
+          },
+          {
+            "name": "active[].decode_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "active[].finish_reason",
+            "type": "string,null",
+            "help": "From a paired device, at most 32 characters."
+          },
+          {
+            "name": "active[].error_code",
+            "type": "string,null"
+          },
+          {
+            "name": "active[].request_id",
+            "type": "string,null",
+            "help": "Requests to or from a paired device; the `request_id` of both devices' `remote_request` audit entries."
+          },
+          {
+            "name": "active[].device_actual",
+            "type": "string,null",
+            "help": "Where the local engine runs it, e.g. `Metal0 (Apple M2)`; null for a request sent to a device (not reported)."
+          },
+          {
+            "name": "recent",
+            "type": "array of object (at most 256)",
+            "required": true,
+            "help": "Newest first."
+          },
+          {
+            "name": "recent[].id",
+            "type": "string",
+            "required": true,
+            "help": "The response id (`chatcmpl-…`, `cmpl-…`); `embd-…` for embeddings; the requesting device's `request_id` for `served_for_peer`."
+          },
+          {
+            "name": "recent[].client_ref",
+            "type": "string,null",
+            "required": true,
+            "help": "`X-Common-Client-Ref` of the request."
+          },
+          {
+            "name": "recent[].kind",
+            "type": "\"chat\" | \"completion\" | \"embeddings\" | \"served_for_peer\"",
+            "required": true
+          },
+          {
+            "name": "recent[].model_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "recent[].target",
+            "type": "string",
+            "required": true,
+            "help": "`local` or `peer:<hex>`: where it runs."
+          },
+          {
+            "name": "recent[].origin",
+            "type": "string",
+            "required": true,
+            "help": "`local` or `peer:<hex>`: who asked."
+          },
+          {
+            "name": "recent[].state",
+            "type": "\"queued\" | \"connecting\" | \"loading\" | \"running\" | \"done\" | \"error\" | \"cancelled\"",
+            "required": true,
+            "help": "`queued` waiting for an engine slot, `connecting` a request to a paired device (no slot or load here) while this device reaches it, through the dial until the request is sent on the connection, `loading` in the model step, `running` generating (or sent to the device); `cancelled` when the requester went away or stopped it (`error_code` `cancelled` or `client_gone`). Daemons before `connecting` report that phase as `queued` with a `peer:` target; a client should read an unknown state as not known, never as an outcome."
+          },
+          {
+            "name": "recent[].created_at_utc",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "recent[].started_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "recent[].first_token_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "recent[].finished_at_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "recent[].queue_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "recent[].load_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "recent[].ttft_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "recent[].prompt_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "recent[].decode_ms",
+            "type": "number,null"
+          },
+          {
+            "name": "recent[].duration_ms",
+            "type": "integer,null"
+          },
+          {
+            "name": "recent[].prompt_tokens",
+            "type": "integer,null"
+          },
+          {
+            "name": "recent[].completion_tokens",
+            "type": "integer,null",
+            "help": "Counted per streamed piece while active; the engine's count once done."
+          },
+          {
+            "name": "recent[].decode_tokens_per_second",
+            "type": "number,null"
+          },
+          {
+            "name": "recent[].finish_reason",
+            "type": "string,null",
+            "help": "From a paired device, at most 32 characters."
+          },
+          {
+            "name": "recent[].error_code",
+            "type": "string,null"
+          },
+          {
+            "name": "recent[].request_id",
+            "type": "string,null",
+            "help": "Requests to or from a paired device; the `request_id` of both devices' `remote_request` audit entries."
+          },
+          {
+            "name": "recent[].device_actual",
+            "type": "string,null",
+            "help": "Where the local engine runs it, e.g. `Metal0 (Apple M2)`; null for a request sent to a device (not reported)."
+          }
+        ]
+      }
     },
     {
       "method": "POST",
-      "path": "/api/peers/{id}/disconnect"
+      "path": "/api/peers/{id}/disconnect",
+      "response": {
+        "status": 200,
+        "types": [
+          "application/json"
+        ],
+        "errors": [
+          400,
+          403
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "short_label",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "paired_at_utc",
+            "type": "string"
+          },
+          {
+            "name": "last_seen_utc",
+            "type": "string,null"
+          },
+          {
+            "name": "last_addr",
+            "type": "string,null"
+          },
+          {
+            "name": "connected",
+            "type": "boolean"
+          },
+          {
+            "name": "health",
+            "type": "\"connected\" | \"unhealthy\" | \"reconnecting\" | \"disconnected\"",
+            "help": "Liveness from keep-alives, updated within one keep-alive interval: `unhealthy` = still open but 3 intervals without a datagram; `reconnecting` = lost, a reconnect is expected; `disconnected` = closed on purpose, networking off, or never connected since networking started."
+          },
+          {
+            "name": "last_error",
+            "type": "null or object",
+            "help": "The latest failed dial to this device since its last connection (either direction); null when there is none or networking is off."
+          },
+          {
+            "name": "groups",
+            "type": "array of string"
+          },
+          {
+            "name": "held",
+            "type": "boolean",
+            "help": "Disconnected by this device's user (`POST /api/peers/{id}/disconnect`) until Connect, turning networking off and on, or a service restart (a Sharing change keeps it); false while networking is off."
+          },
+          {
+            "name": "capabilities",
+            "type": "object or null",
+            "help": "null while not connected."
+          },
+          {
+            "name": "connection",
+            "type": "object or null",
+            "help": "The connection in use; null while not connected."
+          }
+        ]
+      }
     }
   ],
   "errors": [
