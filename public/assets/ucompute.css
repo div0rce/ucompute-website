@@ -552,6 +552,8 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
 .diagram .s-light{font:500 11.5px var(--mono);fill:#b9d2bd}
 .diagram .arrow{stroke:#4c5c4d;stroke-width:1.5;fill:none;marker-end:url(#ah)}
 .diagram .wire{stroke:var(--lime-deep);stroke-width:2;fill:none;stroke-dasharray:6 6}
+.diagram .pkt{fill:var(--lime);stroke:var(--leaf);stroke-width:1.5}
+@media (prefers-reduced-motion:reduce){.diagram .pkt{display:none}}
 .ticks.open-items li::before{width:11px;height:11px;margin-top:7px;border:2px solid #d89a1c;border-radius:50%;transform:none}
 .section-dark .prose :not(pre)>code,.section-dark .lede code,.section-dark .fine code,.section-dark .table-wrap code,.code-note code{background:#ffffff14;border:1px solid var(--forest-line);border-radius:4px;color:#e7f3e3;padding:.05em .35em}
 .hero-note .live-dot{margin-top:6px}
@@ -766,3 +768,10 @@ body.menu-open .site-header{backdrop-filter:none;-webkit-backdrop-filter:none;ba
 }
 @media (max-width:860px){.mode-panel{grid-template-columns:minmax(0,1fr)}}
 @media (forced-colors:active){.mode-tab[aria-selected=true]{outline:2px solid Highlight;text-decoration:underline}}
+
+/* Page-to-page: a short cross-fade where the browser supports cross-document view transitions; the header stays put. */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  .site-header{view-transition-name:site-header}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.28s}
+}

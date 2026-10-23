@@ -1,5 +1,20 @@
 # Verification record
 
+## 2026-10-23: living redesign (staging only)
+
+The owner asked for a site that feels alive. These changes are on `stage-snapshot`, behind Access; preview.ucompute.org and the live prelaunch page (D-023) are unchanged.
+
+| Piece | What it is | How it stays honest and accessible |
+|---|---|---|
+| Device fabric (home hero) | WebGL shader: a dot field where two paired devices glow and a request travels between them; pointer and scroll parallax | Decoration over complete HTML. Static dot-field fallback without WebGL; one still frame with reduced motion. Pauses off screen and in hidden tabs. 60 fps (p95 frame 17.6 ms) at 1440×920 on the M2 Mac under load |
+| Scroll story (home) | A sticky diagram of the 19 October run that follows five steps as you scroll | Every step is real text with the approved claim 6 wording. Without JS the diagram shows the final step. The current step is marked with a bar rather than by fading the others, so all text keeps AA contrast |
+| Instruments (home, roadmap) | Ledger as 148 squares (36 lit); revocation times on a 0–0.1 s scale; memory-fit error as a range inside ±15% | Numbers and qualifiers from the snapshot's sections 7–8, each next to its claim. Drawn once on view; already complete with reduced motion |
+| Vision rings (home) | Run and Mesh solid at the centre; split model, Swarm and Cloud as dashed and dotted outer rings, with scroll parallax | Every ring is labelled Experimental, Planned or Strategic hypothesis. "Coming soon" is not used: the snapshot and spec forbid dates or availability wording for planned work |
+| Mode explorer (product) | Tabbed diagrams of Local, Remote, Split model (planned), Spread jobs (planned) | Uses the site's WAI-ARIA tabs; planned modes are drawn dashed and labelled planned |
+| Smaller touches | Dark header over the home hero; recorded-run figure on the demo page; dot-field page headers; packets on the architecture diagram; page cross-fades (view transitions) | All motion is switched off under reduced motion |
+
+Checks: `npm test` passes in all three modes. axe-core 4.10.2 reports 0 violations on all 19 pages at 1440, 768 and 390 px, plus the dark home header. There is no horizontal overflow from 320 to 1440 px. Forced colors and print were checked, and there are no console errors.
+
 ## 2026-10-22: snapshot refresh staged (branch `stage-snapshot`, not on preview.ucompute.org)
 
 Staged against the DRAFT capability snapshot (div0rce/common dc2502c) for a mechanical swap when the final snapshot lands. It is built by Cloudflare Pages as a branch preview behind Access; `preview` and production are unchanged.
