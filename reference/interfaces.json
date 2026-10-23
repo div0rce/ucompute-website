@@ -709,7 +709,7 @@
           "kind": "option",
           "long": "--allow-remote",
           "short": null,
-          "value": "ALLOW-REMOTE",
+          "value": "true|false",
           "equals": true,
           "default": null,
           "help": ""
@@ -718,7 +718,7 @@
           "kind": "option",
           "long": "--allow-pooled",
           "short": null,
-          "value": "ALLOW-POOLED",
+          "value": "true|false",
           "equals": true,
           "default": null,
           "help": ""

@@ -76,7 +76,7 @@ function argsOf(items) {
     if (/\blong\b/.test(arg) || /\bshort\b/.test(arg)) {
       const long = arg.match(/long\s*=\s*"([^"]+)"/)?.[1] ?? (/\blong\b/.test(arg) ? kebab(name) : null);
       const short = arg.match(/short\s*=\s*'(.)'/)?.[1] ?? (/\bshort\b/.test(arg) ? name[0] : null);
-      args.push({ kind: 'option', long: long && `--${long}`, short: short && `-${short}`, value: isBool || /ArgAction::Count/.test(arg) ? null : (values ? values.map(v => v.name).join('|') : kebab(name).toUpperCase()), equals: /require_equals/.test(arg) || undefined, default: def, help, values: values || undefined, global: /\bglobal\b/.test(arg) || undefined, repeat: /ArgAction::Count/.test(arg) || undefined });
+      args.push({ kind: 'option', long: long && `--${long}`, short: short && `-${short}`, value: isBool || /ArgAction::Count/.test(arg) ? null : values ? values.map(v => v.name).join('|') : /^bool$/.test(inner) ? 'true|false' : kebab(name).toUpperCase(), equals: /require_equals/.test(arg) || undefined, default: def, help, values: values || undefined, global: /\bglobal\b/.test(arg) || undefined, repeat: /ArgAction::Count/.test(arg) || undefined });
     } else {
       args.push({ kind: 'positional', name: kebab(name), optional, help, values: values || undefined });
     }

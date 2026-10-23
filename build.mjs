@@ -31,12 +31,13 @@ export const DOCS = [
   ['/docs/configuration/', 'Configuration'],
   ['/docs/mesh/', 'Trusted devices'],
   ['/docs/api/', 'API reference'],
+  ['/docs/cli/', 'Command line'],
   ['/docs/troubleshooting/', 'Troubleshooting'],
 ];
 
 const FOOTER = [
   ['Product', [['/product/', 'Product'], ['/demo/', 'Mac ↔ Windows demo'], ['/vision/', 'Vision'], ['/architecture/', 'Architecture'], ['/roadmap/', 'Roadmap']]],
-  ['Use and build', [['/download/', 'Release status'], ['/docs/', 'Documentation'], ['/developers/', 'Developers'], ['/docs/api/', 'API reference']]],
+  ['Use and build', [['/download/', 'Release status'], ['/docs/', 'Documentation'], ['/developers/', 'Developers'], ['/docs/api/', 'API reference'], ['/docs/cli/', 'Command line']]],
   ['Project', [['/open-source/', 'License and rules'], ['/community/', 'Community'], ['/open-source/#security', 'Security']]],
 ];
 
@@ -168,8 +169,61 @@ export function resolveClaims(s, file) {
     .replace(/\{\{claim:([\w-]+)\}\}/g, (_, id) => { if (!CLAIMS.claims[id]) throw new Error(`${file}: unknown claim "${id}"`); return ''; });
 }
 
+// {{cli-reference}}: the command reference, rendered from reference/interfaces.json (exported from the
+// engineering source) plus reference/cli-notes.json (website text for empty help). Stale or missing text fails the build.
+export function cliReference() {
+  const I = JSON.parse(readFileSync(join(ROOT, 'reference/interfaces.json'), 'utf8'));
+  const { notes } = JSON.parse(readFileSync(join(ROOT, 'reference/cli-notes.json'), 'utf8'));
+  const used = new Set();
+  const text = (key, help) => {
+    const note = notes[key];
+    if (key in notes) used.add(key);
+    const t = [help?.replace(/\.$/, ''), note].filter(Boolean).join('. ');
+    if (!t) throw new Error(`cli reference: no text for "${key}"; add it to reference/cli-notes.json`);
+    return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>');
+  };
+  const argName = a => a.kind === 'positional' ? (a.optional ? `[${a.name}]` : `<${a.name}>`) : [a.long, a.short].filter(Boolean).join(', ') + (a.value ? (a.equals ? '=' : ' ') + a.value : '');
+  const table = (rows, key) => rows.length ? `<div class="table-wrap"><table>
+<thead><tr><th scope="col">Argument</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+${rows.map(a => `<tr><td><code>${esc(argName(a))}</code></td><td>${a.default ? `<code>${esc(a.default)}</code>` : ''}</td><td>${text(`${key} ${a.long || a.name}`, a.help)}${a.values?.some(v => v.help) ? `<ul>${a.values.map(v => `<li><code>${esc(v.name)}</code>: ${text(`${key} ${a.long || a.name} ${v.name}`, v.help)}</li>`).join('')}</ul>` : ''}</td></tr>`).join('\n')}
+</tbody>
+</table></div>` : '';
+  const id = path => path.split(' ').slice(1).join('-');
+  const usage = c => `<div class="code-wrap"><pre class="code-block"><code>${esc([c.path, ...c.args.filter(a => a.kind === 'positional').map(argName), c.args.some(a => a.kind === 'option') ? '[options]' : ''].filter(Boolean).join(' '))}</code></pre></div>`;
+  const top = I.commands.filter(c => c.path.split(' ').length === 2);
+  const subs = c => I.commands.filter(s => s.path.startsWith(c.path + ' '));
+  const leaves = I.commands.filter(c => !c.group);
+  const date = new Date(I.date + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  const html = `<p class="fine">Generated from the development source as of ${date}. Commands may change before a release.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
+<tbody>
+${leaves.map(c => `<tr><td><a href="#${id(c.path)}"><code>${esc(c.path)}</code></a></td><td>${text(c.path, c.help)}</td></tr>`).join('\n')}
+</tbody>
+</table></div>
+<h2 id="global">Options for every command</h2>
+${table(I.global, 'common')}
+${top.map(c => c.group
+  ? `<h2 id="${id(c.path)}"><code>${esc(c.path)}</code></h2>\n<p>${text(c.path, c.help)}</p>\n${subs(c).map(s => `<h3 id="${id(s.path)}"><code>${esc(s.path)}</code></h3>\n<p>${text(s.path, s.help)}</p>\n${usage(s)}\n${table(s.args, s.path)}`).join('\n')}`
+  : `<h2 id="${id(c.path)}"><code>${esc(c.path)}</code></h2>\n<p>${text(c.path, c.help)}</p>\n${usage(c)}\n${table(c.args, c.path)}`).join('\n')}
+<h2 id="environment">Environment variables</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Variable</th><th scope="col">Meaning</th></tr></thead>
+<tbody>
+${I.env.filter(v => notes[`env ${v}`] !== null || !used.add(`env ${v}`)).map(v => `<tr><td><code>${esc(v)}</code></td><td>${text(`env ${v}`, '')}</td></tr>`).join('\n')}
+</tbody>
+</table></div>`;
+  const stale = Object.keys(notes).filter(k => !used.has(k));
+  if (stale.length) throw new Error(`reference/cli-notes.json: no such command, argument or variable: ${stale.join(', ')}`);
+  return html;
+}
+
 // Shared snippets pages can drop in, so icons and URLs live in one place.
-const fill = (s, file) => resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
+const fill = (s, file) => {
+  s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
+  return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;
+};
 
 export function render(page, mode, assets) {
   const { meta, path } = page;
