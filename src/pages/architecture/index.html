@@ -4,7 +4,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 -->
 <div class="page-hero shell">
 <h1>How the pieces fit.</h1>
-<p class="lede">A small daemon runs on each device. Applications talk to it over a local HTTP API; it decides what is allowed, runs supported work on a pinned engine, and talks to paired devices over its own encrypted protocol. This page describes the code as of 19 October 2026.{{claim:demo-2026-10-19}}</p>
+<p class="lede">A small daemon runs on each device. Applications talk to it over a local HTTP API; it decides what is allowed, runs supported work on a pinned engine, and talks to paired devices over its own encrypted protocol. This page describes the development code as of 23 October 2026. There is no public release.{{claim:no-release}}</p>
 </div>
 
 <section class="section-tight" aria-labelledby="overview">
@@ -92,7 +92,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div class="shell split">
 <div><h2 class="h-sub" id="remote-title">A request on a paired device</h2><p class="stack"><span class="pill pill-experimental">Experimental</span></p></div>
 <div class="prose">
-<p>A request with <code>"target": "peer:&lt;id or label&gt;"</code> runs whole on that device. Policy decides before admission, before any model load and before any network traffic. All of these must hold on the sending device:</p>
+<p>A request with <code>"target": "peer:&lt;id or label&gt;"</code> runs whole on that device. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}} Policy decides before admission, before any model load and before any network traffic. All of these must hold on the sending device:</p>
 <ol>
 <li>privacy mode is <code>trusted_group</code>, which requires acknowledging that the other device sees the prompt in plain text;</li>
 <li>peer networking is on;</li>
@@ -109,13 +109,13 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div><h2 class="h-sub" id="protocol">The protocol</h2><p class="stack"><span class="pill pill-experimental">Experimental</span></p></div>
 <div class="prose">
 <ul>
-<li><strong>Transport</strong>: QUIC with TLS 1.3 only. Devices authenticate with raw Ed25519 public keys (RFC 7250), and the pinned-key check runs inside the handshake, including on session resumption.</li>
-<li><strong>Pairing</strong>: SPAKE2 with a six-digit code or a QR payload, bound to the TLS exporter so a relayed connection cannot complete it.</li>
+<li><strong>Transport</strong>: QUIC with TLS 1.3 only. Devices authenticate with raw Ed25519 public keys (RFC 7250), and the pinned-key check runs inside the handshake, including on session resumption; the refusal of an unpinned key was shown in tests on one computer.{{claim:transport}}</li>
+<li><strong>Pairing</strong>: SPAKE2 with a six-digit code or a QR payload, bound to the TLS exporter; in tests on one computer, a relayed connection could not complete it.{{claim:pairing-lockout}}</li>
 <li><strong>Discovery</strong>: signed mDNS adverts on the local network. A discovered device is only a label; trust comes from pairing.</li>
 <li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/common/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
-<li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection.{{claim:daemon-runs}}</li>
+<li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection (one Apple M2 Mac and one Windows 11 laptop, development builds, October 2026).{{claim:daemon-runs}}</li>
 </ul>
-<p>The Rust code mirrors the schema by hand, and the only implementation is this one: the peer protocol is experimental. Two builds of it negotiate protocol versions correctly; interoperability with an independent implementation has not been shown.{{claim:protocol}} Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
+<p>The Rust code mirrors the schema by hand, and the only implementation is this one: the peer protocol is experimental. In tests on one computer, two builds of it negotiated protocol versions correctly; interoperability with an independent implementation has not been shown.{{claim:protocol}} Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>
 </div>
 </div>
 </section>

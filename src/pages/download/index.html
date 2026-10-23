@@ -11,15 +11,15 @@ description: UCompute is in development and has no public release or download ye
 <section class="section-tight" id="platforms" aria-labelledby="platforms-title">
 <div class="shell">
 <h2 class="h-sub" id="platforms-title">Platforms</h2>
-<p class="lede stack">No platform is declared supported yet. A combination becomes SUPPORTED only when that exact platform, backend, artifact and role passes a stable release gate, with reproducible evidence and a named maintainer. EXPERIMENTAL means code or bounded real evidence exists; PLANNED means committed scope without a qualified implementation. This table follows the specification's 2026-10-18 baseline, with the Windows and NAS rows updated on 2026-10-19.{{claim:platforms}}</p>
+<p class="lede stack">No platform is declared supported yet. A combination becomes SUPPORTED only when that exact platform, backend, artifact and role passes a stable release gate, with reproducible evidence and a named maintainer. EXPERIMENTAL means code or bounded real evidence exists; PLANNED means committed scope without a qualified implementation. This table follows the specification's 2026-10-18 baseline, with the Windows row updated on 2026-10-19.{{claim:platforms}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Platform</th><th scope="col">Status</th><th scope="col">What exists</th></tr></thead>
 <tbody>
-<tr><th scope="row">macOS 26.2, Apple M2</th><td><span class="pill pill-experimental">Experimental</span></td><td>Consumer and provider. CPU and Metal inference and an older packaged app verified; a new package, a clean-account first run, signing and updates still to be qualified. <a href="/docs/install/#mac">Install notes</a></td></tr>
-<tr><th scope="row">Windows 11 x64, Core Ultra 7 258V / Arc 140V</th><td><span class="pill pill-experimental">Experimental</span></td><td>Desktop and daemon, consumer and provider. A native development installer, installed per user, paired with the Mac app through both screens. Clean-account install, uninstall, signing, accessibility and key protection still to be checked. <a href="/docs/install/#windows">Build notes</a></td></tr>
+<tr><th scope="row">macOS 26.2, Apple M2</th><td><span class="pill pill-experimental">Experimental</span></td><td>Consumer and provider. CPU and Metal inference verified; a packaged development app passed its checks, most recently on 22 October 2026. A clean-account first run, signing and updates are still to be qualified. <a href="/docs/install/#mac">Install notes</a></td></tr>
+<tr><th scope="row">Windows 11 x64, Core Ultra 7 258V / Arc 140V</th><td><span class="pill pill-experimental">Experimental</span></td><td>Desktop and daemon, consumer and provider. Native development installers, installed per user: paired with the Mac app through both windows on 19 October 2026, and on 22 October the firewall consent step and pairing started on Windows worked by hand. The automated Windows checks have not completed; clean-account install, uninstall, signing, accessibility and key protection are still to be checked. <a href="/docs/install/#windows">Build notes</a></td></tr>
 <tr><th scope="row">Windows on ARM</th><td><span class="pill pill-planned">Planned</span></td><td>An engine build is pinned; nothing has run on real hardware</td></tr>
-<tr><th scope="row">Other Macs</th><td><span class="pill pill-planned">Planned</span></td><td>Other Apple Silicon chips and Intel Macs are untested</td></tr>
+<tr><th scope="row">Other Macs</th><td><span class="pill pill-planned">Planned</span></td><td>Not qualified: other Apple Silicon chips and Intel Macs are planned</td></tr>
 <tr><th scope="row">Linux x64</th><td><span class="pill pill-planned">Planned</span></td><td>Hardware-probing code exists; no engine build or recorded inference. Headless daemon first</td></tr>
 <tr><th scope="row">Linux ARM64, single-board computers</th><td><span class="pill pill-planned">Planned</span></td><td>To be measured: engine support, memory, storage and thermals</td></tr>
 <tr><th scope="row">NAS and embedded appliances</th><td><span class="pill pill-planned">Planned</span></td><td>As a consumer, and a provider only through a qualified headless Linux record for the exact vendor system</td></tr>
@@ -36,13 +36,13 @@ description: UCompute is in development and has no public release or download ye
 <section class="section-tight section-white" id="builds" aria-labelledby="builds-title">
 <div class="shell">
 <h2 class="h-sub" id="builds-title">Internal development builds</h2>
-<p class="lede stack">These exist and were verified, but they are test builds for the people building UCompute. They are not offered for download and are not releases.{{claim:installer}} A development build can be offered to private-alpha testers only after its record is in the project's verification log and the owner approves it.</p>
+<p class="lede stack">These exist and passed their checks, but they are test builds for the people building UCompute. Neither includes the fixes made on 22 and 23 October 2026. They are not offered for download and are not releases.{{claim:installer}} A development build can be offered to private-alpha testers only after its record is in the project's verification log and the owner approves it.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Build</th><th scope="col">From</th><th scope="col">Verified</th></tr></thead>
 <tbody>
-<tr><td><code>Common_0.1.0_x64-setup.exe</code>, NSIS, 4.24 MiB<br><span class="fine">SHA-256 df13fe79e80a…4a4ce0</span></td><td>Development build of 19 October 2026, built on the Windows laptop</td><td>19 Oct 2026: installed, launched, paired with a Mac and ran prompts both ways; crash cleanup checked</td></tr>
-<tr><td><code>Common_0.1.0_aarch64.dmg</code>, ad-hoc signed</td><td>Development build of 17 October 2026</td><td>17 Oct 2026: passed all 15 checks of the packaged-app verifier, including real inference</td></tr>
+<tr><td><code>Common_0.1.0_x64-setup.exe</code>, NSIS<br><span class="fine">SHA-256 c8af273d…</span></td><td>Development build of 22 October 2026, built on the Windows laptop</td><td>22 Oct 2026: installed with a fresh data folder; the firewall consent step and pairing started on Windows worked by hand. The automated Windows checks stopped at their first step because the app was in use</td></tr>
+<tr><td><code>Common_0.1.0_aarch64.dmg</code>, ad-hoc signed</td><td>Development build of 22 October 2026</td><td>22 Oct 2026: passed the packaged-app checks in a fresh home folder, including a real inference run, and was installed</td></tr>
 </tbody>
 </table>
 </div>
@@ -63,7 +63,7 @@ description: UCompute is in development and has no public release or download ye
 <li>known issues, and upgrade and rollback instructions.</li>
 </ul>
 <p>Installers must also be signed by a publicly trusted identity: an Apple Developer ID with notarization on macOS, and a code-signing certificate on Windows. Neither exists yet. Installation, data retention, crash cleanup and rejection of a tampered update are rehearsed on the exact files before they ship.</p>
-<p>Using UCompute on your own computer needs no account.{{claim:run-local}}</p>
+<p>Using UCompute on your own computer needs no account. Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}}{{claim:platforms}}</p>
 </div>
 </div>
 </section>

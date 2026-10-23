@@ -47,7 +47,7 @@ description: The full record of UCompute's first run between installed desktop a
 <div class="readout"><p class="readout-dir">Windows app → Mac</p><p class="readout-num">508<small>tok/s</small></p><p class="readout-gpu">on Apple M2, Metal</p></div>
 <div class="readout"><p class="readout-dir">Mac local API → Windows</p><p class="readout-num">910<small>tok/s</small></p><p class="readout-gpu">on Intel Arc 140V, Vulkan</p></div>
 </div>
-<figcaption class="duo-foot" id="duo-caption">The test model was a 15-million-parameter fixture (stories15M, Q4_0), so speeds from it are not performance figures. Development builds of 19 October 2026. The Mac-to-Windows request went through the Mac's local API, not its app window. Each request ran whole on one device; no model was split. <a href="/demo/">Full evidence and limits</a>{{claim:demo-2026-10-19}}</figcaption>
+<figcaption class="duo-foot" id="duo-caption">Path checks, not performance. The test model was a 15-million-parameter fixture (stories15M, Q4_0), so speeds from it are not performance figures. Development builds of 19 October 2026. The Mac-to-Windows request went through the Mac's local API, not its app window. Each request ran whole on one device; no model was split. <a href="/demo/">Full evidence and limits</a>{{claim:demo-2026-10-19}}</figcaption>
 </figure>
 </div>
 </section>
@@ -55,7 +55,7 @@ description: The full record of UCompute's first run between installed desktop a
 <section class="section-tight" aria-labelledby="runs">
 <div class="shell">
 <h2 class="h-sub" id="runs">Every recorded run</h2>
-<p class="lede stack">The 19 October run is the demonstration. These are all the two-machine runs behind it and since, each with development builds of the day.</p>
+<p class="lede stack">The 19 October run is the demonstration. These are the Mac and Windows runs behind it and since, each with development builds of the day.</p>
 <ol class="runs stack">
 <li class="run"><time datetime="2026-10-18">18 October</time><h3>Campus Wi-Fi, background services only</h3><p>Two runs where the network blocks discovery. Pairing by address, remote runs in both directions, and revocation: the laptop was cut off 0.012 s after the Mac revoked it.{{claim:daemon-runs}}{{claim:revocation}}</p></li>
 <li class="run"><time datetime="2026-10-19">19 October</time><h3>Phone hotspot, background services only</h3><p>Each device found the other within about a second. Remote runs both ways, and a revocation that closed the connection in 0.061 s.{{claim:discovery}}{{claim:revocation}}</p></li>
@@ -78,7 +78,7 @@ description: The full record of UCompute's first run between installed desktop a
 <tr><th scope="row">Operating system</th><td>macOS 26.2</td><td>Windows 11 Home, build 26200</td></tr>
 <tr><th scope="row">GPU and backend</th><td>Apple M2 GPU through Metal</td><td>Intel Arc 140V through Vulkan</td></tr>
 <tr><th scope="row">Inference engine</th><td colspan="2">llama.cpp release b11609, pinned and hash-verified, the macOS arm64 build on the Mac and the Windows Vulkan build on the laptop</td></tr>
-<tr><th scope="row">App</th><td><code>Common.app</code>, a development build verified 15–17 October</td><td><code>Common_0.1.0_x64-setup.exe</code> (NSIS, 4.24 MiB), a development build made natively on the laptop, installed per user</td></tr>
+<tr><th scope="row">App</th><td><code>Common.app</code>, a development build that passed the packaged-app checks on 15 October</td><td><code>Common_0.1.0_x64-setup.exe</code> (NSIS), a development build made natively on the laptop, installed per user</td></tr>
 <tr><th scope="row">Daemon</th><td colspan="2"><code>common serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, started by each app as its child process</td></tr>
 </tbody>
 </table>
@@ -164,15 +164,18 @@ description: The full record of UCompute's first run between installed desktop a
 
 <section class="section-tight section-white" aria-labelledby="issues">
 <div class="shell split">
-<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs. {{if:acceptance}}Fixes from the newer code have since run on the same two machines; each item says what changed.{{claim:acceptance-fixes}}{{else}}Some fixes were confirmed on the same two machines with development builds on 21 and 22 October 2026; others exist only in newer code and wait for a two-machine retest. Each item says which, and nothing is marked solved without committed engineering evidence.{{/if}}{{claim:open-defects}}</p></div>
+<div><h2 class="h-sub" id="issues">Open issues</h2><p class="lede stack">Found in these runs. {{if:acceptance}}Fixes from the newer code have since run on the same two machines; each item says what changed.{{claim:acceptance-fixes}}{{else}}Some fixes were confirmed on the same two machines on 22 October 2026, and one on a Mac on 21 October; others exist only in newer code and wait for a two-machine retest. Each item says which, and nothing is marked solved without committed engineering evidence.{{/if}}{{claim:open-defects}}</p></div>
 <ul class="ticks open-items" aria-label="Open issues">
 <li><div><strong class="step-title">Mac wording on Windows</strong><p>{{if:acceptance}}Fixed: the wording is platform-neutral, and each device takes its own computer name.{{claim:acceptance-fixes}}{{else}}Partly fixed. With development builds on 22 October 2026, each device showed its own computer name, and the Windows chat view used platform-neutral wording. The other Windows views have not been checked yet.{{claim:open-defects}}{{/if}}</p></div></li>
 <li><div><strong class="step-title">Remote runs need a local model</strong><p>{{if:acceptance}}Fixed: Chat can send a request to a paired device without a model loaded locally.{{claim:acceptance-fixes}}{{else}}Chat stays disabled until a model is loaded on this machine, even when the request will run elsewhere. A fix exists in newer code but has not run on two machines yet.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Endless redials</strong><p>{{if:acceptance}}Fixed: an unreachable device no longer fills the audit log.{{claim:acceptance-fixes}}{{else}}Fixed on a Mac: with a development build on 21 October 2026, an unreachable device no longer filled the audit log. Not yet shown between a Mac and a Windows laptop.{{claim:open-defects}}{{/if}}</p></div></li>
-<li><div><strong class="step-title">Shutdown and stale records</strong><p>Quitting the Windows app now ends its service cleanly, and the other device sees it leave (development builds, 22 October 2026). Whether a device that crashed stays listed nearby until its entry expires has not been validly checked.{{claim:open-defects}}</p></div></li>
+<li><div><strong class="step-title">Shutdown and stale records</strong><p>Quitting the Windows app now ends its service cleanly, and the other device sees it leave (development builds, 22 October 2026). Whether a device that crashed is still listed until its entry expires has not been validly checked.{{claim:open-defects}}</p></div></li>
 <li><div><strong class="step-title">Addresses after a network change</strong><p>A paired device can be reconnected at its new address, even on a network that blocks discovery (development builds, 22 October 2026). What happens when a device switches network on its own has not been tested.{{claim:connect-at-address}}{{claim:open-defects}}</p></div></li>
 <li><div><strong class="step-title">“Last seen” stood still</strong><p>Fixed: “Last seen” now advances while a connection stays up (development builds, October 2026).{{claim:open-defects}}</p></div></li>
-<li><div><strong class="step-title">Chat header on the wrong device</strong><p>After a request ran on the Mac, the Windows chat header still named the laptop's own GPU above the reply.{{claim:open-defects}}</p></div></li>
+<li><div><strong class="step-title">Chat header on the wrong device</strong><p>After a request ran on the Mac, the Windows chat header still named the laptop's own GPU above the reply. Not yet rechecked with a newer build.{{claim:open-defects}}</p></div></li>
+<li><div><strong class="step-title">Plural wording</strong><p>{{if:acceptance}}Fixed: the app says “1 device”.{{claim:acceptance-fixes}}{{else}}The app said “1 devices”. A fix exists in newer code but has not run on two machines yet.{{/if}}</p></div></li>
+<li><div><strong class="step-title">A wrong code typed by hand</strong><p>On 19 October the wrong code was entered by automation, and on 22 October wrong codes were refused through the local API. No one has yet typed a wrong code into an app.{{claim:open-defects}}</p></div></li>
+<li><div><strong class="step-title">The Mac's side in its own window</strong><p>The Mac's group setting and its requests have so far gone through its local API, not its app window.{{claim:open-defects}}</p></div></li>
 <li><div><strong class="step-title">Pairing started on Windows</strong><p>Fixed: the Windows app now asks, with administrator approval, to let paired devices reach it on private networks, and pairing started on Windows succeeds (development build, 22 October 2026).{{claim:windows-pairing}}{{claim:firewall-consent}}</p></div></li>
 </ul>
 </div>
@@ -181,7 +184,7 @@ description: The full record of UCompute's first run between installed desktop a
 <section class="section-tight" aria-labelledby="sources">
 <div class="shell">
 <h2 class="h-sub" id="sources">Sources</h2>
-<p class="lede stack">Everything on this page comes from two engineering evidence records, for the desktop-app run on 19 October and the daemon runs on 18 and 19 October 2026. They will be linked here once the source is published.{{claim:demo-2026-10-19}}{{claim:daemon-runs}}{{claim:license}}</p>
+<p class="lede stack">Everything on this page comes from engineering evidence records of runs on 18, 19, 21 and 22 October 2026. They will be linked here once the source is published.{{claim:demo-2026-10-19}}{{claim:daemon-runs}}{{claim:license}}</p>
 <p class="stack"><a class="link-arrow" href="/architecture/#remote">How a remote request works</a></p>
 </div>
 </section>

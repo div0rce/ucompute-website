@@ -31,7 +31,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 <div class="prose">
 <p>The goal is a layer that lets applications use authorized computing resources across supported devices, operating systems and networks, including applications that this project doesn't write or control.</p>
 <p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. A <strong>protocol</strong> would let devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. Today there is one implementation, and its peer protocol is experimental.{{claim:protocol}} A <strong>scheduler</strong> would decide where work should run, and say when the answer is “right here”. It is planned; today you choose the device yourself.{{claim:planned}}</p>
-<p>Linux is the inspiration for the openness, portability and ecosystem reach. UCompute is not trying to replace an operating system. It runs across them.</p>
+<p>Linux is the inspiration for the openness, portability and ecosystem reach. UCompute is not trying to replace an operating system. It is meant to run across them.</p>
 </div>
 </div>
 </section>
@@ -43,7 +43,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 <table>
 <thead><tr><th scope="col">Example</th><th scope="col">Where it stands</th></tr></thead>
 <tbody>
-<tr><td>A Windows laptop's app runs a prompt on a trusted Mac's GPU, and a request sent through the Mac's local API runs on the laptop's Arc GPU. Each request runs whole on one device.{{claim:demo-2026-10-19}}</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
+<tr><td>On 19 October 2026, a Windows laptop's app ran a prompt on a trusted Mac's GPU, and a request sent through the Mac's local API ran on the laptop's Arc GPU. Each request ran whole on one device.{{claim:demo-2026-10-19}}</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
 <tr><td>One model would run split across both machines, each computing part of every token.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
 <tr><td>An application would pick the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
 <tr><td>An app on your phone would use your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned</span> as a consumer first</td></tr>
@@ -66,7 +66,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 <li><strong>Coordinator</strong>: plans and supervises authorized work across providers.</li>
 <li><strong>Relay</strong>: carries encrypted traffic but can never authorize computation itself.</li>
 </ul>
-<p>Today a Mac and a Windows laptop act as consumer and provider for each other. There is no general coordinator or public relay yet.</p>
+<p>Today a Mac and a Windows laptop act as consumer and provider for each other. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. There is no general coordinator or public relay yet.{{claim:mesh-pair-choose}}</p>
 </div>
 </div>
 </section>
@@ -98,10 +98,10 @@ description: Why UCompute exists: computing resources are scattered across devic
 <blockquote class="quote"><p>“Use your own compute for free. Share compute to earn credits. Let trusted people use your hardware for free. Spend credits to access compensated compute. Purchase credits when you need more.”</p></blockquote>
 <ul>
 <li><strong>Your own computing stays free.</strong> Run, private Mesh and self-hosting are meant to cost nothing. Computing for yourself never costs or earns credits, however many devices or accounts you have.</li>
-<li><strong>Each device chooses how it shares, and sharing is off by default.</strong> Private: only you and people you trust. Donate: free capacity for others, within your limits and schedule. Share for credits: paid requests, on your price floor, limits and schedule. Capacity you donate is never sold.</li>
-<li><strong>Trusted people use your hardware free.</strong> You would keep a list of the people and devices allowed to use your hardware at no charge, even on a device that also serves paid requests. Free access comes first, and a request never moves to paid capacity without the requester's say-so.</li>
+<li><strong>Each device would choose how it shares, with sharing off by default.</strong> Private: only you and people you trust. Donate: free capacity for others, within your limits and schedule. Share for credits: paid requests, on your price floor, limits and schedule. Capacity you donate would never be sold.</li>
+<li><strong>Trusted people would use your hardware free.</strong> You would keep a list of the people and devices allowed to use your hardware at no charge, even on a device that also serves paid requests. Free access would come first, and a request would never move to paid capacity without the requester's say-so.</li>
 <li><strong>One balance for everything else.</strong> Credits earned by sharing, or bought when you need more, would pay for compensated compute from other owners. You would see the price before anything runs, and the platform fee would be shown openly. Free is not unlimited: free capacity is only what owners choose to share.</li>
-<li><strong>Cloud stays optional.</strong> A managed service on the same open infrastructure, never required.</li>
+<li><strong>Cloud would stay optional.</strong> A managed service on the same open infrastructure, never required.</li>
 </ul>
 <div class="table-wrap"><table>
 <caption>Intended behaviour once credits exist</caption>

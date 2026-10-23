@@ -48,7 +48,7 @@ common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave<
 <tr><td><code>--chat</code></td><td>off</td><td>Send the prompt as a chat message so the model's chat template applies</td></tr>
 <tr><td><code>-n</code>, <code>--max-tokens</code></td><td>256</td><td>Maximum tokens to generate</td></tr>
 <tr><td><code>--device</code></td><td><code>auto</code></td><td><code>auto</code>, <code>cpu</code> or <code>gpu</code></td></tr>
-<tr><td><code>--ctx</code></td><td>planned</td><td>Context length, capped to the model's trained context with a stated reason</td></tr>
+<tr><td><code>--ctx</code></td><td>set by the memory plan</td><td>Context length, capped to the model's trained context with a stated reason</td></tr>
 <tr><td><code>--threads</code></td><td>engine's choice</td><td>Engine threads; the run manifest records what ran</td></tr>
 <tr><td><code>--temp</code>, <code>--top-p</code>, <code>--seed</code></td><td>0.7, 0.95, random</td><td>Sampling; the manifest records the seed that ran</td></tr>
 <tr><td><code>--save-prompt</code></td><td>off</td><td>Also store the prompt text in the run manifest, so <code>common replay</code> can repeat it</td></tr>
@@ -63,4 +63,4 @@ common replay ~/Library/Application\ Support/Common/runs/&lt;run&gt;/manifest.js
 <p>Benchmark results record the hardware, command line and versions with every number. Small-model results don't predict how large models behave.</p>
 
 <h2 id="app">In the desktop app</h2>
-<p>The app shows the same catalog with size, license and a fit verdict for this computer. Its chat runs the loaded model, and on a computer with trusted devices enabled you can pick a paired device to run on.</p>
+<p>The app shows the same catalog with size, license and a fit verdict for this computer; that was demonstrated on an Apple M2 Mac (macOS 26.2), and memory-fit estimates are calibrated for Apple Silicon Macs.{{claim:catalog}}{{claim:memory-fit}} Its chat runs the loaded model, and on a computer with trusted devices enabled you can pick a paired device to run on. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
