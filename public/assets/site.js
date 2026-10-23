@@ -100,14 +100,16 @@
   }
 
   // Vision rings open as they scroll through the screen (--p runs 0 to 1).
-  const orbit = document.querySelector('.orbit');
-  if (orbit && !still) {
+  const moving = [...document.querySelectorAll('.orbit, [data-parallax]')];
+  if (moving.length && !still) {
     let queued = false;
     const update = () => {
       queued = false;
-      const r = orbit.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .5)));
-      orbit.style.setProperty('--p', p.toFixed(3));
+      for (const el of moving) {
+        const r = el.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .5)));
+        el.style.setProperty('--p', p.toFixed(3));
+      }
     };
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
     update();
