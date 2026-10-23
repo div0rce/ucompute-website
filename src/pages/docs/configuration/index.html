@@ -39,7 +39,7 @@ layout: docs
 </table></div>
 
 <h2 id="data-folder">The data folder</h2>
-<p>Defaults: <code>~/Library/Application Support/Common</code> on macOS, <code>%LOCALAPPDATA%\Common</code> on Windows, <code>$XDG_DATA_HOME/common</code> or <code>~/.local/share/common</code> on Linux. Override it with <code>COMMON_HOME</code>.</p>
+<p>Defaults: <code>~/Library/Application Support/Common</code> on macOS, <code>%LOCALAPPDATA%\Common</code> on Windows. Override it with <code>COMMON_HOME</code>.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Path</th><th scope="col">Contents</th></tr></thead>
 <tbody>
@@ -47,7 +47,7 @@ layout: docs
 <tr><td><code>models/blobs/</code>, <code>models/manifests/</code></td><td>Model files by SHA-256, and what each id points to</td></tr>
 <tr><td><code>identity/</code></td><td>This device's key pair and its paired peers</td></tr>
 <tr><td><code>logs/audit.jsonl</code></td><td>The audit log: ids, counts, codes and timings, never prompts</td></tr>
-<tr><td><code>runs/</code></td><td>Manifests saved with <code>--save-prompt</code></td></tr>
+<tr><td><code>runs/</code></td><td>The execution manifest of every run (with the prompt text only when <code>--save-prompt</code> is given)</td></tr>
 <tr><td><code>config.json</code>, <code>serve.json</code></td><td>Settings, and the address of the running daemon</td></tr>
 </tbody>
 </table></div>

@@ -160,7 +160,7 @@ function docsShell(path, body) {
 ${DOCS.map(([href, label]) => `<li><a href="${href}"${href === path ? ' aria-current="page"' : ''}>${label}</a></li>`).join('\n')}
 </ul></nav>
 <article class="docs-main prose">
-${body}
+${path === '/docs/' ? body : body.replace('</h1>', '</h1>\n<p class="fine">Development code as of 23 October 2026. The source has not been published yet, so this page describes how the development builds work.</p>')}
 <nav class="docs-pager" aria-label="Previous and next">${prev ? `<a href="${prev[0]}"><span>Previous</span>${prev[1]}</a>` : '<span></span>'}${next ? `<a href="${next[0]}"><span>Next</span>${next[1]}</a>` : ''}</nav>
 </article>
 </div>`;

@@ -4,7 +4,7 @@ description: Use UCompute from your own app: an OpenAI-compatible API on 127.0.0
 -->
 <div class="page-hero shell">
 <h1>Build on the compute people already have.</h1>
-<p class="lede">A local-first execution interface for supported models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
+<p class="lede">A local-first execution interface for catalog models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
 <div class="page-hero-meta"><span class="pill pill-verified">Local API: Verified on an Apple M2 Mac</span><span class="pill pill-planned">SDKs: Planned</span></div>
 <p class="fine stack">The official OpenAI Python and JavaScript client libraries work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental. SDKs are planned. Choosing another device to run a request was tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:openai-clients}}{{claim:planned}}{{claim:mesh-pair-choose}}</p>
 </div>
@@ -85,7 +85,7 @@ stream = client.chat.completions.<span class="tok-f">create</span>(
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \
   -H 'X-Common-Target: peer:1a2b-3c4d-5e6f' \
   -d '{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</code></pre></div>
-<p>A peer target is refused with <code>policy_denied</code> or <code>peer_unauthorized</code> unless trusted devices are enabled, networking is on, the device is paired and a group on both sides allows it. With the Python client, pass <code>extra_body={"target": "peer:…"}</code>.</p>
+<p>A peer target is refused with <code>policy_denied</code> or <code>peer_unauthorized</code> unless trusted devices are enabled, networking is on, the device is paired and a group on both sides allows it (group checks are tested with several instances on one computer, not yet between two machines). With the Python client, pass <code>extra_body={"target": "peer:…"}</code>.</p>
 <p><a class="link-arrow" href="/docs/mesh/">Set up a paired device</a></p>
 </div>
 </div>
@@ -127,7 +127,7 @@ stream = client.chat.completions.<span class="tok-f">create</span>(
 <p>Every error uses the OpenAI shape, with a stable code from a fixed list and a hint:</p>
 <pre class="code-block"><code>{"error": {"message": "…", "type": "…", "code": "model_not_downloaded", "param": null, "hint": "…"}}</code></pre>
 <h3>Authentication and browsers</h3>
-<p>On loopback no key is needed. Listening on any other address requires <code>--api-key</code>, and then every route except <code>/health</code> needs <code>Authorization: Bearer &lt;key&gt;</code>. Browser origins other than the desktop app's are refused.</p>
+<p>Without <code>--api-key</code>, no key is needed on loopback. Listening on any other address requires <code>--api-key</code>, and then every route except <code>/health</code> needs <code>Authorization: Bearer &lt;key&gt;</code>. Browser origins other than the desktop app's are refused.</p>
 <p><a class="link-arrow" href="/docs/api/">Full API reference</a></p>
 </div>
 </div>

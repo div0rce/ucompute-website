@@ -11,11 +11,11 @@ layout: docs
 common hardware --json   # the same, machine-readable</code></pre></div>
 
 <h2 id="catalog">The model catalog</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models list                 # size, license and whether it fits on this machine
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models list                 # size, license and, for downloaded models, whether it fits
 common models search qwen
 common models inspect qwen2.5-0.5b-instruct-q4_k_m
 common models pull qwen2.5-0.5b-instruct-q4_k_m   # shows the license, asks, downloads and verifies</code></pre></div>
-<p>Downloads use HTTPS only, resume after interruption and are checked against the pinned SHA-256 before they are kept. Add <code>-y</code> to <code>pull</code> to accept the license without the prompt.</p>
+<p>Downloads use HTTPS only, resume after interruption and are checked against the pinned SHA-256 before they are kept. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}} Add <code>-y</code> to <code>pull</code> to accept the license without the prompt.</p>
 <div class="table-wrap"><table>
 <caption>Models in the pinned catalog as of 19 October 2026. Recorded inference so far uses models up to 0.5B parameters; the 1.5B model was measured for memory planning only.</caption>
 <thead><tr><th scope="col">Id</th><th scope="col">Size</th><th scope="col">Quantization</th><th scope="col">Download</th><th scope="col">License</th><th scope="col">Use</th></tr></thead>
@@ -64,4 +64,4 @@ common replay ~/Library/Application\ Support/Common/runs/&lt;run&gt;/manifest.js
 <p>Benchmark results record the hardware, command line and versions with every number. Small-model results don't predict how large models behave.</p>
 
 <h2 id="app">In the desktop app</h2>
-<p>The app shows the same catalog with size, license and a fit verdict for this computer; that was demonstrated on an Apple M2 Mac (macOS 26.2), and memory-fit estimates are calibrated for Apple Silicon Macs.{{claim:catalog}}{{claim:memory-fit}} Its chat runs the loaded model, and on a computer with trusted devices enabled you can pick a paired device to run on. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
+<p>The app shows the same catalog with size, license and a fit verdict for this computer; that was demonstrated on an Apple M2 Mac (macOS 26.2; the platform is experimental), and memory-fit estimates are calibrated for Apple Silicon Macs.{{claim:catalog}}{{claim:memory-fit}} Its chat runs the loaded model, and on a computer with trusted devices enabled you can pick a paired device to run on. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>

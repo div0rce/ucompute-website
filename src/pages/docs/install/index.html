@@ -22,7 +22,7 @@ common doctor    # checks the engine, disk and memory</code></pre></div>
 cd apps/desktop &amp;&amp; pnpm install &amp;&amp; pnpm tauri dev               # terminal 2</code></pre></div>
 <p><code>pnpm dev</code> instead opens the interface in a browser at <code>http://localhost:1420</code>. To build a Mac app and disk image:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cd apps/desktop &amp;&amp; pnpm tauri build --bundles app,dmg</code></pre></div>
-<p>This produces <code>Common.app</code> and <code>Common_0.1.0_aarch64.dmg</code>. The build compiles the bundled daemon from the same checkout. The app starts that daemon with <code>serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, or reuses one that already answers on port 8192, and stops it when you quit.</p>
+<p>This produces <code>Common.app</code> and <code>Common_0.1.0_aarch64.dmg</code>. The build compiles the bundled daemon from the same checkout. The app starts that daemon with <code>serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, or reuses one that already answers on port 8192, and when you quit it stops the daemon it started.</p>
 <div class="callout callout-warn"><strong>Not notarized</strong>Mac builds are ad-hoc signed, not notarized. macOS blocks a downloaded copy the first time; allow it once in System Settings, Privacy &amp; Security.</div>
 
 <h2 id="windows">Windows 11 x64</h2>
@@ -42,7 +42,6 @@ cd apps/desktop &amp;&amp; pnpm install &amp;&amp; pnpm tauri dev               
 <tbody>
 <tr><td>macOS</td><td><code>~/Library/Application Support/Common</code></td></tr>
 <tr><td>Windows</td><td><code>%LOCALAPPDATA%\Common</code></td></tr>
-<tr><td>Linux</td><td><code>$XDG_DATA_HOME/common</code>, or <code>~/.local/share/common</code></td></tr>
 </tbody>
 </table></div>
 <p>Set <code>COMMON_HOME</code> to use another folder. See <a href="/docs/configuration/">Configuration</a>.</p>

@@ -30,7 +30,7 @@ layout: docs
 <tr><td><code>peer_lost</code></td><td>The device is unreachable or the connection dropped</td><td>Same network? Firewall? Is its app or daemon running?</td></tr>
 <tr><td><code>pairing_failed</code></td><td>Wrong code, expired window, or a relayed connection</td><td>Open a new window and enter the current code</td></tr>
 <tr><td><code>pairing_locked</code></td><td>More than five wrong codes within a minute</td><td>Open a new pairing window</td></tr>
-<tr><td><code>protocol_incompatible</code></td><td>The two devices run incompatible versions</td><td>Update both to the same build</td></tr>
+<tr><td><code>protocol_incompatible</code></td><td>The two devices run incompatible versions</td><td>Build both from the same source</td></tr>
 </tbody>
 </table></div>
 
@@ -39,15 +39,15 @@ layout: docs
 <h2 id="firewall">Pairing or requests time out between a Mac and Windows</h2>
 <ul>
 <li>On Windows, allow the app on Private networks and make sure the network profile is Private.</li>
-<li>On Windows, approve the app's request to let paired devices reach it on private networks; Windows asks for administrator approval. Development builds from before 22 October 2026 lack this step: with them, open the pairing window on the Mac and join from Windows.{{claim:firewall-consent}}</li>
-<li>On a Mac, the firewall in System Settings, Network, may block incoming connections; if the Mac cannot serve requests, allow the app there.</li>
+<li>On Windows, approve the app's request to let paired devices reach it on private networks; Windows asks for administrator approval. Shown on one Windows 11 laptop with a development build. Development builds from before 22 October 2026 lack this step: with them, open the pairing window on the Mac and join from Windows.{{claim:firewall-consent}}</li>
+<li>On a Mac, the firewall in System Settings, Network, may block incoming connections (suspected, not confirmed); if the Mac cannot serve requests, allow the app there.</li>
 </ul>
 <h2 id="mac-blocked">macOS won't open the app</h2>
 <p>Development builds are ad-hoc signed and not notarized. Allow the app once in System Settings, Privacy &amp; Security.</p>
 <h2 id="port">Port 8192 is already in use</h2>
-<p>The desktop app checks <code>GET /health</code> on 127.0.0.1:8192 first and reuses a daemon that already answers. If something else holds the port, stop it or start your own daemon with <code>--port</code>.</p>
+<p>The desktop app checks <code>GET /health</code> on 127.0.0.1:8192 first and reuses a daemon that already answers. If something else holds the port, stop it: the desktop app only uses port 8192.</p>
 
 <h2 id="report">Reporting a problem safely</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common doctor --json
 common diagnostics --out diagnostics.json   # redacted: no prompt text</code></pre></div>
-<p>Attach those, the exact command and your platform. Never include prompts, answers or credentials. Never report a suspected security problem publicly; see the <a href="/open-source/#security">security policy</a>.</p>
+<p>Once the source is published and issues open, attach those, the exact command and your platform. Never include prompts, answers or credentials. Never report a suspected security problem publicly; see the <a href="/open-source/#security">security policy</a>.</p>

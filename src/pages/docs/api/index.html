@@ -52,7 +52,7 @@ layout: docs
 <tr><td><code>GET /api/peers</code></td><td>Paired devices with health and groups, devices discovered nearby, and held revocations</td></tr>
 <tr><td><code>DELETE /api/peers/{id}</code></td><td>Unpair without revoking (204)</td></tr>
 <tr><td><code>POST /api/peers/{id}/revoke</code></td><td>Unpair, record a signed revocation and propagate it to shared groups</td></tr>
-<tr><td><code>POST /api/peers/{id}/connect</code></td><td>Connect to a paired device now, optionally at an address you give: <code>{addr?: "ip:port"}</code>. The address is only a hint: the device must present the key it was paired with, and nothing is sent for a device that is not paired here</td></tr>
+<tr><td><code>POST /api/peers/{id}/connect</code></td><td>Connect to a paired device now, optionally at an address you give: <code>{addr?: "ip:port"}</code>. The address is only a hint: the device must present the key it was paired with, and nothing is sent for a device that is not paired here. Reconnecting by address was shown between one Mac and one Windows laptop on the same campus network, with development builds{{claim:connect-at-address}}</td></tr>
 <tr><td><code>POST /api/peers/{id}/disconnect</code></td><td>Experimental. Not documented further until it is verified on two machines with current builds</td></tr>
 <tr><td><code>POST /api/pair/start</code></td><td>Open a 120 s pairing window; returns <code>code</code>, <code>pair_addr</code>, <code>qr_payload</code>, <code>expires_at</code></td></tr>
 <tr><td><code>GET /api/pair/status</code></td><td><code>{active, result}</code></td></tr>
@@ -91,7 +91,7 @@ layout: docs
 <tr><td><code>policy_denied</code></td><td>403</td><td>Refused by settings or policy: local-only mode, networking off, disclosure not acknowledged, device not serving peers</td></tr>
 <tr><td><code>peer_unauthorized</code></td><td>403</td><td>Not paired, unknown label, no group allows it on one of the sides, or the other device refused before this one proved its key</td></tr>
 <tr><td><code>peer_revoked</code></td><td>403</td><td>The device is revoked here</td></tr>
-<tr><td><code>peer_held</code></td><td>403</td><td>The other device disconnected this one; it has to connect again from its side</td></tr>
+<tr><td><code>peer_held</code></td><td>403</td><td>Experimental: refused after a Disconnect on the other device. Not described further until it is verified on two machines with current builds</td></tr>
 <tr><td><code>model_not_found</code></td><td>404</td><td>Not in the catalog, or no known hash for it</td></tr>
 <tr><td><code>model_not_downloaded</code></td><td>404</td><td>Known, but the file isn't downloaded</td></tr>
 <tr><td><code>frame_too_large</code></td><td>413</td><td>A peer frame exceeded its bound</td></tr>
@@ -111,4 +111,4 @@ layout: docs
 </table></div>
 
 <h2 id="compat">Compatibility</h2>
-<p>This is API v1.0.0 of a development build. The official OpenAI Python and JavaScript clients are tested, on an Apple M2 Mac (macOS 26.2), for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility. Tool calling is not yet verified.{{claim:openai-clients}} No compatibility window is promised until a beta release publishes one.</p>
+<p>This is API v1.0.0 of a development build. The official OpenAI Python and JavaScript clients are tested, on an Apple M2 Mac (macOS 26.2; the platform is experimental), for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility. Tool calling is not yet verified.{{claim:openai-clients}} No compatibility window is promised.</p>
