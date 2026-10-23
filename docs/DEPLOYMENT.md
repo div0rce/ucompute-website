@@ -74,6 +74,16 @@ ucompute.org must keep rendering exactly as it does at production commit 1267b34
 - shared rules (`:root`, `body`, `.btn`, `.shell`, `.pl-*`) must not change;
 - compare screenshots of `/` and `/404.html` in prelaunch mode against production before merging.
 
+## Publishing a download
+
+`check.mjs` fails on any link to an installer or archive (`.dmg`, `.exe`, `.msi`, `.pkg`, `.zip`, `.AppImage`, `.deb`, `.rpm`), so nothing can be offered for download by accident. A download goes on the site only after engineering's release promotion record approves that exact artifact. That record gives the file name, size, SHA-256, signing and notarization status, and the approving commit. Then:
+
+1. Add the artifact to `/download/` with its SHA-256, size, signature status and supported platform, worded from the record.
+2. Narrow the check so it allows exactly that URL, and keeps failing on every other installer link.
+3. Update the release-status rows and the claims in `reference/claims.json`, then follow the snapshot steps above.
+
+The site keeps no release-records data file until the first artifact is approved.
+
 ## Launching the complete site publicly
 
 Only with the owner's explicit approval, after the launch-readiness items in `docs/VERIFICATION.md` are closed.

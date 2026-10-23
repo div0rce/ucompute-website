@@ -21,7 +21,7 @@ npm run test:links   # also fetches every external link
 
 Requires Node 20 or newer, and Python 3 for the local server.
 
-`npm test` fails on: identifiers, commits or private addresses in rendered text, section 9 phrases without a limiting word, unknown claim markers, broken internal links or anchors, missing title, description, canonical or `<h1>`, inline styles, scripts or event handlers (the Content-Security-Policy blocks them), unfilled `{{placeholders}}`, images without `alt` or dimensions, broken ARIA references, any file in the public prelaunch build that isn't on its allow-list, a preview page without `noindex`, and anything that looks like a secret.
+`npm test` fails on: identifiers, commits or private addresses in rendered text, section 9 phrases without a limiting word, unknown claim markers, broken internal links or anchors, missing title, description, canonical or `<h1>`, inline styles, scripts or event handlers (the Content-Security-Policy blocks them), unfilled `{{placeholders}}`, images without `alt` or dimensions, broken ARIA references, any file in the public prelaunch build that isn't on its allow-list, a preview page without `noindex`, invalid structured data, anything that looks like a secret, and any command, flag, route, error code or environment variable that the engineering source does not have (see Interfaces).
 
 ## Layout
 
@@ -51,6 +51,14 @@ layout: docs            (optional: "docs" adds the docs sidebar, "bare" means th
 ### Claims
 
 Every capability statement carries a `{{claim:ID}}` marker that resolves in `reference/claims.json` to its snapshot row, requirement IDs, evidence file and commit. The marker renders as nothing, and an unknown ID fails the build. Wording that waits on an engineering run goes in `{{if:acceptance}}…{{else}}…{{/if}}`; the first branch renders once `gates.acceptance` is true. While the source is unpublished, identifiers stay out of rendered pages, and `check.mjs` enforces it.
+
+### Interfaces
+
+`reference/interfaces.json` is exported read-only from the engineering repository: every CLI command and flag, HTTP route, error code with its status, and environment variable. Refresh it with `COMMON_REPO=<path> COMMON_REF=<commit> npm run interfaces:update`. `/docs/cli/` is rendered from it, with website wording for empty help text in `reference/cli-notes.json`. The build fails on a stale or missing note, and `check.mjs` fails on anything a page names that the export lacks.
+
+### Browsers
+
+`tools/browsers.mjs <dist> [shots]` checks every page in Chromium, Firefox and WebKit at 1440 and 390 px: errors, failed requests, overflow and axe WCAG 2.2 AA. On the home page it also checks the motion rules (animates, stops when paused or under reduced motion, static field without WebGL). It needs `playwright` and `axe-core` installed next to it, so it runs on a test host rather than in `npm test`; see `docs/VERIFICATION.md`.
 
 ### Motion
 

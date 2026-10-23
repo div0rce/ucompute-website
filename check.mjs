@@ -52,6 +52,7 @@ function check(root, mode) {
     if (/\sstyle="/.test(html)) fail(where, 'inline style attribute (blocked by the CSP)');
     if (/\son[a-z]+="/.test(html)) fail(where, 'inline event handler (blocked by the CSP)');
     for (const m of html.matchAll(/<script(?![^>]*\ssrc=)([^>]*)>/g)) if (!m[1].includes('application/ld+json')) fail(where, 'inline script (blocked by the CSP)');
+    for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) { try { JSON.parse(m[1]); } catch { fail(where, 'structured data is not valid JSON'); } }
     if (/href="#"/.test(html)) fail(where, 'empty href="#"');
     const noindex = html.includes('<meta name="robots" content="noindex');
     if (mode === 'preview' && !noindex) fail(where, 'preview page without noindex');

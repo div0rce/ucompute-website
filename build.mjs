@@ -37,7 +37,7 @@ export const DOCS = [
 
 const FOOTER = [
   ['Product', [['/product/', 'Product'], ['/demo/', 'Mac ↔ Windows demo'], ['/vision/', 'Vision'], ['/architecture/', 'Architecture'], ['/roadmap/', 'Roadmap']]],
-  ['Use and build', [['/download/', 'Release status'], ['/docs/', 'Documentation'], ['/developers/', 'Developers'], ['/docs/api/', 'API reference'], ['/docs/cli/', 'Command line']]],
+  ['Use and build', [['/start/', 'Start here'], ['/download/', 'Release status'], ['/docs/', 'Documentation'], ['/developers/', 'Developers'], ['/docs/api/', 'API reference'], ['/docs/cli/', 'Command line']]],
   ['Project', [['/open-source/', 'License and rules'], ['/community/', 'Community'], ['/open-source/#security', 'Security']]],
 ];
 
@@ -82,6 +82,13 @@ function head({ meta, path, mode, assets }) {
       { '@type': 'Organization', '@id': ORIGIN + '/#org', name: 'UCompute', url: ORIGIN + '/', logo: ORIGIN + '/assets/img/ucompute-mark.png' },
       { '@type': 'WebSite', '@id': ORIGIN + '/#site', name: 'UCompute', url: ORIGIN + '/', publisher: { '@id': ORIGIN + '/#org' } },
     ],
+  })}</script>` : meta.layout === 'docs' && path !== '/docs/' ? `\n<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Documentation', item: ORIGIN + '/docs/' },
+      { '@type': 'ListItem', position: 2, name: meta.title, item: url },
+    ],
   })}</script>` : '';
   return `<!doctype html>
 <html lang="en">
@@ -121,10 +128,10 @@ ${announce}
 <a class="brand" href="/" aria-label="UCompute home">${brand}</a>
 <div class="nav-links" id="nav-links">
 ${NAV.map(([href, label]) => `<a href="${href}"${current(href)}>${label}</a>`).join('\n')}
-<a class="nav-mobile-only" href="/download/"${current('/download/')}>Release status</a>
+<a class="nav-mobile-only" href="/start/"${current('/start/')}>Start here</a>
 </div>
 <div class="nav-right">
-<a class="btn btn-dark" href="/download/">Release status</a>
+<a class="btn btn-dark" href="/start/">Start here</a>
 <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
 </div>
 </nav>
