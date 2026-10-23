@@ -852,3 +852,9 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 .prose .not-yet{list-style:none;padding:0;display:grid;gap:8px}
 .prose .not-yet li{margin:0;border:1.5px dashed var(--line-2);border-radius:12px;padding:12px 16px;font-size:14.5px;line-height:1.6;color:var(--text-2)}
 .section-dark .prose .not-yet li{border-color:#4a6553;color:var(--on-dark-2)}
+
+/* Inner page headers: the dot field drifts by one dot spacing, very slowly (paused by "Pause motion"). */
+@media (prefers-reduced-motion:no-preference){
+  .page-hero::before,main>.notfound::before{animation:field-drift 22s ease-in-out infinite alternate}
+  @keyframes field-drift{from{background-position:0 0,0 0}to{background-position:-36px 18px,22px 22px}}
+}
