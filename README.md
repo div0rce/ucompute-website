@@ -58,7 +58,7 @@ Every capability statement carries a `{{claim:ID}}` marker that resolves in `ref
 
 ### Browsers
 
-`npm run test:browsers` (or `node tools/browsers.mjs <dist> [shots]`) checks every page in Chromium, Firefox and WebKit at 1440 and 390 px: errors, failed requests, overflow and axe WCAG 2.2 AA. On the home page it also checks the motion rules (animates, stops when paused or under reduced motion, static field without WebGL). It needs `playwright` and `axe-core` installed next to it, so it runs on a test host rather than in `npm test`; see `docs/VERIFICATION.md`.
+`npm run test:browsers` (or `node tools/browsers.mjs <dist> [shots]`) checks every page in Chromium, Firefox and WebKit at 1440 and 390 px: errors, failed requests, overflow and axe WCAG 2.2 AA. On the home page it also checks the motion rules (animates, stops when paused or under reduced motion, static field without WebGL). It needs `playwright` and `axe-core` installed next to it, so it runs on a test host rather than in `npm test`; see `docs/VERIFICATION.md`. `tools/lighthouse.mjs` audits the public build of every page, mobile and desktop, and fails below 90 performance, 100 accessibility, or 95 best practices or SEO.
 
 ### Motion
 
