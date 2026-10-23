@@ -232,6 +232,7 @@ export function build(mode, out) {
     : `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 
   // Cloudflare Pages headers. The CSP allows only this origin; pages use no inline script or style attributes.
+  // CSS and JS are linked with ?v=<content hash>, so they can be cached for a year; exact paths, so no header is set twice.
   const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'";
   writeFileSync(join(out, '_headers'), `/*
   Content-Security-Policy: ${csp}
@@ -244,7 +245,7 @@ export function build(mode, out) {
 ${mode === 'preview' ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
-`);
+${Object.keys(assets).map(k => `\n/assets/${k === 'css' ? 'ucompute.css' : k + '.js'}\n  Cache-Control: public, max-age=31536000, immutable\n`).join('')}`);
   writeFileSync(join(out, 'build.json'), JSON.stringify({ mode, pages: pages.map(p => p.path).sort(), commit: process.env.CF_PAGES_COMMIT_SHA || null, branch: process.env.CF_PAGES_BRANCH || null }, null, 2) + '\n');
   return pages;
 }
