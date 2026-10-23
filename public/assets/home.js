@@ -93,6 +93,12 @@ void main(){
       addEventListener('resize', () => { if (still) frame(0); });
       if (!still) addEventListener('pointermove', e => { target[0] = e.clientX / innerWidth - .5; target[1] = .5 - e.clientY / innerHeight; }, { passive: true });
       canvas.closest('.fabric').classList.add('fabric-live');
+      // If the GPU drops the context, fall back to the static dot field rather than a frozen canvas.
+      canvas.addEventListener('webglcontextlost', e => {
+        e.preventDefault();
+        cancelAnimationFrame(raf); raf = 0; paused = true;
+        canvas.closest('.fabric').classList.remove('fabric-live');
+      });
       frame(performance.now());
     }
   }
