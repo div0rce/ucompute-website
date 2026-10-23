@@ -273,7 +273,8 @@
         "U-05"
       ],
       "evidence": "spec 26.5 at ae552bf",
-      "commit": "ae552bf"
+      "commit": "ae552bf",
+      "exception": "D-023 (ecac951): the live prelaunch page at ucompute.org stays exactly as it stands at production 1267b34, title and unlabelled tagline included. Any change to that page, and every full-site page, introduces taglines as direction."
     },
     "license": {
       "snapshot": "8.15",
