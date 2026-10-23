@@ -79,6 +79,10 @@ layout: docs
 <li><code>{"mode": "local_only"}</code> always succeeds. <code>{"mode": "swarm_allowed"}</code> is refused until its security gate.</li>
 </ol>
 
+<h2 id="bodies">Request bodies</h2>
+<p>Generated from the API's own OpenAPI document. Nested fields are written <code>a.b</code>, and fields of array items <code>a[].b</code>.</p>
+{{api-bodies}}
+
 <h2 id="errors">Errors</h2>
 <p>Errors use the OpenAI shape, <code>{"error": {"message", "type", "code", "param", "hint"}}</code>. <code>overloaded</code> responses also send <code>Retry-After: 1</code>.</p>
 <div class="table-wrap"><table>

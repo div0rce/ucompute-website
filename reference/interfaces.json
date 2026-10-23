@@ -811,15 +811,223 @@
     },
     {
       "method": "POST",
-      "path": "/v1/chat/completions"
+      "path": "/v1/chat/completions",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "model",
+            "type": "string",
+            "required": true,
+            "help": "Catalog or store id. Required."
+          },
+          {
+            "name": "max_tokens",
+            "type": "integer (≥ 1)",
+            "default": "256"
+          },
+          {
+            "name": "max_completion_tokens",
+            "type": "integer (≥ 1)"
+          },
+          {
+            "name": "temperature",
+            "type": "number (≥ 0, ≤ 2)",
+            "default": "0.8"
+          },
+          {
+            "name": "top_p",
+            "type": "number (≥ 0, ≤ 1)",
+            "default": "0.95"
+          },
+          {
+            "name": "seed",
+            "type": "integer"
+          },
+          {
+            "name": "stop",
+            "type": "string or array of string"
+          },
+          {
+            "name": "stream",
+            "type": "boolean",
+            "default": "false"
+          },
+          {
+            "name": "stream_options",
+            "type": "object"
+          },
+          {
+            "name": "stream_options.include_usage",
+            "type": "boolean"
+          },
+          {
+            "name": "response_format",
+            "type": "object"
+          },
+          {
+            "name": "response_format.type",
+            "type": "\"text\" | \"json_object\" | \"json_schema\""
+          },
+          {
+            "name": "response_format.json_schema",
+            "type": "object"
+          },
+          {
+            "name": "response_format.json_schema.name",
+            "type": "string"
+          },
+          {
+            "name": "response_format.json_schema.schema",
+            "type": "object"
+          },
+          {
+            "name": "n",
+            "type": "1"
+          },
+          {
+            "name": "target",
+            "type": "string",
+            "default": "\"local\"",
+            "help": "Common extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`."
+          },
+          {
+            "name": "messages",
+            "type": "array of object (at least 1)",
+            "required": true
+          },
+          {
+            "name": "messages[].role",
+            "type": "\"system\" | \"user\" | \"assistant\" | \"tool\" | \"developer\"",
+            "required": true
+          },
+          {
+            "name": "messages[].content",
+            "type": "string or null or array of object"
+          },
+          {
+            "name": "tools",
+            "type": "array of object"
+          },
+          {
+            "name": "tool_choice",
+            "type": "any"
+          }
+        ]
+      }
     },
     {
       "method": "POST",
-      "path": "/v1/completions"
+      "path": "/v1/completions",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "model",
+            "type": "string",
+            "required": true,
+            "help": "Catalog or store id. Required."
+          },
+          {
+            "name": "max_tokens",
+            "type": "integer (≥ 1)",
+            "default": "256"
+          },
+          {
+            "name": "max_completion_tokens",
+            "type": "integer (≥ 1)"
+          },
+          {
+            "name": "temperature",
+            "type": "number (≥ 0, ≤ 2)",
+            "default": "0.8"
+          },
+          {
+            "name": "top_p",
+            "type": "number (≥ 0, ≤ 1)",
+            "default": "0.95"
+          },
+          {
+            "name": "seed",
+            "type": "integer"
+          },
+          {
+            "name": "stop",
+            "type": "string or array of string"
+          },
+          {
+            "name": "stream",
+            "type": "boolean",
+            "default": "false"
+          },
+          {
+            "name": "stream_options",
+            "type": "object"
+          },
+          {
+            "name": "stream_options.include_usage",
+            "type": "boolean"
+          },
+          {
+            "name": "response_format",
+            "type": "object"
+          },
+          {
+            "name": "response_format.type",
+            "type": "\"text\" | \"json_object\" | \"json_schema\""
+          },
+          {
+            "name": "response_format.json_schema",
+            "type": "object"
+          },
+          {
+            "name": "response_format.json_schema.name",
+            "type": "string"
+          },
+          {
+            "name": "response_format.json_schema.schema",
+            "type": "object"
+          },
+          {
+            "name": "n",
+            "type": "1"
+          },
+          {
+            "name": "target",
+            "type": "string",
+            "default": "\"local\"",
+            "help": "Common extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`."
+          },
+          {
+            "name": "prompt",
+            "type": "string or array of string",
+            "required": true
+          }
+        ]
+      }
     },
     {
       "method": "POST",
-      "path": "/v1/embeddings"
+      "path": "/v1/embeddings",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "model",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "type": "string or array of string",
+            "required": true
+          },
+          {
+            "name": "encoding_format",
+            "type": "\"float\" | \"base64\""
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -839,7 +1047,20 @@
     },
     {
       "method": "POST",
-      "path": "/api/models/{id}/load"
+      "path": "/api/models/{id}/load",
+      "body": {
+        "required": false,
+        "fields": [
+          {
+            "name": "device",
+            "type": "\"auto\" | \"cpu\" | \"gpu\""
+          },
+          {
+            "name": "n_ctx",
+            "type": "integer (≥ 1)"
+          }
+        ]
+      }
     },
     {
       "method": "POST",
@@ -851,7 +1072,25 @@
     },
     {
       "method": "POST",
-      "path": "/api/models/import"
+      "path": "/api/models/import",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "license",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -859,7 +1098,20 @@
     },
     {
       "method": "PUT",
-      "path": "/api/network"
+      "path": "/api/network",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "serve_peers",
+            "type": "boolean"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -875,7 +1127,17 @@
     },
     {
       "method": "POST",
-      "path": "/api/pair/start"
+      "path": "/api/pair/start",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "help": "This device's name as the other side will see it (<= 64 bytes); empty or absent: this host's name (`device_name` in GET /api/network)."
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -883,7 +1145,26 @@
     },
     {
       "method": "POST",
-      "path": "/api/pair/join"
+      "path": "/api/pair/join",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "addr",
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "help": "This device's name as the other side will see it; empty or absent: this host's name."
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -891,7 +1172,36 @@
     },
     {
       "method": "PUT",
-      "path": "/api/groups"
+      "path": "/api/groups",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "name",
+            "type": "string (up to 64 characters)",
+            "required": true
+          },
+          {
+            "name": "members",
+            "type": "array of string (at most 256)",
+            "required": true
+          },
+          {
+            "name": "policy",
+            "type": "object"
+          },
+          {
+            "name": "policy.allow_remote_inference",
+            "type": "boolean",
+            "default": "false"
+          },
+          {
+            "name": "policy.allow_pooled_inference",
+            "type": "boolean",
+            "default": "false"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -899,7 +1209,22 @@
     },
     {
       "method": "PUT",
-      "path": "/api/privacy"
+      "path": "/api/privacy",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "mode",
+            "type": "\"local_only\" | \"trusted_group\" | \"swarm_allowed\"",
+            "required": true
+          },
+          {
+            "name": "acknowledged",
+            "type": "boolean",
+            "default": "false"
+          }
+        ]
+      }
     },
     {
       "method": "GET",
@@ -907,7 +1232,17 @@
     },
     {
       "method": "POST",
-      "path": "/api/peers/{id}/connect"
+      "path": "/api/peers/{id}/connect",
+      "body": {
+        "required": true,
+        "fields": [
+          {
+            "name": "addr",
+            "type": "string",
+            "help": "ip:port where the device can be reached now (not port 0, an unspecified or a multicast address)."
+          }
+        ]
+      }
     },
     {
       "method": "POST",

@@ -194,6 +194,13 @@ const routeKnown = (path, method) => I.routes.some(r => {
   const a = r.path.split('/'), b = path.split('/');
   return (!method || r.method === method) && a.length === b.length && a.every((s, i) => s === b[i] || /^\{.+\}$/.test(s));
 });
+// A JSON body in an example may only use the request fields of the route it is sent to.
+function checkBody(where, method, path, json) {
+  const route = I.routes.find(r => r.method === method && routeKnown(path, method) && r.path.split('/').length === path.split('/').length && r.path.split('/').every((s, i) => s === path.split('/')[i] || /^\{.+\}$/.test(s)));
+  if (!route?.body) return fail(where, `${method} ${path} takes no request body`);
+  const allowed = new Set(route.body.fields.flatMap(f => f.name.split(/[.[\]]+/).filter(Boolean)));
+  for (const k of json.matchAll(/"(\w+)"\s*:/g)) if (!allowed.has(k[1])) fail(where, `${method} ${path} has no request field "${k[1]}"`);
+}
 const unescape = s => s.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function interfaceCheck(root, pages, mode) {
   const errorRows = new Map(), documented = new Set();
@@ -206,6 +213,11 @@ function interfaceCheck(root, pages, mode) {
         if (!routeKnown(r[2], r[1])) fail(where, `unknown route ${r[1]} ${r[2]}`);
         documented.add(`${r[1]} ${r[2]}`);
       }
+      for (const seg of code.split(/(?=\bcurl\s)/)) {
+        const url = seg.match(/https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[\w/{}.-]*)/), data = seg.match(/-d\s+'([\s\S]*?)'/);
+        if (url && data) checkBody(where, seg.match(/-X\s+([A-Z]+)/)?.[1] || 'POST', url[1], data[1]);
+      }
+      for (const b of code.matchAll(/\b(POST|PUT) (\/[\w/{}.-]*) (\{[\s\S]*\})/g)) checkBody(where, b[1], b[2], b[3]);
       for (const u of code.matchAll(/https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[\w/{}.-]*)/g)) if (u[1] !== '/' && !routeKnown(u[1]) && !I.routes.some(r => r.path.startsWith(u[1] + '/'))) fail(where, `unknown route ${u[1]}`);
       for (const line of code.split('\n')) {
         const cm = line.replace(/\s#.*$/, '').match(/^\s*(?:\$\s*)?common\s+(.+)$/);

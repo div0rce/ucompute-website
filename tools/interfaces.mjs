@@ -102,7 +102,39 @@ for (const s of top.subs) walk(s, 'common');
 // The ROUTES table is the source of truth (engineering's tests check it against openapi.json).
 const libSrc = show('crates/common-api/src/lib.rs');
 const table = libSrc.slice(libSrc.indexOf('pub const ROUTES'), libSrc.indexOf('];', libSrc.indexOf('pub const ROUTES')));
-const routes = [...table.matchAll(/\("(GET|POST|PUT|DELETE)", "([^"]+)"\)/g)].map(m => ({ method: m[1], path: m[2] }));
+// Request bodies come from the OpenAPI document, flattened one row per field (nested as a.b, arrays as a[].b).
+const oa = JSON.parse(show('crates/common-api/openapi.json'));
+const deref = s => s?.$ref ? deref(oa.components.schemas[s.$ref.split('/').pop()]) : s || {};
+const merge = s => {
+  s = deref(s);
+  if (!s.allOf) return s;
+  const parts = s.allOf.map(merge);
+  return { type: 'object', properties: Object.assign({}, ...parts.map(p => p.properties)), required: parts.flatMap(p => p.required || []) };
+};
+const typeOf = s => {
+  s = merge(s);
+  if (s.const !== undefined) return JSON.stringify(s.const);
+  if (s.enum) return s.enum.map(v => JSON.stringify(v)).join(' | ');
+  if (s.oneOf) return s.oneOf.map(typeOf).join(' or ');
+  if (s.type === 'array') return `array of ${typeOf(s.items)}`;
+  return s.type || 'any';
+};
+const flatten = (s, prefix = '') => {
+  s = merge(s);
+  return Object.entries(s.properties || {}).flatMap(([k, v0]) => {
+    const v = merge(v0), name = prefix + k;
+    const limits = [v.minimum !== undefined && `≥ ${v.minimum}`, v.maximum !== undefined && `≤ ${v.maximum}`, v.maxLength && `up to ${v.maxLength} characters`, v.minItems && `at least ${v.minItems}`, v.maxItems && `at most ${v.maxItems}`].filter(Boolean).join(', ');
+    const row = { name, type: typeOf(v) + (limits ? ` (${limits})` : ''), required: (s.required || []).includes(k) || undefined, default: v.default !== undefined ? JSON.stringify(v.default) : undefined, help: v.description ? clean(v.description) : undefined };
+    const inner = v.type === 'array' ? merge(v.items) : v;
+    return [row, ...(inner.properties ? flatten(inner, name + (v.type === 'array' ? '[].' : '.')) : [])];
+  });
+};
+const bodyOf = (method, path) => {
+  const rb = oa.paths[path]?.[method.toLowerCase()]?.requestBody;
+  const schema = rb?.content?.['application/json']?.schema;
+  return schema ? { required: rb.required === true, fields: flatten(schema) } : undefined;
+};
+const routes = [...table.matchAll(/\("(GET|POST|PUT|DELETE)", "([^"]+)"\)/g)].map(m => ({ method: m[1], path: m[2], body: bodyOf(m[1], m[2]) }));
 const errSrc = show('crates/common-core/src/error.rs');
 const statusOf = {};
 for (const m of errSrc.matchAll(/((?:ErrorCode::\w+\s*\|?\s*)+)=>\s*(\d{3})/g)) for (const c of m[1].matchAll(/ErrorCode::(\w+)/g)) statusOf[c[1]] = +m[2];

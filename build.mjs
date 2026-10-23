@@ -229,6 +229,19 @@ ${I.env.filter(v => notes[`env ${v}`] !== null || !used.add(`env ${v}`)).map(v =
   return html;
 }
 
+// {{api-bodies}}: request body fields for every route that takes one, from the OpenAPI document via interfaces.json.
+export function apiBodies() {
+  const I = JSON.parse(readFileSync(join(ROOT, 'reference/interfaces.json'), 'utf8'));
+  const code = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  return I.routes.filter(r => r.body).map(r => { const helps = r.body.fields.some(f => f.help); return `<h3 id="body-${(r.method + r.path).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}"><code>${r.method} ${esc(r.path)}</code></h3>
+${r.body.required ? '' : '<p>The body is optional.</p>\n'}<div class="table-wrap"><table>
+<thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Default</th>${helps ? '<th scope="col">Meaning</th>' : ''}</tr></thead>
+<tbody>
+${r.body.fields.map(f => `<tr><td><code>${esc(f.name)}</code>${f.required ? '<br><span class="fine">required</span>' : ''}</td><td>${esc(f.type)}</td><td>${f.default ? `<code>${esc(f.default)}</code>` : ''}</td>${helps ? `<td>${f.help ? code(f.help) : ''}</td>` : ''}</tr>`).join('\n')}
+</tbody>
+</table></div>`; }).join('\n');
+}
+
 // {{releases}}: approved downloads from reference/releases.json. A record missing any field fails the build,
 // so nothing reaches the page without its checksum, signature status and both approvals.
 export const RELEASES = JSON.parse(readFileSync(join(ROOT, 'reference/releases.json'), 'utf8')).releases;
@@ -265,6 +278,7 @@ ${r.artifacts.map(a => `<tr><th scope="row">${esc(a.platform)}</th><td><a href="
 const fill = (s, file) => {
   s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
   if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml());
+  if (s.includes('{{api-bodies}}')) s = s.replace('{{api-bodies}}', apiBodies());
   return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;
 };
 
