@@ -52,6 +52,20 @@ description: The full record of UCompute's first run between installed desktop a
 </div>
 </section>
 
+<section class="section-tight" aria-labelledby="runs">
+<div class="shell">
+<h2 class="h-sub" id="runs">Every recorded run</h2>
+<p class="lede stack">The 19 October run is the demonstration. These are all the two-machine runs behind it and since, each with development builds of the day.</p>
+<ol class="runs stack">
+<li class="run"><time datetime="2026-10-18">18 October</time><h3>Campus Wi-Fi, background services only</h3><p>Two runs where the network blocks discovery. Pairing by address, remote runs in both directions, and revocation: the laptop was cut off 0.012 s after the Mac revoked it.{{claim:daemon-runs}}{{claim:revocation}}</p></li>
+<li class="run"><time datetime="2026-10-19">19 October</time><h3>Phone hotspot, background services only</h3><p>Each device found the other within about a second. Remote runs both ways, and a revocation that closed the connection in 0.061 s.{{claim:discovery}}{{claim:revocation}}</p></li>
+<li class="run run-key"><time datetime="2026-10-19">19 October</time><h3>The desktop apps, paired through their windows</h3><p>The Windows app ran a prompt on the Mac. This is the run the rest of this page describes.{{claim:demo-2026-10-19}}</p></li>
+<li class="run"><time datetime="2026-10-22">22 October</time><h3>Campus Wi-Fi, newer builds</h3><p>Where a network blocks automatic discovery, paired devices can still connect by address, and an address alone is never trusted. On Windows, the app asked before letting paired devices through the firewall, and Windows asked for administrator approval; pairing started from Windows then succeeded. A revocation closed the connection in 0.053 s.{{claim:connect-at-address}}{{claim:firewall-consent}}{{claim:windows-pairing}}{{claim:revocation}}</p></li>
+</ol>
+<p class="fine stack">Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
+</div>
+</section>
+
 <section class="section-tight" aria-labelledby="machines">
 <div class="shell">
 <h2 class="h-sub" id="machines">The machines</h2>
