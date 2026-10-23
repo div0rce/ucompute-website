@@ -90,7 +90,8 @@ void main(){
       addEventListener('motionchange', e => { paused = e.detail.paused; resume(); });
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; resume(); }).observe(canvas);
       document.addEventListener('visibilitychange', resume);
-      addEventListener('resize', () => { if (still) frame(0); });
+      // Without a running loop (reduced motion or paused), redraw one still frame at the new size.
+      addEventListener('resize', () => { if (!raf) frame(performance.now()); });
       if (!still) addEventListener('pointermove', e => { target[0] = e.clientX / innerWidth - .5; target[1] = .5 - e.clientY / innerHeight; }, { passive: true });
       canvas.closest('.fabric').classList.add('fabric-live');
       // If the GPU drops the context, fall back to the static dot field rather than a frozen canvas.
