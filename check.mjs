@@ -177,7 +177,7 @@ const routeKnown = (path, method) => I.routes.some(r => {
 });
 const unescape = s => s.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function interfaceCheck(root, pages, mode) {
-  const errorRows = new Map();
+  const errorRows = new Map(), documented = new Set();
   for (const f of pages) {
     const html = readFileSync(join(root, f), 'utf8');
     const where = `${mode}/${f}`;
@@ -185,6 +185,7 @@ function interfaceCheck(root, pages, mode) {
       const code = unescape(m[1]);
       for (const r of code.matchAll(/\b(GET|POST|PUT|DELETE) (\/[\w/{}.-]*)/g)) {
         if (!routeKnown(r[2], r[1])) fail(where, `unknown route ${r[1]} ${r[2]}`);
+        documented.add(`${r[1]} ${r[2]}`);
       }
       for (const u of code.matchAll(/https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[\w/{}.-]*)/g)) if (u[1] !== '/' && !routeKnown(u[1]) && !I.routes.some(r => r.path.startsWith(u[1] + '/'))) fail(where, `unknown route ${u[1]}`);
       for (const line of code.split('\n')) {
@@ -216,6 +217,7 @@ function interfaceCheck(root, pages, mode) {
       else if (e.status !== status) fail(where, `${code} returns ${e.status}, the page says ${status}`);
     }
     for (const e of I.errors) if (!errorRows.has(e.code)) fail(mode, `error code ${e.code} (${e.status}) is not documented`);
+    for (const r of I.routes) if (!documented.has(`${r.method} ${r.path}`)) fail(mode, `route ${r.method} ${r.path} is not documented`);
   }
 }
 
