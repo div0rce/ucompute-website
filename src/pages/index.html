@@ -1,5 +1,5 @@
 <!--
-title: UCompute: compute better, together
+title: UCompute: local AI on devices you own, in development
 description: UCompute is building an open computing layer for the devices you own and trust. In development: run small open models on your own computer, or send a request to another computer you have paired.
 scripts: site home
 -->
@@ -14,7 +14,7 @@ scripts: site home
 <a class="btn btn-lime btn-lg" href="#story">Follow one request</a>
 <a class="link-arrow on-dark-link" href="/download/">Release status</a>
 </div>
-<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}}</p>
+<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
 <button class="motion-toggle motion-toggle-hero" type="button" aria-pressed="false" hidden>Pause motion</button>
 </div>
 <div class="shell">
@@ -23,7 +23,7 @@ scripts: site home
 <li><span>Mesh</span><span class="pill pill-experimental">Experimental</span></li>
 <li><span>One model across devices</span><span class="pill pill-planned">Planned</span></li>
 <li><span>Swarm</span><span class="pill pill-planned">Planned</span></li>
-<li><span>Cloud</span><span class="pill pill-research">Strategic hypothesis</span></li>
+<li><span>Cloud</span><span class="pill pill-planned">Planned</span></li>
 </ul>
 </div>
 </section>
@@ -42,19 +42,19 @@ scripts: site home
 <path class="dev-base" d="M8 240h280l-18 16H26z"/>
 <text class="dev-name" x="148" y="290">Windows laptop</text>
 <text class="dev-spec" x="148" y="312">Core Ultra 7 258V, Arc 140V</text>
-<g class="st st-1"><text class="scr-h" x="44" y="100">Join a paired device</text><g class="code-boxes"><rect x="44" y="124" width="30" height="40" rx="6"/><rect x="80" y="124" width="30" height="40" rx="6"/><rect x="116" y="124" width="30" height="40" rx="6"/><rect x="160" y="124" width="30" height="40" rx="6"/><rect x="196" y="124" width="30" height="40" rx="6"/><rect x="232" y="124" width="30" height="40" rx="6"/></g><text class="scr-s" x="44" y="196">six-digit code from the Mac</text></g>
+<g class="st st-1"><text class="scr-h" x="44" y="100">Enter the code</text><g class="code-boxes"><rect x="44" y="124" width="30" height="40" rx="6"/><rect x="80" y="124" width="30" height="40" rx="6"/><rect x="116" y="124" width="30" height="40" rx="6"/><rect x="160" y="124" width="30" height="40" rx="6"/><rect x="196" y="124" width="30" height="40" rx="6"/><rect x="232" y="124" width="30" height="40" rx="6"/></g><text class="scr-s" x="44" y="196">six-digit code from the Mac</text></g>
 <g class="st st-2"><text class="scr-h" x="44" y="100">The Mac</text><text class="scr-s" x="44" y="146">may run prompts</text><rect class="toggle" x="200" y="128" width="50" height="26" rx="13"/><circle class="toggle-knob" cx="237" cy="141" r="9"/></g>
-<g class="st st-3"><text class="scr-h" x="44" y="100">Run this request on</text><rect class="select" x="44" y="122" width="208" height="44" rx="8"/><text class="scr-v" x="60" y="150">the Mac</text><path class="caret" d="M226 140l8 8 8-8"/></g>
+<g class="st st-3"><text class="scr-h" x="44" y="100">Device to run on</text><rect class="select" x="44" y="122" width="208" height="44" rx="8"/><text class="scr-v" x="60" y="150">the Mac</text><path class="caret" d="M226 140l8 8 8-8"/></g>
 <g class="st st-4"><text class="scr-h" x="44" y="100">Sending to the Mac</text><text class="scr-s" x="44" y="146">stories15M, a test fixture</text><rect class="bar-bg" x="44" y="176" width="208" height="8" rx="4"/><rect class="bar-run" x="44" y="176" width="208" height="8" rx="4"/></g>
-<g class="st st-5"><text class="scr-big" x="44" y="118">112 tokens</text><text class="scr-s" x="44" y="152">first token in 2,325 ms</text><text class="scr-s" x="44" y="180">508 tok/s, a path check</text><text class="scr-ok" x="44" y="212">ran on the Mac</text></g>
+<g class="st st-5"><text class="scr-big" x="44" y="118">112 tokens</text><text class="scr-s" x="44" y="146">first token in 2,325 ms</text><text class="scr-s" x="44" y="170">508 tok/s: path check,</text><text class="scr-s" x="44" y="192">not performance</text><text class="scr-ok" x="44" y="220">ran on the Mac</text></g>
 </g>
 <g class="dev dev-mac">
 <rect class="dev-screen" x="368" y="64" width="248" height="168" rx="12"/>
 <path class="dev-base" d="M352 240h280l-18 16H370z"/>
 <text class="dev-name" x="492" y="290">MacBook Air</text>
 <text class="dev-spec" x="492" y="312">Apple M2, 8 GB</text>
-<g class="st st-1"><text class="scr-h" x="388" y="100">Pair this Mac</text><g class="code-boxes code-shown"><rect x="388" y="124" width="30" height="40" rx="6"/><rect x="424" y="124" width="30" height="40" rx="6"/><rect x="460" y="124" width="30" height="40" rx="6"/><rect x="504" y="124" width="30" height="40" rx="6"/><rect x="540" y="124" width="30" height="40" rx="6"/><rect x="576" y="124" width="30" height="40" rx="6"/></g><text class="scr-s" x="388" y="196">shows the code</text></g>
-<g class="st st-2"><text class="scr-h" x="388" y="100">The laptop</text><text class="scr-s" x="388" y="146">may run prompts</text><rect class="toggle" x="544" y="128" width="50" height="26" rx="13"/><circle class="toggle-knob" cx="581" cy="141" r="9"/></g>
+<g class="st st-1"><text class="scr-h" x="388" y="100">Shows a code</text><g class="code-boxes code-shown"><rect x="388" y="124" width="30" height="40" rx="6"/><rect x="424" y="124" width="30" height="40" rx="6"/><rect x="460" y="124" width="30" height="40" rx="6"/><rect x="504" y="124" width="30" height="40" rx="6"/><rect x="540" y="124" width="30" height="40" rx="6"/><rect x="576" y="124" width="30" height="40" rx="6"/></g><text class="scr-s" x="388" y="196">shows the code</text></g>
+<g class="st st-2"><text class="scr-h" x="388" y="100">The laptop</text><text class="scr-s" x="388" y="146">allowed through</text><text class="scr-s" x="388" y="170">the Mac's local API</text></g>
 <g class="st st-3"><text class="scr-h" x="388" y="100">Paired</text><text class="scr-s" x="388" y="146">Windows laptop, connected</text></g>
 <g class="st st-4"><text class="scr-h" x="388" y="100">Loading the model</text><text class="scr-s" x="388" y="146">on the Apple M2 GPU</text><rect class="chip" x="388" y="170" width="74" height="30" rx="6"/><text class="chip-t" x="425" y="190">Metal</text></g>
 <g class="st st-5"><text class="scr-h" x="388" y="100">remote_request</text><text class="scr-ok" x="388" y="146">done</text><text class="scr-s" x="388" y="180">logged without its text</text></g>
@@ -101,7 +101,7 @@ scripts: site home
 <p class="inst-fine">Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.</p>
 </figure>
 <figure class="instrument inst-memory">
-<figcaption class="inst-head"><span class="inst-value">−4.6% to +8.9%</span><span class="inst-what">Before loading a model, UCompute checks it fits in memory. Across 14 measured model and context combinations, its estimate fell within this range of the engine's real footprint; the allowed error is ±15%.{{claim:memory-fit}}</span></figcaption>
+<figcaption class="inst-head"><span class="inst-value">−4.6% to +8.9%</span><span class="inst-what">Before loading a model, UCompute checks it fits in memory. Across 14 measured combinations of small models (stories260K to Qwen2.5 1.5B) and context sizes, its estimate fell within this range of the engine's real footprint; the allowed error is ±15%.{{claim:memory-fit}}</span></figcaption>
 <svg class="scale" viewBox="0 0 340 96" role="img" aria-label="Memory estimate error from minus 4.6 to plus 8.9 percent, inside a bound of plus or minus 15 percent">
 <rect class="bound-band" x="16" y="44" width="308" height="28" rx="6"/><line class="zero" x1="170" y1="36" x2="170" y2="80"/>
 <rect class="range" x="123" y="50" width="138" height="16" rx="4"/>
@@ -136,7 +136,7 @@ scripts: site home
 <li class="ring-item is-real"><div class="ring-top"><h3>UCompute Mesh</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Mesh lets you pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p></li>
 <li class="ring-item"><div class="ring-top"><h3>One model across devices</h3><span class="pill pill-planned">Planned</span></div><p>One model split across several devices, each computing part of every token. Planned and not started.{{claim:planned}}</p></li>
 <li class="ring-item"><div class="ring-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>An opt-in open network, disabled until isolation, metering, verification and abuse protections pass independent review.{{claim:planned}}</p></li>
-<li class="ring-item"><div class="ring-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Strategic hypothesis</span></div><p>An optional managed service. It does not exist today, and it would never be required for local or private use.{{claim:planned}}</p></li>
+<li class="ring-item"><div class="ring-top"><h3>UCompute Cloud</h3><span class="pill pill-planned">Planned</span></div><p>An optional managed service. It does not exist today, and it would never be required for local or private use.{{claim:planned}}</p></li>
 </ol>
 <p class="vision-foot">Planned, with no date: running one model across several devices, an opt-in open network (UCompute Swarm), compute credits and an optional managed service (UCompute Cloud). None of these exists today. Our direction: “Free to use your own compute. Free to share when you choose. Earn when you contribute. Pay when you need more.” Credits do not exist yet. Free does not mean unlimited. <a class="link-arrow" href="/vision/#economics">The direction</a>{{claim:planned}}{{claim:direction}}</p>
 </div>
@@ -221,8 +221,9 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <section class="section" aria-labelledby="trust-title">
 <div class="shell split">
 <div>
+<p class="section-lead">Our direction:</p>
 <h2 class="h-section" id="trust-title">Share your compute.<br><span class="soft">Not your computer.</span></h2>
-<p class="lede stack">Our direction: the headline is the design goal for sharing with others, and the isolation that would make it safe with strangers is not built yet.{{claim:direction}} What protects you today, between devices you pair and trust, is listed here; each item is verified with recorded engineering evidence. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
+<p class="lede stack">This is the design goal for sharing with others; the isolation that would make it safe with strangers is not built yet. Credits do not exist yet. Free does not mean unlimited.{{claim:direction}} What protects you today, between devices you pair and trust, is below; each item states its evidence and limits. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
 <p class="stack"><a class="link-arrow" href="/open-source/#security">Trust boundaries and security reports</a></p>
 </div>
 <div class="rows">

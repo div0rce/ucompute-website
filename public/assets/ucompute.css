@@ -804,3 +804,6 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
   .page-hero::before,main>.notfound::before{animation:field-drift 22s ease-in-out infinite alternate}
   @keyframes field-drift{from{background-position:0 0,0 0}to{background-position:-36px 18px,22px 22px}}
 }
+
+/* A lead-in phrase set above a section heading (direction framing) */
+.section-lead{font:500 clamp(17px,1.5vw,21px)/1.3 var(--display);letter-spacing:-.02em;color:var(--text-2);margin-bottom:12px}

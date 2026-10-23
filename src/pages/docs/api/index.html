@@ -39,6 +39,8 @@ layout: docs
 <tr><td><code>POST /api/models/{id}/pull</code></td><td>Download with progress as server-sent events; resumable and hash-verified</td></tr>
 <tr><td><code>POST /api/models/{id}/load</code>, <code>POST /api/unload</code></td><td>Load or unload a model</td></tr>
 <tr><td><code>DELETE /api/models/{id}</code>, <code>POST /api/models/import</code></td><td>Remove or import a model</td></tr>
+<tr><td><code>GET /api/jobs</code></td><td>Requests this daemon runs, sends to a paired device or serves for one: <code>{active, recent}</code>, with the last 256 finished. Ids, counts, codes and durations only, never prompt or response text; kept in memory, not on disk</td></tr>
+<tr><td><code>POST /api/shutdown</code></td><td>Stop the daemon cleanly, as SIGTERM does: finish open requests, close peer connections and unload the model. Same authentication as every route</td></tr>
 <tr><td><code>GET /openapi.json</code></td><td>This API's OpenAPI document</td></tr>
 </tbody>
 </table></div>
@@ -50,6 +52,8 @@ layout: docs
 <tr><td><code>GET /api/peers</code></td><td>Paired devices with health and groups, devices discovered nearby, and held revocations</td></tr>
 <tr><td><code>DELETE /api/peers/{id}</code></td><td>Unpair without revoking (204)</td></tr>
 <tr><td><code>POST /api/peers/{id}/revoke</code></td><td>Unpair, record a signed revocation and propagate it to shared groups</td></tr>
+<tr><td><code>POST /api/peers/{id}/connect</code></td><td>Connect to a paired device now, optionally at an address you give: <code>{addr?: "ip:port"}</code>. The address is only a hint: the device must present the key it was paired with, and nothing is sent for a device that is not paired here</td></tr>
+<tr><td><code>POST /api/peers/{id}/disconnect</code></td><td>Experimental. Not documented further until it is verified on two machines with current builds</td></tr>
 <tr><td><code>POST /api/pair/start</code></td><td>Open a 120 s pairing window; returns <code>code</code>, <code>pair_addr</code>, <code>qr_payload</code>, <code>expires_at</code></td></tr>
 <tr><td><code>GET /api/pair/status</code></td><td><code>{active, result}</code></td></tr>
 <tr><td><code>POST /api/pair/join</code></td><td><code>{code, addr?, name?}</code>: six digits plus an address, or a whole <code>common-pair:v1:…</code> QR payload</td></tr>
@@ -85,8 +89,9 @@ layout: docs
 <tr><td><code>unauthorized</code></td><td>401</td><td>Missing or wrong API key</td></tr>
 <tr><td><code>pairing_failed</code></td><td>401</td><td>Wrong code, relayed connection, a QR naming another device, or an expired window</td></tr>
 <tr><td><code>policy_denied</code></td><td>403</td><td>Refused by settings or policy: local-only mode, networking off, disclosure not acknowledged, device not serving peers</td></tr>
-<tr><td><code>peer_unauthorized</code></td><td>403</td><td>Not paired, unknown label, or no group allows it on one of the sides</td></tr>
-<tr><td><code>peer_revoked</code></td><td>403</td><td>The device is revoked here, or revoked this device</td></tr>
+<tr><td><code>peer_unauthorized</code></td><td>403</td><td>Not paired, unknown label, no group allows it on one of the sides, or the other device refused before this one proved its key</td></tr>
+<tr><td><code>peer_revoked</code></td><td>403</td><td>The device is revoked here</td></tr>
+<tr><td><code>peer_held</code></td><td>403</td><td>The other device disconnected this one; it has to connect again from its side</td></tr>
 <tr><td><code>model_not_found</code></td><td>404</td><td>Not in the catalog, or no known hash for it</td></tr>
 <tr><td><code>model_not_downloaded</code></td><td>404</td><td>Known, but the file isn't downloaded</td></tr>
 <tr><td><code>frame_too_large</code></td><td>413</td><td>A peer frame exceeded its bound</td></tr>

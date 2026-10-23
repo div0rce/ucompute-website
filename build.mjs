@@ -4,7 +4,7 @@
 //   public     the complete site, indexable. Used only after the owner approves launch.
 // Usage: node build.mjs [mode] [outDir]. Mode defaults to $UCOMPUTE_SITE, then "prelaunch",
 // so a missing setting can never publish the full site.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -99,7 +99,7 @@ ${noindex ? '<meta name="robots" content="noindex, nofollow">\n' : ''}<link rel=
 <meta property="og:image" content="${image}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="UCompute: compute better, together.">
+<meta property="og:image:alt" content="${mode === 'prelaunch' ? 'UCompute: compute better, together.' : 'The UCompute logo'}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/ucompute-mark.png">
@@ -245,7 +245,7 @@ export function build(mode, out) {
 ${mode === 'preview' ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
-${Object.keys(assets).map(k => `\n/assets/${k === 'css' ? 'ucompute.css' : k + '.js'}\n  Cache-Control: public, max-age=31536000, immutable\n`).join('')}`);
+${Object.keys(assets).map(k => `assets/${k === 'css' ? 'ucompute.css' : k + '.js'}`).filter(f => existsSync(join(out, f))).map(f => `\n/${f}\n  Cache-Control: public, max-age=31536000, immutable\n`).join('')}`);
   writeFileSync(join(out, 'build.json'), JSON.stringify({ mode, pages: pages.map(p => p.path).sort(), commit: process.env.CF_PAGES_COMMIT_SHA || null, branch: process.env.CF_PAGES_BRANCH || null }, null, 2) + '\n');
   return pages;
 }

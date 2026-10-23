@@ -10,7 +10,7 @@ layout: docs
 <h2 id="before">Before you start</h2>
 <ul>
 <li>Install UCompute on both computers and put them on the same network. Home Wi-Fi and phone hotspots work. Campus and office networks often block the multicast traffic that discovery needs; on those, pair by address instead.</li>
-<li>Peer traffic uses UDP port 8193 by default. On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval. The network profile must be Private.{{claim:firewall-consent}} A Mac whose firewall blocks incoming connections cannot serve requests.</li>
+<li>Peer traffic uses UDP port 8193 by default. On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval. The network profile must be Private.{{claim:firewall-consent}} On a Mac, the firewall may block incoming connections from a newly built app; if the Mac cannot serve requests, allow the app there. That cause is suspected, not confirmed.</li>
 <li>Read what the other device can see. When a paired device runs your request, it decrypts the prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer.</li>
 </ul>
 
@@ -32,7 +32,7 @@ common privacy                      # shows the current mode</code></pre></div>
 <li>On the second computer, pick the first one from the devices found on the network, or join it by address. Enter the code.</li>
 <li>Both now list each other as paired and connected.</li>
 </ol>
-<div class="callout callout-warn"><strong>Pairing a Mac and a Windows PC</strong>Open the pairing window on the Mac and join from Windows. When Windows opens the window, Windows Firewall currently drops the connection. This is a known issue.</div>
+<div class="callout callout-warn"><strong>Pairing a Mac and a Windows PC</strong>Pairing started on Windows needs the app's firewall consent step, which Windows asks an administrator to approve; it worked with a development build on 22 October 2026. With older builds, open the pairing window on the Mac and join from Windows.{{claim:firewall-consent}}{{claim:windows-pairing}}</div>
 <p>From the command line:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers discover               # devices advertising nearby; untrusted until paired
 common peers pair                   # first computer: shows the code and waits (Ctrl-C cancels)
@@ -47,7 +47,7 @@ common groups policy home --allow-remote=false   # take it back later</code></pr
 <p>The app has the same switches for groups. The pooled-inference permission is reserved for pooling, which is planned and not started, and does nothing useful yet.</p>
 
 <h2 id="run">5. Run on the other device</h2>
-<p>In the app's chat, pick the paired device to run on; the reply says where it ran. From the command line or your own code:</p>
+<p>In the app's chat, pick the paired device to run on. From the command line or your own code, where every response names the device that ran it:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Hello" --peer 1a2b-3c4d-5e6f
 
 curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \
@@ -58,12 +58,12 @@ curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json'
 <h2 id="revoke">Remove or revoke a device</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers rm 1a2b-3c4d-5e6f       # forget it; it may pair again later
 common peers revoke 1a2b-3c4d-5e6f   # signed revocation; its key is refused from now on</code></pre></div>
-<p>Revoking closes every connection to the device, tells the devices that shared a group with it, and makes its key fail inside the encrypted handshake. In two-machine tests the revoked device was disconnected less than a tenth of a second after the revoke (0.012 s, 0.061 s and 0.053 s in three runs).{{claim:revocation}}</p>
+<p>Revoking closes every connection to the device, tells the devices that shared a group with it, and makes its key fail inside the encrypted handshake. In two-machine tests the revoked device was disconnected less than a tenth of a second after the revoke (0.012 s, 0.061 s and 0.053 s in three runs). Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:revocation}}{{claim:mesh-pair-choose}}</p>
 
 <h2 id="audit">See what happened</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common audit --n 20                       # recent pairing, policy and remote-request events
 common diagnostics --out diagnostics.json # a redacted bundle to attach to a bug report</code></pre></div>
-<p>Both sides audit each remote request with the same request id. The audit log holds ids, counts, codes and timings, never prompt or answer text.</p>
+<p>Both sides audit each remote request with the same request id. Audit logs record each off-device request without the prompt or the response: ids, counts, codes and timings. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:audit}}{{claim:mesh-pair-choose}}</p>
 
 <h2 id="issues">Known issues</h2>
-<p>Being fixed now: Mac wording on Windows, Chat requiring a local model for remote runs, endless redials of unreachable devices, stale addresses after network changes, and connection state that is hard to see. <a href="/demo/#issues">Details</a>.</p>
+<p>Still open or awaiting a two-machine retest: Windows wording outside the chat view; chat needing a local model for remote runs (fixed in newer code); redials of an unreachable device between a Mac and Windows (fixed on a Mac); a device switching networks on its own (untested). <a href="/demo/#issues">Details</a>.{{claim:open-defects}}</p>
