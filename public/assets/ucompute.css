@@ -300,7 +300,8 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
 /* Inner page hero */
 .page-hero{position:relative;isolation:isolate;padding:clamp(52px,6vw,88px) 0 clamp(36px,4vw,56px);border-bottom:1px solid var(--line)}
 /* The fabric's dot field, still and quiet, behind the right side of every inner page header. */
-.page-hero::before{content:"";position:absolute;z-index:-1;inset:0 0 0 auto;width:min(44%,540px);pointer-events:none;
+main>.notfound{position:relative;isolation:isolate}
+.page-hero::before,main>.notfound::before{content:"";position:absolute;z-index:-1;inset:0 0 0 auto;width:min(44%,540px);pointer-events:none;
   background:radial-gradient(circle at 62% 46%,#b9fc6c3d 0,transparent 46%),radial-gradient(#9fb19a 1.15px,transparent 1.45px) 0 0/22px 22px;
   -webkit-mask:radial-gradient(ellipse at 62% 48%,#000 0,#0009 40%,transparent 72%);mask:radial-gradient(ellipse at 62% 48%,#000 0,#0009 40%,transparent 72%)}
 @media (max-width:860px){.page-hero::before{width:70%;opacity:.45}}
@@ -502,15 +503,16 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
   .site-header,.announce,.footer,.docs-nav,.copy-btn,.menu-toggle,.skip-link{display:none!important}
   body{background:#fff}
   /* Browsers drop backgrounds when printing, so light-on-dark text would print white on white. */
-  *,*::before,*::after{color:#000!important;background:transparent!important;box-shadow:none!important;text-shadow:none!important}
-  svg text{fill:#000!important}
+  /* Scoped to full-site pages (they have .site-header) so the frozen prelaunch page (D-023) is untouched. */
+  .site-header~* *,.site-header~* *::before,.site-header~* *::after{color:#000!important;background:transparent!important;box-shadow:none!important;text-shadow:none!important}
+  .site-header~* svg text{fill:#000!important}
   pre{white-space:pre-wrap;word-break:break-word}
   pre,table,figure,.callout,.card{break-inside:avoid}
   .prose a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;word-break:break-all}
 }
 /* Windows high contrast: forced colors drop backgrounds, so give background-only shapes an edge. */
 @media (forced-colors:active){
-  .btn,.pill,.product-card,.code-tab,.readout,.duo,.status-strip li{border:1px solid CanvasText}
+  .site-header .btn,.site-header~main .btn,.pill,.product-card,.code-tab,.readout,.duo,.status-strip li{border:1px solid CanvasText}
   .code-tab[aria-selected=true]{outline:2px solid Highlight;outline-offset:-2px;text-decoration:underline}
   .menu-toggle span{forced-color-adjust:none;background:CanvasText}
 }
@@ -776,12 +778,6 @@ body.menu-open .site-header{backdrop-filter:none;-webkit-backdrop-filter:none;ba
 @media (max-width:860px){.mode-panel{grid-template-columns:minmax(0,1fr)}}
 @media (forced-colors:active){.mode-tab[aria-selected=true]{outline:2px solid Highlight;text-decoration:underline}}
 
-/* Page-to-page: a short cross-fade where the browser supports cross-document view transitions; the header stays put. */
-@media (prefers-reduced-motion:no-preference){
-  @view-transition{navigation:auto}
-  .site-header{view-transition-name:site-header}
-  ::view-transition-old(root),::view-transition-new(root){animation-duration:.28s}
-}
 
 /* Vision: dark opening with the rings */
 .vision-hero{background:var(--forest);color:var(--on-dark);padding:clamp(56px,7vw,100px) 0;overflow:hidden}

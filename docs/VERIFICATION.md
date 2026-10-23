@@ -11,7 +11,9 @@ The owner asked for a site that feels alive. These changes are on `stage-snapsho
 | Instruments (home, roadmap) | Ledger as 148 squares (36 lit); revocation times on a 0–0.1 s scale; memory-fit error as a range inside ±15% | Numbers and qualifiers from the snapshot's sections 7–8, each next to its claim. Drawn once on view; already complete with reduced motion |
 | Vision rings (home) | Run and Mesh solid at the centre; split model, Swarm and Cloud as dashed and dotted outer rings, with scroll parallax | Every ring is labelled Experimental, Planned or Strategic hypothesis. "Coming soon" is not used: the snapshot and spec forbid dates or availability wording for planned work |
 | Mode explorer (product) | Tabbed diagrams of Local, Remote, Split model (planned), Spread jobs (planned) | Uses the site's WAI-ARIA tabs; planned modes are drawn dashed and labelled planned |
-| Smaller touches | Dark header over the home hero; recorded-run figure on the demo page; dot-field page headers; packets on the architecture diagram; page cross-fades (view transitions) | All motion is switched off under reduced motion |
+| Smaller touches | Dark header over the home hero; recorded-run figure on the demo page; dot-field page headers; packets on the architecture diagram; interactive target switch on the developers page | All motion is switched off under reduced motion |
+
+Frozen prelaunch page (D-023): the prelaunch build was rendered with staging's stylesheet and with production's (1267b34), at 1440 and 390 px, for `/` and `/404.html`, with reduced motion and the pointer parked. Wherever production renders identically to itself, the two are byte-identical. The pairs that differ also differ between two captures of production alone, which is rendering noise. Print and forced-colors rules are scoped to full-site markup, and page cross-fades were dropped because they can't be scoped.
 
 Checks: `npm test` passes in all three modes. axe-core 4.10.2 reports 0 violations on all 19 pages at 1440, 768 and 390 px, plus the dark home header. There is no horizontal overflow from 320 to 1440 px. Forced colors and print were checked, and there are no console errors.
 

@@ -67,6 +67,13 @@ When engineering publishes a new snapshot:
 5. `npm test`, then push; review the branch alias behind Access.
 6. Merge into `preview`; check `preview.ucompute.org` and run `node verify-live.mjs` with the new deployment aliases.
 
+## The live prelaunch page is frozen (D-023)
+
+ucompute.org must keep rendering exactly as it does at production commit 1267b34 until the owner decides otherwise. The prelaunch page and its 404 share `assets/ucompute.css` with the full site, so any merge into `main` before launch must keep them identical:
+- new styles must be scoped to full-site markup (for example `main>.notfound`, never bare `.notfound`);
+- shared rules (`:root`, `body`, `.btn`, `.shell`, `.pl-*`) must not change;
+- compare screenshots of `/` and `/404.html` in prelaunch mode against production before merging.
+
 ## Launching the complete site publicly
 
 Only with the owner's explicit approval, after the launch-readiness items in `docs/VERIFICATION.md` are closed.
