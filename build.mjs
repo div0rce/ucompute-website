@@ -38,7 +38,7 @@ export const DOCS = [
 const FOOTER = [
   ['Product', [['/product/', 'Product'], ['/demo/', 'Mac ↔ Windows demo'], ['/vision/', 'Vision'], ['/architecture/', 'Architecture'], ['/roadmap/', 'Roadmap']]],
   ['Use and build', [['/start/', 'Start here'], ['/download/', 'Release status'], ['/docs/', 'Documentation'], ['/developers/', 'Developers'], ['/docs/api/', 'API reference'], ['/docs/cli/', 'Command line']]],
-  ['Project', [['/open-source/', 'License and rules'], ['/community/', 'Community'], ['/open-source/#security', 'Security']]],
+  ['Project', [['/faq/', 'Questions'], ['/open-source/', 'License and rules'], ['/community/', 'Community'], ['/open-source/#security', 'Security']]],
 ];
 
 // Lowest-common-denominator escaping for values that land in attributes.

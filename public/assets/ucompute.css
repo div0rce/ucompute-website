@@ -831,3 +831,8 @@ code.hash{word-break:break-all;font-size:13px}
 .api-response{border-top:1px solid var(--line);padding:10px 0}
 .api-response summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
 .api-response .table-wrap{margin-top:12px}
+
+/* Questions: one readable column. */
+.faq{max-width:46em}
+.faq h2{margin-top:clamp(40px,5vw,64px)}
+.faq h2:first-child{margin-top:0}
