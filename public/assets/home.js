@@ -104,28 +104,6 @@ void main(){
     steps.forEach(s => io.observe(s));
   }
 
-  // ---- Instruments: draw once when they first come into view.
-  const ledger = document.querySelector('.ledger-grid');
-  if (ledger) {
-    const { total, verified, implemented, progress } = ledger.dataset;
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < +total; i++) {
-      const cell = document.createElement('span');
-      cell.style.setProperty('--i', i);
-      cell.className = i < +verified ? 'is-v' : i < +verified + +implemented ? 'is-i' : i < +verified + +implemented + +progress ? 'is-p' : '';
-      frag.appendChild(cell);
-    }
-    ledger.appendChild(frag);
-  }
-  const instruments = document.querySelectorAll('.instrument, .ledger');
-  if (still) instruments.forEach(el => el.classList.add('is-drawn'));
-  else {
-    const io = new IntersectionObserver(entries => {
-      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-drawn'); io.unobserve(e.target); }
-    }, { threshold: .35 });
-    instruments.forEach(el => io.observe(el));
-  }
-
   // ---- Vision: rings open as the section scrolls through the screen (--p runs 0 to 1).
   const orbit = document.querySelector('.orbit');
   if (orbit && !still) {

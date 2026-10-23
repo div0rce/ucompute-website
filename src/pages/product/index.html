@@ -69,16 +69,29 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="shell">
 <h2 class="h-sub" id="modes-title">Where a request can run</h2>
 <p class="lede stack">Four ways a request could run. They keep their meaning everywhere on this site.</p>
-<div class="table-wrap stack">
-<table>
-<thead><tr><th scope="col">Mode</th><th scope="col">What happens</th><th scope="col">Status</th></tr></thead>
-<tbody>
-<tr><th scope="row">Local</th><td>The request runs on this computer.</td><td><span class="pill pill-verified">Verified</span> on an Apple M2 Mac{{claim:run-local}}</td></tr>
-<tr><th scope="row">Remote</th><td>The whole request runs on one paired device you chose.</td><td><span class="pill pill-experimental">Experimental</span> on one Mac and Windows pair{{claim:mesh-pair-choose}}</td></tr>
-<tr><th scope="row">Split model</th><td>One model would be split across devices, each computing part of every token. Not built yet.</td><td><span class="pill pill-planned">Planned</span>{{claim:planned}}</td></tr>
-<tr><th scope="row">Spread jobs</th><td>Separate jobs, such as batches, would be spread over several devices. Not built yet.</td><td><span class="pill pill-planned">Planned</span>{{claim:planned}}</td></tr>
-</tbody>
-</table>
+<div class="mode-explorer stack">
+<div class="mode-tabs" role="tablist" aria-label="Where a request can run">
+<button class="mode-tab" type="button" role="tab" id="t-local" aria-controls="p-local" aria-selected="true">Local</button>
+<button class="mode-tab" type="button" role="tab" id="t-remote" aria-controls="p-remote" aria-selected="false" tabindex="-1">Remote</button>
+<button class="mode-tab is-planned" type="button" role="tab" id="t-split" aria-controls="p-split" aria-selected="false" tabindex="-1">Split model (planned)</button>
+<button class="mode-tab is-planned" type="button" role="tab" id="t-spread" aria-controls="p-spread" aria-selected="false" tabindex="-1">Spread jobs (planned)</button>
+</div>
+<div class="mode-panel" role="tabpanel" id="p-local" aria-labelledby="t-local" tabindex="0">
+<svg class="mode-svg" viewBox="0 0 560 210" aria-hidden="true"><g class="m-app"><rect x="40" y="88" width="104" height="42" rx="21"/><text x="92" y="114">Your app</text></g><line class="m-wire" x1="150" y1="109" x2="214" y2="109"/><circle class="m-packet m-go" cx="150" cy="109" r="6"/><g class="m-dev "><rect x="220" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="236" y1="88" x2="276" y2="88"/><path d="M210 154h140l-10 9H220z"/><text x="280" y="190">This computer</text></g><rect class="m-chip" x="236" y="104" width="64" height="26" rx="5"/><text class="m-chip-t" x="268" y="122">GPU</text></svg>
+<div class="mode-text"><p>The request runs on this computer.</p><p class="mode-status"><span class="pill pill-verified">Verified</span> on an Apple M2 Mac{{claim:run-local}}</p></div>
+</div>
+<div class="mode-panel" role="tabpanel" id="p-remote" aria-labelledby="t-remote" tabindex="0" hidden>
+<svg class="mode-svg" viewBox="0 0 560 210" aria-hidden="true"><g class="m-dev "><rect x="60" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="76" y1="88" x2="116" y2="88"/><line class="m-scr" x1="76" y1="102" x2="152" y2="102"/><line class="m-scr" x1="76" y1="116" x2="136" y2="116"/><path d="M50 154h140l-10 9H60z"/><text x="120" y="190">This computer</text></g><line class="m-wire m-wire-on" x1="186" y1="109" x2="374" y2="109"/><rect class="m-lock" x="226" y="72" width="108" height="24" rx="12"/><text class="m-lock-t" x="280" y="89">encrypted</text><g class="m-packet m-go-far"><rect x="186" y="98" width="46" height="22" rx="6"/><text x="209" y="114">whole</text></g><g class="m-dev "><rect x="380" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="396" y1="88" x2="436" y2="88"/><line class="m-scr" x1="396" y1="102" x2="472" y2="102"/><line class="m-scr" x1="396" y1="116" x2="456" y2="116"/><path d="M370 154h140l-10 9H380z"/><text x="440" y="190">Paired device</text></g></svg>
+<div class="mode-text"><p>The whole request runs on one paired device you chose.</p><p class="mode-status"><span class="pill pill-experimental">Experimental</span> on one Mac and Windows pair{{claim:mesh-pair-choose}}</p></div>
+</div>
+<div class="mode-panel" role="tabpanel" id="p-split" aria-labelledby="t-split" tabindex="0" hidden>
+<svg class="mode-svg" viewBox="0 0 560 210" aria-hidden="true"><g class="m-dev m-planned"><rect x="20" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="36" y1="88" x2="76" y2="88"/><line class="m-scr" x1="36" y1="102" x2="112" y2="102"/><line class="m-scr" x1="36" y1="116" x2="96" y2="116"/><path d="M10 154h140l-10 9H20z"/><text x="80" y="190">Device 1</text></g><g class="m-dev m-planned"><rect x="220" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="236" y1="88" x2="276" y2="88"/><line class="m-scr" x1="236" y1="102" x2="312" y2="102"/><line class="m-scr" x1="236" y1="116" x2="296" y2="116"/><path d="M210 154h140l-10 9H220z"/><text x="280" y="190">Device 2</text></g><g class="m-dev m-planned"><rect x="420" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="436" y1="88" x2="476" y2="88"/><line class="m-scr" x1="436" y1="102" x2="512" y2="102"/><line class="m-scr" x1="436" y1="116" x2="496" y2="116"/><path d="M410 154h140l-10 9H420z"/><text x="480" y="190">Device 3</text></g><g class="m-model"><rect x="20" y="30" width="173" height="24" rx="6"/><rect x="200" y="30" width="173" height="24" rx="6"/><rect x="380" y="30" width="160" height="24" rx="6"/><text x="280" y="47">one model, split three ways</text></g></svg>
+<div class="mode-text"><p>One model would be split across devices, each computing part of every token. Not built yet.</p><p class="mode-status"><span class="pill pill-planned">Planned</span>{{claim:planned}}</p></div>
+</div>
+<div class="mode-panel" role="tabpanel" id="p-spread" aria-labelledby="t-spread" tabindex="0" hidden>
+<svg class="mode-svg" viewBox="0 0 560 210" aria-hidden="true"><g class="m-dev m-planned"><rect x="20" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="36" y1="88" x2="76" y2="88"/><line class="m-scr" x1="36" y1="102" x2="112" y2="102"/><line class="m-scr" x1="36" y1="116" x2="96" y2="116"/><path d="M10 154h140l-10 9H20z"/><text x="80" y="190">Device 1</text></g><g class="m-dev m-planned"><rect x="220" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="236" y1="88" x2="276" y2="88"/><line class="m-scr" x1="236" y1="102" x2="312" y2="102"/><line class="m-scr" x1="236" y1="116" x2="296" y2="116"/><path d="M210 154h140l-10 9H220z"/><text x="280" y="190">Device 2</text></g><g class="m-dev m-planned"><rect x="420" y="70" width="120" height="78" rx="9"/><line class="m-scr lit" x1="436" y1="88" x2="476" y2="88"/><line class="m-scr" x1="436" y1="102" x2="512" y2="102"/><line class="m-scr" x1="436" y1="116" x2="496" y2="116"/><path d="M410 154h140l-10 9H420z"/><text x="480" y="190">Device 3</text></g><g class="m-jobs"><rect x="50" y="24" width="60" height="30" rx="6"/><rect x="250" y="24" width="60" height="30" rx="6"/><rect x="450" y="24" width="60" height="30" rx="6"/><text x="80" y="44">job</text><text x="280" y="44">job</text><text x="480" y="44">job</text></g></svg>
+<div class="mode-text"><p>Separate jobs, such as batches, would be spread over several devices. Not built yet.</p><p class="mode-status"><span class="pill pill-planned">Planned</span>{{claim:planned}}</p></div>
+</div>
 </div>
 </div>
 </section>
