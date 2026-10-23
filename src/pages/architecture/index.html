@@ -82,7 +82,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li>Admission control holds a bounded number of generation slots and a bounded queue. When they are full the caller gets a typed <code>overloaded</code> error instead of a hang.</li>
 <li>The model manager re-verifies the model file's hash before every load and checks that it fits in memory.</li>
 <li>The engine runs as a supervised child process on loopback, never reachable from the network, and ends with the daemon.</li>
-<li>Tokens stream back as server-sent events. Prompts never appear in logs or metrics.</li>
+<li>Tokens stream back as server-sent events. Prompt text is kept out of logs and metrics (verified on an Apple M2 Mac, development build).</li>
 </ol>
 </div>
 </div>
@@ -99,7 +99,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li>the device is paired and not revoked;</li>
 <li>a group contains it and allows remote inference.</li>
 </ol>
-<p>The sender writes its audit entry before anything leaves; if it can't, nothing is sent. The serving device checks its own side again: networking and serving turned on, the sender paired and in a group that allows it there, quotas of 120 requests and 200,000 tokens a minute with four at once by default, and never its last engine slot; these quotas are implemented but not yet verified at these defaults.{{claim:quotas}} The model must match a known SHA-256; a different file is refused, never substituted. Every response and every streamed chunk names the target that ran it.</p>
+<p>The sender writes its audit entry before anything leaves; if it can't, nothing is sent. The serving device checks its own side again: networking and serving turned on, the sender paired and in a group that allows it there, quotas of 120 requests and 200,000 tokens a minute with four at once by default, and never its last engine slot; these quotas are implemented but not yet verified.{{claim:quotas}} The model must match a known SHA-256; a different file is refused, never substituted. Every response and every streamed chunk names the target that ran it.</p>
 </div>
 </div>
 </section>
@@ -128,7 +128,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li>A device that serves your request sees the prompt and the answer. Encryption protects the network path, not the work from the device doing it.</li>
 <li>Supervising the engine as a separate process contains crashes. It is not a sandbox for untrusted code, and no arbitrary programs can be submitted.</li>
 <li>Other processes running as the same user are inside today's local trust boundary.</li>
-<li>Unix file permissions protect keys on macOS. Equivalent Windows protection has not been verified yet.</li>
+<li>Unix file permissions protect keys on macOS. On Windows the key files only inherit the profile folder's access rights; UCompute sets none of its own, and access from another account is untested.</li>
 <li>Builds are not yet signed by a publicly trusted identity. A checksum is not a signature.</li>
 </ul>
 <p><a class="link-arrow" href="/open-source/#security">Security policy</a></p>

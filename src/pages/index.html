@@ -14,7 +14,7 @@ scripts: site home
 <a class="btn btn-lime btn-lg" href="#story">Follow one request</a>
 <a class="link-arrow on-dark-link" href="/download/">Release status</a>
 </div>
-<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
+<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Running models on your own computer: Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}} Running on another computer: tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
 <button class="motion-toggle motion-toggle-hero" type="button" aria-pressed="false" hidden>Pause motion</button>
 </div>
 <div class="shell">
@@ -77,7 +77,7 @@ scripts: site home
 <ol class="story-steps">
 <li class="story-step" data-step="1"><h3>Pair</h3><p>The Mac shows a six-digit code. The laptop finds the Mac on the local network and joins with the code. A wrong code is refused.</p></li>
 <li class="story-step" data-step="2"><h3>Allow</h3><p>Each machine puts the other in a group that may run prompts. Without that, on both sides, nothing runs remotely. On the Mac this was set through its local API, not its window.</p></li>
-<li class="story-step" data-step="3"><h3>Choose</h3><p>In the laptop's chat, the paired Mac can be chosen as the device to run on. The request goes to the device you pick and never silently anywhere else.</p></li>
+<li class="story-step" data-step="3"><h3>Choose</h3><p>In the laptop's chat, the paired Mac can be chosen as the device to run on. The request goes to the device you pick, and the response says where it ran.</p></li>
 <li class="story-step" data-step="4"><h3>Run</h3><p>The request crosses UCompute's own QUIC connection, encrypted with TLS 1.3 and pinned device keys. The Mac loads the model on demand and runs it on its GPU. Both sides log the request without its text.</p></li>
 <li class="story-step" data-step="5"><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second on the stories15M test fixture: a path check, not a performance figure.</p><p class="story-after"><strong>Remote execution, not pooling.</strong> One whole request ran on one other machine. No model has been split across devices; that is planned and not started.{{claim:planned}} <a class="link-arrow" href="/demo/">Hardware, timings, open issues</a></p></li>
 </ol>
@@ -160,7 +160,7 @@ scripts: site home
 <ul class="ticks stack">
 <li><div><strong class="step-title">Official OpenAI Python and JavaScript clients</strong><p>They work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:openai-clients}}</p></div></li>
 <li><div><strong class="step-title">Streaming and typed errors</strong><p>Server-sent events, and one error shape with stable codes.</p></div></li>
-<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it.</p></div></li>
+<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it. Running on a paired device: Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p></div></li>
 </ul>
 <p class="stack"><a class="btn btn-lime" href="/developers/">Read the developer guide</a></p>
 </div>
@@ -254,6 +254,6 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <a class="btn btn-dark btn-lg" href="/roadmap/">See the roadmap</a>
 <a class="link-arrow" href="/open-source/">How the project works</a>
 </div>
-<p class="cta-foot"><span>macOS on Apple M2: experimental</span><span>Windows 11, Core Ultra 7 258V with Arc 140V: experimental</span><span>Linux: planned</span></p>{{claim:platforms}}
+<p class="cta-foot"><span>macOS 26.2 on Apple M2: experimental</span><span>Windows 11, Core Ultra 7 258V with Arc 140V: experimental</span><span>Linux: planned</span></p>{{claim:platforms}}
 </div>
 </section>

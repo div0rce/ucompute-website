@@ -45,8 +45,8 @@ description: Why UCompute exists: computing power is scattered across devices, s
 <tbody>
 <tr><td>On 19 October 2026, a Windows laptop's app ran a prompt on a trusted Mac's GPU, and a request sent through the Mac's local API ran on the laptop's Arc GPU. Each request ran whole on one device.{{claim:demo-2026-10-19}}</td><td><span class="pill pill-verified">Verified</span> for one pair of computers and their development builds. <a href="/demo/">Evidence</a></td></tr>
 <tr><td>One model would run split across both machines, each computing part of every token.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
-<tr><td>An application would pick the best device for a job from measured speed, memory, network and your rules.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
-<tr><td>An app on your phone would use your own desktop for a heavy model.</td><td><span class="pill pill-planned">Planned</span> as a consumer first</td></tr>
+<tr><td>An application would say which of your allowed devices should run a job, using measured speed, memory and network.</td><td><span class="pill pill-planned">Planned</span>, not started{{claim:planned}}</td></tr>
+<tr><td>An app on your phone would send requests to your own desktop.</td><td><span class="pill pill-planned">Planned</span> as a consumer first</td></tr>
 <tr><td>Kinds of work beyond AI inference, each with its own isolation and threat review.</td><td><span class="pill pill-research">Strategic hypothesis</span></td></tr>
 <tr><td>People would opt in to share spare capacity with others, with limits and readable receipts, inside one credit system. <a href="#economics">The direction</a></td><td><span class="pill pill-planned">Planned</span> disabled until an independent security review{{claim:planned}}</td></tr>
 </tbody>
@@ -74,7 +74,7 @@ description: Why UCompute exists: computing power is scattered across devices, s
 <section class="section-tight section-dark" aria-labelledby="path">
 <div class="shell">
 <h2 class="h-sub" id="path">A staged path, each stage with a way to fail</h2>
-<p class="lede stack">Adoption is planned as experiments, not assumed. Each stage names what would prove it wrong.</p>
+<p class="lede stack">Adoption is planned as experiments, not assumed. Each stage names what would prove it wrong. No stage has started.{{claim:release-stages}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Stage</th><th scope="col">What it must show</th><th scope="col">What would count as failure</th></tr></thead>
@@ -125,7 +125,7 @@ description: Why UCompute exists: computing power is scattered across devices, s
 <div class="shell split">
 <div><h2 class="h-sub" id="principles">Principles and non-goals</h2></div>
 <div class="prose">
-<p>Local-first. Accounts optional. Secure by default: the API binds to this computer only, the engine's port is never exposed, and prompts are never logged. No silent substitution of a model, precision or privacy mode. No fabricated benchmarks. No cryptocurrency.</p>
+<p>Local-first. Accounts optional. Secure by default: the API binds to this computer only, the engine's port is never exposed, and prompt text is kept out of logs (verified on an Apple M2 Mac, development build). No silent substitution of a model, precision or privacy mode. No fabricated benchmarks. No cryptocurrency.</p>
 <p>Not on the plan for current delivery: a new operating system, custom inference kernels, running arbitrary downloaded programs, public anonymous access, mandatory accounts or tokens, always-on servers on phones, or claims that any model runs on any device.</p>
 <p><a class="link-arrow" href="/architecture/">Read the architecture</a></p>
 </div>
