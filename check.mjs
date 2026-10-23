@@ -30,6 +30,7 @@ function check(root, mode) {
   const pages = files.filter(f => f.endsWith('.html'));
   const ids = new Map();
   const externalLinks = new Set();
+  const seen = new Map();
 
   for (const f of pages) {
     const html = readFileSync(join(root, f), 'utf8');
@@ -44,8 +45,15 @@ function check(root, mode) {
     const where = `${mode}/${f}`;
     if (!/<html lang="en">/.test(html)) fail(where, 'missing <html lang>');
     if ((html.match(/<h1[\s>]/g) || []).length !== 1) fail(where, 'needs exactly one <h1>');
-    if (!/<title>[^<]{5,}<\/title>/.test(html)) fail(where, 'missing <title>');
-    if (!/<meta name="description" content="[^"]{40,}">/.test(html)) fail(where, 'missing or short meta description');
+    // Search snippets: a title search engines show whole, a 50 to 160 character description, both unique.
+    const title = html.match(/<title>([^<]*)<\/title>/)?.[1] || '', desc = html.match(/<meta name="description" content="([^"]*)">/)?.[1] || '';
+    if (title.length < 5 || title.length > 65) fail(where, `title is ${title.length} characters; keep it 5 to 65`);
+    // 404 pages are noindex, and the prelaunch one is frozen (D-023).
+    if (!f.endsWith('404.html') && (desc.length < 50 || desc.length > 160)) fail(where, `meta description is ${desc.length} characters; keep it 50 to 160`);
+    for (const [kind, v] of [['title', title], ['description', desc]]) {
+      if (f.endsWith('404.html')) break;
+      if (seen.has(kind + v)) fail(where, `same ${kind} as ${seen.get(kind + v)}`); else seen.set(kind + v, f);
+    }
     if (!/<link rel="canonical" href="https:\/\/ucompute\.org\//.test(html)) fail(where, 'missing canonical');
     if (!/<meta name="viewport"/.test(html)) fail(where, 'missing viewport');
     if (html.includes('{{')) fail(where, 'unfilled {{placeholder}}');
