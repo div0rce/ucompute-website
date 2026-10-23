@@ -91,7 +91,7 @@ Tested on 2026-10-23 with a temporary record: a complete one renders and its lin
 
 ## Launching the complete site publicly
 
-Only with the owner's explicit approval, after the launch-readiness items in `docs/VERIFICATION.md` are closed.
+Only with the owner's explicit approval, after the items in `docs/LAUNCH.md` are closed.
 
 1. Merge `preview` into `main`.
 2. Pages, Settings, Environment variables, Production: set `UCOMPUTE_SITE=public`.
