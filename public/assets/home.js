@@ -54,6 +54,18 @@ void main(){
       const u = name => gl.getUniformLocation(prog, name);
       const uRes = u('res'), uT = u('t'), uPtr = u('ptr'), uDrift = u('drift');
       const ptr = [0, 0], target = [0, 0];
+      const NODES = [[.80, .30], [.56, .62]];
+      const tags = [...document.querySelectorAll('.fabric-tag')];
+      // Same mapping as the shader, in CSS pixels from the top left.
+      const place = drift => {
+        const w = canvas.clientWidth, h = canvas.clientHeight, s = Math.min(w, h);
+        tags.forEach((tag, i) => {
+          const [nx, ny] = NODES[i];
+          const x = w - s * 1.08 + (nx - ptr[0] * .015) * s;
+          const y = h - (h * .02 + (ny - ptr[1] * .015 - drift) * s);
+          tag.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        });
+      };
       let visible = true, raf = 0, start = performance.now();
       const size = () => {
         // ponytail: fixed 1.25 DPR cap keeps the fill-rate low on 4K screens; raise it if dots look soft.
@@ -69,6 +81,7 @@ void main(){
         gl.uniform1f(uT, still ? 3.2 : (now - start) / 1000);
         gl.uniform2f(uPtr, ptr[0], ptr[1]);
         gl.uniform1f(uDrift, still ? 0 : scrolled * .12);
+        place(still ? 0 : scrolled * .12);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
         raf = !still && visible && !document.hidden ? requestAnimationFrame(frame) : 0;
       };
