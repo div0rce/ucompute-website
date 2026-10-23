@@ -187,7 +187,9 @@ export function cliReference() {
     if (key in notes) used.add(key);
     const t = [help?.replace(/\.$/, ''), note].filter(Boolean).join('. ');
     if (!t) throw new Error(`cli reference: no text for "${key}"; add it to reference/cli-notes.json`);
-    return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>');
+    // `code` in help text becomes <code>, and so does a bare --flag outside it.
+    return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').split(/(<code>.*?<\/code>)/)
+      .map((s, i) => i % 2 ? s : s.replace(/(^|[\s(])(--[a-z][\w-]*(?:=[\w|]+)?)/g, '$1<code>$2</code>')).join('');
   };
   const argName = a => a.kind === 'positional' ? (a.optional ? `[${a.name}]` : `<${a.name}>`) : [a.long, a.short].filter(Boolean).join(', ') + (a.value ? (a.equals ? '=' : ' ') + a.value : '');
   const table = (rows, key) => rows.length ? `<div class="table-wrap"><table>
