@@ -120,6 +120,13 @@ function check(root, mode) {
     for (const m of html.matchAll(/(?:href|src)="(\/assets\/[^"?]+\.(?:css|js))/g)) bytes += statSync(join(root, m[1])).size;
     if (bytes > 250 * 1024) fail(`${mode}/${f}`, `page weight ${(bytes / 1024).toFixed(0)} KB is over the 250 KB budget`);
   }
+  // Dead CSS: every class the stylesheet styles must appear in a page or script of the complete site
+  // (the preview build carries the prelaunch page; its 404 is read from source).
+  if (mode === 'preview') {
+    const used = files.filter(f => /\.(html|js)$/.test(f)).map(f => readFileSync(join(root, f), 'utf8')).join('\n') + readFileSync(new URL('./src/prelaunch/404.html', import.meta.url), 'utf8');
+    const css = readFileSync(join(root, 'assets/ucompute.css'), 'utf8').replace(/\{[^}]*\}/g, '{}');
+    for (const c of new Set([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].map(m => m[1]))) if (!used.includes(c)) fail(mode, `unused CSS class .${c}`);
+  }
   claimCheck(root, pages, mode);
   if (mode !== 'prelaunch') interfaceCheck(root, pages, mode);
   console.log(`${mode}: ${pages.length} pages, ${files.length} files checked`);
