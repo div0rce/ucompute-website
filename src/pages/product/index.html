@@ -18,15 +18,15 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="prose">
 <p class="lede">Runs small open models on the computer in front of you, with no account and no UCompute service, through a desktop app, a command-line tool, or an OpenAI-compatible API on <code>127.0.0.1:8192</code>. Downloading a model or the engine uses the internet.{{claim:run-local}}</p>
 <h3>Works today</h3>
-<ul>
-<li>Small open models in GGUF format through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan.{{claim:engine}}</li>
-<li>A catalog of eight pinned models. Before you download one, you see its size, its license and whether it fits in memory, and every download is checked against a pinned SHA-256 hash. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}}</li>
-<li>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint. The estimates are calibrated for Apple Silicon Macs.{{claim:memory-fit}}</li>
-<li>Streaming, cancellation, and one error format with stable codes.{{claim:reliability}}</li>
-<li>No silent substitutions: if the GPU fails, the run falls back to the CPU and the reason is logged, and every error comes with a plain-language explanation.{{claim:gpu-fallback}}</li>
+<ul class="cap-grid">
+<li><strong class="cap-t">Real models on a pinned engine</strong>Small open models in GGUF format through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan.{{claim:engine}}</li>
+<li><strong class="cap-t">Size, license and fit first</strong>A catalog of eight pinned models. Before you download one, you see its size, its license and whether it fits in memory, and every download is checked against a pinned SHA-256 hash. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}}</li>
+<li><strong class="cap-t">Memory checked before loading</strong>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint. The estimates are calibrated for Apple Silicon Macs.{{claim:memory-fit}}</li>
+<li><strong class="cap-t">Streaming and clear errors</strong>Streaming, cancellation, and one error format with stable codes.{{claim:reliability}}</li>
+<li><strong class="cap-t">No silent substitutions</strong>If the GPU fails, the run falls back to the CPU and the reason is logged, and every error comes with a plain-language explanation.{{claim:gpu-fallback}}</li>
 </ul>
 <h3>Not yet</h3>
-<ul>
+<ul class="not-yet">
 <li>A public release or download for any platform. Mac development builds are ad-hoc signed and not notarized, Windows builds carry no code-signing certificate, and neither is released.{{claim:no-release}}{{claim:installer}}</li>
 <li>Linux execution, a second inference engine, and a verified tool-calling round trip.{{claim:not-yet-run}}</li>
 <li>An install, from a fresh user account, that reaches a first answer through the interface alone, on macOS and on Windows.{{claim:installer}}</li>
@@ -46,16 +46,16 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="prose">
 <p class="lede">Pair computers you control with a short code, decide which ones may run work for each other, and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. Everything is off until you turn it on.{{claim:mesh-pair-choose}}</p>
 <h3>Works today</h3>
-<ul>
-<li>Pairing with a six-digit code, bound to the encrypted session. In single-machine protocol tests, a relay in the middle could not complete it, and more than five wrong attempts within a minute locked the window.{{claim:mesh-pair-choose}}{{claim:pairing-lockout}}</li>
-<li>Traffic between paired devices is encrypted and both ends are authenticated: QUIC with TLS 1.3 and device keys pinned at pairing. You can revoke a paired device at any time; in two-machine tests its connection closed less than a tenth of a second later.{{claim:transport}}{{claim:revocation}}{{claim:device-identity}}</li>
-<li>Groups decide who may run prompts, and both the sending and the serving device must agree. Per-device quotas for peers exist but are not yet verified at their default settings.{{claim:groups}}{{claim:local-only}}{{claim:quotas}}</li>
-<li>Devices on the same home network or phone hotspot can find each other.{{claim:discovery}} Where a network blocks automatic discovery, as some campus Wi-Fi does, paired devices can still connect by address. An address alone is never trusted: the device must present the key it was paired with. Reconnecting by address was shown between one Mac and one Windows laptop on the same campus network, with development builds.{{claim:connect-at-address}}</li>
-<li>Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. <a href="/demo/">See the evidence</a>.{{claim:mesh-pair-choose}}{{claim:windows-pairing}}{{claim:demo-2026-10-19}}</li>
-<li>On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval.{{claim:firewall-consent}}</li>
+<ul class="cap-grid">
+<li><strong class="cap-t">Pair with a short code</strong>Pairing with a six-digit code, bound to the encrypted session. In single-machine protocol tests, a relay in the middle could not complete it, and more than five wrong attempts within a minute locked the window.{{claim:mesh-pair-choose}}{{claim:pairing-lockout}}</li>
+<li><strong class="cap-t">Encrypted and revocable</strong>Traffic between paired devices is encrypted and both ends are authenticated: QUIC with TLS 1.3 and device keys pinned at pairing. You can revoke a paired device at any time; in two-machine tests its connection closed less than a tenth of a second later.{{claim:transport}}{{claim:revocation}}{{claim:device-identity}}</li>
+<li><strong class="cap-t">Permission on both ends</strong>Groups decide who may run prompts, and both the sending and the serving device must agree. Per-device quotas for peers exist but are not yet verified at their default settings.{{claim:groups}}{{claim:local-only}}{{claim:quotas}}</li>
+<li><strong class="cap-t">Found nearby, or by address</strong>Devices on the same home network or phone hotspot can find each other.{{claim:discovery}} Where a network blocks automatic discovery, as some campus Wi-Fi does, paired devices can still connect by address. An address alone is never trusted: the device must present the key it was paired with. Reconnecting by address was shown between one Mac and one Windows laptop on the same campus network, with development builds.{{claim:connect-at-address}}</li>
+<li><strong class="cap-t">Shown on two real machines</strong>Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. <a href="/demo/">See the evidence</a>.{{claim:mesh-pair-choose}}{{claim:windows-pairing}}{{claim:demo-2026-10-19}}</li>
+<li><strong class="cap-t">Asks before opening the firewall</strong>On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval.{{claim:firewall-consent}}</li>
 </ul>
 <h3>Not yet</h3>
-<ul>
+<ul class="not-yet">
 <li>Pooling: splitting one model across devices so they compute parts of it together. It is planned and has not started.{{claim:planned}}</li>
 <li>Connections across the internet, through NAT or relays, are not built yet. Mesh works on one local network only.{{claim:planned}}</li>
 <li>The checks for a stable Mesh: default fairness when peers flood a device, Windows key-file protection, and many more independent pairs.{{claim:quotas}}{{claim:device-identity}}{{claim:release-stages}}</li>
