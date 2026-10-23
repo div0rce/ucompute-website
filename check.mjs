@@ -104,6 +104,13 @@ function check(root, mode) {
     const text = readFileSync(join(root, f), 'utf8');
     if (/-----BEGIN [A-Z ]*PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b|\bsk-[A-Za-z0-9]{20,}/.test(text)) fail(`${mode}/${f}`, 'looks like a secret');
   }
+  // Page weight budget: the page's HTML plus the local CSS and JS it loads (fonts and images excluded).
+  for (const f of pages) {
+    const html = readFileSync(join(root, f), 'utf8');
+    let bytes = Buffer.byteLength(html);
+    for (const m of html.matchAll(/(?:href|src)="(\/assets\/[^"?]+\.(?:css|js))/g)) bytes += statSync(join(root, m[1])).size;
+    if (bytes > 250 * 1024) fail(`${mode}/${f}`, `page weight ${(bytes / 1024).toFixed(0)} KB is over the 250 KB budget`);
+  }
   claimCheck(root, pages, mode);
   console.log(`${mode}: ${pages.length} pages, ${files.length} files checked`);
   return externalLinks;
