@@ -110,8 +110,10 @@ const errors = [...errSrc.matchAll(/ErrorCode::(\w+) => "([a-z_]+)"/g)].map(m =>
 
 // Environment variables the CLI and runtime read.
 const envVars = new Set();
-for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates').split('\n').filter(f => /^crates\/common-(cli|core|runtime|api|mesh)[^/]*\/src\/.*\.rs$/.test(f))) {
-  for (const m of show(f).matchAll(/var(?:_os)?\("((?:COMMON|RUST)_[A-Z_]+)"\)/g)) envVars.add(m[1]);
+for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates').split('\n').filter(f => /^crates\/common-[^/]+\/src\/.*\.rs$/.test(f))) {
+  const src = show(f);
+  for (const m of src.matchAll(/var(?:_os)?\("(COMMON_[A-Z_]+)"\)/g)) if (!/TEST/.test(m[1])) envVars.add(m[1]);
+  if (/EnvFilter::(?:try_)?from_default_env/.test(src)) envVars.add('RUST_LOG');
 }
 const out = { source: 'div0rce/common (unpublished)', commit, date, global: top.args, commands, routes, errors, env: [...envVars].sort() };
 writeFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'reference', 'interfaces.json'), JSON.stringify(out, null, 2) + '\n');

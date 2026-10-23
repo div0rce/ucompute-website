@@ -1034,6 +1034,9 @@
   ],
   "env": [
     "COMMON_API_KEY",
-    "COMMON_HOME"
+    "COMMON_HOME",
+    "COMMON_MDNS",
+    "COMMON_WIN_ENGINE_ZIP",
+    "RUST_LOG"
   ]
 }
