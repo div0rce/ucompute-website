@@ -5,21 +5,21 @@ layout: docs
 -->
 <h1>Documentation</h1>
 <p class="lede">Everything here describes the development code as of 23 October 2026, version 0.1.0. There is no public release yet, and commands and routes may still change before one.{{claim:no-release}}</p>
-<div class="callout"><strong>About the name</strong>UCompute was formerly called Common; trademark clearance is open and not claimed. Development builds still use the old name in places, so these docs do too where you have to type it: the command is <code>common</code>, the Mac app bundle is <code>Common.app</code>, and settings live in a folder called <code>Common</code>. Those change when the code is renamed, with a tested migration.</div>
+<div class="callout"><strong>About the name</strong>UCompute was formerly called Common; trademark clearance is open and not claimed. Development builds still use the old name in places, so these docs do too where you have to type it: the command is <code>common</code>, the Mac app bundle is <code>Common.app</code>, and settings live in a folder called <code>Common</code>. Those change if the code is renamed.</div>
 <h2>Guides</h2>
 <div class="grid-2">
 <a class="card" href="/start/"><h3>Start here</h3><p>Four paths, step by step: run a model, connect a second computer, build on the API, follow the project.</p></a>
-<a class="card" href="/docs/install/"><h3>Install</h3><p>Build the <code>common</code> command and the desktop app from source on a Mac, and what exists for Windows.</p></a>
-<a class="card" href="/docs/run/"><h3>Run models</h3><p>Find, download, inspect and run models from the pinned catalog, on CPU or GPU.</p></a>
+<a class="card" href="/docs/install/"><h3>Install</h3><p>How the development builds of the <code>common</code> command and the desktop app are made on a Mac, and what exists for Windows. The source is not published yet.</p></a>
+<a class="card" href="/docs/run/"><h3>Run models</h3><p>Find, download, inspect and run models from the pinned catalog, on the CPU or a tested GPU.</p></a>
 <a class="card" href="/docs/configuration/"><h3>Configuration</h3><p>The data folder, <code>serve</code> options, <code>config.json</code> and environment variables.</p></a>
-<a class="card" href="/docs/mesh/"><h3>Trusted devices</h3><p>Pair a second computer, decide what it may do, and run a request on it.</p></a>
+<a class="card" href="/docs/mesh/"><h3>Trusted devices</h3><p>Pair a second computer, decide what it may do, and run a request on it. Tested between one Mac and one Windows laptop; two Macs are not shown yet.</p></a>
 <a class="card" href="/docs/api/"><h3>API reference</h3><p>Every route, authentication, the <code>target</code> extension and all error codes.</p></a>
-<a class="card" href="/docs/cli/"><h3>Command line</h3><p>Every command, flag and environment variable, generated from the development source.</p></a>
+<a class="card" href="/docs/cli/"><h3>Command line</h3><p>Every command and flag, and the environment variables you set, generated from the development source.</p></a>
 <a class="card" href="/docs/troubleshooting/"><h3>Troubleshooting</h3><p><code>common doctor</code>, frequent errors, discovery problems and safe diagnostics.</p></a>
 </div>
 <h2>Conventions</h2>
 <ul>
-<li>Commands are for macOS or Linux shells unless marked. On Windows the binary is <code>common.exe</code>.</li>
+<li>Commands are for the macOS shell unless marked. On Windows the binary is <code>common.exe</code>.</li>
 <li>Status labels such as Experimental and Planned are defined on the <a href="/roadmap/#status-labels">roadmap</a>.</li>
 <li>Peer labels like <code>1a2b-3c4d-5e6f</code> are examples. Use the ones your devices show.</li>
 </ul>

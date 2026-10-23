@@ -151,6 +151,7 @@ const RISKY = [
   [/\b(one-click|in minutes|no setup)\b/i, 'install ease'],
   [/\btoo (?:big|large) for (?:one|a single|any single|either|any one)\b/i, 'models too big for one machine'],
   [/\b(picks?|chooses?) the best device\b|\bautomatically (?:picks?|chooses?)\b/i, 'automatic scheduling'],
+  [/\bprivate mode\b|\b(?:never|nothing) leaves? (?:this|your) (?:device|computer)\b|\bnever leaves? (?:this|your) (?:device|computer)\b/i, 'private / never leaves', 'always'],
 ];
 const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|yet|only|says nothing)\b|n't\b/i;
 // Wording the snapshot itself prescribes, per rule.
@@ -159,8 +160,9 @@ function claims(html) {
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<pre[\s\S]*?<\/pre>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ');
   const out = [];
   for (const sentence of text.split(/(?<=[.!?])\s+/)) {
-    for (const [re, label] of RISKY) {
-      if (re.test(sentence) && !LIMIT.test(sentence) && !ALLOW[label]?.test(sentence)) out.push(`${label}: "${sentence.trim().slice(0, 160)}"`);
+    for (const [re, label, always] of RISKY) {
+      // The risky phrase itself never counts as its own limit; an 'always' rule has no limiting word at all.
+      if (re.test(sentence) && (always || !LIMIT.test(sentence.replace(re, ' '))) && !ALLOW[label]?.test(sentence)) out.push(`${label}: "${sentence.trim().slice(0, 160)}"`);
     }
   }
   return out;

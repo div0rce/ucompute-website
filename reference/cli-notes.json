@@ -1,5 +1,5 @@
 {
-  "about": "Website notes for /docs/cli/. Keys are a command path, a command path plus an argument, or 'env NAME'. A note fills in where the engineering help text is empty and is appended where it is not. null keeps an environment variable off the page. The build fails if a key matches nothing in interfaces.json, or if a command, argument or variable ends up with no text.",
+  "about": "Website notes for /docs/cli/. Keys are a command path, a command path plus an argument, or 'env NAME'. A note fills in where the engineering help text is empty and is appended where it is not; a note starting with '= ' replaces the engineering text, for wording the site's claim rules (snapshot section 9) do not allow. null keeps an environment variable off the page. The build fails if a key matches nothing in interfaces.json, or if a command, argument or variable ends up with no text.",
   "notes": {
     "common groups list": "List groups, their members and their policies",
     "common models search query": "Text to look for",
@@ -37,6 +37,8 @@
     "env COMMON_MDNS": "Set to 0 to turn off mDNS advertising and discovery",
     "env COMMON_API_KEY": "Key the CLI's peer and group commands use to reach a key-protected daemon",
     "env RUST_LOG": "Log filter; overrides -v and -vv",
-    "env COMMON_WIN_ENGINE_ZIP": null
+    "env COMMON_WIN_ENGINE_ZIP": null,
+    "common privacy": "= Show or change the privacy mode. Local only is the default, and refuses every off-device request",
+    "common privacy mode local-only": "= Refuses every off-device request (the default). Downloading a model or the engine still uses the internet"
   }
 }

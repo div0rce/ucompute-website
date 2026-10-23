@@ -185,7 +185,8 @@ export function cliReference() {
   const text = (key, help) => {
     const note = notes[key];
     if (key in notes) used.add(key);
-    const t = [help?.replace(/\.$/, ''), note].filter(Boolean).join('. ');
+    // A note starting with "= " replaces engineering's text, for wording the site's claim rules don't allow.
+    const t = note?.startsWith('= ') ? note.slice(2) : [help?.replace(/\.$/, ''), note].filter(Boolean).join('. ');
     if (!t) throw new Error(`cli reference: no text for "${key}"; add it to reference/cli-notes.json`);
     // `code` in help text becomes <code>, and so does a bare --flag outside it.
     return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').split(/(<code>.*?<\/code>)/)
@@ -233,7 +234,7 @@ ${I.env.filter(v => notes[`env ${v}`] !== null || !used.add(`env ${v}`)).map(v =
 export const RELEASES = JSON.parse(readFileSync(join(ROOT, 'reference/releases.json'), 'utf8')).releases;
 const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
 function releasesHtml() {
-  if (!RELEASES.length) return '<p>There are no tagged releases and no release notes yet. When the owner approves a release, this page will link to its installers and their SHA-256 checksums.</p>';
+  if (!RELEASES.length) return '<p>There are no tagged releases and no release notes yet. If a release is approved, this page will link to its installers and their SHA-256 checksums.</p>';
   return RELEASES.map(r => {
     const where = `reference/releases.json ${r.version}`;
     const need = (ok, what) => { if (!ok) throw new Error(`${where}: ${what}`); };

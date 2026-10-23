@@ -4,7 +4,7 @@ description: Where to start with UCompute: run a model on your computer, connect
 -->
 <div class="page-hero shell">
 <h1>Pick a path.</h1>
-<p class="lede">UCompute has no public release yet. Each path below is what you can do today with development builds, step by step, and where it stops.{{claim:no-release}}</p>
+<p class="lede">UCompute is in development. There is no public release or download yet, and the source has not been published. Each path below shows how the development builds work today, step by step, and where they stop.{{claim:no-release}}{{claim:license}}</p>
 <nav class="path-jump" aria-label="Paths on this page">
 <a href="#local">Run AI on your computer</a>
 <a href="#trusted">Connect a computer you trust</a>
@@ -20,16 +20,17 @@ description: Where to start with UCompute: run a model on your computer, connect
 <span class="pill pill-experimental">Experimental</span>
 <p>For anyone who wants a model answering on their own machine, with the prompt staying there.{{claim:local-only}}</p>
 <p class="fine">Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}}{{claim:platforms}}</p>
+<p class="fine">Engine and model downloads: demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}}</p>
 </div>
 <div>
 <ol class="path-steps">
 <li><h3>Check your platform</h3><p>Nothing is released, and no platform is supported yet.</p><a class="link-arrow" href="/download/">Release status</a></li>
-<li><h3>Build it from source</h3><p>Build the <code>common</code> command, and the desktop app if you want it.</p><a class="link-arrow" href="/docs/install/">Install</a></li>
+<li><h3>See how it is built</h3><p>The <code>common</code> command and the desktop app are built from source, which has not been published yet.{{claim:license}}</p><a class="link-arrow" href="/docs/install/">Install</a></li>
 <li><h3>Set up the engine</h3><p><code>common setup</code> downloads the pinned engine and checks its hash before use.</p><a class="link-arrow" href="/docs/install/#mac">Engine setup</a></li>
 <li><h3>Download a model</h3><p><code>common models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license and size before it downloads.{{claim:catalog}}</p><a class="link-arrow" href="/docs/run/#catalog">The catalog</a></li>
 <li><h3>Get a first answer</h3><p><code>common run qwen2.5-0.5b-instruct-q4_k_m -p "Hello"</code>, or the Chat view in the desktop app.</p><a class="link-arrow" href="/docs/run/#run">Run a prompt</a></li>
 </ol>
-<p class="path-stop"><strong>Where it stops today.</strong> There is no signed installer, no first run from a fresh account through the app alone, and no qualified Linux support yet.{{claim:installer}}{{claim:not-yet-run}}</p>
+<p class="path-stop"><strong>Where it stops today.</strong> There is no signed installer and no first run from a fresh account through the app alone yet, and Linux is planned.{{claim:installer}}{{claim:platforms}}</p>
 </div>
 </section>
 
@@ -44,10 +45,10 @@ description: Where to start with UCompute: run a model on your computer, connect
 <ol class="path-steps">
 <li><h3>Run UCompute on both</h3><p>Each computer needs its own working setup first.</p><a class="link-arrow" href="#local">The first path</a></li>
 <li><h3>Turn on trusted devices</h3><p><code>common privacy trusted-devices</code> shows what changes and asks before it does. Local only is the default.{{claim:local-only}}</p><a class="link-arrow" href="/docs/mesh/#enable">Turn it on</a></li>
-<li><h3>Pair with a six-digit code</h3><p><code>common peers pair</code> on one computer shows a code; <code>common peers join</code> on the other enters it.{{claim:mesh-pair-choose}}</p><a class="link-arrow" href="/docs/mesh/#pair">Pair</a></li>
-<li><h3>Allow it, on both computers</h3><p>A paired device can run nothing here until a group you made allows it.{{claim:groups}}</p><a class="link-arrow" href="/docs/mesh/#allow">Groups</a></li>
-<li><h3>Run a request there</h3><p><code>common run &lt;model&gt; --peer &lt;label&gt; -p "Hello"</code>, or pick the device in the app.</p><a class="link-arrow" href="/docs/mesh/#run">Run on the other device</a></li>
-<li><h3>Revoke it at any time</h3><p>A revoked device is refused from then on, and the audit trail records what ran.{{claim:revocation}}{{claim:audit}}</p><a class="link-arrow" href="/docs/mesh/#revoke">Revoke</a></li>
+<li><h3>Pair with a six-digit code</h3><p><code>common peers pair</code> on one computer shows an address and a code; <code>common peers join &lt;address&gt; &lt;code&gt;</code> on the other enters them.{{claim:mesh-pair-choose}}</p><a class="link-arrow" href="/docs/mesh/#pair">Pair</a></li>
+<li><h3>Allow it, on both computers</h3><p>Another computer can run work here only after you pair it and allow it in a group.{{claim:groups}}</p><a class="link-arrow" href="/docs/mesh/#allow">Groups</a></li>
+<li><h3>Run a request there</h3><p><code>common run &lt;model&gt; --peer &lt;label&gt; -p "Hello"</code>. In the Windows app you can pick the Mac (shown on 19 October 2026); choosing from the Mac app's window is not shown yet.{{claim:demo-2026-10-19}}</p><a class="link-arrow" href="/docs/mesh/#run">Run on the other device</a></li>
+<li><h3>Revoke it at any time</h3><p>A revoked device is refused from then on. Audit logs record each off-device request without the prompt or the response.{{claim:revocation}}{{claim:audit}}</p><a class="link-arrow" href="/docs/mesh/#revoke">Revoke</a></li>
 </ol>
 <p class="path-stop"><strong>Where it stops today.</strong> Pairing two Macs is not yet shown, connections beyond one local network are not built, and one model split across devices is planned.{{claim:not-yet-run}}{{claim:planned}}</p>
 </div>
@@ -59,6 +60,7 @@ description: Where to start with UCompute: run a model on your computer, connect
 <span class="pill pill-experimental">Experimental</span>
 <p>For developers who want an OpenAI-style API on their own machine, and a say in which device runs each request.</p>
 <p class="fine">The official OpenAI Python and JavaScript clients are tested, on an Apple M2 Mac (macOS 26.2), for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility.{{claim:openai-clients}}</p>
+<p class="fine">Running a request on a paired device: Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
 </div>
 <div>
 <ol class="path-steps">
@@ -66,9 +68,9 @@ description: Where to start with UCompute: run a model on your computer, connect
 <li><h3>Point a client at it</h3><p>Use the OpenAI client you already know, with a local base URL.</p><a class="link-arrow" href="/developers/#quickstart">Quickstart</a></li>
 <li><h3>Choose where each request runs</h3><p>The <code>target</code> field keeps it here or sends it to a paired device, and every response says where it ran.</p><a class="link-arrow" href="/developers/#targets">Targets</a></li>
 <li><h3>Handle errors by code</h3><p>Every error has a stable code and a plain-language message.{{claim:gpu-fallback}}</p><a class="link-arrow" href="/docs/api/#errors">Error codes</a></li>
-<li><h3>Script the rest</h3><p>Every command, flag and environment variable, generated from the source.</p><a class="link-arrow" href="/docs/cli/">Command line</a></li>
+<li><h3>Script the rest</h3><p>Every command and flag, and the environment variables you set, generated from the source.</p><a class="link-arrow" href="/docs/cli/">Command line</a></li>
 </ol>
-<p class="path-stop"><strong>Where it stops today.</strong> There are no SDKs yet, tool calling is not verified, and no compatibility window is promised before a beta release.{{claim:not-yet-run}}</p>
+<p class="path-stop"><strong>Where it stops today.</strong> There are no SDKs yet, tool calling is not verified, and no compatibility window is promised.{{claim:not-yet-run}}</p>
 </div>
 </section>
 
@@ -83,7 +85,7 @@ description: Where to start with UCompute: run a model on your computer, connect
 <ol class="path-steps">
 <li><h3>Read the ground rules</h3><p>Real over fake, requirements tracked with evidence, secure by default, and licenses that matter. They apply to every contributor, human or AI.</p><a class="link-arrow" href="/open-source/#contribute">How contributions will work</a></li>
 <li><h3>Follow the roadmap</h3><p>Fifteen milestones, counted against a requirements ledger, without dates.{{claim:ledger}}</p><a class="link-arrow" href="/roadmap/">Roadmap</a></li>
-<li><h3>Keep security problems private</h3><p>Never post a suspected vulnerability publicly. A tested private route will be listed before any external beta.</p><a class="link-arrow" href="/open-source/#security">Security policy</a></li>
+<li><h3>Keep security problems private</h3><p>Never post a suspected vulnerability publicly. No tested private reporting route exists yet.</p><a class="link-arrow" href="/open-source/#security">Security policy</a></li>
 <li class="is-planned"><h3>Qualify your hardware</h3><p>Every new platform, GPU or device pair needs its own recorded evidence. Running the documented checks on hardware the project doesn't have is planned as one of the most useful contributions.</p><a class="link-arrow" href="/community/#ways-title">Ways to take part</a></li>
 <li class="is-planned"><h3>Take a work package</h3><p>Separable pieces such as SDKs or an independent protocol implementation can be picked up once the source is public.{{claim:work-packages}}</p><a class="link-arrow" href="/roadmap/#now">Work packages</a></li>
 </ol>
