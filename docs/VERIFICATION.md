@@ -14,6 +14,23 @@ Staged against the DRAFT capability snapshot (div0rce/common dc2502c) for a mech
 | Section 9 wording | "Download" button and labels became "Release status"; "Open source" nav became "Project"; "Apple Silicon" claims narrowed to Apple M2; "open protocol" and "open source" removed from the vision and project pages; direction text introduced with "Our direction" plus "Credits do not exist yet. Free does not mean unlimited."; OpenAI-client claim gained "tool calling is not yet verified" |
 | Ledger | As of 22 October 2026: original 148 unchanged (36 verified); five added requirements, all not started |
 | Layout fix | A sticky section heading overlapped its intro text when the column held both; the heading now sticks only when it is alone |
+| Review against the snapshot (2026-10-22) | A full read-through found 10 must-fix and 19 should-fix items. Fixed:
+  - Scheduler and SDK now labelled planned.
+  - Cloud described as planned and not offered.
+  - Claim 2, 3 and 5 qualifiers now sit next to the Run and Mesh claims.
+  - Mac-to-Mac and Windows-started pairing marked unproven in the docs.
+  - Windows on ARM and Linux shown as Planned.
+  - "public ledger" removed.
+  - The owner tagline introduced as direction ("What we are building toward"; footer "Our direction").
+  - Numbers outside the snapshot's register removed.
+  - Tool calling caveat added.
+  - "any OpenAI client" narrowed to the official clients.
+  - The credits cash-out line aligned with the stage list.
+  - The chat-header defect added to the open issues.
+  - Roadmap anchors use slugs.
+
+  Kept: the catalog count and the architecture design description. `check.mjs` now also flags section 9 phrases (open source, open protocol and interoperability, Apple Silicon, availability, offline and internet, privacy and verification, install ease) without a limiting word |
+| Native Mobile Safari (2026-10-22) | Attempted with engineering's clearance: iPhone 17 Pro simulator, iOS 26.5. It is inconclusive, not passed. Under load (average up to about 63, Mac swapping), both URL opens timed out, and the page had not rendered when the agreed 10-minute window closed. The simulator was shut down at 21:02:54. Retry when engineering says the Mac is clear |
 | Name (owner, 2026-10-22) | The project is UCompute; Common is the former name. Prose, the footer, the docs naming note and the architecture diagram now say UCompute and "formerly called Common". Literal identifiers the development builds still use stay as they are until the code is renamed: the `common` command, `Common.app`, the `Common` data folder and `X-Common-Target` |
 | Engineering answers (2026-10-22) | Milestone badges M0–M14 replaced by list position 1–15, and the check now also fails on M-numbers (except "Apple M2"). App step text made UI-neutral: no screen names such as Peers, Nearby, Run on or Models view, because tonight's run drives the daemon APIs and certifies no UI flow. The Remote label stays Experimental; Mac-to-Mac stays outside the gate; ledger counts wait for the final snapshot |
 

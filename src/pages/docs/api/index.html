@@ -21,7 +21,7 @@ layout: docs
 <thead><tr><th scope="col">Route</th><th scope="col">Purpose</th></tr></thead>
 <tbody>
 <tr><td><code>GET /v1/models</code>, <code>GET /v1/models/{id}</code></td><td>Model list, with a <code>common</code> extension: downloaded, license, bytes, loaded</td></tr>
-<tr><td><code>POST /v1/chat/completions</code></td><td>Chat, with streaming over server-sent events when <code>"stream": true</code>; <code>response_format</code> JSON schema or JSON object; <code>tools</code> passed through</td></tr>
+<tr><td><code>POST /v1/chat/completions</code></td><td>Chat, with streaming over server-sent events when <code>"stream": true</code>; <code>response_format</code> JSON schema or JSON object; <code>tools</code> passed through (tool calling is not yet verified)</td></tr>
 <tr><td><code>POST /v1/completions</code></td><td>Text completion</td></tr>
 <tr><td><code>POST /v1/embeddings</code></td><td>Embeddings, from a model loaded in embeddings mode; always local</td></tr>
 </tbody>
@@ -106,4 +106,4 @@ layout: docs
 </table></div>
 
 <h2 id="compat">Compatibility</h2>
-<p>This is API v1.0.0 of a development build. The official OpenAI Python and JavaScript clients are tested for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility. No compatibility window is promised until a beta release publishes one.</p>
+<p>This is API v1.0.0 of a development build. The official OpenAI Python and JavaScript clients are tested for model listing, completions, chat, streaming and typed errors; that is a tested subset, not a claim of complete OpenAI compatibility. Tool calling is not yet verified.{{claim:openai-clients}} No compatibility window is promised until a beta release publishes one.</p>

@@ -5,7 +5,7 @@ description: Use UCompute from your own application: an OpenAI-compatible HTTP A
 <div class="page-hero shell">
 <h1>Build on the compute people already have.</h1>
 <p class="lede">A local-first execution interface for supported models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
-<div class="page-hero-meta"><span class="pill pill-verified">HTTP API v1.0.0: Verified</span><span class="pill pill-planned">SDKs: Planned</span></div>
+<div class="page-hero-meta"><span class="pill pill-verified">Local API: Verified on an Apple M2 Mac</span><span class="pill pill-planned">SDKs: Planned</span></div>
 <p class="fine stack">The official OpenAI Python and JavaScript client libraries work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. SDKs are planned.{{claim:openai-clients}}{{claim:planned}}</p>
 </div>
 
@@ -17,7 +17,7 @@ description: Use UCompute from your own application: an OpenAI-compatible HTTP A
 <li><div><h3>Install and set up</h3><p>Once the source is published, build the <code>common</code> command (see <a href="/docs/install/">Install</a>), then run <code>common setup</code> to download and verify the pinned engine.</p></div></li>
 <li><div><h3>Get a model</h3><p><code>common models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license, then downloads and verifies 491 MB.</p></div></li>
 <li><div><h3>Start the daemon</h3><p><code>common serve</code> listens on <code>http://127.0.0.1:8192</code>. The desktop app starts the same daemon for you.</p></div></li>
-<li><div><h3>Call it</h3><p>Use any OpenAI client with the base URL changed. The model loads on the first request.</p></div></li>
+<li><div><h3>Call it</h3><p>Use the official OpenAI Python or JavaScript client with the base URL changed. The model loads on the first request.{{claim:openai-clients}}</p></div></li>
 </ol>
 </div>
 <div class="code-panel">

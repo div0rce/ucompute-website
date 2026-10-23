@@ -26,7 +26,7 @@ common privacy                      # shows the current mode</code></pre></div>
 <p>Use <code>--serve-peers</code> only on a computer that should run work for others.</p>
 
 <h2 id="pair">3. Pair</h2>
-<p>Open the pairing window on one computer and join from the other. The window lasts 120 seconds, and more than five wrong codes within a minute lock it.</p>
+<p>Open the pairing window on one computer and join from the other. The window lasts 120 seconds, and more than five wrong codes within a minute lock it. {{if:acceptance}}Pairing has been shown between a Mac and a Windows 11 laptop with either one showing the code.{{claim:windows-pairing}}{{else}}So far pairing is shown only with a Mac showing the code and a Windows 11 laptop joining.{{/if}} Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
 <ol>
 <li>On the first computer, start pairing. It shows a six-digit code, the address to dial and a QR payload.</li>
 <li>On the second computer, pick the first one from the devices found on the network, or join it by address. Enter the code.</li>
@@ -58,7 +58,7 @@ curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json'
 <h2 id="revoke">Remove or revoke a device</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers rm 1a2b-3c4d-5e6f       # forget it; it may pair again later
 common peers revoke 1a2b-3c4d-5e6f   # signed revocation; its key is refused from now on</code></pre></div>
-<p>Revoking closes every connection to the device, tells the devices that shared a group with it, and makes its key fail inside the encrypted handshake. In tests the revoked device was disconnected within 0.07 seconds.</p>
+<p>Revoking closes every connection to the device, tells the devices that shared a group with it, and makes its key fail inside the encrypted handshake. In two-machine tests the revoked device was disconnected less than a tenth of a second after the revoke (0.012 s and 0.061 s in two runs).{{claim:revocation}}</p>
 
 <h2 id="audit">See what happened</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common audit --n 20                       # recent pairing, policy and remote-request events

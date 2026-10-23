@@ -112,7 +112,7 @@ function header(path, mode) {
   const current = href => path === href || (href !== '/' && path.startsWith(href)) ? ' aria-current="page"' : '';
   const announce = mode === 'preview'
     ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 22 October 2026.</aside>`
-    : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 2026-10-19: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
+    : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 19 October 2026 with development builds: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
   return `<a href="#main" class="skip-link">Skip to content</a>
 ${announce}
 <header class="site-header">
@@ -134,7 +134,7 @@ function footer(mode) {
   return `<footer class="footer">
 <div class="shell">
 <div class="footer-main">
-<div class="footer-brand"><a class="brand" href="/" aria-label="UCompute home">${brand}</a><p>Compute better. Together. An open computing layer for the devices you own and trust.</p></div>
+<div class="footer-brand"><a class="brand" href="/" aria-label="UCompute home">${brand}</a><p>Our direction: compute better, together, with an open computing layer for the devices you own and trust.</p></div>
 <nav class="footer-nav" aria-label="Footer">
 ${FOOTER.map(([h, links]) => `<div><h2>${h}</h2><ul>${links.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('\n')}
 </nav>

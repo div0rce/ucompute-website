@@ -54,6 +54,19 @@ The Cloudflare Workers and Pages GitHub app is installed on `div0rce` with acces
 
 Run `npm test` before pushing; the Cloudflare build runs the same checks on the mode it builds.
 
+## Claims and the capability snapshot
+
+Every capability statement on a page carries a `{{claim:ID}}` marker that resolves in `reference/claims.json` to its snapshot row, requirement IDs, evidence file and commit. The build strips the markers and fails on an unknown ID. `check.mjs` fails if an identifier, commit, milestone number or private address reaches a rendered page, and if a section 9 phrase appears without a limiting word in the same sentence. Wording that waits on an engineering run sits in `{{if:gate}}…{{else}}…{{/if}}`; the first branch renders only once that gate is `true` in `claims.json`.
+
+When engineering publishes a new snapshot:
+
+1. On `stage-snapshot` (or a fresh branch from `preview`), read the snapshot's diff against the one named in `claims.json` → `snapshot`.
+2. Update each affected row in `claims.json`, and the page text that cites it. Update ledger counts on home and the roadmap only from the snapshot's own commit.
+3. For every gated item the snapshot marks "confirmed fixed", keep its first branch and adjust the wording to what was confirmed. For every item still open, move it out of the gate so it keeps its current text. Then set the gate to `true`, or delete the gate markers.
+4. Set `claims.json` → `snapshot` to the new file and commit.
+5. `npm test`, then push; review the branch alias behind Access.
+6. Merge into `preview`; check `preview.ucompute.org` and run `node verify-live.mjs` with the new deployment aliases.
+
 ## Launching the complete site publicly
 
 Only with the owner's explicit approval, after the launch-readiness items in `docs/VERIFICATION.md` are closed.

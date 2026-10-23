@@ -91,12 +91,12 @@ description: The full record of UCompute's first run between installed desktop a
 <thead><tr><th scope="col">Step</th><th scope="col">Campus Wi-Fi (two runs)</th><th scope="col">Phone hotspot</th></tr></thead>
 <tbody>
 <tr><td>Discovery over mDNS</td><td>Failed: the network does not pass multicast between clients, which the operating systems' own mDNS tools confirmed</td><td>Pass: each daemon listed the other within about 1 s</td></tr>
-<tr><td>Unpaired device</td><td>Not tested</td><td>Listed as untrusted; a request to it was refused with <code>peer_unauthorized</code> in 3.2 ms</td></tr>
+<tr><td>Unpaired device</td><td>Not tested</td><td>Listed as untrusted; a request to it was refused with <code>peer_unauthorized</code></td></tr>
 <tr><td>Pairing, wrong then right code</td><td>Wrong code refused; joined in 69 / 79 ms</td><td>Wrong code refused; joined in 198 ms</td></tr>
 <tr><td>Remote runs both ways</td><td>Pass, identical output to a known-good reference, streamed and unstreamed</td><td>Pass</td></tr>
 <tr><td>Local-only mode on the sender</td><td>Refused with <code>policy_denied</code> in 6.5 / 2.1 ms, nothing sent</td><td>Refused in 4.4 ms</td></tr>
 <tr><td>Audit logs</td><td>No prompt or completion text on either machine</td><td>No prompt text</td></tr>
-<tr><td>Revocation</td><td>Laptop disconnected 0.012 s after the Mac revoked it; its next request refused with <code>peer_revoked</code></td><td>Disconnected 0.061 s after the revoke; re-paired in 1.1 s</td></tr>
+<tr><td>Revocation</td><td>Laptop disconnected 0.012 s after the Mac revoked it; its next request refused with <code>peer_revoked</code></td><td>Disconnected 0.061 s after the revoke; re-pairing reconnected it</td></tr>
 <tr><td>Laptop daemon killed, then restarted</td><td>Loss noticed in 4.2 s; reconnected about 5 s after restart</td><td>Loss noticed in 4.0 s; reconnected 5.6 s after restart</td></tr>
 </tbody>
 </table>
@@ -115,6 +115,7 @@ description: The full record of UCompute's first run between installed desktop a
 <li><div><strong class="step-title">Shutdown and stale records</strong><p>{{if:acceptance}}Fixed: quitting shuts the daemon down cleanly, and the other device sees it leave.{{claim:acceptance-fixes}}{{else}}Quitting on Windows does not shut the daemon down gracefully, and discovery can keep stale entries.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Addresses after a network change</strong><p>{{if:acceptance}}Fixed: a paired device can be reconnected at its new address.{{claim:acceptance-fixes}}{{else}}The wrong advertised address can be chosen, and a paired device may not reconnect after its address changes.{{/if}}</p></div></li>
 <li><div><strong class="step-title">Connection state is hard to see</strong><p>{{if:acceptance}}Fixed: “Last seen” advances while a connection stays up.{{claim:acceptance-fixes}}{{else}}Discovery and connection progress need clearer display; “Last seen” does not advance while a connection stays up.{{/if}}</p></div></li>
+<li><div><strong class="step-title">Chat header on the wrong device</strong><p>After a request ran on the Mac, the Windows chat header still named the laptop's own GPU above the reply.{{claim:open-defects}}</p></div></li>
 <li><div><strong class="step-title">Pairing started on Windows</strong><p>{{if:acceptance}}Fixed: the app now asks once to allow paired-device traffic on private networks, and pairing started on Windows succeeds.{{claim:windows-pairing}}{{else}}Windows Firewall drops the pairing connection when the Windows machine opens the pairing window. Open it on the Mac and join from Windows instead.{{/if}}</p></div></li>
 </ul>
 </div>

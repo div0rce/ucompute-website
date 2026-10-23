@@ -12,7 +12,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 <div><h2 class="h-sub" id="layer">An open computing layer</h2></div>
 <div class="prose">
 <p>The goal is a layer that lets applications use authorized computing resources across supported devices, operating systems and networks, including applications that this project doesn't write or control.</p>
-<p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. A <strong>protocol</strong> would let devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. Today there is one implementation, and its peer protocol is experimental.{{claim:protocol}} A <strong>scheduler</strong> decides where work should run, and says when the answer is “right here”.</p>
+<p>It has three parts. A <strong>portable runtime</strong> runs supported work on each device and enforces its owner's policy. A <strong>protocol</strong> would let devices identify each other, agree what is allowed and exchange work, written down well enough that someone else can implement it. Today there is one implementation, and its peer protocol is experimental.{{claim:protocol}} A <strong>scheduler</strong> would decide where work should run, and say when the answer is “right here”. It is planned; today you choose the device yourself.{{claim:planned}}</p>
 <p>Linux is the inspiration for the openness, portability and ecosystem reach. UCompute is not trying to replace an operating system. It runs across them.</p>
 </div>
 </div>
@@ -98,7 +98,7 @@ description: Why UCompute exists: computing resources are scattered across devic
 </tbody>
 </table></div>
 <p><strong>“Share your compute. Not your computer.”</strong> is the design goal for sharing with others: people would use your compute, never your files, desktop or accounts. The isolation that would make this safe with strangers is not built yet, and public participation stays disabled until it passes an independent security review.</p>
-<div class="callout"><strong>None of this exists yet</strong>There are no credits, purchases, payments, trusted-access lists, public Swarm or Cloud service today, and no stage that involves money is authorized. Earned credits would not be transferable or redeemable for cash. No cryptocurrency.</div>
+<div class="callout"><strong>None of this exists yet</strong>There are no credits, purchases, payments, trusted-access lists, public Swarm or Cloud service today, and no stage that involves money is authorized. Transferring credits or cashing them out would be a later stage; it is not authorized and needs legal review. No cryptocurrency.{{claim:direction}}</div>
 </div>
 </div>
 </section>

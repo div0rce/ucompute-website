@@ -39,8 +39,8 @@ layout: docs
 <h2 id="firewall">Pairing or requests time out between a Mac and Windows</h2>
 <ul>
 <li>On Windows, allow the app on Private networks and make sure the network profile is Private.</li>
-<li>Open the pairing window on the Mac and join from Windows. When Windows opens the window, Windows Firewall currently drops the connection.</li>
-<li>On a Mac, the firewall in System Settings, Network, must allow incoming connections for the app to serve requests.</li>
+<li>{{if:acceptance}}On Windows, approve the app's one-time request to allow paired-device traffic on private networks.{{claim:windows-pairing}}{{else}}Open the pairing window on the Mac and join from Windows. When Windows opens the window, Windows Firewall currently drops the connection.{{/if}}</li>
+<li>On a Mac, the firewall in System Settings, Network, may block incoming connections; if the Mac cannot serve requests, allow the app there.</li>
 </ul>
 <h2 id="mac-blocked">macOS won't open the app</h2>
 <p>Development builds are ad-hoc signed and not notarized. Allow the app once in System Settings, Privacy &amp; Security.</p>

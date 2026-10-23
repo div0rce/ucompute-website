@@ -1,11 +1,12 @@
 <!--
 title: UCompute: compute better, together
-description: UCompute is building an open computing layer for the devices you own and trust. Run AI models on your own computer, or send a request to another computer you have paired.
+description: UCompute is building an open computing layer for the devices you own and trust. In development: run small open models on your own computer, or send a request to another computer you have paired.
 -->
 <div class="shell hero">
 <div class="hero-copy">
+<p class="kicker">What we are building toward</p>
 <h1>Compute<br><span class="accent">better.</span><br>Together<span class="stop">.</span></h1>
-<p class="hero-lede">Your devices were never meant to work alone. UCompute is building an open computing layer that connects them. Today it runs AI models on your own computer, or on another computer you have paired and chosen to trust.</p>
+<p class="hero-lede">Your devices were never meant to work alone. UCompute is building an open computing layer that connects them. Today, in development builds, it runs small open models on your own computer, or on another computer you have paired and chosen to trust.{{claim:run-local}}{{claim:mesh-pair-choose}}</p>
 <div class="hero-actions">
 <a class="btn btn-lime btn-lg" href="#demo">See it run on two computers</a>
 <a class="link-arrow" href="/download/">Release status</a>
@@ -95,7 +96,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <article class="product-card product-run">
 <div class="card-top"><span class="card-label">UCompute Run</span><span class="pill pill-experimental">Experimental</span></div>
 <h3>Your AI.<br>Your machine.</h3>
-<p>Runs small open models on your own computer, with no account and no UCompute service. See a model's size, license and fit before you download it. By default, your requests stay on your device.{{claim:run-local}}{{claim:catalog}}</p>
+<p>Runs small open models on your own computer, with no account and no UCompute service. See a model's size, license and fit before you download it. By default, your requests stay on your device. Shown on an Apple M2 Mac and a Windows 11 laptop; both are experimental platforms.{{claim:run-local}}{{claim:catalog}}{{claim:platforms}}</p>
 <div class="product-figure">
 <div class="model-stack" aria-hidden="true">
 <div class="model-row"><span class="model-mark">Q</span><span><strong>Qwen2.5 0.5B Instruct</strong><small>Q4_K_M, 491 MB, Apache-2.0</small></span><span class="model-fit">fit check</span></div>
@@ -108,7 +109,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <article class="product-card product-mesh">
 <div class="card-top"><span class="card-label">UCompute Mesh</span><span class="pill pill-experimental">Experimental</span></div>
 <h3>Better<br>together.</h3>
-<p>Pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device. Explicit, revocable and audited.{{claim:mesh-pair-choose}}{{claim:revocation}}{{claim:audit}}</p>
+<p>Pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device. Explicit, revocable and audited. Shown between one Apple M2 Mac and one Windows 11 laptop on the same network, with the Mac showing the code.{{claim:mesh-pair-choose}}{{claim:revocation}}{{claim:audit}}</p>
 <div class="product-figure">
 <svg class="mesh-svg" viewBox="0 0 460 190" aria-hidden="true"><path d="M95 95H365" stroke="#b8fdbd" stroke-width="2" stroke-dasharray="6 7"/><path d="M365 95L420 40" stroke="#5f7d67" stroke-width="1.5" stroke-dasharray="3 6"/><circle cx="95" cy="95" r="44" fill="#28362d" stroke="#b9fc6c" stroke-width="2"/><circle cx="365" cy="95" r="44" fill="#28362d" stroke="#b9fc6c" stroke-width="2"/><circle cx="420" cy="40" r="16" fill="#203329" stroke="#5f7d67" stroke-width="1.5" stroke-dasharray="3 4"/><text x="95" y="91" text-anchor="middle">Mac</text><text x="95" y="109" text-anchor="middle" class="lbl-soft">Metal</text><text x="365" y="91" text-anchor="middle">Windows</text><text x="365" y="109" text-anchor="middle" class="lbl-soft">Vulkan</text><text x="230" y="84" text-anchor="middle" class="lbl-soft">paired</text></svg>
 <p class="figure-note">The pair recorded so far. The dashed third device is the next one.</p>
@@ -118,9 +119,9 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="grid-2 stack">
 <div class="card"><div class="card-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>Opt-in sharing of spare capacity with people you don't know. Planned, with no date: it stays disabled until isolation, metering, verification and abuse protections pass independent review.{{claim:planned}}</p></div>
-<div class="card"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Strategic hypothesis</span></div><p>Optional managed services on the same open contracts, for teams that want them. Never required for local or private use.</p></div>
+<div class="card"><div class="card-top"><h3>UCompute Cloud</h3><span class="pill pill-research">Strategic hypothesis</span></div><p>Planned, with no date: an optional managed service. It does not exist today, no paid service is authorized, and it would never be required for local or private use.{{claim:planned}}</p></div>
 </div>
-<p class="subsystems"><span>Built on four subsystems:</span><span><strong>Core</strong>, the portable runtime</span><span><strong>Protocol</strong>, device-to-device contracts</span><span><strong>Scheduler</strong>, where work should run</span><span><strong>SDK</strong>, for developers</span><a class="link-arrow" href="/architecture/">Architecture</a></p>
+<p class="subsystems"><span>Four subsystems:</span><span><strong>Core</strong>, the runtime</span><span><strong>Protocol</strong>, an experimental peer protocol</span><span><strong>Scheduler</strong>, planned</span><span><strong>SDK</strong>, planned</span><a class="link-arrow" href="/architecture/">Architecture</a></p>
 </div>
 </section>
 
@@ -140,7 +141,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <div class="journey">
 <h3>Add a second computer</h3>
 <ol aria-label="Steps"><li>Install on both</li><li>Pair with a code</li><li>Allow remote runs</li><li>Choose a device</li></ol>
-<p>Both machines on one local network. Devices on the same home network or hotspot can find each other; otherwise pair by address.{{claim:discovery}}</p>
+<p>Both machines on one local network. Devices on the same home network or hotspot can find each other; otherwise pair by address. Shown between one Apple M2 Mac and one Windows 11 laptop on the same network, with the Mac showing the code.{{claim:discovery}}{{claim:mesh-pair-choose}}</p>
 <a class="link-arrow" href="/docs/mesh/">Trusted devices guide</a>
 </div>
 <div class="journey">
@@ -253,7 +254,7 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 </div>
 <ol class="milestones">
 <li class="milestone"><span class="milestone-id">2</span><div><h3>Local inference</h3><p>Real models on CPU and Apple Metal, streaming, CLI and API.</p></div><span class="pill pill-verified">18 of 21 verified</span></li>
-<li class="milestone"><span class="milestone-id">3</span><div><h3>Desktop app and installers</h3><p>macOS and Windows development builds work; installers are unsigned and not released.</p></div><span class="pill pill-verified">3 of 6 verified</span></li>
+<li class="milestone"><span class="milestone-id">3</span><div><h3>Desktop app and installers</h3><p>macOS and Windows development builds work. Mac builds are ad-hoc signed and not notarized, Windows builds are unsigned, and neither is released.</p></div><span class="pill pill-verified">3 of 6 verified</span></li>
 <li class="milestone"><span class="milestone-id">4</span><div><h3>Trusted devices</h3><p>Discovery, pairing, encrypted remote runs and revocation, recorded on two physical machines.</p></div><span class="pill pill-verified">14 of 17 verified</span></li>
 <li class="milestone"><span class="milestone-id">5</span><div><h3>One model across two machines</h3><p>Planned: genuine partitioned inference with correctness and memory checks.</p></div><span class="pill pill-planned">Not started</span></li>
 </ol>

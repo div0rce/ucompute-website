@@ -117,15 +117,24 @@ const RISKY = [
   [/\b(speed-?ups?|faster than)\b/i, 'speedup'],
   [/\b(privacy guarantee|guaranteed privacy|complete(?:ly)? private|fully private)\b/i, 'privacy guarantee'],
   [/\b(swarm|cloud|credits?|purchase|buy)\b.*\b(available|live|launched|operational|open now|today)\b/i, 'Swarm/Cloud/credits availability'],
+  // Capability snapshot 2026-10-22, section 9: phrases that need a limiting word in the same sentence.
+  [/\bopen[- ]source\b/i, 'open source'],
+  [/\b(open protocol|open standard|interoperab\w*|interoperate\w*)\b/i, 'open protocol / interoperability'],
+  [/\b(Apple Silicon|any Mac|M[134] Macs?)\b/i, 'Apple Silicon'],
+  [/\b(download now|get the app|install now|available (?:for|on|now)|early access|waitlist|try the beta|join the beta)\b/i, 'availability'],
+  [/\b(works offline|no internet|air-gapped|across the internet|from anywhere|remote access)\b/i, 'offline / internet'],
+  [/\b(zero-knowledge|end-to-end private|military-grade|provable|verifiable inference|confidential comput\w*)\b/i, 'privacy / verification'],
+  [/\b(one-click|in minutes|no setup)\b/i, 'install ease'],
 ];
 const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|yet|only|says nothing)\b|n't\b/i;
-const ALLOW = /\bsupported (models?|kinds?|work|workloads?|release)\b/i;
+// Wording the snapshot itself prescribes, per rule.
+const ALLOW = { SUPPORTED: /\bsupported (models?|kinds?|work|workloads?|release)\b/i, 'Apple Silicon': /\bcalibrated for Apple Silicon\b/i };
 function claims(html) {
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<pre[\s\S]*?<\/pre>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ');
   const out = [];
   for (const sentence of text.split(/(?<=[.!?])\s+/)) {
     for (const [re, label] of RISKY) {
-      if (re.test(sentence) && !LIMIT.test(sentence) && !(label === 'SUPPORTED' && ALLOW.test(sentence))) out.push(`${label}: "${sentence.trim().slice(0, 160)}"`);
+      if (re.test(sentence) && !LIMIT.test(sentence) && !ALLOW[label]?.test(sentence)) out.push(`${label}: "${sentence.trim().slice(0, 160)}"`);
     }
   }
   return out;
