@@ -5,7 +5,7 @@
 import { readFileSync, readdirSync, statSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, dirname, posix } from 'node:path';
 import { tmpdir } from 'node:os';
-import { build } from './build.mjs';
+import { build, RELEASES } from './build.mjs';
 
 const args = process.argv.slice(2);
 const external = args.includes('--external');
@@ -160,7 +160,9 @@ function claimCheck(root, pages, mode) {
     const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ');
     for (const re of [IDENT, IP]) { const m = text.match(re); if (m) fail(`${mode}/${f}`, `identifier on a rendered page: "${text.slice(Math.max(0, m.index - 40), m.index + 30).replace(/\s+/g, ' ').trim()}"`); }
     for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
-    for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href)) fail(`${mode}/${f}`, `download link with no promotion record: ${href}`);
+    // Installer links only for artifacts recorded, with both approvals, in reference/releases.json.
+    const approved = new Set(RELEASES.flatMap(r => r.artifacts.map(a => a.url)));
+    for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href) && !approved.has(href)) fail(`${mode}/${f}`, `download link with no release record: ${href}`);
   }
 }
 

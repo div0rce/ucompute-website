@@ -78,11 +78,16 @@ ucompute.org must keep rendering exactly as it does at production commit 1267b34
 
 `check.mjs` fails on any link to an installer or archive (`.dmg`, `.exe`, `.msi`, `.pkg`, `.zip`, `.AppImage`, `.deb`, `.rpm`), so nothing can be offered for download by accident. A download goes on the site only after engineering's release promotion record approves that exact artifact. That record gives the file name, size, SHA-256, signing and notarization status, and the approving commit. Then:
 
-1. Add the artifact to `/download/` with its SHA-256, size, signature status and supported platform, worded from the record.
-2. Narrow the check so it allows exactly that URL, and keeps failing on every other installer link.
+1. Add the release to `reference/releases.json`. A release needs:
+   - its version, stage and date;
+   - the engineering promotion record and the date the owner approved publishing;
+   - for each artifact: platform, file name, https URL, size in bytes, SHA-256 and signature status.
+
+   The build renders it in "Release information" on `/download/`, and refuses a record with a missing or malformed field.
+2. `check.mjs` allows installer links only to those exact URLs, and keeps failing on every other one.
 3. Update the release-status rows and the claims in `reference/claims.json`, then follow the snapshot steps above.
 
-The site keeps no release-records data file until the first artifact is approved.
+Tested on 2026-10-23 with a temporary record: a complete one renders and its link passes, while a short hash or a missing owner approval fails the build. The file ships empty.
 
 ## Launching the complete site publicly
 

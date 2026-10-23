@@ -1,0 +1,4 @@
+{
+  "about": "Artifacts offered for download on /download/. Empty until engineering's release promotion record approves an exact artifact and the owner approves publishing it. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record, owner: the date the owner approved publishing}, artifacts [{platform, file, url (https), bytes, sha256, signature}].",
+  "releases": []
+}

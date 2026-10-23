@@ -228,9 +228,42 @@ ${I.env.filter(v => notes[`env ${v}`] !== null || !used.add(`env ${v}`)).map(v =
   return html;
 }
 
+// {{releases}}: approved downloads from reference/releases.json. A record missing any field fails the build,
+// so nothing reaches the page without its checksum, signature status and both approvals.
+export const RELEASES = JSON.parse(readFileSync(join(ROOT, 'reference/releases.json'), 'utf8')).releases;
+const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
+function releasesHtml() {
+  if (!RELEASES.length) return '<p>There are no tagged releases and no release notes yet. When the owner approves a release, this page will link to its installers and their SHA-256 checksums.</p>';
+  return RELEASES.map(r => {
+    const where = `reference/releases.json ${r.version}`;
+    const need = (ok, what) => { if (!ok) throw new Error(`${where}: ${what}`); };
+    need(/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(r.version), 'version must be x.y.z');
+    need(STAGES.includes(r.stage), `stage must be one of: ${STAGES.join(', ')}`);
+    need(/^\d{4}-\d{2}-\d{2}$/.test(r.date), 'date must be YYYY-MM-DD');
+    need(r.approval?.promotion && r.approval?.owner, 'approval needs the engineering promotion record and the owner approval');
+    need(r.artifacts?.length, 'no artifacts');
+    for (const a of r.artifacts) {
+      need(a.platform && a.signature, `${a.file}: platform and signature status are required`);
+      need(/^https:\/\/\S+$/.test(a.url) && a.url.split('/').pop() === a.file, `${a.file}: url must be https and end in the file name`);
+      need(/^[0-9a-f]{64}$/.test(a.sha256), `${a.file}: sha256 must be 64 lowercase hex characters`);
+      need(Number.isInteger(a.bytes) && a.bytes > 0, `${a.file}: bytes must be a positive integer`);
+    }
+    const mb = b => `${(b / 1048576).toFixed(1)} MB`;
+    return `<h3>UCompute ${esc(r.version)}, ${esc(r.stage)} (${new Date(r.date + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })})</h3>
+${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Platform</th><th scope="col">Download</th><th scope="col">Signature</th><th scope="col">SHA-256</th></tr></thead>
+<tbody>
+${r.artifacts.map(a => `<tr><th scope="row">${esc(a.platform)}</th><td><a href="${esc(a.url)}">${esc(a.file)}</a><br><span class="fine">${mb(a.bytes)}</span></td><td>${esc(a.signature)}</td><td><code class="hash">${a.sha256}</code></td></tr>`).join('\n')}
+</tbody>
+</table></div>`;
+  }).join('\n');
+}
+
 // Shared snippets pages can drop in, so icons and URLs live in one place.
 const fill = (s, file) => {
   s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
+  if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml());
   return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;
 };
 

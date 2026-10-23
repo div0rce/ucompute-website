@@ -840,3 +840,5 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 .paths-row span{display:block;color:var(--text-2);font-size:15px;line-height:1.5}
 .paths-row a:hover strong{color:var(--leaf)}
 @media (max-width:860px){.paths-row{grid-template-columns:1fr}.paths-row a{padding:20px 0}.paths-row a+a{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+
+code.hash{word-break:break-all;font-size:13px}
