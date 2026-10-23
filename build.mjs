@@ -111,7 +111,7 @@ ${(meta.scripts || 'site').split(/\s+/).map(s => `<script src="/assets/${s}.js?v
 function header(path, mode) {
   const current = href => path === href || (href !== '/' && path.startsWith(href)) ? ' aria-current="page"' : '';
   const announce = mode === 'preview'
-    ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 22 October 2026.</aside>`
+    ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 23 October 2026.</aside>`
     : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 19 October 2026 with development builds: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
   return `<a href="#main" class="skip-link">Skip to content</a>
 ${announce}
