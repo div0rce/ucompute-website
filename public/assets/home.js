@@ -110,24 +110,14 @@ void main(){
       for (const s of steps) s.classList.toggle('is-current', s.dataset.step === n);
     };
     story.classList.add('story-live');
+    // The page loads on the last step (the no-JS state); jump to the first without a fade.
+    visual.classList.add('no-fade');
     show('1');
+    requestAnimationFrame(() => requestAnimationFrame(() => visual.classList.remove('no-fade')));
     const io = new IntersectionObserver(entries => {
       for (const e of entries) if (e.isIntersecting) show(e.target.dataset.step);
     }, { rootMargin: '-45% 0px -45% 0px' });
     steps.forEach(s => io.observe(s));
   }
 
-  // ---- Vision: rings open as the section scrolls through the screen (--p runs 0 to 1).
-  const orbit = document.querySelector('.orbit');
-  if (orbit && !still) {
-    let queued = false;
-    const update = () => {
-      queued = false;
-      const r = orbit.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .5)));
-      orbit.style.setProperty('--p', p.toFixed(3));
-    };
-    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-  }
 })();
