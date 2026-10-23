@@ -125,6 +125,8 @@ const RISKY = [
   [/\b(works offline|no internet|air-gapped|across the internet|from anywhere|remote access)\b/i, 'offline / internet'],
   [/\b(zero-knowledge|end-to-end private|military-grade|provable|verifiable inference|confidential comput\w*)\b/i, 'privacy / verification'],
   [/\b(one-click|in minutes|no setup)\b/i, 'install ease'],
+  [/\btoo (?:big|large) for (?:one|a single|any single|either|any one)\b/i, 'models too big for one machine'],
+  [/\b(picks?|chooses?) the best device\b|\bautomatically (?:picks?|chooses?)\b/i, 'automatic scheduling'],
 ];
 const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|yet|only|says nothing)\b|n't\b/i;
 // Wording the snapshot itself prescribes, per rule.
