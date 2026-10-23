@@ -1,44 +1,369 @@
 {
   "about": "Source-side claim map (WP-13; snapshot 'How to read references'). Pages mark each capability statement with {{claim:ID}}; the build strips the marker and fails on an unknown ID, and check.mjs fails if a requirement ID, commit or address reaches a rendered page. Wording that waits on the Mac and Windows acceptance run sits in {{if:acceptance}}...{{else}}...{{/if}} and renders its first branch only once gates.acceptance is true.",
-  "snapshot": "div0rce/common docs/capabilities/snapshot-2026-10-22.md at dc2502c (DRAFT); ledger and statuses at 1004b3b",
+  "snapshot": "div0rce/common docs/capabilities/snapshot-2026-10-23.md at e4ed731 (DRAFT 2: post-fix physical runs pending); ledger at 11ec77b, unchanged since 1004b3b",
   "gates": {
     "acceptance": false
   },
   "claims": {
-    "no-release": { "snapshot": "8.1", "refs": ["B-007", "B-008", "Gate G", "WP-08"], "evidence": "docs/VERIFICATION.md (Gate G); spec 29.5 downloads row", "commit": "1004b3b" },
-    "run-local": { "snapshot": "8.2, 3.1", "refs": ["F-01-02", "F-06-02", "F-06-06"], "evidence": "docs/VERIFICATION.md M1 and 2026-10-15; docs/evidence/mesh-physical-2026-10-21.md", "commit": "ca298bd, 68e73f0" },
-    "catalog": { "snapshot": "8.3, 3.1", "refs": ["F-10-02", "F-05-04", "F-01-05", "F-05-01", "F-05-02"], "evidence": "docs/VERIFICATION.md M1", "commit": "ca298bd" },
-    "memory-fit": { "snapshot": "8.3, 3.1, 7", "refs": ["F-01-03", "F-01-08"], "evidence": "docs/VERIFICATION.md F-01-03 (-4.6 % to +8.9 %, 14 combinations; Apple Silicon calibration)", "commit": "ca298bd" },
-    "engine": { "snapshot": "3.1, 3.2", "refs": ["F-01-02", "F-01-04"], "evidence": "docs/VERIFICATION.md F-01-02, F-01-04; Windows daemon entry", "commit": "ca298bd, bf40e20" },
-    "gpu-fallback": { "snapshot": "3.1", "refs": ["F-01-04", "F-10-06"], "evidence": "docs/VERIFICATION.md F-01-04, F-10-06", "commit": "ca298bd" },
-    "reliability": { "snapshot": "3.1", "refs": ["F-08-01", "F-08-02", "F-08-03", "F-08-08", "F-09-02"], "evidence": "docs/VERIFICATION.md F-08-*", "commit": "ca298bd" },
-    "openai-clients": { "snapshot": "8.4, 3.1", "refs": ["F-09-01", "F-09-02", "F-09-04"], "evidence": "docs/VERIFICATION.md F-09-* (openai 3.31.0, openai npm 6.49.0)", "commit": "ca298bd" },
-    "mesh-pair-choose": { "snapshot": "8.5, 3.2", "refs": ["F-02-02", "Mode B"], "evidence": "docs/evidence/m3-two-machine-2026-10-18.md runs 1-3", "commit": "bf40e20, 88183a9" },
-    "pairing-lockout": { "snapshot": "3.2 (SINGLE-HOST part)", "refs": ["F-02-02"], "evidence": "docs/evidence/m3-single-host-2026-10-15.md", "commit": "68e73f0" },
-    "demo-2026-10-19": { "snapshot": "8.6, 3.2, 7", "refs": ["F-10-05", "Mode B"], "evidence": "docs/evidence/desktop-two-machine-2026-10-19.md", "commit": "af3e37c (apps caf1497, 5f0c580)" },
-    "daemon-runs": { "snapshot": "3.2, 7", "refs": ["F-02-01", "F-02-02", "F-02-05", "F-06-02", "F-06-05", "F-06-10"], "evidence": "docs/evidence/m3-two-machine-2026-10-18.md", "commit": "bf40e20, 88183a9" },
-    "transport": { "snapshot": "8.7, 3.2", "refs": ["F-02-03", "F-06-03", "F-02-01", "F-06-02"], "evidence": "docs/VERIFICATION.md M3; handshake refusal and capture SINGLE-HOST", "commit": "68e73f0, 88183a9" },
-    "device-identity": { "snapshot": "3.3", "refs": ["F-06-01", "B-017"], "evidence": "docs/VERIFICATION.md M3 (macOS only)", "commit": "68e73f0" },
-    "groups": { "snapshot": "3.3", "refs": ["F-02-09"], "evidence": "docs/evidence/m3-single-host-2026-10-15.md", "commit": "68e73f0" },
-    "local-only": { "snapshot": "8.8, 3.3", "refs": ["F-06-02", "F-10-10", "F-06-07"], "evidence": "docs/VERIFICATION.md M3; TWO-MACHINE refusal in bf40e20", "commit": "68e73f0, bf40e20" },
-    "revocation": { "snapshot": "8.9, 3.2", "refs": ["F-06-05"], "evidence": "docs/evidence/m3-two-machine-2026-10-18.md", "commit": "bf40e20, 88183a9" },
-    "audit": { "snapshot": "8.10, 3.2", "refs": ["F-06-10"], "evidence": "docs/evidence/m3-two-machine-2026-10-18.md", "commit": "bf40e20" },
-    "device-sees-prompt": { "snapshot": "8.11, 6", "refs": ["F-06-11"], "evidence": "spec 26.1", "commit": "dc2502c" },
-    "discovery": { "snapshot": "3.2, 6, 9", "refs": ["F-02-01"], "evidence": "docs/evidence/m3-two-machine-2026-10-18.md run 3; eduroam drops multicast", "commit": "88183a9" },
-    "quotas": { "snapshot": "4", "refs": ["F-06-04", "B-014", "B-015"], "evidence": "docs/VERIFICATION.md (SINGLE-HOST)", "commit": "68e73f0" },
-    "installer": { "snapshot": "4, 6", "refs": ["F-10-01", "B-008"], "evidence": "docs/VERIFICATION.md 2026-10-15 and 2026-10-17", "commit": "5f0c580, 08e267e" },
-    "not-yet-run": { "snapshot": "4", "refs": ["F-01-06", "F-01-12", "B-012", "B-013", "WP-03", "B-004"], "evidence": "docs/REQUIREMENTS.csv", "commit": "1004b3b" },
-    "protocol": { "snapshot": "3.3, 9", "refs": ["F-08-10", "U-01", "B-018"], "evidence": "docs/VERIFICATION.md M3", "commit": "68e73f0" },
-    "platforms": { "snapshot": "8.12, 6", "refs": ["spec 27.1"], "evidence": "spec 27.1 (2026-10-18 baseline, Windows row 2026-10-19)", "commit": "dc2502c" },
-    "planned": { "snapshot": "8.13, 5", "refs": ["F-03-*", "F-04-*", "F-02-06", "F-06-08", "F-09-05", "U-01", "U-02", "U-04", "U-05", "Gate D", "Gate F"], "evidence": "docs/REQUIREMENTS.csv (NOT_STARTED)", "commit": "1004b3b" },
-    "direction": { "snapshot": "8.14, 5", "refs": ["D-019", "spec 26.1", "spec 26.5", "U-05"], "evidence": "spec 26.5 at ae552bf", "commit": "ae552bf" },
-    "license": { "snapshot": "8.15", "refs": ["D-009", "B-007"], "evidence": "LICENSE", "commit": "1ae8424" },
-    "ledger": { "snapshot": "header", "refs": ["docs/REQUIREMENTS.csv"], "evidence": "153 rows: original 148 = 36 VERIFIED, 8 IMPLEMENTED_UNVERIFIED, 3 IN_PROGRESS, 101 NOT_STARTED; U-01..U-05 NOT_STARTED", "commit": "1004b3b" },
-    "work-packages": { "snapshot": "4 (WP-13)", "refs": ["spec 30"], "evidence": "WP-01, WP-02 IMPLEMENTED_UNVERIFIED; WP-03..WP-12 NOT_STARTED; WP-13 IN_PROGRESS", "commit": "dc2502c" },
-    "release-stages": { "snapshot": "6", "refs": ["spec 31", "WP-08"], "evidence": "spec 31 (no cohort started)", "commit": "dc2502c" },
-    "open-defects": { "snapshot": "4, 6", "refs": ["F-10-05", "B-016"], "evidence": "docs/evidence/desktop-two-machine-2026-10-19.md; fixes 6ab9f8b unit/SINGLE-HOST only; Windows retest pending", "commit": "af3e37c, 1004b3b" },
-    "windows-pairing": { "snapshot": "4 (pending), 9", "refs": ["F-10-05"], "evidence": "docs/evidence/mesh-physical-2026-10-22-eduroam.md (firewall rule scoped Private/UDP/bundled program; pairing started on Windows succeeded)", "commit": "40f78bd", "gate": "acceptance" },
-    "connect-at-address": { "snapshot": "4 (pending)", "refs": ["F-02-01", "F-02-05"], "evidence": "docs/evidence/mesh-physical-2026-10-22-eduroam.md (0.166 s on eduroam, golden remote run)", "commit": "18d5361", "gate": "acceptance" },
-    "acceptance-fixes": { "snapshot": "10.1 (pending)", "refs": ["F-10-05", "F-02-05", "F-06-05"], "evidence": "Mac and Windows acceptance run with the rebuilt apps: pairing both ways, remote inference, network recovery, revocation, privacy, disconnect/hold, quit/crash", "commit": "pending", "gate": "acceptance" }
+    "no-release": {
+      "snapshot": "8.1",
+      "refs": [
+        "B-007",
+        "B-008",
+        "Gate G",
+        "WP-08"
+      ],
+      "evidence": "docs/VERIFICATION.md (Gate G); spec 29.5 downloads row",
+      "commit": "1004b3b"
+    },
+    "run-local": {
+      "snapshot": "8.2, 3.1",
+      "refs": [
+        "F-01-02",
+        "F-06-02",
+        "F-06-06"
+      ],
+      "evidence": "docs/VERIFICATION.md M1 and 2026-10-15; docs/evidence/mesh-physical-2026-10-21.md",
+      "commit": "ca298bd, 68e73f0"
+    },
+    "catalog": {
+      "snapshot": "8.3, 3.1",
+      "refs": [
+        "F-10-02",
+        "F-05-04",
+        "F-01-05",
+        "F-05-01",
+        "F-05-02"
+      ],
+      "evidence": "docs/VERIFICATION.md M1",
+      "commit": "ca298bd"
+    },
+    "memory-fit": {
+      "snapshot": "8.3, 3.1, 7",
+      "refs": [
+        "F-01-03",
+        "F-01-08"
+      ],
+      "evidence": "docs/VERIFICATION.md F-01-03 (-4.6 % to +8.9 %, 14 combinations; Apple Silicon calibration)",
+      "commit": "ca298bd"
+    },
+    "engine": {
+      "snapshot": "3.1, 3.2",
+      "refs": [
+        "F-01-02",
+        "F-01-04"
+      ],
+      "evidence": "docs/VERIFICATION.md F-01-02, F-01-04; Windows daemon entry",
+      "commit": "ca298bd, bf40e20"
+    },
+    "gpu-fallback": {
+      "snapshot": "3.1",
+      "refs": [
+        "F-01-04",
+        "F-10-06"
+      ],
+      "evidence": "docs/VERIFICATION.md F-01-04, F-10-06",
+      "commit": "ca298bd"
+    },
+    "reliability": {
+      "snapshot": "3.1",
+      "refs": [
+        "F-08-01",
+        "F-08-02",
+        "F-08-03",
+        "F-08-08",
+        "F-09-02"
+      ],
+      "evidence": "docs/VERIFICATION.md F-08-*",
+      "commit": "ca298bd"
+    },
+    "openai-clients": {
+      "snapshot": "8.4, 3.1",
+      "refs": [
+        "F-09-01",
+        "F-09-02",
+        "F-09-04"
+      ],
+      "evidence": "docs/VERIFICATION.md F-09-* (openai 3.31.0, openai npm 6.49.0)",
+      "commit": "ca298bd"
+    },
+    "mesh-pair-choose": {
+      "snapshot": "8.5, 3.2",
+      "refs": [
+        "F-02-02",
+        "Mode B"
+      ],
+      "evidence": "docs/evidence/m3-two-machine-2026-10-18.md runs 1-3",
+      "commit": "bf40e20, 88183a9"
+    },
+    "pairing-lockout": {
+      "snapshot": "3.2 (SINGLE-HOST part)",
+      "refs": [
+        "F-02-02"
+      ],
+      "evidence": "docs/evidence/m3-single-host-2026-10-15.md",
+      "commit": "68e73f0"
+    },
+    "demo-2026-10-19": {
+      "snapshot": "8.6, 3.2, 7",
+      "refs": [
+        "F-10-05",
+        "Mode B"
+      ],
+      "evidence": "docs/evidence/desktop-two-machine-2026-10-19.md",
+      "commit": "af3e37c (apps caf1497, 5f0c580)"
+    },
+    "daemon-runs": {
+      "snapshot": "3.2, 7",
+      "refs": [
+        "F-02-01",
+        "F-02-02",
+        "F-02-05",
+        "F-06-02",
+        "F-06-05",
+        "F-06-10"
+      ],
+      "evidence": "docs/evidence/m3-two-machine-2026-10-18.md",
+      "commit": "bf40e20, 88183a9"
+    },
+    "transport": {
+      "snapshot": "8.7, 3.2",
+      "refs": [
+        "F-02-03",
+        "F-06-03",
+        "F-02-01",
+        "F-06-02"
+      ],
+      "evidence": "docs/VERIFICATION.md M3; handshake refusal and capture SINGLE-HOST",
+      "commit": "68e73f0, 88183a9"
+    },
+    "device-identity": {
+      "snapshot": "3.3",
+      "refs": [
+        "F-06-01",
+        "B-017"
+      ],
+      "evidence": "docs/VERIFICATION.md M3 (macOS only)",
+      "commit": "68e73f0"
+    },
+    "groups": {
+      "snapshot": "3.3",
+      "refs": [
+        "F-02-09"
+      ],
+      "evidence": "docs/evidence/m3-single-host-2026-10-15.md",
+      "commit": "68e73f0"
+    },
+    "local-only": {
+      "snapshot": "8.8, 3.3",
+      "refs": [
+        "F-06-02",
+        "F-10-10",
+        "F-06-07"
+      ],
+      "evidence": "docs/VERIFICATION.md M3; TWO-MACHINE refusal in bf40e20",
+      "commit": "68e73f0, bf40e20"
+    },
+    "revocation": {
+      "snapshot": "8.9, 3.2",
+      "refs": [
+        "F-06-05"
+      ],
+      "evidence": "docs/evidence/m3-two-machine-2026-10-18.md; mesh-physical-2026-10-22-baseline.md (0.053 s). Never name what the revoked device is told (4.2)",
+      "commit": "bf40e20, 88183a9, 11ec77b"
+    },
+    "audit": {
+      "snapshot": "8.10, 3.2",
+      "refs": [
+        "F-06-10"
+      ],
+      "evidence": "docs/evidence/m3-two-machine-2026-10-18.md",
+      "commit": "bf40e20"
+    },
+    "device-sees-prompt": {
+      "snapshot": "8.11, 6",
+      "refs": [
+        "F-06-11"
+      ],
+      "evidence": "spec 26.1",
+      "commit": "dc2502c"
+    },
+    "discovery": {
+      "snapshot": "3.2, 6, 9",
+      "refs": [
+        "F-02-01"
+      ],
+      "evidence": "docs/evidence/m3-two-machine-2026-10-18.md run 3; eduroam drops multicast",
+      "commit": "88183a9"
+    },
+    "quotas": {
+      "snapshot": "4",
+      "refs": [
+        "F-06-04",
+        "B-014",
+        "B-015"
+      ],
+      "evidence": "docs/VERIFICATION.md (SINGLE-HOST)",
+      "commit": "68e73f0"
+    },
+    "installer": {
+      "snapshot": "4, 6",
+      "refs": [
+        "F-10-01",
+        "B-008"
+      ],
+      "evidence": "docs/VERIFICATION.md 2026-10-15 and 2026-10-17",
+      "commit": "5f0c580, 08e267e"
+    },
+    "not-yet-run": {
+      "snapshot": "4",
+      "refs": [
+        "F-01-06",
+        "F-01-12",
+        "B-012",
+        "B-013",
+        "WP-03",
+        "B-004"
+      ],
+      "evidence": "docs/REQUIREMENTS.csv",
+      "commit": "1004b3b"
+    },
+    "protocol": {
+      "snapshot": "3.3, 9",
+      "refs": [
+        "F-08-10",
+        "U-01",
+        "B-018"
+      ],
+      "evidence": "docs/VERIFICATION.md M3",
+      "commit": "68e73f0"
+    },
+    "platforms": {
+      "snapshot": "8.12, 6",
+      "refs": [
+        "spec 27.1"
+      ],
+      "evidence": "spec 27.1 (2026-10-18 baseline, Windows row 2026-10-19)",
+      "commit": "dc2502c"
+    },
+    "planned": {
+      "snapshot": "8.13, 5",
+      "refs": [
+        "F-03-*",
+        "F-04-*",
+        "F-02-06",
+        "F-06-08",
+        "F-09-05",
+        "U-01",
+        "U-02",
+        "U-04",
+        "U-05",
+        "Gate D",
+        "Gate F"
+      ],
+      "evidence": "docs/REQUIREMENTS.csv (NOT_STARTED)",
+      "commit": "1004b3b"
+    },
+    "direction": {
+      "snapshot": "8.14, 5",
+      "refs": [
+        "D-019",
+        "spec 26.1",
+        "spec 26.5",
+        "U-05"
+      ],
+      "evidence": "spec 26.5 at ae552bf",
+      "commit": "ae552bf"
+    },
+    "license": {
+      "snapshot": "8.15",
+      "refs": [
+        "D-009",
+        "B-007"
+      ],
+      "evidence": "LICENSE",
+      "commit": "1ae8424"
+    },
+    "ledger": {
+      "snapshot": "header",
+      "refs": [
+        "docs/REQUIREMENTS.csv"
+      ],
+      "evidence": "153 rows: original 148 = 36 VERIFIED, 8 IMPLEMENTED_UNVERIFIED, 3 IN_PROGRESS, 101 NOT_STARTED; U-01..U-05 NOT_STARTED",
+      "commit": "1004b3b"
+    },
+    "work-packages": {
+      "snapshot": "4 (WP-13)",
+      "refs": [
+        "spec 30"
+      ],
+      "evidence": "WP-01, WP-02 IMPLEMENTED_UNVERIFIED; WP-03..WP-12 NOT_STARTED; WP-13 IN_PROGRESS",
+      "commit": "dc2502c"
+    },
+    "release-stages": {
+      "snapshot": "6",
+      "refs": [
+        "spec 31",
+        "WP-08"
+      ],
+      "evidence": "spec 31 (no cohort started)",
+      "commit": "dc2502c"
+    },
+    "open-defects": {
+      "snapshot": "4.1 (items 1-12, D1-D5)",
+      "refs": [
+        "F-10-05",
+        "B-016"
+      ],
+      "evidence": "docs/evidence/desktop-two-machine-2026-10-19.md; per-item verdicts in snapshot 2026-10-23 section 4.1",
+      "commit": "af3e37c, 1004b3b, 18d5361, 40f78bd, 11ec77b"
+    },
+    "windows-pairing": {
+      "snapshot": "8.5 (qualifier), 4.1 #1",
+      "refs": [
+        "F-10-05",
+        "F-02-02"
+      ],
+      "evidence": "docs/evidence/mesh-physical-2026-10-22-eduroam.md (by hand, Windows 593d4ea app); docs/evidence/mesh-physical-2026-10-22-baseline.md (daemon API, both directions)",
+      "commit": "40f78bd, 11ec77b"
+    },
+    "connect-at-address": {
+      "snapshot": "8.16, 4.1 #5",
+      "refs": [
+        "F-02-02",
+        "F-02-03"
+      ],
+      "evidence": "docs/evidence/mesh-physical-2026-10-22-eduroam.md (0.166 s); dead address in ...-baseline.md",
+      "commit": "18d5361, 11ec77b"
+    },
+    "acceptance-fixes": {
+      "snapshot": "10.1-10.2 (pending)",
+      "refs": [
+        "F-10-05",
+        "F-02-05",
+        "F-06-05"
+      ],
+      "evidence": "post-fix Mac-Windows run with builds from 3a8f0d7 or later: D1 other views, D2 chat without a local model, D4 between Mac and Windows",
+      "commit": "pending",
+      "gate": "acceptance"
+    },
+    "firewall-consent": {
+      "snapshot": "8.17, 4.1 #2",
+      "refs": [
+        "F-10-05"
+      ],
+      "evidence": "docs/evidence/mesh-physical-2026-10-22-eduroam.md (rule: inbound, UDP, Private, program only); the 75a0a89 rule read not yet run on Windows (a regression withdraws the claim)",
+      "commit": "40f78bd"
+    },
+    "unpaired-inbound": {
+      "snapshot": "8.7 (second sentence, own qualifier)",
+      "refs": [
+        "F-02-03",
+        "F-06-03",
+        "F-06-02"
+      ],
+      "evidence": "handshake refusal of unpinned keys, SINGLE-HOST/unit; the 2026-10-22 unpaired-id check failed through driver defects",
+      "commit": "68e73f0"
+    }
   }
 }

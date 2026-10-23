@@ -20,7 +20,7 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <h3>Works today</h3>
 <ul>
 <li>Small open models in GGUF format through a pinned, hash-verified build of the llama.cpp engine, on CPU and on Apple Metal. The Windows build runs the same engine on Intel Arc through Vulkan.{{claim:engine}}</li>
-<li>A catalog of eight pinned models. Before you download one, you see its size, its license and whether it fits in memory, and every download is checked against a pinned SHA-256 hash.{{claim:catalog}}</li>
+<li>A catalog of eight pinned models. Before you download one, you see its size, its license and whether it fits in memory, and every download is checked against a pinned SHA-256 hash. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}}</li>
 <li>A memory check before loading. On 14 measured model and context combinations the estimate was within −4.6% to +8.9% of the engine's real footprint. The estimates are calibrated for Apple Silicon Macs.{{claim:memory-fit}}</li>
 <li>Streaming, cancellation, and one error format with stable codes.{{claim:reliability}}</li>
 <li>No silent substitutions: if the GPU fails, the run falls back to the CPU and the reason is logged, and every error comes with a plain-language explanation.{{claim:gpu-fallback}}</li>
@@ -50,8 +50,9 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <li>Pairing with a six-digit code, bound to the encrypted session. In single-machine protocol tests, a relay in the middle could not complete it, and more than five wrong attempts within a minute locked the window.{{claim:mesh-pair-choose}}{{claim:pairing-lockout}}</li>
 <li>Traffic between paired devices is encrypted and both ends are authenticated: QUIC with TLS 1.3 and device keys pinned at pairing. You can revoke a paired device at any time; in two-machine tests its connection closed less than a tenth of a second later.{{claim:transport}}{{claim:revocation}}{{claim:device-identity}}</li>
 <li>Groups decide who may run prompts, and both the sending and the serving device must agree. Per-device quotas for peers exist but are not yet verified at their default settings.{{claim:groups}}{{claim:local-only}}{{claim:quotas}}</li>
-<li>Devices on the same home network or phone hotspot can find each other; otherwise you pair by address.{{if:acceptance}} A paired device can also be reached at a new address on a network that blocks discovery.{{claim:connect-at-address}}{{else}}{{/if}}{{claim:discovery}}</li>
-<li>Tested between one Apple M2 Mac and one Windows 11 laptop with Intel Arc 140V on the same Wi-Fi network or phone hotspot, with development builds. {{if:acceptance}}Pairing works whichever of the two shows the code.{{claim:windows-pairing}}{{else}}The Mac showed the code; pairing started on Windows is not yet shown to work.{{/if}} Mac-to-Mac pairing is not yet shown to work. <a href="/demo/">See the evidence</a>.{{claim:mesh-pair-choose}}{{claim:demo-2026-10-19}}</li>
+<li>Devices on the same home network or phone hotspot can find each other.{{claim:discovery}} Where a network blocks automatic discovery, as some campus Wi-Fi does, paired devices can still connect by address. An address alone is never trusted: the device must present the key it was paired with. Reconnecting by address was shown between one Mac and one Windows laptop on the same campus network, with development builds.{{claim:connect-at-address}}</li>
+<li>Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. <a href="/demo/">See the evidence</a>.{{claim:mesh-pair-choose}}{{claim:windows-pairing}}{{claim:demo-2026-10-19}}</li>
+<li>On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval.{{claim:firewall-consent}}</li>
 </ul>
 <h3>Not yet</h3>
 <ul>
@@ -100,7 +101,7 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="card"><div class="card-top"><h3>Core</h3><span class="pill pill-experimental">Experimental</span></div><p>The runtime: hardware detection, model planning, verified artifacts, the supervised inference engine and the local API.</p></div>
 <div class="card"><div class="card-top"><h3>Protocol</h3><span class="pill pill-experimental">Experimental</span></div><p>The local HTTP API and an experimental peer protocol. There is one implementation, and no stability promise until an independent one interoperates.{{claim:protocol}}</p></div>
 <div class="card"><div class="card-top"><h3>Scheduler</h3><span class="pill pill-planned">Planned</span></div><p>Choosing where work should run from measured hardware, network and policy, and saying so when local is better. Not built: today you choose the target yourself.{{claim:planned}}</p></div>
-<div class="card"><div class="card-top"><h3>SDK</h3><span class="pill pill-planned">Planned</span></div><p>Versioned Python and TypeScript clients, not built yet. Until then, the official OpenAI clients work against the local API.{{claim:planned}}{{claim:openai-clients}}</p></div>
+<div class="card"><div class="card-top"><h3>SDK</h3><span class="pill pill-planned">Planned</span></div><p>Versioned Python and TypeScript clients, not built yet. Until then, the official OpenAI clients work against the local API, demonstrated on an Apple M2 Mac.{{claim:planned}}{{claim:openai-clients}}</p></div>
 </div>
 <p class="stack"><a class="link-arrow" href="/architecture/">How the pieces fit</a></p>
 </div>
@@ -110,7 +111,7 @@ description: UCompute Run, Mesh, Swarm and Cloud: what each does, what works tod
 <div class="shell split">
 <div><h2 class="h-sub" id="platforms-title">Platforms</h2></div>
 <div class="prose">
-<p>No platform is declared supported yet. macOS on Apple M2 and Windows 11 on Intel Arc 140V are experimental; Linux, other GPUs and mobile are planned.{{claim:platforms}}</p>
+<p>No platform is declared supported yet. macOS 26.2 on Apple M2 and Windows 11 on an Intel Core Ultra 7 258V with Arc 140V are experimental; Linux, other GPUs and mobile are planned.{{claim:platforms}}</p>
 <p><a class="link-arrow" href="/download/#platforms">Platform-by-platform status</a></p>
 </div>
 </div>

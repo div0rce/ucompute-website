@@ -14,6 +14,14 @@ Staged against the DRAFT capability snapshot (div0rce/common dc2502c) for a mech
 | Section 9 wording | "Download" button and labels became "Release status"; "Open source" nav became "Project"; "Apple Silicon" claims narrowed to Apple M2; "open protocol" and "open source" removed from the vision and project pages; direction text introduced with "Our direction" plus "Credits do not exist yet. Free does not mean unlimited."; OpenAI-client claim gained "tool calling is not yet verified" |
 | Ledger | As of 22 October 2026: original 148 unchanged (36 verified); five added requirements, all not started |
 | Layout fix | A sticky section heading overlapped its intro text when the column held both; the heading now sticks only when it is alone |
+| Draft 2 snapshot (2026-10-23, e4ed731) | Staging now follows draft 2:
+  - Claim 5's new qualifier: pairing shown starting from either the Mac or the Windows laptop; Mac-to-Mac not yet shown.
+  - New claims 16 (connect by address where discovery is blocked) and 17 (Windows firewall consent step), each with its qualifier, published on staging since both are confirmed on hardware.
+  - Claim 7's inbound half carries "tested on one computer, not yet between two machines".
+  - Claims 3 and 4 carry the Mac-only qualifier.
+  - Claim 9 cites three runs, and the revoked device's error code is no longer named.
+  - Claim 12 names the exact Windows hardware.
+  - The demo's open issues follow the per-item verdicts in section 4.1: confirmed fixes say so with date and build; code-only fixes (chat without a local model, redials between Mac and Windows, Windows wording beyond the chat view) stay behind `gates.acceptance`, which stays false |
 | Review against the snapshot (2026-10-22) | A full read-through found 10 must-fix and 19 should-fix items. Fixed:
   - Scheduler and SDK now labelled planned.
   - Cloud described as planned and not offered.
