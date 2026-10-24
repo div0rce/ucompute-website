@@ -615,6 +615,7 @@ body.menu-open .header-over-hero :focus-visible{outline-color:var(--leaf)}
 @media (prefers-reduced-motion:no-preference){
   .instrument .mk{opacity:0;transform:translateY(-14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
   .instrument .mk-2{transition-delay:.15s}.instrument .mk-3{transition-delay:.3s}
+.mk-4{transition-delay:.45s}
   .instrument.is-drawn .mk{opacity:1;transform:none}
   .instrument .range{transform-box:fill-box;transform-origin:34% 50%;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
   .instrument.is-drawn .range{transform:none}

@@ -20,7 +20,7 @@ description: UCompute has no public release or download yet. Status by platform,
 <tr><th scope="row">Windows 11 x64, Core Ultra 7 258V / Arc 140V</th><td><span class="pill pill-experimental">Experimental</span></td><td>Desktop and daemon, consumer and provider. Native development installers, installed per user: paired with the Mac app through both windows on 19 October 2026, and on 22 October the firewall consent step and pairing started on Windows worked by hand. The automated Windows checks have not completed; clean-account install, uninstall, signing, accessibility and key protection are still to be checked. <a href="/docs/install/#windows">Build notes</a></td></tr>
 <tr><th scope="row">Windows on ARM</th><td><span class="pill pill-planned">Planned</span></td><td>An engine build is pinned; nothing has run on real hardware</td></tr>
 <tr><th scope="row">Other Macs</th><td><span class="pill pill-planned">Planned</span></td><td>Not qualified: other Apple Silicon chips and Intel Macs are planned</td></tr>
-<tr><th scope="row">Linux x64</th><td><span class="pill pill-planned">Planned</span></td><td>Not qualified. This page will describe Linux once an engineering capability snapshot records it. Headless daemon first</td></tr>
+<tr><th scope="row">Linux x64</th><td><span class="pill pill-planned">Planned</span></td><td>Not supported. In tests, one Linux desktop ran a development build of the background program on its processor only, compiled from source and started by hand. There is no Linux app, package or installer, and its first test run found open defects. Headless daemon first{{claim:platforms}}</td></tr>
 <tr><th scope="row">Linux ARM64, single-board computers</th><td><span class="pill pill-planned">Planned</span></td><td>To be measured: engine support, memory, storage and thermals</td></tr>
 <tr><th scope="row">NAS and embedded appliances</th><td><span class="pill pill-planned">Planned</span></td><td>As a consumer, and a provider only through a qualified headless Linux record for the exact vendor system</td></tr>
 <tr><th scope="row">Android and iOS</th><td><span class="pill pill-planned">Planned</span></td><td>As consumers first: sending work to your own computers. An always-on provider on iOS is unsupported; Android provider work is research</td></tr>
@@ -63,7 +63,7 @@ description: UCompute has no public release or download yet. Status by platform,
 <li>known issues, and upgrade and rollback instructions.</li>
 </ul>
 <p>Installers must also be signed by a publicly trusted identity: an Apple Developer ID with notarization on macOS, and a code-signing certificate on Windows. Neither exists yet. The rules also require installation, data retention and crash cleanup to be rehearsed on the exact files before any release.</p>
-<p>Using UCompute on your own computer needs no account. Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}}{{claim:platforms}}</p>
+<p>Using UCompute on your own computer needs no account. {{q:run-local}}{{claim:run-local}}{{claim:platforms}}</p>
 </div>
 </div>
 </section>

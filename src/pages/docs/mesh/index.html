@@ -10,7 +10,7 @@ layout: docs
 <h2 id="before">Before you start</h2>
 <ul>
 <li>Have development builds on both computers (the source is not published yet; see <a href="/docs/install/">Install</a>) and put them on the same network. Home Wi-Fi and phone hotspots work. Campus and office networks often block the multicast traffic that discovery needs; on those, pair by address instead.</li>
-<li>Peer traffic uses UDP port 8193 by default. On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. Shown on one Windows 11 laptop with a development build; Windows asks for administrator approval. The network profile must be Private.{{claim:firewall-consent}} On a Mac, the firewall may block incoming connections from a newly built app; if the Mac cannot serve requests, allow the app there. That cause is suspected, not confirmed.</li>
+<li>Peer traffic uses UDP port 8193 by default. On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. {{q:firewall}} The network profile must be Private.{{claim:firewall-consent}} On a Mac, the firewall may block incoming connections from a newly built app; if the Mac cannot serve requests, allow the app there. That cause is suspected, not confirmed.</li>
 <li>Read what the other device can see. When a paired device runs your request, it decrypts the prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer.</li>
 </ul>
 
@@ -26,7 +26,7 @@ common privacy                      # shows the current mode</code></pre></div>
 <p>Use <code>--serve-peers</code> only on a computer that should run work for others.</p>
 
 <h2 id="pair">3. Pair</h2>
-<p>Open the pairing window on one computer and join from the other. The window lasts 120 seconds, and more than five wrong codes within a minute lock it. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}{{claim:windows-pairing}}</p>
+<p>Open the pairing window on one computer and join from the other. The window lasts 120 seconds, and more than five wrong codes within a minute lock it. {{q:mesh}}{{claim:mesh-pair-choose}}{{claim:windows-pairing}}</p>
 <ol>
 <li>On the first computer, start pairing. It shows a six-digit code, the address to dial and a QR payload.</li>
 <li>On the second computer, pick the first one from the devices found on the network, or join it by address. Enter the code.</li>
@@ -58,12 +58,12 @@ curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json'
 <h2 id="revoke">Remove or revoke a device</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers rm 1a2b-3c4d-5e6f       # forget it; it may pair again later
 common peers revoke 1a2b-3c4d-5e6f   # signed revocation; its key is refused from now on</code></pre></div>
-<p>You can revoke a paired device at any time. In our two-machine tests, its connection closed less than a tenth of a second after the revoke (0.012 s, 0.061 s and 0.053 s in three runs), and its next request was refused. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. Refusing a revoked key inside the encrypted handshake, and telling the devices that shared a group with it, are tested with several instances on one computer, not yet between two machines.{{claim:revocation}}{{claim:mesh-pair-choose}}</p>
+<p>You can revoke a paired device at any time. In our two-machine tests, its connection closed less than a tenth of a second after the revoke (between 0.002 s and 0.061 s in four runs), and its next request was refused. {{q:mesh}} Refusing a revoked key inside the encrypted handshake, and telling the devices that shared a group with it, are tested with several instances on one computer, not yet between two machines.{{claim:revocation}}{{claim:mesh-pair-choose}}</p>
 
 <h2 id="audit">See what happened</h2>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common audit --n 20                       # recent pairing, policy and remote-request events
 common diagnostics --out diagnostics.json # a redacted bundle to attach to a bug report</code></pre></div>
-<p>Both sides audit each remote request with the same request id. Audit logs record each off-device request without the prompt or the response: ids, counts, codes and timings. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:audit}}{{claim:mesh-pair-choose}}</p>
+<p>Both sides audit each remote request with the same request id. Audit logs record each off-device request without the prompt or the response: ids, counts, codes and timings. {{q:mesh}}{{claim:audit}}{{claim:mesh-pair-choose}}</p>
 
 <h2 id="issues">Known issues</h2>
 <p>Still open or awaiting a two-machine retest: Windows wording outside the chat view; chat needing a local model for remote runs (fixed in newer code); redials of an unreachable device between a Mac and Windows (fixed on a Mac); a device switching networks on its own (untested). <a href="/demo/#issues">Details</a>.{{claim:open-defects}}</p>

@@ -56,7 +56,7 @@ Run `npm test` before pushing; the Cloudflare build runs the same checks on the 
 
 ## Claims and the capability snapshot
 
-Every capability statement on a page carries a `{{claim:ID}}` marker that resolves in `reference/claims.json` to its snapshot row, requirement IDs, evidence file and commit. The build strips the markers and fails on an unknown ID. `check.mjs` fails if an identifier, commit, milestone number or private address reaches a rendered page, and if a section 9 phrase appears without a limiting word in the same sentence. Wording that waits on an engineering run sits in `{{if:gate}}…{{else}}…{{/if}}`; the first branch renders only once that gate is `true` in `claims.json`.
+Snapshot qualifiers live in `reference/claims.json` → `qualifiers` and are written `{{q:name}}` on pages, so a new snapshot changes each one in one place. Every capability statement on a page carries a `{{claim:ID}}` marker that resolves in `reference/claims.json` to its snapshot row, requirement IDs, evidence file and commit. The build strips the markers and fails on an unknown ID. `check.mjs` fails if an identifier, commit, milestone number or private address reaches a rendered page, and if a section 9 phrase appears without a limiting word in the same sentence. Wording that waits on an engineering run sits in `{{if:gate}}…{{else}}…{{/if}}`; the first branch renders only once that gate is `true` in `claims.json`.
 
 When engineering publishes a new snapshot:
 

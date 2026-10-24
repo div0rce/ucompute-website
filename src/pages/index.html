@@ -14,7 +14,7 @@ scripts: site home
 <a class="btn btn-lime btn-lg" href="#story">Follow one request</a>
 <a class="link-arrow on-dark-link" href="/download/">Release status</a>
 </div>
-<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Running models on your own computer: Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}} Running on another computer: tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work. Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
+<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Running models on your own computer: {{q:run-local}}{{claim:run-local}} Running on another computer: {{q:mesh}} Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
 <button class="motion-toggle motion-toggle-hero" type="button" aria-pressed="false" hidden>Pause motion</button>
 </div>
 <div class="shell">
@@ -99,15 +99,16 @@ scripts: site home
 <a class="link-arrow" href="/roadmap/">All fifteen milestones</a>
 </figure>
 <figure class="instrument inst-revoke">
-<figcaption class="inst-head"><span class="inst-value">under 0.1 s</span><span class="inst-what">You can revoke a paired device at any time. In our two-machine tests, its connection closed less than a tenth of a second after the revoke (0.012 s, 0.061 s and 0.053 s in three runs), and its next request was refused.{{claim:revocation}}</span></figcaption>
-<svg class="scale" viewBox="0 0 340 96" role="img" aria-label="Revoke to disconnect: 0.012, 0.053 and 0.061 seconds, against a tenth of a second">
+<figcaption class="inst-head"><span class="inst-value">under 0.1 s</span><span class="inst-what">You can revoke a paired device at any time. In our two-machine tests, its connection closed less than a tenth of a second after the revoke (between 0.002 s and 0.061 s in four runs), and its next request was refused.{{claim:revocation}}</span></figcaption>
+<svg class="scale" viewBox="0 0 340 96" role="img" aria-label="Revoke to disconnect in four runs: 0.002, 0.012, 0.053 and 0.061 seconds, against a tenth of a second">
 <line class="axis" x1="16" y1="58" x2="324" y2="58"/><line class="tick" x1="16" y1="50" x2="16" y2="66"/><line class="tick bound" x1="324" y1="42" x2="324" y2="74"/>
 <text class="tick-t" x="16" y="88">0 s</text><text class="tick-t end" x="324" y="88">0.1 s</text>
-<g class="mk mk-1"><circle cx="53" cy="58" r="7"/><text x="53" y="34">0.012</text></g>
+<g class="mk mk-4"><circle cx="22" cy="58" r="7"/><text x="22" y="34">0.002</text></g>
+<g class="mk mk-1"><circle cx="53" cy="58" r="7"/><text x="62" y="34">0.012</text></g>
 <g class="mk mk-2"><circle cx="179" cy="58" r="7"/><text x="168" y="34">0.053</text></g>
 <g class="mk mk-3"><circle cx="204" cy="58" r="7"/><text x="214" y="34">0.061</text></g>
 </svg>
-<p class="inst-fine">Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.</p>
+<p class="inst-fine">{{q:mesh}}</p>
 </figure>
 <figure class="instrument inst-memory">
 <figcaption class="inst-head"><span class="inst-value">−4.6% to +8.9%</span><span class="inst-what">Before loading a model, UCompute checks it fits in memory. Across 14 measured combinations of small models (stories260K to Qwen2.5 1.5B) and context sizes, its estimate fell within this range of the engine's real footprint; the allowed error is ±15%.{{claim:memory-fit}}</span></figcaption>
@@ -141,8 +142,8 @@ scripts: site home
 <h2 class="h-section" id="vision-title">From one computer<br><span class="soft">to a network.</span></h2>
 <p class="lede">What exists today sits at the centre: Run, with Mesh around it. Each ring further out is planned, and is marked that way until it is built and verified.</p>
 <ol class="rings-list">
-<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Run</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Run runs small open models on your own computer, with no account and no UCompute service. By default, your requests stay on your device. Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are planned.{{claim:run-local}}{{claim:platforms}}</p></li>
-<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Mesh</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Mesh lets you pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p></li>
+<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Run</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Run runs small open models on your own computer, with no account and no UCompute service. By default, your requests stay on your device. {{q:run-local}}{{claim:run-local}}{{claim:platforms}}</p></li>
+<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Mesh</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Mesh lets you pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. {{q:mesh}}{{claim:mesh-pair-choose}}</p></li>
 <li class="ring-item"><div class="ring-top"><h3>One model across devices</h3><span class="pill pill-planned">Planned</span></div><p>One model split across several devices, each computing part of every token. Planned and not started.{{claim:planned}}</p></li>
 <li class="ring-item"><div class="ring-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>An opt-in open network, disabled until isolation, metering, verification and abuse protections pass independent review.{{claim:planned}}</p></li>
 <li class="ring-item"><div class="ring-top"><h3>UCompute Cloud</h3><span class="pill pill-planned">Planned</span></div><p>An optional managed service. It does not exist today, and it would never be required for local or private use.{{claim:planned}}</p></li>
@@ -160,7 +161,7 @@ scripts: site home
 <ul class="ticks stack">
 <li><div><strong class="step-title">Official OpenAI Python and JavaScript clients</strong><p>They work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:openai-clients}}</p></div></li>
 <li><div><strong class="step-title">Streaming and typed errors</strong><p>Server-sent events, and one error shape with stable codes.</p></div></li>
-<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it. Running on a paired device: Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p></div></li>
+<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it. Running on a paired device: {{q:mesh}}{{claim:mesh-pair-choose}}</p></div></li>
 </ul>
 <p class="stack"><a class="btn btn-lime" href="/developers/">Read the developer guide</a></p>
 </div>
@@ -232,7 +233,7 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <div>
 <p class="section-lead">Our direction:</p>
 <h2 class="h-section" id="trust-title">Share your compute.<br><span class="soft">Not your computer.</span></h2>
-<p class="lede stack">This is the design goal for sharing with others; the isolation that would make it safe with strangers is not built yet. Credits do not exist yet. Free does not mean unlimited.{{claim:direction}} What protects you today, between devices you pair and trust, is below; each item states its evidence and limits. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p>
+<p class="lede stack">This is the design goal for sharing with others; the isolation that would make it safe with strangers is not built yet. Credits do not exist yet. Free does not mean unlimited.{{claim:direction}} What protects you today, between devices you pair and trust, is below; each item states its evidence and limits. {{q:mesh}}{{claim:mesh-pair-choose}}</p>
 <p class="stack"><a class="link-arrow" href="/open-source/#security">Trust boundaries and security reports</a></p>
 </div>
 <div class="rows">

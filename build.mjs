@@ -121,7 +121,7 @@ ${(meta.scripts || 'site').split(/\s+/).map(s => `<script src="/assets/${s}.js?v
 function header(path, mode) {
   const current = href => path === href || (href !== '/' && path.startsWith(href)) ? ' aria-current="page"' : '';
   const announce = mode === 'preview'
-    ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 23 October 2026.</aside>`
+    ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 23 October 2026 (draft 3).</aside>`
     : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 19 October 2026 with development builds: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
   return `<a href="#main" class="skip-link">Skip to content</a>
 ${announce}
@@ -175,7 +175,8 @@ const gate = (g, file) => { if (!(g in CLAIMS.gates)) throw new Error(`${file}: 
 export function resolveClaims(s, file) {
   return s
     .replace(/\{\{if:([\w-]+)\}\}([\s\S]*?)\{\{else\}\}([\s\S]*?)\{\{\/if\}\}/g, (_, g, yes, no) => gate(g, file) ? yes : no)
-    .replace(/\{\{claim:([\w-]+)\}\}/g, (_, id) => { if (!CLAIMS.claims[id]) throw new Error(`${file}: unknown claim "${id}"`); return ''; });
+    .replace(/\{\{claim:([\w-]+)\}\}/g, (_, id) => { if (!CLAIMS.claims[id]) throw new Error(`${file}: unknown claim "${id}"`); return ''; })
+    .replace(/\{\{q:([\w-]+)\}\}/g, (_, id) => { if (!CLAIMS.qualifiers[id]) throw new Error(`${file}: unknown qualifier "${id}"`); return CLAIMS.qualifiers[id]; });
 }
 
 // {{cli-reference}}: the command reference, rendered from reference/interfaces.json (exported from the

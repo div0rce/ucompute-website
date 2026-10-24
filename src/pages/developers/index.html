@@ -6,7 +6,7 @@ description: Use UCompute from your own app: an OpenAI-compatible API on 127.0.0
 <h1>Build on the compute people already have.</h1>
 <p class="lede">A local-first execution interface for catalog models and authorized devices. Your application talks to the UCompute daemon over the OpenAI-compatible HTTP API it may already use, and decides explicitly where each request runs.</p>
 <div class="page-hero-meta"><span class="pill pill-verified">Local API: Verified on an Apple M2 Mac</span><span class="pill pill-planned">SDKs: Planned</span></div>
-<p class="fine stack">The official OpenAI Python and JavaScript client libraries work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental. SDKs are planned. Choosing another device to run a request was tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:openai-clients}}{{claim:planned}}{{claim:mesh-pair-choose}}</p>
+<p class="fine stack">The official OpenAI Python and JavaScript client libraries work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental. SDKs are planned. Choosing another device to run a request was {{q:mesh}}{{claim:openai-clients}}{{claim:planned}}{{claim:mesh-pair-choose}}</p>
 </div>
 
 <section class="section-tight" aria-labelledby="quickstart">
@@ -111,7 +111,7 @@ stream = client.chat.completions.<span class="tok-f">create</span>(
 <svg class="tp-route" viewBox="0 0 150 170" aria-hidden="true"><rect class="tp-app" x="4" y="70" width="52" height="30" rx="15"/><text x="30" y="90">app</text><path class="tp-wire" d="M56 85C90 85 92 40 104 40"/><path class="tp-wire on" d="M56 85C90 85 92 130 104 130"/><rect class="tp-dev" x="104" y="20" width="42" height="40" rx="7"/><text class="tp-dl" x="125" y="12">here</text><rect class="tp-dev on" x="104" y="110" width="42" height="40" rx="7"/><text class="tp-dl" x="125" y="166">paired</text></svg>
 <div><p class="tp-label">Response, and every streamed chunk</p><pre class="code-block"><code>{"object": "chat.completion",
  "target": "peer:1a2b-3c4d-5e6f",
- "choices": [ … ]}</code></pre><p class="tp-note">Runs whole on that paired device, only if both devices allow it. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}}</p></div>
+ "choices": [ … ]}</code></pre><p class="tp-note">Runs whole on that paired device, only if both devices allow it. {{q:mesh}}{{claim:mesh-pair-choose}}</p></div>
 </div>
 </div>
 </div>

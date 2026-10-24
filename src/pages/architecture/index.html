@@ -92,7 +92,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div class="shell split">
 <div><h2 class="h-sub" id="remote-title">A request on a paired device</h2><p class="stack"><span class="pill pill-experimental">Experimental</span></p></div>
 <div class="prose">
-<p>A request with <code>"target": "peer:&lt;id or label&gt;"</code> runs whole on that device. Tested between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, with development builds; pairing has been shown starting from either of the two. Pairing between two Macs is not yet shown to work.{{claim:mesh-pair-choose}} Policy decides before admission, before any model load and before any network traffic. All of these must hold on the sending device:</p>
+<p>A request with <code>"target": "peer:&lt;id or label&gt;"</code> runs whole on that device. {{q:mesh}}{{claim:mesh-pair-choose}} Policy decides before admission, before any model load and before any network traffic. All of these must hold on the sending device:</p>
 <ol>
 <li>privacy mode is <code>trusted_group</code>, which requires acknowledging that the other device sees the prompt in plain text;</li>
 <li>peer networking is on;</li>
