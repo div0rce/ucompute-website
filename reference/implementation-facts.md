@@ -14,7 +14,7 @@ Source: `div0rce/common`, commit `af3e37c` (2026-10-18), read on 2026-10-19; int
 
 ## Interfaces
 
-Commands, flags, defaults, HTTP routes, error codes with their statuses, and environment variables are no longer transcribed here. They live in `reference/interfaces.json`, exported read-only from the engineering source by `npm run interfaces:update` (run at d00fa7e, 2026-10-23, and again at c2cd6dc the same evening with no interface changes). `/docs/cli/` is rendered from it, and `check.mjs` fails when a page names a command, flag, route, error code or variable that is not in it, or leaves an error code undocumented.
+Commands, flags, defaults, HTTP routes, error codes with their statuses, and environment variables are no longer transcribed here. They live in `reference/interfaces.json`, exported read-only from the engineering source by `npm run interfaces:update` (run at d00fa7e, 2026-10-23, again at c2cd6dc the same evening, and at c122812 on 2026-10-24, with no interface changes). `/docs/cli/` is rendered from it, and `check.mjs` fails when a page names a command, flag, route, error code or variable that is not in it, or leaves an error code undocumented.
 
 ## CLI behaviour (re-checked at d00fa7e)
 
