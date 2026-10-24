@@ -138,7 +138,7 @@ function check(root, mode) {
 const RISKY = [
   [/\b(pool(?:ed|ing)?|split|partition(?:ed|ing)?|combined[- ]device|across devices)\b/i, 'pooling/split'],
   [/\bsupported\b/i, 'SUPPORTED'],
-  [/\b(speed-?ups?|faster than)\b/i, 'speedup'],
+  [/\b(speed-?ups?|faster than|faster on)\b/i, 'speedup'],
   [/\b(privacy guarantee|guaranteed privacy|complete(?:ly)? private|fully private)\b/i, 'privacy guarantee'],
   [/\b(swarm|cloud|credits?|purchase|buy)\b.*\b(available|live|launched|operational|open now|today)\b/i, 'Swarm/Cloud/credits availability'],
   // Capability snapshot 2026-10-22, section 9: phrases that need a limiting word in the same sentence.
@@ -152,6 +152,9 @@ const RISKY = [
   [/\btoo (?:big|large) for (?:one|a single|any single|either|any one)\b/i, 'models too big for one machine'],
   [/\b(picks?|chooses?) the best device\b|\bautomatically (?:picks?|chooses?)\b/i, 'automatic scheduling'],
   [/\bprivate mode\b|\b(?:never|nothing) leaves? (?:this|your) (?:device|computer)\b|\bnever leaves? (?:this|your) (?:device|computer)\b/i, 'private / never leaves', 'always'],
+  // Snapshot draft 3, section 9: Linux and the Disconnect hold.
+  [/\b(runs? on Linux|Linux (?:version|app)|works on Ubuntu|runs? on your home server)\b/i, 'Linux'],
+  [/\b(stays disconnected|until you reconnect)\b/i, 'Disconnect hold', 'always'],
 ];
 const LIMIT = /\b(not|no|never|none|nothing|isn't|aren't|doesn't|don't|won't|cannot|can't|without|until|before|planned|future|direction|hypothesis|would|disabled|gated|unsupported|yet|only|says nothing)\b|n't\b/i;
 // Wording the snapshot itself prescribes, per rule.
