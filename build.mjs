@@ -268,9 +268,14 @@ ${x.fields.map(f => `<tr><td><code>${esc(f.name)}</code></td><td>${esc(f.type)}<
 // so nothing reaches the page without its checksum, signature status and both approvals.
 export const RELEASES = JSON.parse(readFileSync(join(ROOT, 'reference/releases.json'), 'utf8')).releases;
 const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
-function releasesHtml() {
-  if (!RELEASES.length) return '<p>There are no tagged releases and no release notes yet. If a release is approved, this page will link to its installers and their SHA-256 checksums.</p>';
-  return RELEASES.map(r => {
+// The two alpha stages go to invited testers only: they render on the preview build, behind Cloudflare Access,
+// and never on a public build.
+export const PRIVATE_STAGES = ['private alpha', 'developer alpha'];
+export const releasesFor = mode => RELEASES.filter(r => mode === 'preview' || !PRIVATE_STAGES.includes(r.stage));
+function releasesHtml(mode) {
+  const shown = releasesFor(mode);
+  if (!shown.length) return '<p>There are no tagged releases and no release notes yet. If a release is approved, this page will link to its installers and their SHA-256 checksums.</p>';
+  return shown.map(r => {
     const where = `reference/releases.json ${r.version}`;
     const need = (ok, what) => { if (!ok) throw new Error(`${where}: ${what}`); };
     need(/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(r.version), 'version must be x.y.z');
@@ -293,13 +298,14 @@ ${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
 ${r.artifacts.map(a => `<tr><th scope="row">${esc(a.platform)}</th><td><a href="${esc(a.url)}">${esc(a.file)}</a><br><span class="fine">${mb(a.bytes)}</span></td><td>${esc(a.signature)}</td><td><code class="hash">${a.sha256}</code></td></tr>`).join('\n')}
 </tbody>
 </table></div>`;
-  }).join('\n');
+  }).join('\n') + `
+<p>Check a download before you open it: its SHA-256 must match the one above exactly. On macOS run <code>shasum -a 256 &lt;file&gt;</code>, on Windows (PowerShell) <code>Get-FileHash &lt;file&gt; -Algorithm SHA256</code>, and on Linux <code>sha256sum &lt;file&gt;</code>. If it differs, delete the file and do not open it.</p>`;
 }
 
 // Shared snippets pages can drop in, so icons and URLs live in one place.
-const fill = (s, file) => {
+const fill = (s, file, mode) => {
   s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
-  if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml());
+  if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml(mode));
   if (s.includes('{{api-bodies}}')) s = s.replace('{{api-bodies}}', apiBodies());
   if (s.includes('{{api-responses}}')) s = s.replace('{{api-responses}}', apiResponses());
   return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;
@@ -307,7 +313,7 @@ const fill = (s, file) => {
 
 export function render(page, mode, assets) {
   const { meta, path } = page;
-  const body = fill(page.body, page.file);
+  const body = fill(page.body, page.file, mode);
   if (meta.layout === 'bare') return `${head({ meta, path, mode, assets })}\n<body>\n${body}</body>\n</html>\n`;
   const inner = meta.layout === 'docs' ? docsShell(path, body) : body;
   return `${head({ meta, path, mode, assets })}
@@ -335,7 +341,9 @@ export function build(mode, out) {
     recursive: true,
     filter: src => {
       const rel = src.slice(join(ROOT, 'public').length + 1);
-      return mode !== 'prelaunch' || rel === '' || PRELAUNCH_FILES.some(f => rel === f || rel.startsWith('assets/fonts/'));
+      // Hosted installers live in public/releases/<version>/ and ship only with a build that shows that release.
+      if (rel.startsWith('releases/')) return releasesFor(mode).some(r => rel.split('/')[1] === r.version) && mode !== 'prelaunch';
+      return mode !== 'prelaunch' || rel === '' || rel === 'releases' || PRELAUNCH_FILES.some(f => rel === f || rel.startsWith('assets/fonts/'));
     },
   });
   const assets = { css: hash(join(ROOT, 'public/assets/ucompute.css')) };

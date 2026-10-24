@@ -76,18 +76,34 @@ ucompute.org must keep rendering exactly as it does at production commit 1267b34
 
 ## Publishing a download
 
-`check.mjs` fails on any link to an installer or archive (`.dmg`, `.exe`, `.msi`, `.pkg`, `.zip`, `.AppImage`, `.deb`, `.rpm`), so nothing can be offered for download by accident. A download goes on the site only after engineering's release promotion record approves that exact artifact. That record gives the file name, size, SHA-256, signing and notarization status, and the approving commit. Then:
+`check.mjs` fails on any link to an installer or archive (`.dmg`, `.exe`, `.msi`, `.pkg`, `.zip`, `.AppImage`, `.deb`, `.rpm`) that is not a recorded artifact, so nothing can be offered for download by accident. A download goes on the site only after two approvals:
+- engineering's release promotion record, which approves that exact artifact;
+- the owner's approval to publish it.
 
+The steps:
 1. Add the release to `reference/releases.json`. A release needs:
    - its version, stage and date;
    - the engineering promotion record and the date the owner approved publishing;
    - for each artifact: platform, file name, https URL, size in bytes, SHA-256 and signature status.
 
-   The build renders it in "Release information" on `/download/`, and refuses a record with a missing or malformed field.
-2. `check.mjs` allows installer links only to those exact URLs, and keeps failing on every other one.
-3. Update the release-status rows and the claims in `reference/claims.json`, then follow the snapshot steps above.
+   The build refuses a record with a missing or malformed field.
+2. Choose where the release appears:
+   - Private alpha and developer alpha releases go to invited testers only. They render only on the preview build, behind Cloudflare Access; testers need their email on the Access policy.
+   - Developer beta and stable releases render on every complete-site build.
+3. Optionally host the files with the site, in `public/releases/<version>/<file>`, with the URL `https://preview.ucompute.org/releases/<version>/<file>` (or `https://ucompute.org/…` for a public stage).
+   - A build copies those files only if it shows that release. A public build never contains alpha installers.
+   - `check.mjs` fails if a hosted file's size or SHA-256 differs from its record.
+   - Cloudflare Pages caps a single file at 25 MiB; larger installers need other storage, which is an owner decision.
+4. `check.mjs` allows installer links only to the artifacts the build shows. `/download/` lists each artifact with its signature status and full SHA-256, and explains how to check the hash on macOS, Windows and Linux.
+5. Update the release-status rows and the claims in `reference/claims.json`, then follow the snapshot steps above.
 
-Tested on 2026-10-23 with a temporary record: a complete one renders and its link passes, while a short hash or a missing owner approval fails the build. The file ships empty.
+Rehearsed on 2026-10-24 with a temporary private-alpha record and a hosted test file:
+- the preview build showed the release and shipped the file;
+- the public build did neither;
+- a public page linking the file failed the check;
+- a wrong recorded SHA-256 failed the check.
+
+The file ships empty.
 
 ## Launching the complete site publicly
 

@@ -3,9 +3,10 @@
 //   node check.mjs dist         check an existing build (mode read from dist/build.json)
 //   node check.mjs --external   also fetch every external link once
 import { readFileSync, readdirSync, statSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname, posix } from 'node:path';
 import { tmpdir } from 'node:os';
-import { build, RELEASES } from './build.mjs';
+import { build, releasesFor } from './build.mjs';
 
 const args = process.argv.slice(2);
 const external = args.includes('--external');
@@ -129,6 +130,15 @@ function check(root, mode) {
   }
   claimCheck(root, pages, mode);
   if (mode !== 'prelaunch') interfaceCheck(root, pages, mode);
+  // Hosted installers: every file under releases/ belongs to a release this build shows, and matches its record.
+  const shown = releasesFor(mode).flatMap(r => r.artifacts.map(a => ({ ...a, version: r.version })));
+  for (const f of files.filter(f => f.startsWith('releases/'))) {
+    const a = shown.find(a => f === `releases/${a.version}/${a.file}`);
+    if (!a) { fail(mode, `${f} is not an artifact of a release this build shows`); continue; }
+    const data = readFileSync(join(root, f));
+    if (data.length !== a.bytes) fail(mode, `${f} is ${data.length} bytes; its record says ${a.bytes}`);
+    if (createHash('sha256').update(data).digest('hex') !== a.sha256) fail(mode, `${f} does not match its recorded SHA-256`);
+  }
   console.log(`${mode}: ${pages.length} pages, ${files.length} files checked`);
   return externalLinks;
 }
@@ -181,7 +191,8 @@ function claimCheck(root, pages, mode) {
     for (const re of [IDENT, IP]) { const m = text.match(re); if (m) fail(`${mode}/${f}`, `identifier on a rendered page: "${text.slice(Math.max(0, m.index - 40), m.index + 30).replace(/\s+/g, ' ').trim()}"`); }
     for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
     // Installer links only for artifacts recorded, with both approvals, in reference/releases.json.
-    const approved = new Set(RELEASES.flatMap(r => r.artifacts.map(a => a.url)));
+    // Alpha releases are allowed only on the preview build (behind Access); a public build may link only public stages.
+    const approved = new Set(releasesFor(mode).flatMap(r => r.artifacts.map(a => a.url)));
     for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href) && !approved.has(href)) fail(`${mode}/${f}`, `download link with no release record: ${href}`);
   }
 }
