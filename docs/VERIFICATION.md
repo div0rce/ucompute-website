@@ -1,5 +1,21 @@
 # Verification record
 
+## 2026-10-24: snapshot draft 3 (staging only)
+
+Engineering committed capability snapshot draft 3 (`snapshot-2026-10-23b.md`, f052074). It is still a draft, and every launch gate stays false. `stage-snapshot` now follows it; `preview` and the live page (D-023) are unchanged, and the prelaunch HTML still matches production apart from asset hashes.
+
+- Qualifiers are now `{{q:name}}` entries in `reference/claims.json`, quoted from section 8 word for word: claim 2's and claim 5's new text, claim 16's, claim 17's dated text, and claim 7's capture sentence. Each one appears in one place instead of about 30.
+- Claim 9 covers four runs, 0.002 to 0.061 s, and the home scale has a fourth mark. Claim 12 now reads "phones (as clients)".
+- The demo timeline has the 23 October run: a Mac and a Linux desktop, fixed builds, daemon API. Its figures come from sections 3.2 and 7: 0.002 s, 0.52 s and 3.8 s, with the not-the-timeout-path note. The Disconnect-hold result is left out, as section 9 requires.
+- Open issues follow section 4.1: redials are fixed on a Mac and a Linux computer, and the nearby-list findings N1 and N2 are added. The Linux rows describe the test machine without claiming support.
+- An independent review against draft 3 found 9 items, all fixed:
+  - sentences about which networks discovery works on were removed (claim 16 with its qualifier instead);
+  - the 23 October Mac build with the fix rounds is on release status;
+  - the mesh known issues match section 4.1;
+  - claim 8 in the FAQ carries claim 5's qualifier;
+  - smaller wording fixes.
+- `check.mjs` gained section 9 rules for Linux, "faster on" and Disconnect-hold wording; negative tests pass.
+
 ## 2026-10-23: platform pass (staging only)
 
 On `stage-snapshot`, behind Access. preview.ucompute.org and the live prelaunch page (D-023) are unchanged: the prelaunch build's `/` and `/404.html` are byte-identical to production's apart from asset hashes, with the same file list.
