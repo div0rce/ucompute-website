@@ -1,7 +1,7 @@
 {
   "source": "div0rce/common (unpublished)",
-  "commit": "fac5556",
-  "date": "2026-10-23",
+  "commit": "55b880a",
+  "date": "2026-10-24",
   "global": [
     {
       "kind": "option",
@@ -727,7 +727,7 @@
     },
     {
       "path": "common privacy",
-      "help": "Show or change the privacy mode (local-only is the default and the only private mode)",
+      "help": "Show or change the privacy mode. Local only is the default, and refuses every off-device request",
       "args": [
         {
           "kind": "positional",
@@ -737,7 +737,7 @@
           "values": [
             {
               "name": "local-only",
-              "help": "Requests never leave this device (default)"
+              "help": "Refuses every off-device request (default). Downloading a model or the engine still uses the internet"
             },
             {
               "name": "trusted-devices",

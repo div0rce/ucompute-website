@@ -26,7 +26,6 @@ Status on 2026-10-24. The live page at ucompute.org stays frozen (D-023) until t
 |---|---|
 | Final capability snapshot | Claims follow draft 2 (e4ed731). On the final snapshot: update `reference/claims.json`, resolve the `acceptance` gate items, and merge `stage-snapshot` into `preview` (`docs/DEPLOYMENT.md`, "Claims and the capability snapshot") |
 | An approved release (release promotion record) | `/download/` offers nothing. `reference/releases.json` is empty; adding a complete record publishes it (`docs/DEPLOYMENT.md`, "Publishing a download") |
-| CLI help strings using claim 8's wording | `reference/cli-notes.json` overrides `common privacy` and `local-only`; drop both overrides after re-exporting at the fixing commit |
 | Test hosts free ("Mac clear", "sentinel clear") | Both suites ran in the sentinel window on 2026-10-23. Rerun before a launch |
 
 ## Website work before a launch
