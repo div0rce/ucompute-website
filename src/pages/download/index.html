@@ -16,7 +16,7 @@ description: UCompute has no public release or download yet. Status by platform,
 <table>
 <thead><tr><th scope="col">Platform</th><th scope="col">Status</th><th scope="col">What exists</th></tr></thead>
 <tbody>
-<tr><th scope="row">macOS 26.2, Apple M2</th><td><span class="pill pill-experimental">Experimental</span></td><td>Consumer and provider. CPU and Metal inference verified; a packaged development app passed its checks, most recently on 22 October 2026. A clean-account first run, signing and updates are still to be qualified. <a href="/docs/install/#mac">Install notes</a></td></tr>
+<tr><th scope="row">macOS 26.2, Apple M2</th><td><span class="pill pill-experimental">Experimental</span></td><td>Consumer and provider. CPU and Metal inference verified; a packaged development app passed its checks on one Mac, most recently on 23 October 2026. A clean-account first run, signing and updates are still to be qualified. <a href="/docs/install/#mac">Install notes</a></td></tr>
 <tr><th scope="row">Windows 11 x64, Core Ultra 7 258V / Arc 140V</th><td><span class="pill pill-experimental">Experimental</span></td><td>Desktop and daemon, consumer and provider. Native development installers, installed per user: paired with the Mac app through both windows on 19 October 2026, and on 22 October the firewall consent step and pairing started on Windows worked by hand. The automated Windows checks have not completed; clean-account install, uninstall, signing, accessibility and key protection are still to be checked. <a href="/docs/install/#windows">Build notes</a></td></tr>
 <tr><th scope="row">Windows on ARM</th><td><span class="pill pill-planned">Planned</span></td><td>An engine build is pinned; nothing has run on real hardware</td></tr>
 <tr><th scope="row">Other Macs</th><td><span class="pill pill-planned">Planned</span></td><td>Not qualified: other Apple Silicon chips and Intel Macs are planned</td></tr>
@@ -26,7 +26,7 @@ description: UCompute has no public release or download yet. Status by platform,
 <tr><th scope="row">Android and iOS</th><td><span class="pill pill-planned">Planned</span></td><td>As consumers first: sending work to your own computers. An always-on provider on iOS is unsupported; Android provider work is research</td></tr>
 <tr><th scope="row">Browser</th><td><span class="pill pill-planned">Planned</span></td><td>A consumer, and later a sandboxed experiment</td></tr>
 <tr><th scope="row">Cloud VM or headless GPU server</th><td><span class="pill pill-planned">Planned</span></td><td>As a private provider or coordinator. Any paid deployment needs explicit approval</td></tr>
-<tr><th scope="row">A mixed CPU/GPU pair</th><td><span class="pill pill-experimental">Experimental</span></td><td>Whole requests on one chosen device only. The Mac and Arc pair says nothing about CUDA, ROCm, splitting a model or automatic placement</td></tr>
+<tr><th scope="row">A mixed CPU/GPU pair</th><td><span class="pill pill-experimental">Experimental</span></td><td>Whole requests on one chosen device only. The Mac and Arc pair says nothing about CUDA, ROCm, splitting a model or automatic placement, and the Mac and Linux test pair does not change Linux's planned status</td></tr>
 </tbody>
 </table>
 </div>
@@ -36,13 +36,13 @@ description: UCompute has no public release or download yet. Status by platform,
 <section class="section-tight section-white" id="builds" aria-labelledby="builds-title">
 <div class="shell">
 <h2 class="h-sub" id="builds-title">Internal development builds</h2>
-<p class="lede stack">These exist and passed their checks, but they are test builds for the people building UCompute. Neither includes the fixes made on 22 and 23 October 2026. They are not offered for download and are not releases.{{claim:installer}} A development build can be offered to private-alpha testers only after its record is in the project's verification log and the owner approves it.</p>
+<p class="lede stack">These exist and passed their checks, but they are test builds for the people building UCompute. The Mac build includes the fix rounds made up to 23 October 2026; the Windows build does not. They are not offered for download and are not releases.{{claim:installer}} A development build can be offered to private-alpha testers only after its record is in the project's verification log and the owner approves it.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Build</th><th scope="col">From</th><th scope="col">Verified</th></tr></thead>
 <tbody>
 <tr><td><code>Common_0.1.0_x64-setup.exe</code>, NSIS<br><span class="fine">SHA-256 c8af273d…</span></td><td>Development build of 22 October 2026, built on the Windows laptop</td><td>22 Oct 2026: installed with a fresh data folder; the firewall consent step and pairing started on Windows worked by hand. The automated Windows checks stopped at their first step because the app was in use</td></tr>
-<tr><td><code>Common_0.1.0_aarch64.dmg</code>, ad-hoc signed</td><td>Development build of 22 October 2026</td><td>22 Oct 2026: passed the packaged-app checks in a fresh home folder, including a real inference run, and was installed</td></tr>
+<tr><td><code>Common_0.1.0_aarch64.dmg</code>, ad-hoc signed</td><td>Development build of 23 October 2026, the first with the October fix rounds</td><td>23 Oct 2026: passed the packaged-app checks in a fresh home folder on one Mac, including a real inference run, and was installed</td></tr>
 </tbody>
 </table>
 </div>

@@ -9,7 +9,7 @@ layout: docs
 
 <h2 id="before">Before you start</h2>
 <ul>
-<li>Have development builds on both computers (the source is not published yet; see <a href="/docs/install/">Install</a>) and put them on the same network. Home Wi-Fi and phone hotspots work. Campus and office networks often block the multicast traffic that discovery needs; on those, pair by address instead.</li>
+<li>Have development builds on both computers (the source is not published yet; see <a href="/docs/install/">Install</a>) and put them on the same local network. Where a network blocks automatic discovery, as some campus Wi-Fi does, paired devices can still connect by address. {{q:address}}{{claim:connect-at-address}}</li>
 <li>Peer traffic uses UDP port 8193 by default. On Windows, UCompute asks before it lets your paired devices reach it through the firewall, and the rule it adds covers only its own program, on private networks. {{q:firewall}} The network profile must be Private.{{claim:firewall-consent}} On a Mac, the firewall may block incoming connections from a newly built app; if the Mac cannot serve requests, allow the app there. That cause is suspected, not confirmed.</li>
 <li>Read what the other device can see. When a paired device runs your request, it decrypts the prompt and runs the model on it in plain text. It can read, log or keep the prompt and the answer.</li>
 </ul>
@@ -66,4 +66,4 @@ common diagnostics --out diagnostics.json # a redacted bundle to attach to a bug
 <p>Both sides audit each remote request with the same request id. Audit logs record each off-device request without the prompt or the response: ids, counts, codes and timings. {{q:mesh}}{{claim:audit}}{{claim:mesh-pair-choose}}</p>
 
 <h2 id="issues">Known issues</h2>
-<p>Still open or awaiting a two-machine retest: Windows wording outside the chat view; chat needing a local model for remote runs (fixed in newer code); redials of an unreachable device between a Mac and Windows (fixed on a Mac); a device switching networks on its own (untested). <a href="/demo/#issues">Details</a>.{{claim:open-defects}}</p>
+<p>Still open or awaiting a two-machine retest: Windows wording outside the chat view; chat needing a local model for remote runs (fixed in newer code); redials of an unreachable device (fixed on a Mac and a Linux computer, not yet shown on Windows); the Mac's nearby list once dropped a live device for more than 15 seconds, and a just-started device first saw only link-local addresses (both open); a device switching networks on its own (untested). <a href="/demo/#issues">Details</a>.{{claim:open-defects}}</p>

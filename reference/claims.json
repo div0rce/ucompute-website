@@ -382,7 +382,8 @@
   "run-local": "Demonstrated on an Apple M2 Mac (macOS 26.2) and a Windows 11 laptop with an Intel Arc 140V GPU; both platforms are experimental; other platforms are not yet available, and most are planned. Downloading a model or the engine uses the internet.",
   "mesh": "Tested with development builds between one Apple M2 Mac and one Windows 11 laptop (Intel Arc 140V) on the same Wi-Fi network or phone hotspot, and between that Mac and one Linux desktop computer (Ubuntu, processor only, a development build of the background program compiled and started by hand; no app or installer) on a home Wi-Fi network. In both pairs pairing has been shown starting from either device; with the Linux computer it went through the devices' background programs rather than an app window, and pairing started in the Mac app's window has been shown only with an earlier version of the app. Linux is a planned platform, not a supported one. Pairing between two Macs is not yet shown to work.",
   "firewall": "Shown in October 2026 on one Windows 11 laptop with a development build (later builds not yet re-checked); Windows asks for administrator approval.",
-  "capture": "The check that captured traffic carries no readable prompt text ran on one computer."
+  "capture": "The check that captured traffic carries no readable prompt text ran on one computer.",
+  "address": "Reconnecting by address was shown between one Mac and one Windows laptop on the same campus network, with development builds."
  },
  "qualifiers_about": "Snapshot qualifiers quoted verbatim; pages write {{q:name}} and the build inserts the text, so a new snapshot changes one place."
 }
