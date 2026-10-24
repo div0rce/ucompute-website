@@ -1,6 +1,15 @@
 # Launch checklist for the complete site
 
-Status on 2026-10-23. The live page at ucompute.org stays frozen (D-023) until the owner authorizes a public launch. Everything below is on `stage-snapshot`, behind Access.
+Status on 2026-10-24. The live page at ucompute.org stays frozen (D-023) until the owner authorizes a public launch. Everything below is on `stage-snapshot`, behind Access.
+
+**Website priority:** be able to publish an engineering-approved build to invited testers the same day it is approved. The pipeline is rehearsed: alpha releases render and ship only behind Access, and each hosted file is verified against its recorded hash (`docs/DEPLOYMENT.md`, "Publishing a download").
+
+**Dependencies, in order:**
+1. Engineering: a release promotion record for a private-alpha build (artifact, size, SHA-256, signing status). This depends on engineering's release-blocking work: the Windows post-fix run and the app-window steps in snapshot draft 3, section 10.
+2. Owner: approval to publish that build to named testers, and their emails on the Access policy (Cloudflare Zero Trust is the owner's).
+3. Website: add the record and files, merge `stage-snapshot` into `preview`, verify behind Access. Same day.
+4. Engineering: the final capability snapshot. The website then swaps claims and reruns browsers and Lighthouse.
+5. Owner: publishing the source, a tested security contact, trademark clearance and launch authorization, for a public launch.
 
 ## Waiting on the owner
 
