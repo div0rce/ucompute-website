@@ -39,6 +39,7 @@
     "env RUST_LOG": "Log filter; overrides -v and -vv",
     "env COMMON_WIN_ENGINE_ZIP": null,
     "common privacy": "= Show or change the privacy mode. Local only is the default, and refuses every off-device request",
-    "common privacy mode local-only": "= Refuses every off-device request (the default). Downloading a model or the engine still uses the internet"
+    "common privacy mode local-only": "= Refuses every off-device request (the default). Downloading a model or the engine still uses the internet",
+    "env COMMON_REQUIRE_FIXTURES": null
   }
 }
