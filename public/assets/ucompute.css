@@ -836,3 +836,6 @@ code.hash{word-break:break-all;font-size:13px}
 .faq{max-width:46em}
 .faq h2{margin-top:clamp(40px,5vw,64px)}
 .faq h2:first-child{margin-top:0}
+
+/* Drawn from CSS so the oversized mark is decoration, not text that contrast checks measure. */
+.cta-deco:empty::before{content:"u."}

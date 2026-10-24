@@ -111,7 +111,9 @@ ${noindex ? '<meta name="robots" content="noindex, nofollow">\n' : ''}<link rel=
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/ucompute-mark.png">
-<link rel="stylesheet" href="/assets/ucompute.css?v=${assets.css}">
+<link rel="stylesheet" href="/assets/ucompute.css?v=${assets.css}">${mode === 'prelaunch' ? '' : `
+<link rel="preload" href="/assets/fonts/dm-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/space-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>`}
 ${(meta.scripts || 'site').split(/\s+/).map(s => `<script src="/assets/${s}.js?v=${assets[s]}" defer></script>`).join('\n')}${ld}
 </head>`;
 }

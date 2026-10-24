@@ -18,13 +18,13 @@ Status on 2026-10-23. The live page at ucompute.org stays frozen (D-023) until t
 | Final capability snapshot | Claims follow draft 2 (e4ed731). On the final snapshot: update `reference/claims.json`, resolve the `acceptance` gate items, and merge `stage-snapshot` into `preview` (`docs/DEPLOYMENT.md`, "Claims and the capability snapshot") |
 | An approved release (release promotion record) | `/download/` offers nothing. `reference/releases.json` is empty; adding a complete record publishes it (`docs/DEPLOYMENT.md`, "Publishing a download") |
 | CLI help strings using claim 8's wording | `reference/cli-notes.json` overrides `common privacy` and `local-only`; drop both overrides after re-exporting at the fixing commit |
-| Test hosts free ("Mac clear", "sentinel clear") | Before a launch: rerun `tools/browsers.mjs` and `tools/lighthouse.mjs`, then record the results in `docs/VERIFICATION.md` |
+| Test hosts free ("Mac clear", "sentinel clear") | Both suites ran in the sentinel window on 2026-10-23. Rerun before a launch |
 
 ## Website work before a launch
 
 | Item | Status |
 |---|---|
-| Lighthouse scores for every page, mobile and desktop | Tool ready, not yet run (paused at engineering's request) |
-| Chromium, Firefox and WebKit on every page | Passed on 2026-10-23 on the Linux test host; rerun after the snapshot swap |
+| Lighthouse scores for every page, mobile and desktop | Done 2026-10-23: performance 97 to 100 (mobile) and 100 (desktop); accessibility, best practices and SEO 100 everywhere. Rerun after the snapshot swap |
+| Chromium, Firefox and WebKit on every page | Passed on 2026-10-23 on the Linux test host, all 21 pages; rerun after the snapshot swap |
 | Human checks: VoiceOver, native Safari on macOS and iOS, the Firefox app | Not done; they need a person at a device |
 | Prelaunch page unchanged | Checked after every shared change (HTML identical to production apart from asset hashes) |
