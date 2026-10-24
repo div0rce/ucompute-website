@@ -1,6 +1,6 @@
 {
   "about": "Source-side claim map (WP-13; snapshot 'How to read references'). Pages mark each capability statement with {{claim:ID}}; the build strips the marker and fails on an unknown ID, and check.mjs fails if a requirement ID, commit or address reaches a rendered page. Wording that waits on the Mac and Windows acceptance run sits in {{if:acceptance}}...{{else}}...{{/if}} and renders its first branch only once gates.acceptance is true.",
-  "snapshot": "div0rce/common docs/capabilities/snapshot-2026-10-23.md at e4ed731 (DRAFT 2: post-fix physical runs pending); ledger at 11ec77b, unchanged since 1004b3b",
+  "snapshot": "div0rce/common docs/capabilities/snapshot-2026-10-23.md at e4ed731 (DRAFT 2: post-fix physical runs pending), with claim 14 and section 9 updated for D-023 at ecac951; unchanged through 45e113e (re-checked 2026-10-24 00:40 UTC); ledger at 11ec77b, unchanged since 1004b3b",
   "gates": {
     "acceptance": false
   },
