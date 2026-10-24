@@ -1,4 +1,32 @@
 {
-  "about": "Artifacts offered for download on /download/. Empty until engineering's release promotion record approves an exact artifact and the owner approves publishing it. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record, owner: the date the owner approved publishing}, artifacts [{platform, file, url (https), bytes, sha256, signature}].",
-  "releases": []
+  "about": "Artifacts offered for download on /download/. A release appears once engineering's promotion record approves an exact artifact; it stays 'awaiting the owner's approval', with no download link and no file in any build, until approval.owner names the owner's written approval of that SHA-256 in engineering's docs/DECISIONS.md. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record and its commit, owner: empty until the owner's written approval, then the DECISIONS.md entry, its commit and date}, install (sentences shown under 'Before you install'), artifacts [{platform, file, url (https), bytes, sha256, signature}].",
+  "releases": [
+    {
+      "version": "0.1.0",
+      "stage": "private alpha",
+      "date": "2026-10-24",
+      "notes": "Private-alpha candidate 1 of the UCompute desktop app for macOS, built from the development source on 24 October 2026, for invited testers only.",
+      "install": [
+        "The build is ad-hoc signed and not notarized, so on another Mac macOS refuses the first open of the downloaded app. Open it from the Finder's context menu (Open), or use System Settings › Privacy & Security › Open Anyway. This has not yet been tried with this build on a second Mac.",
+        "The first launch downloads the inference engine (llama.cpp b11609, MIT licensed) and checks its hash, so it needs the internet.",
+        "Tested on one Mac: Apple M2, 8 GB, macOS 26.2. Other Macs are not qualified.",
+        "Trusted devices (Mesh) are experimental and off by default; this build has not been tested between two machines.",
+        "There is no automatic update. The file, the app and its data folder are still named Common."
+      ],
+      "approval": {
+        "promotion": "common docs/VERIFICATION.md, 'WP-08 promotion record: UCompute 0.1.0 private-alpha candidate 1', committed at 0b0c1a4 (source 3379fe9, clean tree)",
+        "owner": ""
+      },
+      "artifacts": [
+        {
+          "platform": "macOS on Apple Silicon (tested on one Apple M2 Mac, macOS 26.2)",
+          "file": "Common_0.1.0_aarch64.dmg",
+          "url": "/releases/0.1.0/Common_0.1.0_aarch64.dmg",
+          "bytes": 6306797,
+          "sha256": "a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d",
+          "signature": "Ad-hoc signed, not notarized"
+        }
+      ]
+    }
+  ]
 }

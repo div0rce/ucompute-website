@@ -272,6 +272,9 @@ const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
 // and never on a public build.
 export const PRIVATE_STAGES = ['private alpha', 'developer alpha'];
 export const releasesFor = mode => RELEASES.filter(r => mode === 'preview' || !PRIVATE_STAGES.includes(r.stage));
+// A release without the owner's approval is shown as awaiting approval: no download link, and its files never ship.
+export const approved = r => Boolean(r.approval?.owner);
+export const downloadsFor = mode => releasesFor(mode).filter(approved);
 function releasesHtml(mode) {
   const shown = releasesFor(mode);
   if (!shown.length) return '<p>There are no tagged releases and no release notes yet. If a release is approved, this page will link to its installers and their SHA-256 checksums.</p>';
@@ -281,25 +284,28 @@ function releasesHtml(mode) {
     need(/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(r.version), 'version must be x.y.z');
     need(STAGES.includes(r.stage), `stage must be one of: ${STAGES.join(', ')}`);
     need(/^\d{4}-\d{2}-\d{2}$/.test(r.date), 'date must be YYYY-MM-DD');
-    need(r.approval?.promotion && r.approval?.owner, 'approval needs the engineering promotion record and the owner approval');
+    need(r.approval?.promotion, 'approval needs the engineering promotion record (the owner approval may follow)');
+    need(!r.install || (Array.isArray(r.install) && r.install.every(s => typeof s === 'string' && s)), 'install must be a list of sentences');
     need(r.artifacts?.length, 'no artifacts');
     for (const a of r.artifacts) {
       need(a.platform && a.signature, `${a.file}: platform and signature status are required`);
-      need(/^https:\/\/\S+$/.test(a.url) && a.url.split('/').pop() === a.file, `${a.file}: url must be https and end in the file name`);
+      need(/^(https:\/\/\S+|\/releases\/[\w.-]+\/[\w.-]+)$/.test(a.url) && a.url.split('/').pop() === a.file, `${a.file}: url must be https, or /releases/<version>/<file> on this site, and end in the file name`);
       need(/^[0-9a-f]{64}$/.test(a.sha256), `${a.file}: sha256 must be 64 lowercase hex characters`);
       need(Number.isInteger(a.bytes) && a.bytes > 0, `${a.file}: bytes must be a positive integer`);
     }
     const mb = b => `${(b / 1048576).toFixed(1)} MB`;
+    const ok = approved(r);
     return `<h3>UCompute ${esc(r.version)}, ${esc(r.stage)} (${new Date(r.date + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })})</h3>
-${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
+${ok ? '' : '<p class="callout"><strong>Awaiting the owner\'s approval.</strong> Engineering has recorded this build for promotion, but it is not available to testers until the owner approves this exact file. There is no download link until then.</p>\n'}${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
 <div class="table-wrap"><table>
-<thead><tr><th scope="col">Platform</th><th scope="col">Download</th><th scope="col">Signature</th><th scope="col">SHA-256</th></tr></thead>
+<thead><tr><th scope="col">Platform</th><th scope="col">${ok ? 'Download' : 'File'}</th><th scope="col">Signature</th><th scope="col">SHA-256</th></tr></thead>
 <tbody>
-${r.artifacts.map(a => `<tr><th scope="row">${esc(a.platform)}</th><td><a href="${esc(a.url)}">${esc(a.file)}</a><br><span class="fine">${mb(a.bytes)}</span></td><td>${esc(a.signature)}</td><td><code class="hash">${a.sha256}</code></td></tr>`).join('\n')}
+${r.artifacts.map(a => `<tr><th scope="row">${esc(a.platform)}</th><td>${ok ? `<a href="${esc(a.url)}">${esc(a.file)}</a>` : esc(a.file)}<br><span class="fine">${mb(a.bytes)}</span></td><td>${esc(a.signature)}</td><td><code class="hash">${a.sha256}</code></td></tr>`).join('\n')}
 </tbody>
-</table></div>`;
-  }).join('\n') + `
-<p>Check a download before you open it: its SHA-256 must match the one above exactly. On macOS run <code>shasum -a 256 &lt;file&gt;</code>, on Windows (PowerShell) <code>Get-FileHash &lt;file&gt; -Algorithm SHA256</code>, and on Linux <code>sha256sum &lt;file&gt;</code>. If it differs, delete the file and do not open it.</p>`;
+</table></div>
+${r.install?.length ? `<h4>Before you install</h4>\n<ul>\n${r.install.map(s => `<li>${esc(s)}</li>`).join('\n')}\n</ul>` : ''}`;
+  }).join('\n') + (shown.some(approved) ? `
+<p>Check a download before you open it: its SHA-256 must match the one above exactly. On macOS run <code>shasum -a 256 &lt;file&gt;</code>, on Windows (PowerShell) <code>Get-FileHash &lt;file&gt; -Algorithm SHA256</code>, and on Linux <code>sha256sum &lt;file&gt;</code>. If it differs, delete the file and do not open it.</p>` : '');
 }
 
 // Shared snippets pages can drop in, so icons and URLs live in one place.
@@ -342,7 +348,7 @@ export function build(mode, out) {
     filter: src => {
       const rel = src.slice(join(ROOT, 'public').length + 1);
       // Hosted installers live in public/releases/<version>/ and ship only with a build that shows that release.
-      if (rel.startsWith('releases/')) return releasesFor(mode).some(r => rel.split('/')[1] === r.version) && mode !== 'prelaunch';
+      if (rel.startsWith('releases/')) return downloadsFor(mode).some(r => rel.split('/')[1] === r.version) && mode !== 'prelaunch';
       return mode !== 'prelaunch' || rel === '' || rel === 'releases' || PRELAUNCH_FILES.some(f => rel === f || rel.startsWith('assets/fonts/'));
     },
   });
