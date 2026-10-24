@@ -272,8 +272,9 @@ const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
 // and never on a public build.
 export const PRIVATE_STAGES = ['private alpha', 'developer alpha'];
 export const releasesFor = mode => RELEASES.filter(r => mode === 'preview' || !PRIVATE_STAGES.includes(r.stage));
-// A release without the owner's approval is shown as awaiting approval: no download link, and its files never ship.
-export const approved = r => Boolean(r.approval?.owner);
+// A release ships only with the owner's approval of the artifact and a named cohort (spec section 31); until then it is
+// shown as awaiting approval: no download link, and its files never ship.
+export const approved = r => Boolean(r.approval?.owner && r.approval?.cohort);
 export const downloadsFor = mode => releasesFor(mode).filter(approved);
 function releasesHtml(mode) {
   const shown = releasesFor(mode);
@@ -296,7 +297,7 @@ function releasesHtml(mode) {
     const mb = b => `${(b / 1048576).toFixed(1)} MB`;
     const ok = approved(r);
     return `<h3>UCompute ${esc(r.version)}, ${esc(r.stage)} (${new Date(r.date + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })})</h3>
-${ok ? '' : '<p class="callout"><strong>Awaiting the owner\'s approval.</strong> Engineering has recorded this build for promotion, but it is not available to testers until the owner approves this exact file. There is no download link until then.</p>\n'}${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
+${ok ? '' : r.approval?.owner ? '<p class="callout"><strong>Approved; waiting for the testers to be named.</strong> The owner has approved this exact file, but it is not available until the testers are named. There is no download link until then.</p>\n' : '<p class="callout"><strong>Awaiting the owner\'s approval.</strong> Engineering has recorded this build for promotion, but it is not available to testers until the owner approves this exact file. There is no download link until then.</p>\n'}${r.notes ? `<p>${esc(r.notes)}</p>` : ''}
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Platform</th><th scope="col">${ok ? 'Download' : 'File'}</th><th scope="col">Signature</th><th scope="col">SHA-256</th></tr></thead>
 <tbody>

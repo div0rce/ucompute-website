@@ -1,5 +1,5 @@
 {
-  "about": "Artifacts offered for download on /download/. A release appears once engineering's promotion record approves an exact artifact; it stays 'awaiting the owner's approval', with no download link and no file in any build, until approval.owner names the owner's written approval of that SHA-256 in engineering's docs/DECISIONS.md. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record and its commit, owner: empty until the owner's written approval, then the DECISIONS.md entry, its commit and date}, install (sentences shown under 'Before you install'), artifacts [{platform, file, url (https), bytes, sha256, signature}].",
+  "about": "Artifacts offered for download on /download/. A release appears once engineering's promotion record approves an exact artifact; it stays 'awaiting the owner's approval', with no download link and no file in any build, until approval.owner names the owner's written approval of that SHA-256 in engineering's docs/DECISIONS.md. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record and its commit, owner: empty until the owner's written approval, then the DECISIONS.md entry, its commit and date; cohort: empty until the testers are named and recorded}, install (sentences shown under 'Before you install'), artifacts [{platform, file, url (https), bytes, sha256, signature}].",
   "releases": [
     {
       "version": "0.1.0",
@@ -15,7 +15,8 @@
       ],
       "approval": {
         "promotion": "common docs/VERIFICATION.md, 'WP-08 promotion record: UCompute 0.1.0 private-alpha candidate 1', committed at 0b0c1a4 (source 3379fe9, clean tree)",
-        "owner": ""
+        "owner": "D-025 in common docs/DECISIONS.md, commit 6ce7e90, 2026-10-24: approves this exact artifact (SHA-256 a3239588…dd6d, 6,306,797 bytes, from 3379fe9); any rebuild needs its own record",
+        "cohort": ""
       },
       "artifacts": [
         {

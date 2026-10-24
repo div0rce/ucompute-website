@@ -107,10 +107,10 @@ Rehearsed on 2026-10-24 with a temporary private-alpha record and a hosted test 
 
 `reference/releases.json` holds UCompute 0.1.0 private-alpha candidate 1, from engineering's promotion record (common 0b0c1a4, source 3379fe9). It is `Common_0.1.0_aarch64.dmg`: 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`. The size and hash were re-checked on this Mac against engineering's `SHA256SUMS`.
 
-`approval.owner` is empty, so the preview build shows the release as awaiting approval: no download link, no file in any build. The public build shows nothing.
+The owner approved the artifact: D-025 in engineering's `docs/DECISIONS.md`, commit 6ce7e90. `approval.owner` records it. `approval.cohort` stays empty until the testers are named, so the preview build shows "Approved; waiting for the testers to be named", with no download link and no file in any build. The public build shows nothing.
 
-To publish after the owner's written approval of that exact SHA-256 is committed to engineering's `docs/DECISIONS.md`:
-1. Set `approval.owner` to that entry, its commit and the date.
+To publish once the owner names the testers, and engineering amends D-025 with them:
+1. Set `approval.cohort` to the amended entry, its commit and the date.
 2. Copy the DMG from `~/UCompute-release-candidates/0.1.0-3379fe9/` to `public/releases/0.1.0/`.
 3. Run `npm test`; the check verifies the copied file's size and hash.
 4. Put the testers' emails on the Access policy (owner).
