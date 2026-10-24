@@ -5,7 +5,7 @@ Status on 2026-10-24. The live page at ucompute.org stays frozen (D-023) until t
 **Website priority:** be able to publish an engineering-approved build to invited testers the same day it is approved. The pipeline is rehearsed: alpha releases render and ship only behind Access, and each hosted file is verified against its recorded hash (`docs/DEPLOYMENT.md`, "Publishing a download").
 
 **Dependencies, in order:**
-1. Engineering: a release promotion record for a private-alpha build (artifact, size, SHA-256, signing status). This depends on engineering's release-blocking work: the Windows post-fix run and the app-window steps in snapshot draft 3, section 10.
+1. Engineering: a release promotion record for a private-alpha build (artifact, size, SHA-256, signing status). Current blocker (engineering, 2026-10-24): the packaged macOS app's crash check (`verify_packaged_app.py` stage 6: a killed daemon's engine must be stopped) has not yet passed on a packaged build. The fix is in abe19c1, and the packaged re-check runs in fix round 7. The DMG is about 6 MB, so it can be hosted on Pages.
 2. Owner: approval to publish that build to named testers, and their emails on the Access policy (Cloudflare Zero Trust is the owner's).
 3. Website: add the record and files, merge `stage-snapshot` into `preview`, verify behind Access. Same day.
 4. Engineering: the final capability snapshot. The website then swaps claims and reruns browsers and Lighthouse.
