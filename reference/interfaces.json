@@ -1,6 +1,6 @@
 {
   "source": "div0rce/common (unpublished)",
-  "commit": "c122812",
+  "commit": "fac5556",
   "date": "2026-10-23",
   "global": [
     {
@@ -206,7 +206,7 @@
           "short": null,
           "value": "THREADS",
           "default": null,
-          "help": "Engine threads (default: the backend's choice; the manifest records what ran)"
+          "help": "Engine threads (default: the performance core count on Apple Silicon, else the physical core count, at most 16; the manifest records what ran)"
         },
         {
           "kind": "option",
@@ -388,7 +388,7 @@
           "short": null,
           "value": null,
           "default": null,
-          "help": "Also pull the stories15M-q4_0 and stories260K fixture models"
+          "help": "Also pull the stories15M-q4_0 and stories260K fixture models; with COMMON_REQUIRE_FIXTURES=1, also the catalog models tagged test-suite that the strict test suite loads (about 3 GB)"
         }
       ]
     },
@@ -1502,6 +1502,12 @@
             "required": true
           },
           {
+            "name": "engine.last_exit",
+            "type": "object or null",
+            "required": true,
+            "help": "The last engine that exited on its own (killed, crashed) since the daemon started; its slot was freed and the next request starts it again. Null when none has."
+          },
+          {
             "name": "loaded",
             "type": "object or null"
           },
@@ -2077,7 +2083,7 @@
           {
             "name": "discovered[].addrs",
             "type": "array of string (at least 1, at most 2)",
-            "help": "ip:port addresses from the signed record, best first (routable before loopback and link-local, IPv4 first)."
+            "help": "IPv4 ip:port addresses from the signed record, best first (routable before loopback and link-local, lowest first)."
           },
           {
             "name": "discovered[].pairing",
@@ -2098,6 +2104,31 @@
           {
             "name": "discovered[].seen_utc",
             "type": "string"
+          },
+          {
+            "name": "unreachable",
+            "type": "array of object"
+          },
+          {
+            "name": "unreachable[].id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "unreachable[].reason",
+            "type": "\"link_local_only\" | \"other_family\"",
+            "required": true,
+            "help": "`link_local_only`: heard only at IPv6 link-local addresses; `other_family`: heard only at IPv6 addresses, some routable."
+          },
+          {
+            "name": "unreachable[].trusted",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "name": "unreachable[].seen_utc",
+            "type": "string",
+            "required": true
           },
           {
             "name": "revocations",
@@ -3098,6 +3129,7 @@
     "COMMON_API_KEY",
     "COMMON_HOME",
     "COMMON_MDNS",
+    "COMMON_REQUIRE_FIXTURES",
     "COMMON_WIN_ENGINE_ZIP",
     "RUST_LOG"
   ]
