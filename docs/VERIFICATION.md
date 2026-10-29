@@ -1,5 +1,12 @@
 # Verification record
 
+## 2026-10-29: candidate 1's first-open note corrected for macOS 15 and later
+
+The install note told testers to open the app from the Finder's context menu or with Open Anyway. Since macOS 15 (Sequoia), Apple no longer lets the context-menu Open get past Gatekeeper, and the tested Mac runs macOS 26.2. The note now gives one path: after the first refused open, System Settings › Privacy & Security › Open Anyway, then the password. Engineering has since checked the refusal itself (`spctl` rejects a downloaded copy, common 7e6b470), and the note cites that. Approving the app this way has still not been tried on a second Mac.
+- Commit 7b17476. `npm test` passes. The prelaunch output differs from an `origin/main` build only in the stylesheet hash (D-023).
+- Through Access, the deployed `/download/` page shows the new note. `npm run verify:release` passes again: HTTP 200, 6,306,797 bytes, SHA-256 `a3239588…dd6d`.
+- Engineering was told, because its promotion record has the same context-menu wording.
+
 ## 2026-10-29: signed-in download of candidate 1 verified from the live deployment
 
 The owner set up a Cloudflare Access service token for website checks. It is kept on this Mac at `~/.config/ucompute/access.env`, outside the repository. `npm run verify:release` (`tools/verify-release.mjs`) downloads every approved artifact through Access from a deployed site, and compares its size and SHA-256 with `reference/releases.json`.
