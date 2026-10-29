@@ -16,6 +16,14 @@ Results:
 - Built preview and public output contain no occurrence of the word, and no pooled-split option or field.
 - The prelaunch tree matches production apart from asset hashes (D-023). The live page contains no occurrence.
 
+Deployed, checked through Access with the service token (GET only):
+- `stage-snapshot` (bd21b47) and `preview.ucompute.org`: twelve pages return 200, each with no occurrence and no pooled-split text. `/download/` shows the withdrawal, and `npm run verify:release` passes.
+- Candidate 1's old URL still served the file from Cloudflare's edge cache (HIT, `s-maxage=604800`), while the deployment itself returned 404. Preview builds now write a `_redirects` rule, `/releases/0.1.0/* /download/ 302`, and the old URL returns 302 on both hosts.
+- `preview` was fast-forwarded to `stage-snapshot`. The owner's earlier "leave preview.ucompute.org alone" kept candidate 1 off it; no build is offered there now, so it gets the same site.
+- `main` (5446992): names only, in the full-site copies production never serves. `npm test` passes. The production build output is byte-identical to the deployed one, and the push skipped the Pages build. ucompute.org still serves the same asset hashes.
+- The merged `rename-ucompute` branch was deleted. All three branches contain the word only in the verbatim licence.
+- Not changeable from here, and reported to the owner: earlier Pages deployments at their hash addresses still hold the old text and candidate 1's file, behind Access. Removing them is a Cloudflare action on the owner's account. The Access service token's display name is the owner's to check. No other deployment name contains the word: the Pages project, both Access applications, the policy, the branches and `UCOMPUTE_SITE`.
+
 ## 2026-10-29: candidate 1's first-open note corrected for macOS 15 and later
 
 The install note told testers to open the app from the Finder's context menu or with Open Anyway. Since macOS 15 (Sequoia), Apple no longer lets the context-menu Open get past Gatekeeper, and the tested Mac runs macOS 26.2. The note now gives one path: after the first refused open, System Settings › Privacy & Security › Open Anyway, then the password. Engineering has since checked the refusal itself (`spctl` rejects a downloaded copy, engineering 7e6b470), and the note cites that. Approving the app this way has still not been tried on a second Mac.
