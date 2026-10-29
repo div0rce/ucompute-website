@@ -1,5 +1,13 @@
 # Verification record
 
+## 2026-10-29: private-alpha candidate 1 delivered to its cohort
+
+UCompute 0.1.0 private-alpha candidate 1 (`Common_0.1.0_aarch64.dmg`, 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`) went to its cohort, the owner alone, on the stage-snapshot alias behind Access. It was published at a9c4166. Its approvals are engineering's D-025 and its amendment for the cohort.
+
+- Every build checks the hosted file's size and hash against the record (`check.mjs`). Only preview builds contain it; public and prelaunch builds have no `releases/` folder, and the prelaunch tree matches production.
+- From outside, on 2026-10-29, the release page and the file URL both redirect to Access. ucompute.org returns 404 for the file. `preview.ucompute.org` and `main` are unchanged.
+- The owner then downloaded it signed in. Asked "Did the download match the checksum and launch?", the owner answered "Yes, it works". The answer was relayed to engineering verbatim.
+
 ## 2026-10-24: snapshot draft 3 (staging only)
 
 Engineering committed capability snapshot draft 3 (`snapshot-2026-10-23b.md`, f052074). It is still a draft, and every launch gate stays false. `stage-snapshot` now follows it; `preview` and the live page (D-023) are unchanged, and the prelaunch HTML still matches production apart from asset hashes.
