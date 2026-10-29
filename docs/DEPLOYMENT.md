@@ -103,6 +103,15 @@ Rehearsed on 2026-10-24 with a temporary private-alpha record and a hosted test 
 - a public page linking the file failed the check;
 - a wrong recorded SHA-256 failed the check.
 
+### Candidate 1: published to the owner on the stage-snapshot alias (2026-10-29)
+
+On 2026-10-29 the owner named the cohort in writing: "only my own two emails, moustafa.nasr@rutgers.edu and mn801@scarletmail.rutgers.edu. Use the stage-snapshot link; leave preview.ucompute.org alone." Both emails already form the whole UCompute team Access policy, so no Access change was needed.
+
+The DMG is in `public/releases/0.1.0/`, and `approval.cohort` records the owner's cohort, which has been relayed to engineering to amend D-025.
+- Only preview-mode builds contain the file, at `/releases/0.1.0/Common_0.1.0_aarch64.dmg`. It is reachable on the `stage-snapshot` alias behind Access.
+- `preview.ucompute.org` (the `preview` branch) and production are unchanged.
+- Public and prelaunch builds contain no `releases/` folder, and the prelaunch tree still matches production.
+
 ### Candidate 1 (2026-10-24): staged, awaiting the owner
 
 `reference/releases.json` holds UCompute 0.1.0 private-alpha candidate 1, from engineering's promotion record (common 0b0c1a4, source 3379fe9). It is `Common_0.1.0_aarch64.dmg`: 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`. The size and hash were re-checked on this Mac against engineering's `SHA256SUMS`.

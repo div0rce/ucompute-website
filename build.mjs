@@ -349,8 +349,8 @@ export function build(mode, out) {
     filter: src => {
       const rel = src.slice(join(ROOT, 'public').length + 1);
       // Hosted installers live in public/releases/<version>/ and ship only with a build that shows that release.
-      if (rel.startsWith('releases/')) return downloadsFor(mode).some(r => rel.split('/')[1] === r.version) && mode !== 'prelaunch';
-      return mode !== 'prelaunch' || rel === '' || rel === 'releases' || PRELAUNCH_FILES.some(f => rel === f || rel.startsWith('assets/fonts/'));
+      if (rel === 'releases' || rel.startsWith('releases/')) return mode !== 'prelaunch' && downloadsFor(mode).some(r => !rel.split('/')[1] || rel.split('/')[1] === r.version);
+      return mode !== 'prelaunch' || rel === '' || PRELAUNCH_FILES.some(f => rel === f || rel.startsWith('assets/fonts/'));
     },
   });
   const assets = { css: hash(join(ROOT, 'public/assets/ucompute.css')) };
