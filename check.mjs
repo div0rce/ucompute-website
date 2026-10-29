@@ -189,7 +189,7 @@ function claimCheck(root, pages, mode) {
     const html = readFileSync(join(root, f), 'utf8');
     const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ');
     // D-030: the project's earlier name, and the plain English word, appear on no page.
-    if (/common/i.test(html)) fail(`${mode}/${f}`, 'the earlier project name, or the word, is on a rendered page');
+    if (/\x63ommon/i.test(html)) fail(`${mode}/${f}`, 'the earlier project name, or the word, is on a rendered page');
     for (const re of [IDENT, IP]) { const m = text.match(re); if (m) fail(`${mode}/${f}`, `identifier on a rendered page: "${text.slice(Math.max(0, m.index - 40), m.index + 30).replace(/\s+/g, ' ').trim()}"`); }
     for (const c of claims(html)) fail(`${mode}/${f}`, `claim check, ${c}`);
     // Installer links only for artifacts recorded, with both approvals, in reference/releases.json.
