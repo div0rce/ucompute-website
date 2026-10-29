@@ -2,6 +2,10 @@
 
 > This record uses the current names. The builds and repositories it describes carried the project's earlier name; the original text is in this repository's git history (D-030).
 
+
+## 2026-10-29: candidate 2 (0.1.1) staged, awaiting the owner
+
+Engineering's promotion record (3470f8d, source 7d4d194): `UCompute_0.1.1_aarch64.dmg`, 6,425,890 bytes, SHA-256 `c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937`, ad-hoc signed, not notarized; packaged-app check ALL PASS 19/19 on one Mac. Re-checked here: same size and hash, `SHA256SUMS` OK. `reference/releases.json` holds it with empty `approval.owner` and `approval.cohort`, so the preview build shows "Awaiting the owner's approval" with no link, and no build contains the file. Its install notes say how to replace candidate 1 (D-029: nothing deleted automatically, models downloaded again or kept only where checksums match, devices paired again once). `npm test` passes.
 ## 2026-10-29: D-030, no trace of the earlier name; candidate 1 withdrawn
 
 The owner's decision D-030 (engineering 851f275) supersedes the plan to keep the earlier names until the next build. On `stage-snapshot`:

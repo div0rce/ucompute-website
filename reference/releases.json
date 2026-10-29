@@ -2,6 +2,36 @@
   "about": "Artifacts offered for download on /download/. A release appears once engineering's promotion record approves an exact artifact; it stays 'awaiting the owner's approval', with no download link and no file in any build, until approval.owner names the owner's written approval of that SHA-256 in engineering's docs/DECISIONS.md. The build renders each release and refuses an incomplete record; check.mjs fails on any installer link that is not listed here. Fields: version, stage (private alpha, developer alpha, developer beta, stable), date (YYYY-MM-DD), notes, approval {promotion: the engineering record and its commit, owner: empty until the owner's written approval, then the DECISIONS.md entry, its commit and date; cohort: empty until the testers are named and recorded}, install (sentences shown under 'Before you install'), artifacts [{platform, file, url (https), bytes, sha256, signature}], withdrawn (when and why a release was taken down; its record stays, but it never renders and its file never ships).",
   "releases": [
     {
+      "version": "0.1.1",
+      "stage": "private alpha",
+      "date": "2026-10-29",
+      "notes": "Private-alpha candidate 2 of the UCompute desktop app for macOS, built from the development source on 29 October 2026, for invited testers only. It replaces candidate 1, which was withdrawn.",
+      "install": [
+        "The build is ad-hoc signed and not notarized, so macOS refuses the first open of the downloaded app. After that refusal, open System Settings › Privacy & Security, choose Open Anyway next to the message about UCompute, and confirm with your password. Since macOS 15, opening from the Finder's context menu no longer gets past this. Approving it this way has not yet been tried with this build on a second Mac.",
+        "The first launch downloads the inference engine (llama.cpp b11609, MIT licensed) and checks its hash, so it needs the internet.",
+        "Tested on one Mac: Apple M2, 8 GB, macOS 26.2. Other Macs are not qualified.",
+        "If you installed candidate 1: quit it before installing. This build does not read candidate 1's app, data folder or settings, and nothing is deleted automatically, so move them aside rather than deleting them until this build runs. Models are downloaded again, or kept only where their checksums still match.",
+        "Device identity starts fresh: every paired device must be paired again once, with this build. It cannot connect to devices still running candidate 1.",
+        "Trusted devices (Mesh) are experimental and off by default; this build has not been tested between two machines.",
+        "There is no automatic update."
+      ],
+      "approval": {
+        "promotion": "engineering docs/VERIFICATION.md, 'WP-08 promotion record: UCompute 0.1.1 private-alpha candidate 2', committed at 3470f8d (source 7d4d194, clean tree; packaged-app check ALL PASS 19/19)",
+        "owner": "",
+        "cohort": ""
+      },
+      "artifacts": [
+        {
+          "platform": "macOS on Apple Silicon (tested on one Apple M2 Mac, macOS 26.2)",
+          "file": "UCompute_0.1.1_aarch64.dmg",
+          "url": "/releases/0.1.1/UCompute_0.1.1_aarch64.dmg",
+          "bytes": 6425890,
+          "sha256": "c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937",
+          "signature": "Ad-hoc signed, not notarized"
+        }
+      ]
+    },
+    {
       "version": "0.1.0",
       "stage": "private alpha",
       "date": "2026-10-24",
