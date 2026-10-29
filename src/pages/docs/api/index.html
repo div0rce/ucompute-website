@@ -20,7 +20,7 @@ layout: docs
 <caption>OpenAI-compatible</caption>
 <thead><tr><th scope="col">Route</th><th scope="col">Purpose</th></tr></thead>
 <tbody>
-<tr><td><code>GET /v1/models</code>, <code>GET /v1/models/{id}</code></td><td>Model list, with a <code>common</code> extension: downloaded, license, bytes, loaded</td></tr>
+<tr><td><code>GET /v1/models</code>, <code>GET /v1/models/{id}</code></td><td>Model list, with a <code>ucompute</code> extension: downloaded, license, bytes, loaded</td></tr>
 <tr><td><code>POST /v1/chat/completions</code></td><td>Chat, with streaming over server-sent events when <code>"stream": true</code>; <code>response_format</code> JSON schema or JSON object; <code>tools</code> passed through</td></tr>
 <tr><td><code>POST /v1/completions</code></td><td>Text completion</td></tr>
 <tr><td><code>POST /v1/embeddings</code></td><td>Embeddings, from a model loaded in embeddings mode; always local</td></tr>
@@ -33,7 +33,7 @@ layout: docs
 <tr><td><code>GET /health</code></td><td>Liveness: <code>{"status":"ok","version":"0.1.0"}</code>; never needs a key</td></tr>
 <tr><td><code>GET /ready</code></td><td>Whether the loaded engine is ready</td></tr>
 <tr><td><code>GET /metrics</code></td><td>Prometheus text: requests, tokens, time to first token, queue depth, rejections</td></tr>
-<tr><td><code>GET /api/hardware</code></td><td>The same document as <code>common hardware --json</code></td></tr>
+<tr><td><code>GET /api/hardware</code></td><td>The same document as <code>ucompute hardware --json</code></td></tr>
 <tr><td><code>GET /api/status</code></td><td>Version, loaded model with device and offloaded layers, queue</td></tr>
 <tr><td><code>GET /api/models</code></td><td>Catalog and local store, with a memory estimate and fit verdict for this machine</td></tr>
 <tr><td><code>POST /api/models/{id}/pull</code></td><td>Download with progress as server-sent events; resumable and hash-verified</td></tr>
@@ -52,7 +52,7 @@ layout: docs
 <tr><td><code>POST /api/peers/{id}/revoke</code></td><td>Unpair, record a signed revocation and propagate it to shared groups</td></tr>
 <tr><td><code>POST /api/pair/start</code></td><td>Open a 120 s pairing window; returns <code>code</code>, <code>pair_addr</code>, <code>qr_payload</code>, <code>expires_at</code></td></tr>
 <tr><td><code>GET /api/pair/status</code></td><td><code>{active, result}</code></td></tr>
-<tr><td><code>POST /api/pair/join</code></td><td><code>{code, addr?, name?}</code>: six digits plus an address, or a whole <code>common-pair:v1:…</code> QR payload</td></tr>
+<tr><td><code>POST /api/pair/join</code></td><td><code>{code, addr?, name?}</code>: six digits plus an address, or a whole <code>ucompute-pair:v1:…</code> QR payload</td></tr>
 <tr><td><code>GET /api/groups</code>, <code>PUT /api/groups</code></td><td>List groups, or insert or replace one: <code>{name, members, policy: {allow_remote_inference, allow_pooled_inference}}</code></td></tr>
 <tr><td><code>GET /api/privacy</code>, <code>PUT /api/privacy</code></td><td>Privacy mode and its disclosure; see below</td></tr>
 <tr><td><code>GET /api/audit?n=</code></td><td>The last <code>n</code> audit events (1–1000, default 100)</td></tr>
@@ -60,7 +60,7 @@ layout: docs
 </table></div>
 
 <h2 id="targets">The <code>target</code> extension</h2>
-<p><code>POST /v1/chat/completions</code> and <code>POST /v1/completions</code> accept <code>"target"</code> in the body or <code>X-Common-Target</code> as a header; the body wins.</p>
+<p><code>POST /v1/chat/completions</code> and <code>POST /v1/completions</code> accept <code>"target"</code> in the body or <code>X-UCompute-Target</code> as a header; the body wins.</p>
 <ul>
 <li><code>"local"</code>, missing or empty: run here.</li>
 <li><code>"peer:&lt;64-hex id or short label&gt;"</code>: run the whole request on that paired device. It is never split.</li>

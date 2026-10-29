@@ -1,5 +1,7 @@
 # UCompute — Website Concept
 
+> This record uses the current names. The builds and repositories it describes carried the project's earlier name; the original text is in this repository's git history (D-030).
+
 An original, responsive marketing website for **UCompute**, an open-source local-first AI inference platform building toward trusted device groups and eventually decentralized compute.
 
 Inspired by the approachable, download-first presentation of µTorrent's public website—not its logo, trademark, proprietary assets, or copy.
@@ -31,9 +33,9 @@ The page deliberately distinguishes **locally working development builds** from 
 
 ### Customize
 
-- Update `https://github.com/div0rce/common` once the repository is renamed or a public release is published.
+- Update `https://github.com/div0rce/ucompute` once the repository is renamed or a public release is published.
 - Replace the get-source CTA with the signed installer URL when it exists.
 - Update feature availability and performance examples to match actual verification evidence before publishing.
-- Rename `Common.app` to `UCompute.app` through application metadata and packaging before linking a release.
+- Rename `UCompute.app` to `UCompute.app` through application metadata and packaging before linking a release.
 
 The site is **not affiliated** with µTorrent or BitTorrent.

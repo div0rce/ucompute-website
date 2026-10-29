@@ -12,7 +12,7 @@ description: UCompute's license, how to contribute, how decisions are made, how 
 <div class="shell split">
 <div><h2 class="h-sub" id="source-title">License and source</h2></div>
 <div class="prose">
-<p>The project lives at <a href="{{github}}">github.com/div0rce/common</a>. Today that repository holds the license and the founding brief; the code, the specification and the evidence records are being prepared for publication there.</p>
+<p>The project lives at <a href="{{github}}">github.com/div0rce/ucompute</a>. Today that repository holds the license and the founding brief; the code, the specification and the evidence records are being prepared for publication there.</p>
 <p>The code is Apache-2.0. Contributors keep ownership of their work and contribute under the same license. There is no copyright assignment and no extra contributor agreement.</p>
 <p>Model weights have their own licenses, shown in the catalog and before every download. The bundled inference engine, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, is MIT licensed. The website's fonts, DM Sans, DM Mono and Space Grotesk, are under the SIL Open Font License.</p>
 </div>
@@ -32,8 +32,8 @@ description: UCompute's license, how to contribute, how decisions are made, how 
 </ol>
 <h3>The development loop</h3>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cargo build
-scripts/fetch-fixtures.sh                    # pinned engine and tiny fixtures into ./.common
-COMMON_HOME=$PWD/.common cargo test          # includes real-inference tests
+scripts/fetch-fixtures.sh                    # pinned engine and tiny fixtures into ./.ucompute
+UCOMPUTE_HOME=$PWD/.ucompute cargo test          # includes real-inference tests
 cargo clippy --all-targets -- -D warnings
 cargo fmt --all
 python3 scripts/validate_registry.py         # the requirements ledger must stay valid</code></pre></div>

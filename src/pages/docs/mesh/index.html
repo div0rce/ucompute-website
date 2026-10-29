@@ -16,13 +16,13 @@ layout: docs
 
 <h2 id="enable">1. Turn on trusted devices</h2>
 <p>In the app, open Privacy, choose trusted devices and acknowledge the disclosure. From the command line:</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common privacy trusted-devices      # shows the disclosure and asks y/N; --yes accepts it
-common privacy                      # shows the current mode</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute privacy trusted-devices      # shows the disclosure and asks y/N; --yes accepts it
+ucompute privacy                      # shows the current mode</code></pre></div>
 <p>This also turns on peer networking. The public option exists in the app only as a disabled placeholder.</p>
 
 <h2 id="networking">2. Start networking</h2>
 <p>In the app, switch networking on under Peers. A daemon you run yourself needs:</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common serve --network --serve-peers   # both settings are saved, not just for this run</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute serve --network --serve-peers   # both settings are saved, not just for this run</code></pre></div>
 <p>Use <code>--serve-peers</code> only on a computer that should run work for others.</p>
 
 <h2 id="pair">3. Pair</h2>
@@ -34,35 +34,35 @@ common privacy                      # shows the current mode</code></pre></div>
 </ol>
 <div class="callout callout-warn"><strong>Pairing a Mac and a Windows PC</strong>Open the pairing window on the Mac and join from Windows. When Windows opens the window, Windows Firewall currently drops the connection. This is a known issue.</div>
 <p>From the command line:</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers discover               # devices advertising nearby; untrusted until paired
-common peers pair                   # first computer: shows the code and waits (Ctrl-C cancels)
-common peers join 192.168.1.20:51234 123456   # second computer: pairing address and code
-common peers list</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute peers discover               # devices advertising nearby; untrusted until paired
+ucompute peers pair                   # first computer: shows the code and waits (Ctrl-C cancels)
+ucompute peers join 192.168.1.20:51234 123456   # second computer: pairing address and code
+ucompute peers list</code></pre></div>
 
 <h2 id="allow">4. Allow it in a group, on both computers</h2>
 <p>Pairing proves identity. It does not grant permission. A device can only run work for a device in the same group, and only what the group allows. Both computers check.</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common groups create home --allow-remote
-common groups add home 1a2b-3c4d-5e6f
-common groups policy home --allow-remote=false   # take it back later</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute groups create home --allow-remote
+ucompute groups add home 1a2b-3c4d-5e6f
+ucompute groups policy home --allow-remote=false   # take it back later</code></pre></div>
 <p>In the app, Groups on the Peers screen has the same switches. The pooled-inference permission is reserved for milestone M4 and does nothing useful yet.</p>
 
 <h2 id="run">5. Run on the other device</h2>
 <p>In Chat, pick the device under <strong>Run on</strong>; the reply says where it ran. From the command line or your own code:</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Hello" --peer 1a2b-3c4d-5e6f
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Hello" --peer 1a2b-3c4d-5e6f
 
 curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \
-  -H 'X-Common-Target: peer:1a2b-3c4d-5e6f' \
+  -H 'X-UCompute-Target: peer:1a2b-3c4d-5e6f' \
   -d '{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</code></pre></div>
 <p>The serving device needs the same model file, identified by SHA-256. If its copy differs it refuses with <code>integrity_mismatch</code> rather than running something else.</p>
 
 <h2 id="revoke">Remove or revoke a device</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common peers rm 1a2b-3c4d-5e6f       # forget it; it may pair again later
-common peers revoke 1a2b-3c4d-5e6f   # signed revocation; its key is refused from now on</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute peers rm 1a2b-3c4d-5e6f       # forget it; it may pair again later
+ucompute peers revoke 1a2b-3c4d-5e6f   # signed revocation; its key is refused from now on</code></pre></div>
 <p>Revoking closes every connection to the device, tells the devices that shared a group with it, and makes its key fail inside the encrypted handshake. In tests the revoked device was disconnected within 0.07 seconds.</p>
 
 <h2 id="audit">See what happened</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common audit --n 20                       # recent pairing, policy and remote-request events
-common diagnostics --out diagnostics.json # a redacted bundle to attach to a bug report</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute audit --n 20                       # recent pairing, policy and remote-request events
+ucompute diagnostics --out diagnostics.json # a redacted bundle to attach to a bug report</code></pre></div>
 <p>Both sides audit each remote request with the same request id. The audit log holds ids, counts, codes and timings, never prompt or answer text.</p>
 
 <h2 id="issues">Known issues</h2>

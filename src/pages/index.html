@@ -18,7 +18,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <div class="duo-stage">
 <div class="device device-mac">
 <div class="device-screen" aria-hidden="true">
-<div class="device-os"><span>macOS 26.2</span><span>Common.app</span></div>
+<div class="device-os"><span>macOS 26.2</span><span>UCompute.app</span></div>
 <div class="device-line">remote_request <b>done</b></div>
 <div class="device-line">served on MTL0</div>
 <div class="device-line">Apple M2 GPU</div>
@@ -34,7 +34,7 @@ description: UCompute is building an open computing layer for the devices you ow
 </div>
 <div class="device device-win">
 <div class="device-screen" aria-hidden="true">
-<div class="device-os"><span>Windows 11</span><span>Common app</span></div>
+<div class="device-os"><span>Windows 11</span><span>UCompute app</span></div>
 <div class="device-line">Run on: <b>Mous</b></div>
 <div class="device-line">Ran on Mous.</div>
 <div class="device-line">112 tokens</div>
@@ -71,7 +71,7 @@ description: UCompute is building an open computing layer for the devices you ow
 <div class="evidence">
 <figure class="shot">
 <img src="/assets/img/windows-app-chat-ran-on-mac-2026-10-19.webp" width="1200" height="785" alt="The Windows app's Chat view. Run on is set to Mous, the Mac. The reply ends with: 112 tokens, first token in 2,325 ms, 508.3 tok/s. Ran on Mous.">
-<figcaption>The Windows app after the run, unedited. The request went to the Mac (Run on: Mous) and the reply says “Ran on Mous”. The header names the model loaded on the laptop itself: Chat still requires one even when running elsewhere, a known defect. The apps carry the working name Common.</figcaption>
+<figcaption>The Windows app after the run, unedited. The request went to the Mac (Run on: Mous) and the reply says “Ran on Mous”. The header names the model loaded on the laptop itself: Chat still requires one even when running elsewhere, a known defect.</figcaption>
 </figure>
 <div>
 <ol class="steps">
@@ -189,7 +189,7 @@ curl http://127.0.0.1:8192/v1/chat/completions \
 <span class="tok-c"># Runs the whole request on a paired device</span>
 curl http://127.0.0.1:8192/v1/completions \
   -H <span class="tok-s">'Content-Type: application/json'</span> \
-  -H <span class="tok-s">'X-Common-Target: peer:1a2b-3c4d-5e6f'</span> \
+  -H <span class="tok-s">'X-UCompute-Target: peer:1a2b-3c4d-5e6f'</span> \
   -d <span class="tok-s">'{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</span></code></pre>
 </div>
 <div role="tabpanel" id="p-py" aria-labelledby="t-py" tabindex="0" hidden>

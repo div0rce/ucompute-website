@@ -50,7 +50,7 @@ layout: docs            (optional: "docs" adds the docs sidebar, "bare" means th
 
 ## Content rules
 
-Every product claim must match the engineering evidence in the project repository (`div0rce/common`). In particular:
+Every product claim must match the engineering evidence in the project repository (`div0rce/ucompute`). In particular:
 
 - The Mac and Windows demonstration is remote execution of a whole request on one other machine. It is not pooling or model partitioning. Never imply that one model has been split across devices until the evidence says so.
 - The 508 and 910 tokens per second figures were measured with stories15M, a 15-million-parameter test model. Always name the model when showing them.

@@ -14,15 +14,15 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <div class="diagram">
 <svg viewBox="0 0 1000 460" role="img" aria-labelledby="arch-t arch-d">
 <title id="arch-t">UCompute architecture</title>
-<desc id="arch-d">Applications call the local API of the common daemon on 127.0.0.1 port 8192. Inside the daemon, policy and admission, the model manager and identity and audit sit between the API and a pinned inference engine bound to loopback, which uses the CPU and GPU. A mesh endpoint on UDP port 8193 connects to a paired device's daemon over QUIC with TLS 1.3 and pinned keys.</desc>
+<desc id="arch-d">Applications call the local API of the ucompute daemon on 127.0.0.1 port 8192. Inside the daemon, policy and admission, the model manager and identity and audit sit between the API and a pinned inference engine bound to loopback, which uses the CPU and GPU. A mesh endpoint on UDP port 8193 connects to a paired device's daemon over QUIC with TLS 1.3 and pinned keys.</desc>
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4c5c4d"/></marker></defs>
 <text class="h" x="20" y="72">APPLICATIONS</text>
 <rect class="box" x="20" y="90" width="200" height="56" rx="8"/><text class="t" x="36" y="114">Desktop app</text><text class="s" x="36" y="133">Tauri, bundles the daemon</text>
 <rect class="box" x="20" y="170" width="200" height="56" rx="8"/><text class="t" x="36" y="194">Your application</text><text class="s" x="36" y="213">any OpenAI client</text>
-<rect class="box" x="20" y="250" width="200" height="56" rx="8"/><text class="t" x="36" y="274">common CLI</text><text class="s" x="36" y="293">run, chat, peers, groups</text>
+<rect class="box" x="20" y="250" width="200" height="56" rx="8"/><text class="t" x="36" y="274">ucompute CLI</text><text class="s" x="36" y="293">run, chat, peers, groups</text>
 <path class="arrow" d="M220 118H300"/><path class="arrow" d="M220 198C260 198 260 130 300 126"/><path class="arrow" d="M220 278C268 278 262 138 300 134"/>
 <rect class="frame" x="290" y="40" width="360" height="400" rx="14"/>
-<text class="h" x="310" y="70">THIS DEVICE: COMMON DAEMON</text>
+<text class="h" x="310" y="70">THIS DEVICE: UCOMPUTE DAEMON</text>
 <rect class="box-strong" x="310" y="90" width="320" height="56" rx="8"/><text class="t" x="326" y="114">Local API on 127.0.0.1:8192</text><text class="s" x="326" y="133">OpenAI-compatible and /api routes</text>
 <rect class="box" x="310" y="170" width="100" height="64" rx="8"/><text class="t" x="322" y="197">Policy</text><text class="s" x="322" y="217">admission</text>
 <rect class="box" x="420" y="170" width="100" height="64" rx="8"/><text class="t" x="432" y="197">Models</text><text class="s" x="432" y="217">hash, fit</text>
@@ -35,7 +35,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <text class="s" x="685" y="274" text-anchor="middle">QUIC + TLS 1.3</text><text class="s" x="685" y="306" text-anchor="middle">pinned keys</text>
 <rect class="box-dark" x="740" y="170" width="240" height="232" rx="12"/>
 <text class="t-light" x="760" y="202">Paired device</text>
-<text class="s-light" x="760" y="232">its own common daemon</text>
+<text class="s-light" x="760" y="232">its own ucompute daemon</text>
 <text class="s-light" x="760" y="258">checks its own policy,</text>
 <text class="s-light" x="760" y="278">quotas and model hash</text>
 <text class="s-light" x="760" y="308">runs the whole request</text>
@@ -51,22 +51,22 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <section class="section-tight section-white" aria-labelledby="code-map">
 <div class="shell">
 <h2 class="h-sub" id="code-map">The code, crate by crate</h2>
-<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app. The implementation and its commands still carry the working name Common.</p>
+<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Crate</th><th scope="col">Responsibility</th></tr></thead>
 <tbody>
-<tr><td><code>common-core</code></td><td>Stable error codes, the data-folder layout, execution manifests, timeouts</td></tr>
-<tr><td><code>common-hardware</code></td><td>Probing CPU, memory, GPUs and the backends available to them</td></tr>
-<tr><td><code>common-models</code></td><td>A bounds-checked GGUF reader; memory, context and quantization planning</td></tr>
-<tr><td><code>common-artifacts</code></td><td>The pinned catalog, content-addressed storage, verified resumable downloads, engine provisioning</td></tr>
-<tr><td><code>common-runtime</code></td><td>The inference backend interface and the llama.cpp adapter: a supervised, pinned <code>llama-server</code> on loopback</td></tr>
-<tr><td><code>common-api</code></td><td>The OpenAI-compatible HTTP API, model and status routes, metrics, OpenAPI document, mesh routes</td></tr>
-<tr><td><code>common-cli</code></td><td>The <code>common</code> command</td></tr>
-<tr><td><code>common-identity</code></td><td>Device keys, paired peers, groups and signed revocations</td></tr>
-<tr><td><code>common-policy</code></td><td>Default-deny decisions and per-peer quotas</td></tr>
-<tr><td><code>common-observability</code></td><td>The append-only audit log and redacted diagnostics</td></tr>
-<tr><td><code>common-network</code></td><td>QUIC and TLS 1.3 transport, discovery, pairing and remote execution</td></tr>
+<tr><td><code>ucompute-core</code></td><td>Stable error codes, the data-folder layout, execution manifests, timeouts</td></tr>
+<tr><td><code>ucompute-hardware</code></td><td>Probing CPU, memory, GPUs and the backends available to them</td></tr>
+<tr><td><code>ucompute-models</code></td><td>A bounds-checked GGUF reader; memory, context and quantization planning</td></tr>
+<tr><td><code>ucompute-artifacts</code></td><td>The pinned catalog, content-addressed storage, verified resumable downloads, engine provisioning</td></tr>
+<tr><td><code>ucompute-runtime</code></td><td>The inference backend interface and the llama.cpp adapter: a supervised, pinned <code>llama-server</code> on loopback</td></tr>
+<tr><td><code>ucompute-api</code></td><td>The OpenAI-compatible HTTP API, model and status routes, metrics, OpenAPI document, mesh routes</td></tr>
+<tr><td><code>ucompute-cli</code></td><td>The <code>ucompute</code> command</td></tr>
+<tr><td><code>ucompute-identity</code></td><td>Device keys, paired peers, groups and signed revocations</td></tr>
+<tr><td><code>ucompute-policy</code></td><td>Default-deny decisions and per-peer quotas</td></tr>
+<tr><td><code>ucompute-observability</code></td><td>The append-only audit log and redacted diagnostics</td></tr>
+<tr><td><code>ucompute-network</code></td><td>QUIC and TLS 1.3 transport, discovery, pairing and remote execution</td></tr>
 </tbody>
 </table>
 </div>
@@ -112,7 +112,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li><strong>Transport</strong>: QUIC with TLS 1.3 only. Devices authenticate with raw Ed25519 public keys (RFC 7250), and the pinned-key check runs inside the handshake, including on session resumption.</li>
 <li><strong>Pairing</strong>: SPAKE2 with a six-digit code or a QR payload, bound to the TLS exporter so a relayed connection cannot complete it.</li>
 <li><strong>Discovery</strong>: signed mDNS adverts on the local network. A discovered device is only a label; trust comes from pairing.</li>
-<li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/common/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
+<li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/ucompute/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
 <li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection.</li>
 </ul>
 <p>The Rust code mirrors the schema by hand, and the only implementation is this one. Protocol compatibility negotiation is a verified requirement <span class="ref">F-08-10</span>; independent interoperability is not <span class="ref">U-01 not started</span>. Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>

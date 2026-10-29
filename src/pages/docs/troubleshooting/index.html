@@ -1,32 +1,32 @@
 <!--
 title: Troubleshooting
-description: Diagnose UCompute problems: common doctor, what each common error means and how to fix it, discovery and firewall problems, and how to share diagnostics safely.
+description: Diagnose UCompute problems: ucompute doctor, what each ucompute error means and how to fix it, discovery and firewall problems, and how to share diagnostics safely.
 layout: docs
 -->
 <h1>Troubleshooting</h1>
-<p class="lede">Start with <code>common doctor</code>. Every error then carries a stable code and a hint; this page explains the ones people meet most.</p>
+<p class="lede">Start with <code>ucompute doctor</code>. Every error then carries a stable code and a hint; this page explains the ones people meet most.</p>
 
-<h2 id="doctor">Run <code>common doctor</code></h2>
+<h2 id="doctor">Run <code>ucompute doctor</code></h2>
 <p>It changes nothing and downloads nothing. It prints the version and data folder, your hardware, whether the engine is present and verified, and the models you have, then a warning for each problem it finds:</p>
 <ul>
-<li><code>engine is not ready: run `common setup`</code></li>
+<li><code>engine is not ready: run `ucompute setup`</code></li>
 <li><code>low disk</code>, when less than 2 GB is free</li>
 <li><code>low available memory</code>, when less than 1 GB is available; close other apps before loading large models</li>
 </ul>
 <p>If all is well it ends with <code>ok       no problems found</code>. Add <code>--json</code> for a machine-readable version.</p>
 
-<h2 id="errors">Common errors</h2>
+<h2 id="errors">Frequent errors</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">You see</th><th scope="col">Usually means</th><th scope="col">Try</th></tr></thead>
 <tbody>
-<tr><td><code>backend_unavailable</code></td><td>The pinned engine is missing or failed its hash check</td><td><code>common setup</code></td></tr>
-<tr><td><code>model_not_downloaded</code></td><td>The model is in the catalog but not on this computer</td><td><code>common models pull &lt;id&gt;</code></td></tr>
+<tr><td><code>backend_unavailable</code></td><td>The pinned engine is missing or failed its hash check</td><td><code>ucompute setup</code></td></tr>
+<tr><td><code>model_not_downloaded</code></td><td>The model is in the catalog but not on this computer</td><td><code>ucompute models pull &lt;id&gt;</code></td></tr>
 <tr><td><code>insufficient_memory</code></td><td>The model won't fit in available memory</td><td>A smaller model or quantization, a shorter <code>--ctx</code>, or close other apps</td></tr>
-<tr><td><code>integrity_mismatch</code></td><td>A file's SHA-256 doesn't match its pin</td><td><code>common models verify &lt;id&gt;</code>; remove and pull again</td></tr>
-<tr><td><code>gpu_unavailable</code></td><td>You asked for <code>--device gpu</code> and no usable GPU backend exists</td><td><code>--device auto</code> or <code>cpu</code>; check <code>common hardware</code></td></tr>
+<tr><td><code>integrity_mismatch</code></td><td>A file's SHA-256 doesn't match its pin</td><td><code>ucompute models verify &lt;id&gt;</code>; remove and pull again</td></tr>
+<tr><td><code>gpu_unavailable</code></td><td>You asked for <code>--device gpu</code> and no usable GPU backend exists</td><td><code>--device auto</code> or <code>cpu</code>; check <code>ucompute hardware</code></td></tr>
 <tr><td><code>overloaded</code></td><td>All generation slots or a peer quota are in use</td><td>Retry after a second; the response includes <code>Retry-After</code></td></tr>
 <tr><td><code>policy_denied</code> on a peer target</td><td>Privacy is local-only, networking is off, or the other device doesn't serve peers</td><td><a href="/docs/mesh/#enable">Turn on trusted devices</a> and networking on both</td></tr>
-<tr><td><code>peer_unauthorized</code></td><td>Not paired, or no group allows remote runs on one side</td><td>Check <code>common peers list</code> and <code>common groups list</code> on both computers</td></tr>
+<tr><td><code>peer_unauthorized</code></td><td>Not paired, or no group allows remote runs on one side</td><td>Check <code>ucompute peers list</code> and <code>ucompute groups list</code> on both computers</td></tr>
 <tr><td><code>peer_lost</code></td><td>The device is unreachable or the connection dropped</td><td>Same network? Firewall? Is its app or daemon running?</td></tr>
 <tr><td><code>pairing_failed</code></td><td>Wrong code, expired window, or a relayed connection</td><td>Open a new window and enter the current code</td></tr>
 <tr><td><code>pairing_locked</code></td><td>More than five wrong codes within a minute</td><td>Open a new pairing window</td></tr>
@@ -48,6 +48,6 @@ layout: docs
 <p>The desktop app checks <code>GET /health</code> on 127.0.0.1:8192 first and reuses a daemon that already answers. If something else holds the port, stop it or start your own daemon with <code>--port</code>.</p>
 
 <h2 id="report">Reporting a problem safely</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common doctor --json
-common diagnostics --out diagnostics.json   # redacted: no prompt text</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute doctor --json
+ucompute diagnostics --out diagnostics.json   # redacted: no prompt text</code></pre></div>
 <p>Attach those, the exact command and your platform. Never include prompts, answers or credentials. Never report a suspected security problem publicly; see the <a href="/open-source/#security">security policy</a>.</p>

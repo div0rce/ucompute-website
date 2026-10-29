@@ -1,12 +1,12 @@
 <!--
 title: Configuration
-description: Configure the UCompute daemon: the data folder, common serve options, config.json settings for privacy and peer networking, and environment variables.
+description: Configure the UCompute daemon: the data folder, ucompute serve options, config.json settings for privacy and peer networking, and environment variables.
 layout: docs
 -->
 <h1>Configuration</h1>
 <p class="lede">The defaults are the safe ones: local only, networking off, bound to this computer. You only need this page to change that, or to move the data folder.</p>
 
-<h2 id="serve">Options for <code>common serve</code></h2>
+<h2 id="serve">Options for <code>ucompute serve</code></h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Option</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
 <tbody>
@@ -38,7 +38,7 @@ layout: docs
 </table></div>
 
 <h2 id="data-folder">The data folder</h2>
-<p>Defaults: <code>~/Library/Application Support/Common</code> on macOS, <code>%LOCALAPPDATA%\Common</code> on Windows, <code>$XDG_DATA_HOME/common</code> or <code>~/.local/share/common</code> on Linux. Override it with <code>COMMON_HOME</code>.</p>
+<p>Defaults: <code>~/Library/Application Support/UCompute</code> on macOS, <code>%LOCALAPPDATA%\UCompute</code> on Windows, <code>$XDG_DATA_HOME/ucompute</code> or <code>~/.local/share/ucompute</code> on Linux. Override it with <code>UCOMPUTE_HOME</code>.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Path</th><th scope="col">Contents</th></tr></thead>
 <tbody>
@@ -55,9 +55,9 @@ layout: docs
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Variable</th><th scope="col">Effect</th></tr></thead>
 <tbody>
-<tr><td><code>COMMON_HOME</code></td><td>Use this data folder instead of the default</td></tr>
-<tr><td><code>COMMON_MDNS=0</code></td><td>Turn off mDNS discovery</td></tr>
-<tr><td><code>COMMON_API_KEY</code></td><td>Key the CLI's peer and group commands use to reach a key-protected daemon</td></tr>
+<tr><td><code>UCOMPUTE_HOME</code></td><td>Use this data folder instead of the default</td></tr>
+<tr><td><code>UCOMPUTE_MDNS=0</code></td><td>Turn off mDNS discovery</td></tr>
+<tr><td><code>UCOMPUTE_API_KEY</code></td><td>Key the CLI's peer and group commands use to reach a key-protected daemon</td></tr>
 <tr><td><code>RUST_LOG</code></td><td>Log filter; overrides <code>-v</code> and <code>-vv</code></td></tr>
 </tbody>
 </table></div>

@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const MODES = ['prelaunch', 'preview', 'public'];
 export const ORIGIN = 'https://ucompute.org';
-export const GITHUB = 'https://github.com/div0rce/common';
+export const GITHUB = 'https://github.com/div0rce/ucompute';
 export const PREVIEW = 'https://preview.ucompute.org';
 
 export const NAV = [
@@ -41,7 +41,7 @@ const FOOTER = [
   ['Project', [['/open-source/', 'Open source'], ['/community/', 'Community'], ['/open-source/#security', 'Security'], [GITHUB, 'GitHub']]],
 ];
 
-// Lowest-common-denominator escaping for values that land in attributes.
+// Lowest-ucompute-denominator escaping for values that land in attributes.
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
 // A page file starts with a comment of "key: value" lines, then the body HTML.
@@ -142,7 +142,7 @@ function footer(mode) {
 ${FOOTER.map(([h, links]) => `<div><h2>${h}</h2><ul>${links.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('\n')}
 </nav>
 </div>
-<div class="footer-bottom"><span>© 2026 UCompute project. Apache-2.0. UCompute is the public name in use; trademark clearance is open. The implementation is named Common.</span>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
+<div class="footer-bottom"><span>© 2026 UCompute project. Apache-2.0. UCompute is the public name in use; trademark clearance is open.</span>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
 </div>
 </footer>`;
 }
