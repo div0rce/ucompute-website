@@ -103,18 +103,22 @@ Rehearsed on 2026-10-24 with a temporary private-alpha record and a hosted test 
 - a public page linking the file failed the check;
 - a wrong recorded SHA-256 failed the check.
 
+### Candidate 1 withdrawn (2026-10-29)
+
+D-030 withdrew candidate 1 the day it was published, because its file and the app inside it carried the project's earlier name. Its record in `reference/releases.json` keeps the version, approvals, size and SHA-256, adds `withdrawn`, and has no file name or URL. A withdrawn release never renders, never ships a file and never counts as approved (`build.mjs`, `verify-live.mjs`, `tools/verify-release.mjs`). The disk image is gone from `public/releases/`, and the preview download page says the next build is being prepared. The sections below use the current names; the original text is in git history.
+
 ### Candidate 1: published to the owner on the stage-snapshot alias (2026-10-29)
 
 On 2026-10-29 the owner named the cohort in writing: "only my own two emails, moustafa.nasr@rutgers.edu and mn801@scarletmail.rutgers.edu. Use the stage-snapshot link; leave preview.ucompute.org alone." Both emails already form the whole UCompute team Access policy, so no Access change was needed.
 
 The DMG is in `public/releases/0.1.0/`, and `approval.cohort` records the owner's cohort, which has been relayed to engineering to amend D-025.
-- Only preview-mode builds contain the file, at `/releases/0.1.0/Common_0.1.0_aarch64.dmg`. It is reachable on the `stage-snapshot` alias behind Access.
+- Only preview-mode builds contain the file, at `/releases/0.1.0/` (the disk image). It is reachable on the `stage-snapshot` alias behind Access.
 - `preview.ucompute.org` (the `preview` branch) and production are unchanged.
 - Public and prelaunch builds contain no `releases/` folder, and the prelaunch tree still matches production.
 
 ### Candidate 1 (2026-10-24): staged, awaiting the owner
 
-`reference/releases.json` holds UCompute 0.1.0 private-alpha candidate 1, from engineering's promotion record (common 0b0c1a4, source 3379fe9). It is `Common_0.1.0_aarch64.dmg`: 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`. The size and hash were re-checked on this Mac against engineering's `SHA256SUMS`.
+`reference/releases.json` holds UCompute 0.1.0 private-alpha candidate 1, from engineering's promotion record (engineering 0b0c1a4, source 3379fe9): a macOS disk image of 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`. The size and hash were re-checked on this Mac against engineering's `SHA256SUMS`.
 
 The owner approved the artifact: D-025 in engineering's `docs/DECISIONS.md`, commit 6ce7e90. `approval.owner` records it. `approval.cohort` stays empty until the testers are named, so the preview build shows "Approved; waiting for the testers to be named", with no download link and no file in any build. The public build shows nothing.
 

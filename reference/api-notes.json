@@ -1,0 +1,19 @@
+{
+  "about": "Website notes for /docs/api/ request and response fields, keyed 'METHOD /path field' or 'METHOD /path response field'. null leaves a field and its sub-fields off the page; text replaces engineering's. Pooled inference stays off the reference until it is verified. The build fails if a key matches no field in interfaces.json.",
+  "notes": {
+    "POST /v1/chat/completions target": "UCompute extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`.",
+    "POST /v1/chat/completions split_at": null,
+    "POST /v1/chat/completions split_mode": null,
+    "POST /v1/chat/completions acknowledged": null,
+    "POST /v1/chat/completions response target": "Where it ran: `local` or `peer:<peer id>`.",
+    "POST /v1/chat/completions response placement": null,
+    "POST /v1/completions target": "UCompute extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`.",
+    "POST /v1/completions split_at": null,
+    "POST /v1/completions split_mode": null,
+    "POST /v1/completions acknowledged": null,
+    "POST /v1/completions response target": "Where it ran: `local` or `peer:<peer id>`.",
+    "POST /v1/completions response placement": null,
+    "GET /api/status response split": null,
+    "POST /api/models/{id}/load response split": null
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "about": "Website notes for /docs/cli/. Keys are a command path, a command path plus an argument, or 'env NAME'. A note fills in where the engineering help text is empty and is appended where it is not; a note starting with '= ' replaces the engineering text, for wording the site's claim rules (snapshot section 9) do not allow. null keeps an environment variable off the page. The build fails if a key matches nothing in interfaces.json, or if a command, argument or variable ends up with no text.",
+  "about": "Website notes for /docs/cli/. Keys are a command path, a command path plus an argument, or 'env NAME'. A note fills in where the engineering help text is empty and is appended where it is not; a note starting with '= ' replaces the engineering text, for wording the site's claim rules (snapshot section 9) do not allow. null keeps an argument or environment variable off the page. The build fails if a key matches nothing in interfaces.json, or if a command, argument or variable ends up with no text.",
   "notes": {
     "ucompute groups list": "List groups, their members and their policies",
     "ucompute models search query": "Text to look for",
@@ -25,19 +25,22 @@
     "ucompute peers rm id": "Device id, short label such as `ab12-cd34-ef56`, or a unique prefix",
     "ucompute peers revoke id": "Device id, short label such as `ab12-cd34-ef56`, or a unique prefix",
     "ucompute groups create name": "Group name",
-    "ucompute groups create --allow-pooled": "Pooling one model across devices is planned and not built; nothing uses this yet",
+    "ucompute groups create --allow-pooled": "Pooling one model across devices is still being tested and is not part of any release yet",
     "ucompute groups add group": "Group name",
     "ucompute groups add peer": "A paired device: id, short label or unique prefix",
     "ucompute groups remove group": "Group name",
     "ucompute groups remove peer": "A member of the group: id, short label or unique prefix",
     "ucompute groups policy group": "Group name",
     "ucompute groups policy --allow-remote": "Members may run whole requests on this device",
-    "ucompute groups policy --allow-pooled": "Members may host or use layer ranges. Pooling one model across devices is planned and not built; nothing uses this yet",
+    "ucompute groups policy --allow-pooled": "Members may host or use layer ranges. Pooling one model across devices is still being tested and is not part of any release yet",
     "env UCOMPUTE_HOME": "Use this data folder instead of the default",
     "env UCOMPUTE_MDNS": "Set to 0 to turn off mDNS advertising and discovery",
     "env UCOMPUTE_API_KEY": "Key the CLI's peer and group commands use to reach a key-protected daemon",
     "env RUST_LOG": "Log filter; overrides -v and -vv",
     "env UCOMPUTE_WIN_ENGINE_ZIP": null,
-    "env UCOMPUTE_REQUIRE_FIXTURES": null
+    "env UCOMPUTE_REQUIRE_FIXTURES": null,
+    "ucompute run --split": null,
+    "ucompute run --split-at": null,
+    "ucompute run --same-backend": null
   }
 }

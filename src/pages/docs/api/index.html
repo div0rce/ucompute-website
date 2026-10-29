@@ -69,6 +69,7 @@ layout: docs
 <li><code>"local"</code>, missing or empty: run here.</li>
 <li><code>"peer:&lt;64-hex id or short label&gt;"</code>: run the whole request on that paired device. It is never split.</li>
 </ul>
+<p>Pooled inference across two devices is still being tested, so its target and fields are left out of this reference until it is verified.</p>
 <p>Every response and every streamed chunk carries <code>"target"</code>. A peer target on embeddings, or a malformed one, is <code>invalid_request</code>. Browser clients must use the body field, because the header is not in the allowed CORS headers.</p>
 
 <h2 id="privacy">Turning on trusted devices</h2>

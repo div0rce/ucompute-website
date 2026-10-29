@@ -41,7 +41,7 @@ const FOOTER = [
   ['Project', [['/faq/', 'Questions'], ['/open-source/', 'License and rules'], ['/community/', 'Community'], ['/open-source/#security', 'Security']]],
 ];
 
-// Lowest-common-denominator escaping for values that land in attributes.
+// Minimal escaping for values that land in attributes.
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
 // A page file starts with a comment of "key: value" lines, then the body HTML.
@@ -196,12 +196,12 @@ export function cliReference() {
       .map((s, i) => i % 2 ? s : s.replace(/(^|[\s(])(--[a-z][\w-]*(?:=[\w|]+)?)/g, '$1<code>$2</code>')).join('');
   };
   const argName = a => a.kind === 'positional' ? (a.optional ? `[${a.name}]` : `<${a.name}>`) : [a.long, a.short].filter(Boolean).join(', ') + (a.value ? (a.equals ? '=' : ' ') + a.value : '');
-  const table = (rows, key) => rows.length ? `<div class="table-wrap"><table>
+  const table = (all, key) => { const rows = all.filter(a => notes[`${key} ${a.long || a.name}`] !== null || !used.add(`${key} ${a.long || a.name}`)); return rows.length ? `<div class="table-wrap"><table>
 <thead><tr><th scope="col">Argument</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
 <tbody>
 ${rows.map(a => `<tr><td><code>${esc(argName(a))}</code></td><td>${a.default ? `<code>${esc(a.default)}</code>` : ''}</td><td>${text(`${key} ${a.long || a.name}`, a.help)}${a.values?.some(v => v.help) ? `<ul>${a.values.map(v => `<li><code>${esc(v.name)}</code>: ${text(`${key} ${a.long || a.name} ${v.name}`, v.help)}</li>`).join('')}</ul>` : ''}</td></tr>`).join('\n')}
 </tbody>
-</table></div>` : '';
+</table></div>` : ''; };
   const id = path => path.split(' ').slice(1).join('-');
   const usage = c => `<div class="code-wrap"><pre class="code-block"><code>${esc([c.path, ...c.args.filter(a => a.kind === 'positional').map(argName), c.args.some(a => a.kind === 'option') ? '[options]' : ''].filter(Boolean).join(' '))}</code></pre></div>`;
   const top = I.commands.filter(c => c.path.split(' ').length === 2);
@@ -232,15 +232,27 @@ ${I.env.filter(v => notes[`env ${v}`] !== null || !used.add(`env ${v}`)).map(v =
   return html;
 }
 
+// Website notes for API fields, keyed "METHOD /path field" (request body) or "METHOD /path response field":
+// null leaves the field and its sub-fields off the page, text replaces engineering's. A key matching no field fails the build.
+function apiNotes(I) {
+  const { notes } = JSON.parse(readFileSync(join(ROOT, 'reference/api-notes.json'), 'utf8'));
+  const known = new Set(I.routes.flatMap(r => [...(r.body?.fields || []).map(f => `${r.method} ${r.path} ${f.name}`), ...(r.response?.fields || []).map(f => `${r.method} ${r.path} response ${f.name}`)]));
+  const stale = Object.keys(notes).filter(k => !known.has(k));
+  if (stale.length) throw new Error(`reference/api-notes.json: no such field: ${stale.join(', ')}`);
+  return (key, fields) => fields
+    .filter(f => !f.name.split('.').some((_, i, a) => notes[`${key} ${a.slice(0, i + 1).join('.')}`] === null))
+    .map(f => typeof notes[`${key} ${f.name}`] === 'string' ? { ...f, help: notes[`${key} ${f.name}`] } : f);
+}
+
 // {{api-bodies}}: request body fields for every route that takes one, from the OpenAPI document via interfaces.json.
 export function apiBodies() {
   const I = JSON.parse(readFileSync(join(ROOT, 'reference/interfaces.json'), 'utf8'));
-  const code = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
-  return I.routes.filter(r => r.body).map(r => { const helps = r.body.fields.some(f => f.help); return `<h3 id="body-${(r.method + r.path).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}"><code>${r.method} ${esc(r.path)}</code></h3>
+  const code = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>'), note = apiNotes(I);
+  return I.routes.filter(r => r.body).map(r => { const fields = note(`${r.method} ${r.path}`, r.body.fields), helps = fields.some(f => f.help); return `<h3 id="body-${(r.method + r.path).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}"><code>${r.method} ${esc(r.path)}</code></h3>
 ${r.body.required ? '' : '<p>The body is optional.</p>\n'}<div class="table-wrap"><table>
 <thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Default</th>${helps ? '<th scope="col">Meaning</th>' : ''}</tr></thead>
 <tbody>
-${r.body.fields.map(f => `<tr><td><code>${esc(f.name)}</code>${f.required ? '<br><span class="fine">required</span>' : ''}</td><td>${esc(f.type)}</td><td>${f.default ? `<code>${esc(f.default)}</code>` : ''}</td>${helps ? `<td>${f.help ? code(f.help) : ''}</td>` : ''}</tr>`).join('\n')}
+${fields.map(f => `<tr><td><code>${esc(f.name)}</code>${f.required ? '<br><span class="fine">required</span>' : ''}</td><td>${esc(f.type)}</td><td>${f.default ? `<code>${esc(f.default)}</code>` : ''}</td>${helps ? `<td>${f.help ? code(f.help) : ''}</td>` : ''}</tr>`).join('\n')}
 </tbody>
 </table></div>`; }).join('\n');
 }
@@ -249,9 +261,10 @@ ${r.body.fields.map(f => `<tr><td><code>${esc(f.name)}</code>${f.required ? '<br
 export function apiResponses() {
   const I = JSON.parse(readFileSync(join(ROOT, 'reference/interfaces.json'), 'utf8'));
   const code = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  const note = apiNotes(I);
   const kind = t => ({ 'application/json': 'JSON', 'text/event-stream': 'server-sent events', 'text/plain': 'plain text' })[t] || t;
   return I.routes.filter(r => r.response).map(r => {
-    const x = r.response, helps = x.fields.some(f => f.help);
+    const x = { ...r.response, fields: note(`${r.method} ${r.path} response`, r.response.fields) }, helps = x.fields.some(f => f.help);
     const what = `${x.status}${x.types.length ? `, ${x.types.map(kind).join(' or ')}` : ', no content'}${x.errors.length ? `; errors ${x.errors.join(', ')}` : ''}`;
     return `<details class="api-response"><summary><code>${r.method} ${esc(r.path)}</code> <span class="fine">${what}</span></summary>
 ${x.fields.length ? `<div class="table-wrap"><table>
@@ -271,13 +284,15 @@ const STAGES = ['private alpha', 'developer alpha', 'developer beta', 'stable'];
 // The two alpha stages go to invited testers only: they render on the preview build, behind Cloudflare Access,
 // and never on a public build.
 export const PRIVATE_STAGES = ['private alpha', 'developer alpha'];
-export const releasesFor = mode => RELEASES.filter(r => mode === 'preview' || !PRIVATE_STAGES.includes(r.stage));
+// A withdrawn release keeps its record but never renders, ships a file or counts as approved.
+export const releasesFor = mode => RELEASES.filter(r => !r.withdrawn && (mode === 'preview' || !PRIVATE_STAGES.includes(r.stage)));
 // A release ships only with the owner's approval of the artifact and a named cohort (spec section 31); until then it is
 // shown as awaiting approval: no download link, and its files never ship.
-export const approved = r => Boolean(r.approval?.owner && r.approval?.cohort);
+export const approved = r => Boolean(!r.withdrawn && r.approval?.owner && r.approval?.cohort);
 export const downloadsFor = mode => releasesFor(mode).filter(approved);
 function releasesHtml(mode) {
   const shown = releasesFor(mode);
+  if (!shown.length && mode === 'preview' && RELEASES.some(r => r.withdrawn)) return '<p>The private-alpha build offered to invited testers has been withdrawn. The next build is being prepared, and it will appear here with its SHA-256 checksum once it is approved.</p>';
   if (!shown.length) return '<p>There are no tagged releases and no release notes yet. If a release is approved, this page will link to its installers and their SHA-256 checksums.</p>';
   return shown.map(r => {
     const where = `reference/releases.json ${r.version}`;

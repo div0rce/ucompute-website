@@ -4,9 +4,9 @@ description: The record of UCompute's first run between desktop apps on a MacBoo
 -->
 <div class="page-hero shell">
 <h1>Two computers, one request.</h1>
-<p class="lede">The full record of the first run between installed desktop apps (development builds, then still named Common) on a Mac and a Windows laptop: the machines, what we did, what we measured, and what is still broken.</p>
+<p class="lede">The full record of the first run between installed desktop apps (development builds) on a Mac and a Windows laptop: the machines, what we did, what we measured, and what is still broken.</p>
 <div class="page-hero-meta"><span class="pill pill-verified">Verified</span><span class="pill pill-experimental">Experimental</span></div>
-<p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started.{{claim:demo-2026-10-19}}{{claim:no-release}}</p>
+<p class="fine stack">Recorded 19 October 2026 with development builds. Verified for these builds, this hardware and this network only. It is not an offer to download the builds, and no alpha or beta cohort has started. This record uses the current names; the builds it describes carried the earlier name.{{claim:demo-2026-10-19}}{{claim:no-release}}</p>
 </div>
 
 <section class="section-tight demo-duo-sec" aria-label="The recorded run at a glance">
@@ -79,8 +79,8 @@ description: The record of UCompute's first run between desktop apps on a MacBoo
 <tr><th scope="row">Operating system</th><td>macOS 26.2</td><td>Windows 11 Home, build 26200</td></tr>
 <tr><th scope="row">GPU and backend</th><td>Apple M2 GPU through Metal</td><td>Intel Arc 140V through Vulkan</td></tr>
 <tr><th scope="row">Inference engine</th><td colspan="2">llama.cpp release b11609, pinned and hash-verified, the macOS arm64 build on the Mac and the Windows Vulkan build on the laptop</td></tr>
-<tr><th scope="row">App</th><td><code>Common.app</code>, a development build that passed the packaged-app checks on 15 October</td><td><code>Common_0.1.0_x64-setup.exe</code> (NSIS), a development build made natively on the laptop, installed per user</td></tr>
-<tr><th scope="row">Daemon</th><td colspan="2"><code>common serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, started by each app as its child process</td></tr>
+<tr><th scope="row">App</th><td><code>UCompute.app</code>, a development build that passed the packaged-app checks on 15 October</td><td><code>UCompute_0.1.0_x64-setup.exe</code> (NSIS), a development build made natively on the laptop, installed per user</td></tr>
+<tr><th scope="row">Daemon</th><td colspan="2"><code>ucompute serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, started by each app as its child process</td></tr>
 </tbody>
 </table>
 </div>
@@ -131,7 +131,7 @@ description: The record of UCompute's first run between desktop apps on a MacBoo
 <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
 <tbody>
 <tr><td>Native build on the laptop with <code>pnpm tauri build --bundles nsis</code> (VS 2022 Build Tools, Rust MSVC, Node 24, pnpm)</td><td>Pass. The staged daemon accepts the app's exact arguments.</td></tr>
-<tr><td>Silent install, and the bundled <code>common.exe</code> accepts the app's arguments</td><td>Pass</td></tr>
+<tr><td>Silent install, and the bundled <code>ucompute.exe</code> accepts the app's arguments</td><td>Pass</td></tr>
 <tr><td>App launched by the owner from the desktop</td><td>Pass. Daemon healthy, started by the app in the signed-in session.</td></tr>
 <tr><td>App force-killed, as a crash or Task Manager would</td><td>Pass. Its daemon was gone 0.11 s later and port 8192 was released.</td></tr>
 </tbody>
@@ -143,7 +143,7 @@ description: The record of UCompute's first run between desktop apps on a MacBoo
 <section class="section-tight" aria-labelledby="earlier">
 <div class="shell">
 <h2 class="h-sub" id="earlier">The daemon runs before it (18–19 October)</h2>
-<p class="lede stack">Before the desktop apps, the same two machines ran the full trusted-device flow with the <code>common</code> daemons alone, the laptop driven from the Mac over SSH. All peer traffic used UCompute's own encrypted transport over the local network.{{claim:daemon-runs}}</p>
+<p class="lede stack">Before the desktop apps, the same two machines ran the full trusted-device flow with the <code>ucompute</code> daemons alone, the laptop driven from the Mac over SSH. All peer traffic used UCompute's own encrypted transport over the local network.{{claim:daemon-runs}}</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Step</th><th scope="col">Campus Wi-Fi (two runs)</th><th scope="col">Phone hotspot</th></tr></thead>

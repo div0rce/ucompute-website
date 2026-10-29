@@ -49,7 +49,7 @@ if (existsSync(envFile)) {
   const page = await fetch(`${base}/download/`, { headers, redirect: 'manual', signal: AbortSignal.timeout(20000) });
   record(page.status === 200, `${base}/download/ with the service token -> ${page.status}`);
   const { releases } = JSON.parse(readFileSync(new URL('./reference/releases.json', import.meta.url), 'utf8'));
-  for (const r of releases.filter(r => r.approval?.owner && r.approval?.cohort)) for (const a of r.artifacts.filter(a => a.url.startsWith('/releases/'))) {
+  for (const r of releases.filter(r => !r.withdrawn && r.approval?.owner && r.approval?.cohort)) for (const a of r.artifacts.filter(a => a.url.startsWith('/releases/'))) {
     const res = await fetch(base + a.url, { headers, redirect: 'manual', signal: AbortSignal.timeout(120000) });
     const data = res.status === 200 ? Buffer.from(await res.arrayBuffer()) : Buffer.alloc(0);
     const sha = createHash('sha256').update(data).digest('hex');
