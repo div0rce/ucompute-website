@@ -1,5 +1,11 @@
 # Verification record
 
+## 2026-10-30: browsers and Lighthouse after draft 3 and the release pipeline
+
+Run in engineering's sentinel window, 04:25 to 04:32 UTC, against stage-snapshot at 50ccabf. That build includes the snapshot draft 3 wording, the fix-round-6 API fields, the Questions page and the candidate 1 release on `/download/`.
+- `tools/browsers.mjs`: all 22 complete-site pages at 1440 and 390 px in Chromium, Firefox and WebKit. No page or console errors, no failed requests, no horizontal overflow, 0 axe WCAG 2.2 AA violations. The mobile menu opens. The fabric animates in Chromium (21 frames a second) and WebKit (29). It shows 0 frames a second when paused or with reduced motion, and the static field without WebGL.
+- `tools/lighthouse.mjs`, public build, 20 pages: mobile performance 99 to 100 and desktop 100. Accessibility, best practices and SEO are 100 everywhere, and CLS is 0 on every page.
+
 ## 2026-10-29: private-alpha candidate 1 delivered to its cohort
 
 UCompute 0.1.0 private-alpha candidate 1 (`Common_0.1.0_aarch64.dmg`, 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`) went to its cohort, the owner alone, on the stage-snapshot alias behind Access. It was published at a9c4166. Its approvals are engineering's D-025 and its amendment for the cohort.
