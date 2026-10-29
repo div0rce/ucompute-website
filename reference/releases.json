@@ -7,7 +7,7 @@
       "date": "2026-10-24",
       "notes": "Private-alpha candidate 1 of the UCompute desktop app for macOS, built from the development source on 24 October 2026, for invited testers only.",
       "install": [
-        "The build is ad-hoc signed and not notarized, so on another Mac macOS refuses the first open of the downloaded app. Open it from the Finder's context menu (Open), or use System Settings › Privacy & Security › Open Anyway. This has not yet been tried with this build on a second Mac.",
+        "The build is ad-hoc signed and not notarized, so macOS refuses the first open of the downloaded app (checked on a downloaded copy, 29 October 2026). After that refusal, open System Settings › Privacy & Security, choose Open Anyway next to the message about Common, and confirm with your password. Since macOS 15, opening from the Finder's context menu no longer gets past this. Approving it this way has not yet been tried with this build on a second Mac.",
         "The first launch downloads the inference engine (llama.cpp b11609, MIT licensed) and checks its hash, so it needs the internet.",
         "Tested on one Mac: Apple M2, 8 GB, macOS 26.2. Other Macs are not qualified.",
         "Trusted devices (Mesh) are experimental and off by default; this build has not been tested between two machines.",
