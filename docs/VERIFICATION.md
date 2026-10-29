@@ -1,5 +1,13 @@
 # Verification record
 
+## 2026-10-30: signed-in download of candidate 1 verified from the live deployment
+
+The owner set up a Cloudflare Access service token for website checks. It is kept on this Mac at `~/.config/ucompute/access.env`, outside the repository. `npm run verify:release` (`tools/verify-release.mjs`) downloads every approved artifact through Access from a deployed site, and compares its size and SHA-256 with `reference/releases.json`.
+- On the stage-snapshot alias, `/download/` returned HTTP 200 through Access. `Common_0.1.0_aarch64.dmg` returned HTTP 200, 6,306,797 bytes, SHA-256 `a3239588cfd925d51aeb4bb39a592a49433d9bce7cd9421abe9d7f38fce5dd6d`. That matches D-025.
+- Negative check: against `https://ucompute.org` it fails, with 404 for the page and the file, as production must.
+
+This closes the website's end-to-end proof for candidate 1: the deployed, Access-gated file is the approved artifact. The first launch and the Gatekeeper path on a second Mac remain with engineering.
+
 ## 2026-10-30: browsers and Lighthouse after draft 3 and the release pipeline
 
 Run in engineering's sentinel window, 04:25 to 04:32 UTC, against stage-snapshot at 50ccabf. That build includes the snapshot draft 3 wording, the fix-round-6 API fields, the Questions page and the candidate 1 release on `/download/`.
