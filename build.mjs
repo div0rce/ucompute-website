@@ -395,6 +395,10 @@ export function build(mode, out) {
     ? 'User-agent: *\nDisallow: /\n'
     : `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 
+  // A withdrawn release's URLs go to the download page, so a copy of its file left in the edge cache stops being served.
+  const gone = mode === 'preview' ? RELEASES.filter(r => r.withdrawn).map(r => `/releases/${r.version}/* /download/ 302`) : [];
+  if (gone.length) writeFileSync(join(out, '_redirects'), gone.join('\n') + '\n');
+
   // Cloudflare Pages headers. The CSP allows only this origin; pages use no inline script or style attributes.
   // CSS and JS are linked with ?v=<content hash>, so they can be cached for a year; exact paths, so no header is set twice.
   const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'";
