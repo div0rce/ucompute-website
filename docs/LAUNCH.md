@@ -4,7 +4,7 @@ Status on 2026-10-29. The live page at ucompute.org stays frozen (D-023) until t
 
 **Website priority:** be able to publish an engineering-approved build to invited testers the same day it is approved. The pipeline is rehearsed: alpha releases render and ship only behind Access, and each hosted file is verified against its recorded hash (`docs/DEPLOYMENT.md`, "Publishing a download").
 
-**Done:** UCompute 0.1.0 private-alpha candidate 1 is published to the owner's cohort (the owner's two emails) on the stage-snapshot alias, behind Access. The artifact is approved by D-025, and the cohort was named in writing by the owner on 2026-10-29. Not yet confirmed: a signed-in download, a hash check and a first launch on a second Mac (owner).
+**Done:** UCompute 0.1.0 private-alpha candidate 1 is published to the owner's cohort (the owner's two emails) on the stage-snapshot alias, behind Access. The artifact is approved by D-025, and the cohort was named in writing by the owner on 2026-10-29. On 2026-10-29 the owner confirmed it, answering "Did the download match the checksum and launch?" with "Yes, it works". That was relayed to engineering verbatim.
 
 **Dependencies, in order:**
 1. Engineering: a release promotion record for a private-alpha build (artifact, size, SHA-256, signing status). Current blocker (engineering, 2026-10-24): the packaged macOS app's crash check (`verify_packaged_app.py` stage 6: a killed daemon's engine must be stopped) has not yet passed on a packaged build. The fix is in abe19c1, and the packaged re-check runs in fix round 7. The DMG is about 6 MB, so it can be hosted on Pages.
