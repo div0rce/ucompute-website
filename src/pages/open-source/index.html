@@ -32,8 +32,8 @@ description: UCompute's license, how contributions will work, how decisions are 
 </ol>
 <h3>The development loop</h3>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cargo build
-scripts/fetch-fixtures.sh                    # pinned engine and tiny fixtures into ./.common
-COMMON_HOME=$PWD/.common cargo test          # includes real-inference tests
+scripts/fetch-fixtures.sh                    # pinned engine and tiny fixtures into ./.ucompute
+UCOMPUTE_HOME=$PWD/.ucompute cargo test          # includes real-inference tests
 cargo clippy --all-targets -- -D warnings
 cargo fmt --all
 python3 scripts/validate_registry.py         # the requirements ledger must stay valid</code></pre></div>

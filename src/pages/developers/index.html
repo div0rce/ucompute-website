@@ -14,9 +14,9 @@ description: Use UCompute from your own app: an OpenAI-compatible API on 127.0.0
 <div>
 <h2 class="h-sub" id="quickstart">Quickstart</h2>
 <ol class="steps stack">
-<li><div><h3>Install and set up</h3><p>Once the source is published, build the <code>common</code> command (see <a href="/docs/install/">Install</a>), then run <code>common setup</code> to download and verify the pinned engine.</p></div></li>
-<li><div><h3>Get a model</h3><p><code>common models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license, then downloads and verifies 491 MB.</p></div></li>
-<li><div><h3>Start the daemon</h3><p><code>common serve</code> listens on <code>http://127.0.0.1:8192</code>. The desktop app starts the same daemon for you.</p></div></li>
+<li><div><h3>Install and set up</h3><p>Once the source is published, build the <code>ucompute</code> command (see <a href="/docs/install/">Install</a>), then run <code>ucompute setup</code> to download and verify the pinned engine.</p></div></li>
+<li><div><h3>Get a model</h3><p><code>ucompute models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license, then downloads and verifies 491 MB.</p></div></li>
+<li><div><h3>Start the daemon</h3><p><code>ucompute serve</code> listens on <code>http://127.0.0.1:8192</code>. The desktop app starts the same daemon for you.</p></div></li>
 <li><div><h3>Call it</h3><p>Use the official OpenAI Python or JavaScript client with the base URL changed. The model loads on the first request. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:openai-clients}}</p></div></li>
 </ol>
 </div>
@@ -81,9 +81,9 @@ stream = client.chat.completions.<span class="tok-f">create</span>(
 <li><code>"local"</code> runs here. It is the default; a missing or empty value means local.</li>
 <li><code>"peer:&lt;id&gt;"</code> runs the whole request on that paired device. The id is the 64-hex peer id or its <code>xxxx-xxxx-xxxx</code> short label.</li>
 </ul>
-<p>Send it in the JSON body, or as the <code>X-Common-Target</code> header; the body wins when both are present. Every response and every streamed chunk carries <code>"target"</code>, so nothing runs elsewhere silently. Embeddings always run locally.</p>
+<p>Send it in the JSON body, or as the <code>X-UCompute-Target</code> header; the body wins when both are present. Every response and every streamed chunk carries <code>"target"</code>, so nothing runs elsewhere silently. Embeddings always run locally.</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>curl -s http://127.0.0.1:8192/v1/completions -H 'Content-Type: application/json' \
-  -H 'X-Common-Target: peer:1a2b-3c4d-5e6f' \
+  -H 'X-UCompute-Target: peer:1a2b-3c4d-5e6f' \
   -d '{"model": "stories15M-q4_0", "prompt": "Once upon a time", "max_tokens": 32}'</code></pre></div>
 <p>A peer target is refused with <code>policy_denied</code> or <code>peer_unauthorized</code> unless trusted devices are enabled, networking is on, the device is paired and a group on both sides allows it (group checks are tested with several instances on one computer, not yet between two machines). With the Python client, pass <code>extra_body={"target": "peer:…"}</code>.</p>
 <p><a class="link-arrow" href="/docs/mesh/">Set up a paired device</a></p>

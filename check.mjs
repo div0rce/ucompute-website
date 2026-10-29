@@ -234,12 +234,12 @@ function interfaceCheck(root, pages, mode) {
       for (const b of code.matchAll(/\b(POST|PUT) (\/[\w/{}.-]*) (\{[\s\S]*\})/g)) checkBody(where, b[1], b[2], b[3]);
       for (const u of code.matchAll(/https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[\w/{}.-]*)/g)) if (u[1] !== '/' && !routeKnown(u[1]) && !I.routes.some(r => r.path.startsWith(u[1] + '/'))) fail(where, `unknown route ${u[1]}`);
       for (const line of code.split('\n')) {
-        const cm = line.replace(/\s#.*$/, '').match(/^\s*(?:\$\s*)?common\s+(.+)$/);
+        const cm = line.replace(/\s#.*$/, '').match(/^\s*(?:\$\s*)?ucompute\s+(.+)$/);
         if (!cm) continue;
         const words = cm[1].trim().split(/\s+/);
-        let path = 'common', i = 0;
+        let path = 'ucompute', i = 0;
         for (; i < words.length && !words[i].startsWith('-') && CMD.has(`${path} ${words[i]}`); i++) path += ` ${words[i]}`;
-        if ((path === 'common' || CMD.get(path).group) && words[i] && !words[i].startsWith('-')) { fail(where, `unknown command: ${path} ${words[i]}`); continue; }
+        if ((path === 'ucompute' || CMD.get(path).group) && words[i] && !words[i].startsWith('-')) { fail(where, `unknown command: ${path} ${words[i]}`); continue; }
         const ok = FLAGS(CMD.get(path));
         for (const fl of cm[1].matchAll(/(?:^|\s)(--?[a-zA-Z][\w-]*)/g)) {
           const flag = fl[1].replace(/^-([a-zA-Z])\1+$/, '-$1');
@@ -249,7 +249,7 @@ function interfaceCheck(root, pages, mode) {
       const lone = code.match(/^(--?[a-zA-Z][\w-]*)(?:[ =,].*)?$/);
       if (lone && !ALL_FLAGS.has(lone[1].replace(/^-([a-zA-Z])\1+$/, '-$1'))) fail(where, `no command takes ${lone[1]}`);
     }
-    for (const v of html.matchAll(/\bCOMMON_[A-Z_]+\b/g)) if (!I.env.includes(v[0])) fail(where, `unknown environment variable ${v[0]}`);
+    for (const v of html.matchAll(/\bUCOMPUTE_[A-Z_]+\b/g)) if (!I.env.includes(v[0])) fail(where, `unknown environment variable ${v[0]}`);
     // The error table: a row of codes and the HTTP status they return.
     for (const row of html.matchAll(/<tr><td>((?:<code>[a-z_]+<\/code>(?:, )?)+)<\/td><td>(\d{3})<\/td>/g)) {
       for (const c of row[1].matchAll(/<code>([a-z_]+)<\/code>/g)) errorRows.set(c[1], [+row[2], where]);

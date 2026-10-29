@@ -15,7 +15,7 @@ const date = git('show', '-s', '--format=%cs', commit).trim();
 const show = path => git('show', `${commit}:${path}`);
 const kebab = s => s.replace(/_/g, '-').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 // Internal requirement and milestone references stay out of the website (snapshot "How to read references").
-const clean = s => s.replace(/\s*\((?:[FXIUBD]-\d{2}(?:-\d{2})?|M\d{1,2}|WP-\d{2}|E\d)\)/g, '').replace(/\s+/g, ' ').trim();
+const clean = s => s.replace(/,\s*(?:[FXIUBD]-\d{2}(?:-\d{2})?|M\d{1,2}|WP-\d{2}|E\d)(?=\))/g, '').replace(/\s*\((?:[FXIUBD]-\d{2}(?:-\d{2})?|M\d{1,2}|WP-\d{2}|E\d)\)/g, '').replace(/\s+/g, ' ').trim();
 
 // ---- A small reader for clap derive definitions
 function splitTop(body) { // split a struct/enum body on top-level commas
@@ -52,7 +52,7 @@ function readFile(src) {
     blocks.set(m[3], { kind, items: splitTop(src.slice(m.index + m[0].length, j - 1)).map(parseItem).filter(i => i.decl) });
   }
 }
-for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates/common-cli/src').split('\n').filter(f => f.endsWith('.rs'))) readFile(show(f));
+for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates/ucompute-cli/src').split('\n').filter(f => f.endsWith('.rs'))) readFile(show(f));
 
 const lastSeg = t => t.replace(/<.*$/, '').split('::').pop().trim();
 function argsOf(items) {
@@ -96,14 +96,14 @@ function walk(enumName, prefix) {
 }
 const root = [...blocks].find(([, b]) => b.kind === 'Parser');
 const top = argsOf(root[1].items);
-for (const s of top.subs) walk(s, 'common');
+for (const s of top.subs) walk(s, 'ucompute');
 
 // ---- Routes and error codes
 // The ROUTES table is the source of truth (engineering's tests check it against openapi.json).
-const libSrc = show('crates/common-api/src/lib.rs');
+const libSrc = show('crates/ucompute-api/src/lib.rs');
 const table = libSrc.slice(libSrc.indexOf('pub const ROUTES'), libSrc.indexOf('];', libSrc.indexOf('pub const ROUTES')));
 // Request bodies come from the OpenAPI document, flattened one row per field (nested as a.b, arrays as a[].b).
-const oa = JSON.parse(show('crates/common-api/openapi.json'));
+const oa = JSON.parse(show('crates/ucompute-api/openapi.json'));
 const deref = s => s?.$ref ? deref(oa.components.schemas[s.$ref.split('/').pop()]) : s || {};
 const merge = s => {
   s = deref(s);
@@ -143,18 +143,18 @@ const responseOf = (method, path) => {
   return { status: +ok, types: Object.keys(content), errors: Object.keys(rs).filter(s => !s.startsWith('2')).map(Number), fields: schema ? flatten(schema) : [] };
 };
 const routes = [...table.matchAll(/\("(GET|POST|PUT|DELETE)", "([^"]+)"\)/g)].map(m => ({ method: m[1], path: m[2], body: bodyOf(m[1], m[2]), response: responseOf(m[1], m[2]) }));
-const errSrc = show('crates/common-core/src/error.rs');
+const errSrc = show('crates/ucompute-core/src/error.rs');
 const statusOf = {};
 for (const m of errSrc.matchAll(/((?:ErrorCode::\w+\s*\|?\s*)+)=>\s*(\d{3})/g)) for (const c of m[1].matchAll(/ErrorCode::(\w+)/g)) statusOf[c[1]] = +m[2];
 const errors = [...errSrc.matchAll(/ErrorCode::(\w+) => "([a-z_]+)"/g)].map(m => ({ code: m[2], status: statusOf[m[1]] ?? null }));
 
 // Environment variables the CLI and runtime read.
 const envVars = new Set();
-for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates').split('\n').filter(f => /^crates\/common-[^/]+\/src\/.*\.rs$/.test(f))) {
+for (const f of git('ls-tree', '-r', '--name-only', commit, 'crates').split('\n').filter(f => /^crates\/ucompute-[^/]+\/src\/.*\.rs$/.test(f))) {
   const src = show(f);
-  for (const m of src.matchAll(/var(?:_os)?\("(COMMON_[A-Z_]+)"\)/g)) if (!/TEST/.test(m[1])) envVars.add(m[1]);
+  for (const m of src.matchAll(/var(?:_os)?\("(UCOMPUTE_[A-Z_]+)"\)/g)) if (!/TEST/.test(m[1])) envVars.add(m[1]);
   if (/EnvFilter::(?:try_)?from_default_env/.test(src)) envVars.add('RUST_LOG');
 }
-const out = { source: 'div0rce/common (unpublished)', commit, date, global: top.args, commands, routes, errors, env: [...envVars].sort() };
+const out = { source: 'div0rce/ucompute-dev (unpublished)', commit, date, global: top.args, commands, routes, errors, env: [...envVars].sort() };
 writeFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'reference', 'interfaces.json'), JSON.stringify(out, null, 2) + '\n');
 console.log(`reference/interfaces.json: ${commands.length} commands, ${routes.length} routes, ${errors.length} error codes at ${commit} (${date})`);

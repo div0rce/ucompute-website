@@ -19,7 +19,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <text class="h" x="20" y="72">APPLICATIONS</text>
 <rect class="box" x="20" y="90" width="200" height="56" rx="8"/><text class="t" x="36" y="114">Desktop app</text><text class="s" x="36" y="133">Tauri, bundles the daemon</text>
 <rect class="box" x="20" y="170" width="200" height="56" rx="8"/><text class="t" x="36" y="194">Your application</text><text class="s" x="36" y="213">official OpenAI clients</text>
-<rect class="box" x="20" y="250" width="200" height="56" rx="8"/><text class="t" x="36" y="274">common CLI</text><text class="s" x="36" y="293">run, chat, peers, groups</text>
+<rect class="box" x="20" y="250" width="200" height="56" rx="8"/><text class="t" x="36" y="274">ucompute CLI</text><text class="s" x="36" y="293">run, chat, peers, groups</text>
 <path class="arrow" d="M220 118H300"/><path class="arrow" d="M220 198C260 198 260 130 300 126"/><path class="arrow" d="M220 278C268 278 262 138 300 134"/>
 <rect class="frame" x="290" y="40" width="360" height="400" rx="14"/>
 <text class="h" x="310" y="70">THIS DEVICE: UCOMPUTE DAEMON</text>
@@ -51,22 +51,22 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <section class="section-tight section-white" aria-labelledby="code-map">
 <div class="shell">
 <h2 class="h-sub" id="code-map">The code, crate by crate</h2>
-<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app. UCompute was formerly called Common, and the crates and commands still use the old name.</p>
+<p class="lede stack">A Rust workspace of eleven crates plus a Tauri 2 and React desktop app.</p>
 <div class="table-wrap stack">
 <table>
 <thead><tr><th scope="col">Crate</th><th scope="col">Responsibility</th></tr></thead>
 <tbody>
-<tr><td><code>common-core</code></td><td>Stable error codes, the data-folder layout, execution manifests, timeouts</td></tr>
-<tr><td><code>common-hardware</code></td><td>Probing CPU, memory, GPUs and the backends available to them</td></tr>
-<tr><td><code>common-models</code></td><td>A bounds-checked GGUF reader; memory, context and quantization planning</td></tr>
-<tr><td><code>common-artifacts</code></td><td>The pinned catalog, content-addressed storage, verified resumable downloads, engine provisioning</td></tr>
-<tr><td><code>common-runtime</code></td><td>The inference backend interface and the llama.cpp adapter: a supervised, pinned <code>llama-server</code> on loopback</td></tr>
-<tr><td><code>common-api</code></td><td>The OpenAI-compatible HTTP API, model and status routes, metrics, OpenAPI document, mesh routes</td></tr>
-<tr><td><code>common-cli</code></td><td>The <code>common</code> command</td></tr>
-<tr><td><code>common-identity</code></td><td>Device keys, paired peers, groups and signed revocations</td></tr>
-<tr><td><code>common-policy</code></td><td>Default-deny decisions and per-peer quotas</td></tr>
-<tr><td><code>common-observability</code></td><td>The append-only audit log and redacted diagnostics</td></tr>
-<tr><td><code>common-network</code></td><td>QUIC and TLS 1.3 transport, discovery, pairing and remote execution</td></tr>
+<tr><td><code>ucompute-core</code></td><td>Stable error codes, the data-folder layout, execution manifests, timeouts</td></tr>
+<tr><td><code>ucompute-hardware</code></td><td>Probing CPU, memory, GPUs and the backends available to them</td></tr>
+<tr><td><code>ucompute-models</code></td><td>A bounds-checked GGUF reader; memory, context and quantization planning</td></tr>
+<tr><td><code>ucompute-artifacts</code></td><td>The pinned catalog, content-addressed storage, verified resumable downloads, engine provisioning</td></tr>
+<tr><td><code>ucompute-runtime</code></td><td>The inference backend interface and the llama.cpp adapter: a supervised, pinned <code>llama-server</code> on loopback</td></tr>
+<tr><td><code>ucompute-api</code></td><td>The OpenAI-compatible HTTP API, model and status routes, metrics, OpenAPI document, mesh routes</td></tr>
+<tr><td><code>ucompute-cli</code></td><td>The <code>ucompute</code> command</td></tr>
+<tr><td><code>ucompute-identity</code></td><td>Device keys, paired peers, groups and signed revocations</td></tr>
+<tr><td><code>ucompute-policy</code></td><td>Default-deny decisions and per-peer quotas</td></tr>
+<tr><td><code>ucompute-observability</code></td><td>The append-only audit log and redacted diagnostics</td></tr>
+<tr><td><code>ucompute-network</code></td><td>QUIC and TLS 1.3 transport, discovery, pairing and remote execution</td></tr>
 </tbody>
 </table>
 </div>
@@ -112,7 +112,7 @@ description: How UCompute is built: a local daemon with an OpenAI-compatible API
 <li><strong>Transport</strong>: QUIC with TLS 1.3 only. Devices authenticate with raw Ed25519 public keys (RFC 7250), and the pinned-key check runs inside the handshake, including on session resumption; the refusal of an unpinned key was shown in tests on one computer.{{claim:transport}}</li>
 <li><strong>Pairing</strong>: SPAKE2 with a six-digit code or a QR payload, bound to the TLS exporter; in tests on one computer, a relayed connection could not complete it.{{claim:pairing-lockout}}</li>
 <li><strong>Discovery</strong>: signed mDNS adverts on the local network. A discovered device is only a label; trust comes from pairing.</li>
-<li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/common/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
+<li><strong>Messages</strong>: bounded protobuf envelopes, described in <code>proto/ucompute/v1/control.proto</code>, carrying signed capabilities and JSON generation requests and events.</li>
 <li><strong>Liveness</strong>: loss of a peer is noticed within a bound of about six seconds, followed by automatic reconnection (one Apple M2 Mac and one Windows 11 laptop, development builds, October 2026).{{claim:daemon-runs}}</li>
 </ul>
 <p>The Rust code mirrors the schema by hand, and the only implementation is this one: the peer protocol is experimental. In tests on one computer, two builds of it negotiated protocol versions correctly; interoperability with an independent implementation has not been shown.{{claim:protocol}} Before any stable claim, the specification requires a complete written profile, published test vectors, and a separately built implementation that shares no networking code and still exchanges real work.</p>

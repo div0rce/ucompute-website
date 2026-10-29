@@ -1,6 +1,6 @@
 <!--
 title: Install
-description: How UCompute's development builds are made: the common command and desktop app on an Apple M2 Mac, and the Windows build. The source is not published yet.
+description: How UCompute's development builds are made: the ucompute command and desktop app on an Apple M2 Mac, and the Windows build. The source is not published yet.
 layout: docs
 -->
 <h1>Install</h1>
@@ -8,28 +8,28 @@ layout: docs
 
 <h2 id="mac">macOS on Apple M2</h2>
 <p>Tested on a MacBook Air with an Apple M2 and macOS 26.2. You need the Rust toolchain pinned in the repository's <code>rust-toolchain.toml</code> and free disk space for the Rust build, the engine (about 12 MB) and the models you download (491 MB for the recommended chat model).</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cd common          # a checkout of the source, once published
-cargo build --release -p common-cli
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cd ucompute          # a checkout of the source, once published
+cargo build --release -p ucompute-cli
 export PATH="$PWD/target/release:$PATH"
 
-common setup     # downloads and verifies the pinned llama.cpp engine (about 12 MB)
-common doctor    # checks the engine, disk and memory</code></pre></div>
-<p><code>common setup</code> downloads llama.cpp release b11609 and checks it against its pinned SHA-256 before use. Add <code>--fixtures</code> to also fetch the two tiny test models.</p>
+ucompute setup     # downloads and verifies the pinned llama.cpp engine (about 12 MB)
+ucompute doctor    # checks the engine, disk and memory</code></pre></div>
+<p><code>ucompute setup</code> downloads llama.cpp release b11609 and checks it against its pinned SHA-256 before use. Add <code>--fixtures</code> to also fetch the two tiny test models.</p>
 
 <h3 id="desktop">The desktop app</h3>
 <p>The desktop app is a Tauri 2 and React shell over the same local API. For development, run the daemon in one terminal and the app in another:</p>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cargo run -p common-cli -- serve --host 127.0.0.1 --port 8192   # terminal 1
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cargo run -p ucompute-cli -- serve --host 127.0.0.1 --port 8192   # terminal 1
 cd apps/desktop &amp;&amp; pnpm install &amp;&amp; pnpm tauri dev               # terminal 2</code></pre></div>
 <p><code>pnpm dev</code> instead opens the interface in a browser at <code>http://localhost:1420</code>. To build a Mac app and disk image:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>cd apps/desktop &amp;&amp; pnpm tauri build --bundles app,dmg</code></pre></div>
-<p>This produces <code>Common.app</code> and <code>Common_0.1.0_aarch64.dmg</code>. The build compiles the bundled daemon from the same checkout. The app starts that daemon with <code>serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, or reuses one that already answers on port 8192, and when you quit it stops the daemon it started.</p>
+<p>This produces <code>UCompute.app</code> and <code>UCompute_0.1.0_aarch64.dmg</code>. The build compiles the bundled daemon from the same checkout. The app starts that daemon with <code>serve --host 127.0.0.1 --port 8192 --exit-with-parent</code>, or reuses one that already answers on port 8192, and when you quit it stops the daemon it started.</p>
 <div class="callout callout-warn"><strong>Not notarized</strong>Mac builds are ad-hoc signed, not notarized. macOS blocks a downloaded copy the first time; allow it once in System Settings, Privacy &amp; Security.</div>
 
 <h2 id="windows">Windows 11 x64</h2>
 <p><span class="pill pill-experimental">Experimental</span></p>
 <p>The daemon and the desktop app have been built and run natively on one Windows 11 laptop with an Intel Arc 140V GPU, using Visual Studio 2022 Build Tools, the Rust MSVC toolchain, Node 24 and pnpm. On Windows the engine uses Vulkan. In <code>apps/desktop</code>:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>pnpm tauri build --bundles nsis</code></pre></div>
-<p>This produces an NSIS installer, <code>Common_0.1.0_x64-setup.exe</code>, that installs per user. It is unsigned. Several Windows issues are open; read the <a href="/demo/#issues">open issues</a> before testing it.</p>
+<p>This produces an NSIS installer, <code>UCompute_0.1.0_x64-setup.exe</code>, that installs per user. It is unsigned. Several Windows issues are open; read the <a href="/demo/#issues">open issues</a> before testing it.</p>
 
 <h2 id="linux">Linux</h2>
 <p><span class="pill pill-planned">Planned</span></p>
@@ -40,8 +40,8 @@ cd apps/desktop &amp;&amp; pnpm install &amp;&amp; pnpm tauri dev               
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">System</th><th scope="col">Default data folder</th></tr></thead>
 <tbody>
-<tr><td>macOS</td><td><code>~/Library/Application Support/Common</code></td></tr>
-<tr><td>Windows</td><td><code>%LOCALAPPDATA%\Common</code></td></tr>
+<tr><td>macOS</td><td><code>~/Library/Application Support/UCompute</code></td></tr>
+<tr><td>Windows</td><td><code>%LOCALAPPDATA%\UCompute</code></td></tr>
 </tbody>
 </table></div>
-<p>Set <code>COMMON_HOME</code> to use another folder. See <a href="/docs/configuration/">Configuration</a>.</p>
+<p>Set <code>UCOMPUTE_HOME</code> to use another folder. See <a href="/docs/configuration/">Configuration</a>.</p>

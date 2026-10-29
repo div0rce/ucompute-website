@@ -25,10 +25,10 @@ description: Where to start with UCompute: run a model on your computer, connect
 <div>
 <ol class="path-steps">
 <li><h3>Check your platform</h3><p>Nothing is released, and no platform is supported yet.</p><a class="link-arrow" href="/download/">Release status</a></li>
-<li><h3>See how it is built</h3><p>The <code>common</code> command and the desktop app are built from source, which has not been published yet.{{claim:license}}</p><a class="link-arrow" href="/docs/install/">Install</a></li>
-<li><h3>Set up the engine</h3><p><code>common setup</code> downloads the pinned engine and checks its hash before use.</p><a class="link-arrow" href="/docs/install/#mac">Engine setup</a></li>
-<li><h3>Download a model</h3><p><code>common models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license and size before it downloads.{{claim:catalog}}</p><a class="link-arrow" href="/docs/run/#catalog">The catalog</a></li>
-<li><h3>Get a first answer</h3><p><code>common run qwen2.5-0.5b-instruct-q4_k_m -p "Hello"</code>, or the Chat view in the desktop app.</p><a class="link-arrow" href="/docs/run/#run">Run a prompt</a></li>
+<li><h3>See how it is built</h3><p>The <code>ucompute</code> command and the desktop app are built from source, which has not been published yet.{{claim:license}}</p><a class="link-arrow" href="/docs/install/">Install</a></li>
+<li><h3>Set up the engine</h3><p><code>ucompute setup</code> downloads the pinned engine and checks its hash before use.</p><a class="link-arrow" href="/docs/install/#mac">Engine setup</a></li>
+<li><h3>Download a model</h3><p><code>ucompute models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license and size before it downloads.{{claim:catalog}}</p><a class="link-arrow" href="/docs/run/#catalog">The catalog</a></li>
+<li><h3>Get a first answer</h3><p><code>ucompute run qwen2.5-0.5b-instruct-q4_k_m -p "Hello"</code>, or the Chat view in the desktop app.</p><a class="link-arrow" href="/docs/run/#run">Run a prompt</a></li>
 </ol>
 <p class="path-stop"><strong>Where it stops today.</strong> There is no signed installer and no first run from a fresh account through the app alone yet, and Linux is planned.{{claim:installer}}{{claim:platforms}}</p>
 </div>
@@ -44,10 +44,10 @@ description: Where to start with UCompute: run a model on your computer, connect
 <div>
 <ol class="path-steps">
 <li><h3>Run UCompute on both</h3><p>Each computer needs its own working setup first.</p><a class="link-arrow" href="#local">The first path</a></li>
-<li><h3>Turn on trusted devices</h3><p><code>common privacy trusted-devices</code> shows what changes and asks before it does. Local only is the default.{{claim:local-only}}</p><a class="link-arrow" href="/docs/mesh/#enable">Turn it on</a></li>
-<li><h3>Pair with a six-digit code</h3><p><code>common peers pair</code> on one computer shows an address and a code; <code>common peers join &lt;address&gt; &lt;code&gt;</code> on the other enters them.{{claim:mesh-pair-choose}}</p><a class="link-arrow" href="/docs/mesh/#pair">Pair</a></li>
+<li><h3>Turn on trusted devices</h3><p><code>ucompute privacy trusted-devices</code> shows what changes and asks before it does. Local only is the default.{{claim:local-only}}</p><a class="link-arrow" href="/docs/mesh/#enable">Turn it on</a></li>
+<li><h3>Pair with a six-digit code</h3><p><code>ucompute peers pair</code> on one computer shows an address and a code; <code>ucompute peers join &lt;address&gt; &lt;code&gt;</code> on the other enters them.{{claim:mesh-pair-choose}}</p><a class="link-arrow" href="/docs/mesh/#pair">Pair</a></li>
 <li><h3>Allow it, on both computers</h3><p>Another computer can run work here only after you pair it and allow it in a group.{{claim:groups}}</p><a class="link-arrow" href="/docs/mesh/#allow">Groups</a></li>
-<li><h3>Run a request there</h3><p><code>common run &lt;model&gt; --peer &lt;label&gt; -p "Hello"</code>. In the Windows app you can pick the Mac (shown on 19 October 2026); choosing from the Mac app's window is not shown yet.{{claim:demo-2026-10-19}}</p><a class="link-arrow" href="/docs/mesh/#run">Run on the other device</a></li>
+<li><h3>Run a request there</h3><p><code>ucompute run &lt;model&gt; --peer &lt;label&gt; -p "Hello"</code>. In the Windows app you can pick the Mac (shown on 19 October 2026); choosing from the Mac app's window is not shown yet.{{claim:demo-2026-10-19}}</p><a class="link-arrow" href="/docs/mesh/#run">Run on the other device</a></li>
 <li><h3>Revoke it at any time</h3><p>A revoked device is refused from then on. Audit logs record each off-device request without the prompt or the response.{{claim:revocation}}{{claim:audit}}</p><a class="link-arrow" href="/docs/mesh/#revoke">Revoke</a></li>
 </ol>
 <p class="path-stop"><strong>Where it stops today.</strong> Pairing two Macs is not yet shown, connections beyond one local network are not built, and one model split across devices is planned.{{claim:not-yet-run}}{{claim:planned}}</p>
@@ -64,7 +64,7 @@ description: Where to start with UCompute: run a model on your computer, connect
 </div>
 <div>
 <ol class="path-steps">
-<li><h3>Start the local API</h3><p><code>common serve</code> listens on <code>127.0.0.1:8192</code>: by default, on this computer only.</p><a class="link-arrow" href="/docs/configuration/#serve">Serve options</a></li>
+<li><h3>Start the local API</h3><p><code>ucompute serve</code> listens on <code>127.0.0.1:8192</code>: by default, on this computer only.</p><a class="link-arrow" href="/docs/configuration/#serve">Serve options</a></li>
 <li><h3>Point a client at it</h3><p>Use the OpenAI client you already know, with a local base URL.</p><a class="link-arrow" href="/developers/#quickstart">Quickstart</a></li>
 <li><h3>Choose where each request runs</h3><p>The <code>target</code> field keeps it here or sends it to a paired device, and every response says where it ran.</p><a class="link-arrow" href="/developers/#targets">Targets</a></li>
 <li><h3>Handle errors by code</h3><p>Every error has a stable code and a plain-language message.{{claim:gpu-fallback}}</p><a class="link-arrow" href="/docs/api/#errors">Error codes</a></li>

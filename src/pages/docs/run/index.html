@@ -1,20 +1,20 @@
 <!--
 title: Run models
-description: Find, download, inspect and run models with the common command: the pinned catalog, memory fit, CPU and GPU selection, chat, benchmarks and replay.
+description: Find, download, inspect and run models with the ucompute command: the pinned catalog, memory fit, CPU and GPU selection, chat, benchmarks and replay.
 layout: docs
 -->
 <h1>Run models</h1>
 <p class="lede">Every model comes from a pinned catalog with a fixed revision, SHA-256 and license, or from a GGUF file you import yourself. Nothing is substituted behind your back.</p>
 
 <h2 id="hardware">Check your hardware</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common hardware          # CPU, memory, GPU, backend and free disk
-common hardware --json   # the same, machine-readable</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute hardware          # CPU, memory, GPU, backend and free disk
+ucompute hardware --json   # the same, machine-readable</code></pre></div>
 
 <h2 id="catalog">The model catalog</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models list                 # size, license and, for downloaded models, whether it fits
-common models search qwen
-common models inspect qwen2.5-0.5b-instruct-q4_k_m
-common models pull qwen2.5-0.5b-instruct-q4_k_m   # shows the license, asks, downloads and verifies</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute models list                 # size, license and, for downloaded models, whether it fits
+ucompute models search qwen
+ucompute models inspect qwen2.5-0.5b-instruct-q4_k_m
+ucompute models pull qwen2.5-0.5b-instruct-q4_k_m   # shows the license, asks, downloads and verifies</code></pre></div>
 <p>Downloads use HTTPS only, resume after interruption and are checked against the pinned SHA-256 before they are kept. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:catalog}} Add <code>-y</code> to <code>pull</code> to accept the license without the prompt.</p>
 <div class="table-wrap"><table>
 <caption>Models in the pinned catalog as of 19 October 2026. Recorded inference so far uses models up to 0.5B parameters; the 1.5B model was measured for memory planning only.</caption>
@@ -33,15 +33,15 @@ common models pull qwen2.5-0.5b-instruct-q4_k_m   # shows the license, asks, dow
 <p>The two stories models are tiny test fixtures. Their license is unverified, so they are downloaded for tests and never bundled. They write short children's stories and are not useful for real work.</p>
 
 <h3 id="import">Your own GGUF files</h3>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common models import ./my-model.gguf --id my-model --license "Apache-2.0"
-common models verify my-model
-common models rm my-model</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute models import ./my-model.gguf --id my-model --license "Apache-2.0"
+ucompute models verify my-model
+ucompute models rm my-model</code></pre></div>
 
 <h2 id="run">Run a prompt</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Explain unified memory in two sentences."
-common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute run qwen2.5-0.5b-instruct-q4_k_m --chat -p "Explain unified memory in two sentences."
+ucompute chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave</code></pre></div>
 <div class="table-wrap"><table>
-<caption>Options for <code>common run</code></caption>
+<caption>Options for <code>ucompute run</code></caption>
 <thead><tr><th scope="col">Option</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead>
 <tbody>
 <tr><td><code>-p</code>, <code>--prompt</code></td><td>required</td><td>The prompt text</td></tr>
@@ -51,7 +51,7 @@ common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave<
 <tr><td><code>--ctx</code></td><td>set by the memory plan</td><td>Context length, capped to the model's trained context with a stated reason</td></tr>
 <tr><td><code>--threads</code></td><td>engine's choice</td><td>Engine threads; the run manifest records what ran</td></tr>
 <tr><td><code>--temp</code>, <code>--top-p</code>, <code>--seed</code></td><td>0.7, 0.95, random</td><td>Sampling; the manifest records the seed that ran</td></tr>
-<tr><td><code>--save-prompt</code></td><td>off</td><td>Also store the prompt text in the run manifest, so <code>common replay</code> can repeat it</td></tr>
+<tr><td><code>--save-prompt</code></td><td>off</td><td>Also store the prompt text in the run manifest, so <code>ucompute replay</code> can repeat it</td></tr>
 <tr><td><code>--peer</code></td><td>none</td><td>Run on a paired device instead (see <a href="/docs/mesh/">Trusted devices</a>). Can't be combined with <code>--device</code>, <code>--ctx</code> or <code>--threads</code>.</td></tr>
 </tbody>
 </table></div>
@@ -59,8 +59,8 @@ common chat qwen2.5-0.5b-instruct-q4_k_m     # interactive; type /quit to leave<
 <p>With <code>--device auto</code> the GPU is used when the engine can offload to it (Metal on a Mac). If it can't, the run falls back to the CPU and tells you why. If a model will not fit in memory, it is refused with <code>insufficient_memory</code> before loading.</p>
 
 <h2 id="bench">Benchmarks and replay</h2>
-<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>common bench qwen2.5-0.5b-instruct-q4_k_m --runs 3 -n 64   # writes results under ./benchmarks/results/
-common replay ~/Library/Application\ Support/Common/runs/&lt;run&gt;/manifest.json</code></pre></div>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block"><code>ucompute bench qwen2.5-0.5b-instruct-q4_k_m --runs 3 -n 64   # writes results under ./benchmarks/results/
+ucompute replay ~/Library/Application\ Support/UCompute/runs/&lt;run&gt;/manifest.json</code></pre></div>
 <p>Benchmark results record the hardware, command line and versions with every number. Small-model results don't predict how large models behave.</p>
 
 <h2 id="app">In the desktop app</h2>

@@ -1,7 +1,7 @@
 {
-  "source": "div0rce/common (unpublished)",
-  "commit": "55b880a",
-  "date": "2026-10-24",
+  "source": "div0rce/ucompute-dev (unpublished)",
+  "commit": "cab8a09",
+  "date": "2026-10-29",
   "global": [
     {
       "kind": "option",
@@ -25,23 +25,23 @@
   ],
   "commands": [
     {
-      "path": "common hardware",
+      "path": "ucompute hardware",
       "help": "Show detected hardware and usable backends",
       "args": []
     },
     {
-      "path": "common models",
+      "path": "ucompute models",
       "help": "List, search, pull, inspect, import, verify or remove models",
       "args": [],
       "group": true
     },
     {
-      "path": "common models list",
+      "path": "ucompute models list",
       "help": "List catalog and local models with license, size, download and fit status",
       "args": []
     },
     {
-      "path": "common models search",
+      "path": "ucompute models search",
       "help": "Search the catalog by id, name, family or tag",
       "args": [
         {
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "path": "common models pull",
+      "path": "ucompute models pull",
       "help": "Download a catalog model (shows license and size first)",
       "args": [
         {
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "path": "common models inspect",
+      "path": "ucompute models inspect",
       "help": "Show GGUF metadata and memory estimates for a model id or a .gguf path",
       "args": [
         {
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "path": "common models import",
+      "path": "ucompute models import",
       "help": "Import a local GGUF file into the store (hard link, or copy across volumes)",
       "args": [
         {
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "path": "common models verify",
+      "path": "ucompute models verify",
       "help": "Re-hash a downloaded model against its manifest",
       "args": [
         {
@@ -125,7 +125,7 @@
       ]
     },
     {
-      "path": "common models rm",
+      "path": "ucompute models rm",
       "help": "Remove a model's manifest (and its blob when no other manifest uses it)",
       "args": [
         {
@@ -137,14 +137,14 @@
       ]
     },
     {
-      "path": "common run",
+      "path": "ucompute run",
       "help": "Generate text from a prompt",
       "args": [
         {
           "kind": "positional",
           "name": "model",
           "optional": false,
-          "help": "Model id (see `common models list`)"
+          "help": "Model id (see `ucompute models list`)"
         },
         {
           "kind": "option",
@@ -160,7 +160,31 @@
           "short": null,
           "value": "PEER",
           "default": null,
-          "help": "Run on this paired device (id or short label) instead of here; needs `common privacy trusted-devices`"
+          "help": "Run on this paired device (id or short label) instead of here; needs `ucompute privacy trusted-devices`"
+        },
+        {
+          "kind": "option",
+          "long": "--split",
+          "short": null,
+          "value": "SPLIT",
+          "default": null,
+          "help": "Split the model with this paired device (pooled inference through the running `ucompute serve`); it receives its part of the weights and data from which your prompt and the reply can be rebuilt"
+        },
+        {
+          "kind": "option",
+          "long": "--split-at",
+          "short": null,
+          "value": "SPLIT-AT",
+          "default": null,
+          "help": "With --split: the first block of the second stage (1 to the model's block count minus 1)"
+        },
+        {
+          "kind": "option",
+          "long": "--same-backend",
+          "short": null,
+          "value": null,
+          "default": null,
+          "help": "With --split: this device's CPU holds the first blocks and the other device the rest and the output layer (default: the other device holds the first blocks, this device's GPU the rest)"
         },
         {
           "kind": "option",
@@ -238,7 +262,7 @@
           "short": null,
           "value": null,
           "default": null,
-          "help": "Store the prompt text in the execution manifest (needed by `common replay`)"
+          "help": "Store the prompt text in the execution manifest (needed by `ucompute replay`)"
         },
         {
           "kind": "option",
@@ -251,7 +275,7 @@
       ]
     },
     {
-      "path": "common chat",
+      "path": "ucompute chat",
       "help": "Interactive chat (type /quit to exit)",
       "args": [
         {
@@ -293,7 +317,7 @@
       ]
     },
     {
-      "path": "common serve",
+      "path": "ucompute serve",
       "help": "Serve the local HTTP API",
       "args": [
         {
@@ -379,7 +403,7 @@
       ]
     },
     {
-      "path": "common setup",
+      "path": "ucompute setup",
       "help": "Download and verify the pinned inference engine (and the test fixtures with --fixtures)",
       "args": [
         {
@@ -388,17 +412,17 @@
           "short": null,
           "value": null,
           "default": null,
-          "help": "Also pull the stories15M-q4_0 and stories260K fixture models; with COMMON_REQUIRE_FIXTURES=1, also the catalog models tagged test-suite that the strict test suite loads (about 3 GB)"
+          "help": "Also pull the stories15M-q4_0 and stories260K fixture models; with UCOMPUTE_REQUIRE_FIXTURES=1, also the catalog models tagged test-suite that the strict test suite loads (about 3 GB)"
         }
       ]
     },
     {
-      "path": "common doctor",
+      "path": "ucompute doctor",
       "help": "Check hardware, engine, disk and downloaded models",
       "args": []
     },
     {
-      "path": "common bench",
+      "path": "ucompute bench",
       "help": "Benchmark a model and write the result to ./benchmarks/results/ (relative to the current directory)",
       "args": [
         {
@@ -448,30 +472,30 @@
       ]
     },
     {
-      "path": "common replay",
+      "path": "ucompute replay",
       "help": "Re-run a saved execution manifest and check that the same tokens come back",
       "args": [
         {
           "kind": "positional",
           "name": "manifest",
           "optional": false,
-          "help": "A manifest.json written by `common run --save-prompt`"
+          "help": "A manifest.json written by `ucompute run --save-prompt`"
         }
       ]
     },
     {
-      "path": "common peers",
+      "path": "ucompute peers",
       "help": "Paired devices: list, discover, pair, join, rm, revoke",
       "args": [],
       "group": true
     },
     {
-      "path": "common peers list",
+      "path": "ucompute peers list",
       "help": "Pinned devices: id, label, name, groups, last seen",
       "args": []
     },
     {
-      "path": "common peers discover",
+      "path": "ucompute peers discover",
       "help": "Devices advertising on the LAN right now (signed mDNS records; untrusted unless pinned)",
       "args": [
         {
@@ -509,7 +533,7 @@
       ]
     },
     {
-      "path": "common peers pair",
+      "path": "ucompute peers pair",
       "help": "Start pairing: shows a 6-digit code and waits for one device to join (Ctrl-C cancels)",
       "args": [
         {
@@ -547,7 +571,7 @@
       ]
     },
     {
-      "path": "common peers join",
+      "path": "ucompute peers join",
       "help": "Join a device that is pairing: its pairing address `ip:port` plus the 6-digit code, or its QR payload",
       "args": [
         {
@@ -597,7 +621,7 @@
       ]
     },
     {
-      "path": "common peers rm",
+      "path": "ucompute peers rm",
       "help": "Forget a device (no revocation record; it can pair again)",
       "args": [
         {
@@ -609,7 +633,7 @@
       ]
     },
     {
-      "path": "common peers revoke",
+      "path": "ucompute peers revoke",
       "help": "Revoke a device: unpins it, records a signed revocation, refuses it at every later handshake",
       "args": [
         {
@@ -621,18 +645,18 @@
       ]
     },
     {
-      "path": "common groups",
+      "path": "ucompute groups",
       "help": "Trusted groups and what their members may run here",
       "args": [],
       "group": true
     },
     {
-      "path": "common groups list",
+      "path": "ucompute groups list",
       "help": "",
       "args": []
     },
     {
-      "path": "common groups create",
+      "path": "ucompute groups create",
       "help": "Create (or reset) a group; policies default to deny",
       "args": [
         {
@@ -660,7 +684,7 @@
       ]
     },
     {
-      "path": "common groups add",
+      "path": "ucompute groups add",
       "help": "Add a pinned device to a group",
       "args": [
         {
@@ -678,7 +702,7 @@
       ]
     },
     {
-      "path": "common groups remove",
+      "path": "ucompute groups remove",
       "help": "Remove a device from a group",
       "args": [
         {
@@ -696,7 +720,7 @@
       ]
     },
     {
-      "path": "common groups policy",
+      "path": "ucompute groups policy",
       "help": "Change a group's policy: --allow-remote=true|false --allow-pooled=true|false",
       "args": [
         {
@@ -726,7 +750,7 @@
       ]
     },
     {
-      "path": "common privacy",
+      "path": "ucompute privacy",
       "help": "Show or change the privacy mode. Local only is the default, and refuses every off-device request",
       "args": [
         {
@@ -756,7 +780,7 @@
       ]
     },
     {
-      "path": "common audit",
+      "path": "ucompute audit",
       "help": "Print the audit trail (ids, codes and counts; never prompts)",
       "args": [
         {
@@ -770,7 +794,7 @@
       ]
     },
     {
-      "path": "common diagnostics",
+      "path": "ucompute diagnostics",
       "help": "Write the redacted diagnostics bundle",
       "args": [
         {
@@ -890,27 +914,27 @@
             "type": "string"
           },
           {
-            "name": "data[].common",
+            "name": "data[].ucompute",
             "type": "object"
           },
           {
-            "name": "data[].common.downloaded",
+            "name": "data[].ucompute.downloaded",
             "type": "boolean"
           },
           {
-            "name": "data[].common.license",
+            "name": "data[].ucompute.license",
             "type": "string"
           },
           {
-            "name": "data[].common.bytes",
+            "name": "data[].ucompute.bytes",
             "type": "integer"
           },
           {
-            "name": "data[].common.redistribution",
+            "name": "data[].ucompute.redistribution",
             "type": "string"
           },
           {
-            "name": "data[].common.loaded",
+            "name": "data[].ucompute.loaded",
             "type": "boolean"
           }
         ]
@@ -945,27 +969,27 @@
             "type": "string"
           },
           {
-            "name": "common",
+            "name": "ucompute",
             "type": "object"
           },
           {
-            "name": "common.downloaded",
+            "name": "ucompute.downloaded",
             "type": "boolean"
           },
           {
-            "name": "common.license",
+            "name": "ucompute.license",
             "type": "string"
           },
           {
-            "name": "common.bytes",
+            "name": "ucompute.bytes",
             "type": "integer"
           },
           {
-            "name": "common.redistribution",
+            "name": "ucompute.redistribution",
             "type": "string"
           },
           {
-            "name": "common.loaded",
+            "name": "ucompute.loaded",
             "type": "boolean"
           }
         ]
@@ -1051,7 +1075,24 @@
             "name": "target",
             "type": "string",
             "default": "\"local\"",
-            "help": "Common extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`."
+            "help": "UCompute extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. `split:<peer id or short label>` splits the model's blocks between this device and that one (pooled inference): it needs a group allowing pooled inference on both devices, `split_at`, `acknowledged: true`, a model licence of Apache-2.0 or MIT (the other device receives its part of the weights) and a model whose KV cache is the same for every layer. It never falls back to a local run: when the other device leaves, the request fails with `peer_lost` (or `policy_denied`, `peer_revoked`, `peer_held` when that is why). Every response echoes `target`."
+          },
+          {
+            "name": "split_at",
+            "type": "integer (≥ 1)",
+            "help": "Split targets only (required): the first block of the second stage, between 1 and the model's block count minus 1."
+          },
+          {
+            "name": "split_mode",
+            "type": "\"pooled\" | \"same_backend\"",
+            "default": "\"pooled\"",
+            "help": "Split targets only. `pooled`: the other device holds blocks [0, split_at), this device's GPU the rest and the output layer. `same_backend`: this device's CPU holds [0, split_at), the other device the rest and the output layer."
+          },
+          {
+            "name": "acknowledged",
+            "type": "boolean",
+            "default": "false",
+            "help": "Split targets only: the caller accepted the pooling disclosure. Without it: 403 `policy_denied` whose message is the disclosure text."
           },
           {
             "name": "messages",
@@ -1159,7 +1200,7 @@
           {
             "name": "timings",
             "type": "object",
-            "help": "Common extension: engine timings."
+            "help": "UCompute extension: engine timings."
           },
           {
             "name": "timings.time_to_first_token_ms",
@@ -1184,7 +1225,37 @@
           {
             "name": "target",
             "type": "string",
-            "help": "Where it ran: `local` or `peer:<peer id>`."
+            "help": "Where it ran: `local`, `peer:<peer id>` or `split:<peer id>`."
+          },
+          {
+            "name": "placement",
+            "type": "object",
+            "help": "Split targets only: the placement the engine's log proved (`devices`, `stages`) and the pooled session id."
+          },
+          {
+            "name": "placement.devices",
+            "type": "string"
+          },
+          {
+            "name": "placement.stages",
+            "type": "array of object"
+          },
+          {
+            "name": "placement.stages[].device",
+            "type": "string",
+            "help": "`RPC0` is the other device; `CPU` this device's CPU; else this device's GPU (`MTL0`)."
+          },
+          {
+            "name": "placement.stages[].first_block",
+            "type": "integer"
+          },
+          {
+            "name": "placement.stages[].end_block",
+            "type": "integer"
+          },
+          {
+            "name": "placement.session",
+            "type": "string"
           }
         ]
       }
@@ -1269,7 +1340,24 @@
             "name": "target",
             "type": "string",
             "default": "\"local\"",
-            "help": "Common extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. Every response echoes `target`."
+            "help": "UCompute extension. `local` runs here. `peer:<peer id or short label>` runs the whole request on that paired device (remote execution; the device decrypts and reads the prompt). Allowed only when privacy is `trusted_group`, networking is on and the device is pinned, not revoked and in a group allowing remote inference; otherwise 403 `policy_denied` / `peer_unauthorized` / `peer_revoked` before anything runs or connects. `split:<peer id or short label>` splits the model's blocks between this device and that one (pooled inference): it needs a group allowing pooled inference on both devices, `split_at`, `acknowledged: true`, a model licence of Apache-2.0 or MIT (the other device receives its part of the weights) and a model whose KV cache is the same for every layer. It never falls back to a local run: when the other device leaves, the request fails with `peer_lost` (or `policy_denied`, `peer_revoked`, `peer_held` when that is why). Every response echoes `target`."
+          },
+          {
+            "name": "split_at",
+            "type": "integer (≥ 1)",
+            "help": "Split targets only (required): the first block of the second stage, between 1 and the model's block count minus 1."
+          },
+          {
+            "name": "split_mode",
+            "type": "\"pooled\" | \"same_backend\"",
+            "default": "\"pooled\"",
+            "help": "Split targets only. `pooled`: the other device holds blocks [0, split_at), this device's GPU the rest and the output layer. `same_backend`: this device's CPU holds [0, split_at), the other device the rest and the output layer."
+          },
+          {
+            "name": "acknowledged",
+            "type": "boolean",
+            "default": "false",
+            "help": "Split targets only: the caller accepted the pooling disclosure. Without it: 403 `policy_denied` whose message is the disclosure text."
           },
           {
             "name": "prompt",
@@ -1348,7 +1436,7 @@
           {
             "name": "timings",
             "type": "object",
-            "help": "Common extension: engine timings."
+            "help": "UCompute extension: engine timings."
           },
           {
             "name": "timings.time_to_first_token_ms",
@@ -1373,7 +1461,37 @@
           {
             "name": "target",
             "type": "string",
-            "help": "Where it ran: `local` or `peer:<peer id>`."
+            "help": "Where it ran: `local`, `peer:<peer id>` or `split:<peer id>`."
+          },
+          {
+            "name": "placement",
+            "type": "object",
+            "help": "Split targets only: the placement the engine's log proved (`devices`, `stages`) and the pooled session id."
+          },
+          {
+            "name": "placement.devices",
+            "type": "string"
+          },
+          {
+            "name": "placement.stages",
+            "type": "array of object"
+          },
+          {
+            "name": "placement.stages[].device",
+            "type": "string",
+            "help": "`RPC0` is the other device; `CPU` this device's CPU; else this device's GPU (`MTL0`)."
+          },
+          {
+            "name": "placement.stages[].first_block",
+            "type": "integer"
+          },
+          {
+            "name": "placement.stages[].end_block",
+            "type": "integer"
+          },
+          {
+            "name": "placement.session",
+            "type": "string"
           }
         ]
       }
@@ -1510,6 +1628,11 @@
           {
             "name": "loaded",
             "type": "object or null"
+          },
+          {
+            "name": "split",
+            "type": "object,null",
+            "help": "The pooled session this device heads: `peer`, `session`, `model_id`, `split_at`, `split_mode`, `stages`, `stage_device`, plaintext RPC bytes `to_r` and `to_h`, direction `switches`, and `ended` (the error code once it ended). Ids and counts only."
           },
           {
             "name": "queue",
@@ -1765,6 +1888,11 @@
           {
             "name": "pid",
             "type": "integer,null"
+          },
+          {
+            "name": "split",
+            "type": "array of object or null",
+            "help": "A split load's stages as the engine log proved them; null for a local load."
           }
         ]
       }
@@ -2716,7 +2844,7 @@
             "name": "active[].client_ref",
             "type": "string,null",
             "required": true,
-            "help": "`X-Common-Client-Ref` of the request."
+            "help": "`X-UCompute-Client-Ref` of the request."
           },
           {
             "name": "active[].kind",
@@ -2835,7 +2963,7 @@
             "name": "recent[].client_ref",
             "type": "string,null",
             "required": true,
-            "help": "`X-Common-Client-Ref` of the request."
+            "help": "`X-UCompute-Client-Ref` of the request."
           },
           {
             "name": "recent[].kind",
@@ -3126,11 +3254,11 @@
     }
   ],
   "env": [
-    "COMMON_API_KEY",
-    "COMMON_HOME",
-    "COMMON_MDNS",
-    "COMMON_REQUIRE_FIXTURES",
-    "COMMON_WIN_ENGINE_ZIP",
-    "RUST_LOG"
+    "RUST_LOG",
+    "UCOMPUTE_API_KEY",
+    "UCOMPUTE_HOME",
+    "UCOMPUTE_MDNS",
+    "UCOMPUTE_REQUIRE_FIXTURES",
+    "UCOMPUTE_WIN_ENGINE_ZIP"
   ]
 }

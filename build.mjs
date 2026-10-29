@@ -149,7 +149,7 @@ function footer(mode) {
 ${FOOTER.map(([h, links]) => `<div><h2>${h}</h2><ul>${links.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('\n')}
 </nav>
 </div>
-<div class="footer-bottom"><span>© 2026 UCompute project. Licensed under Apache-2.0; the source has not been published yet. UCompute was formerly called Common; trademark clearance is open.</span><button class="motion-toggle" type="button" aria-pressed="false" hidden>Pause motion</button>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
+<div class="footer-bottom"><span>© 2026 UCompute project. Licensed under Apache-2.0; the source has not been published yet. Trademark clearance for the name is open.</span><button class="motion-toggle" type="button" aria-pressed="false" hidden>Pause motion</button>${mode === 'preview' ? '<a href="/prelaunch/">Review the public page</a>' : '<a href="#main">Back to top</a>'}</div>
 </div>
 </footer>`;
 }
@@ -216,7 +216,7 @@ ${leaves.map(c => `<tr><td><a href="#${id(c.path)}"><code>${esc(c.path)}</code><
 </tbody>
 </table></div>
 <h2 id="global">Options for every command</h2>
-${table(I.global, 'common')}
+${table(I.global, 'ucompute')}
 ${top.map(c => c.group
   ? `<h2 id="${id(c.path)}"><code>${esc(c.path)}</code></h2>\n<p>${text(c.path, c.help)}</p>\n${subs(c).map(s => `<h3 id="${id(s.path)}"><code>${esc(s.path)}</code></h3>\n<p>${text(s.path, s.help)}</p>\n${usage(s)}\n${table(s.args, s.path)}`).join('\n')}`
   : `<h2 id="${id(c.path)}"><code>${esc(c.path)}</code></h2>\n<p>${text(c.path, c.help)}</p>\n${usage(c)}\n${table(c.args, c.path)}`).join('\n')}

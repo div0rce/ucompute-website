@@ -14,7 +14,7 @@
     "test": "node check.mjs",
     "test:links": "node check.mjs --external",
     "test:browsers": "node build.mjs preview dist && node tools/browsers.mjs dist",
-    "interfaces:update": "node tools/interfaces.mjs \"${COMMON_REPO:?set COMMON_REPO to the engineering repository}\" \"${COMMON_REF:-integration/recover-codex-m1}\"",
+    "interfaces:update": "node tools/interfaces.mjs \"${UCOMPUTE_REPO:?set UCOMPUTE_REPO to the engineering repository}\" \"${UCOMPUTE_REF:-integration/recover-codex-m1}\"",
     "verify:release": "node tools/verify-release.mjs"
   }
 }
