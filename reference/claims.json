@@ -307,8 +307,8 @@
     "spec 31",
     "WP-08"
    ],
-   "evidence": "spec 31 (no cohort started)",
-   "commit": "dc2502c"
+   "evidence": "spec 31; engineering docs/DECISIONS.md D-025 (amended 2026-10-29) and D-031 (2026-10-30): private-alpha builds published to the owner's cohort behind Access; no stage target met",
+   "commit": "ee56ffa"
   },
   "open-defects": {
    "snapshot": "4.1 (items 1-12, D1-D5)",

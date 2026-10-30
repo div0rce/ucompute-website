@@ -3,6 +3,22 @@
 > This record uses the current names. The builds and repositories it describes carried the project's earlier name; the original text is in this repository's git history (D-030).
 
 
+## 2026-10-30: candidate 2 (0.1.1) published to the stage-snapshot alias
+
+The owner approved candidate 2 in writing in the engineering session, and engineering recorded it as D-031 (ee56ffa, 2026-10-30): `UCompute_0.1.1_aarch64.dmg`, 6,425,890 bytes, SHA-256 `c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937`, to the existing private-alpha channel, the stage-snapshot alias behind Access, with preview.ucompute.org and production unchanged. The owner named no cohort and manages it directly through the Access policy, so no Access change was requested. The record was read from the engineering repository itself with `git show`, not taken from the relayed message.
+
+On `stage-snapshot`, commit ce71dc1:
+- The disk image was copied from `~/UCompute-release-candidates/0.1.1-7d4d194/` to `public/releases/0.1.1/`; its SHA-256 matches `SHA256SUMS` and D-031.
+- `reference/releases.json`: `approval.owner` and `approval.cohort` cite D-031 and ee56ffa. The preview build links the file and drops the awaiting notice; public and prelaunch builds contain no `releases/` folder. The `_redirects` rule for candidate 1's URLs stays.
+- `npm test` passes in all three modes (preview: 22 pages, 42 files; the hosted file's size and hash verified).
+- D-023: the prelaunch tree built from this branch has the same files as one built from `origin/main`, and `index.html` and `404.html` are identical apart from the stylesheet's `?v=` hash. The stylesheet and the `_headers` cache lines differ as they did before this change, because the branch's build is ahead of `main`. `main` was not touched.
+
+Deployed and checked at 05:49 UTC, GET only:
+- The alias's `build.json` reports preview mode, commit ce71dc1, branch `stage-snapshot`.
+- `npm run verify:release`: `/download/` through Access HTTP 200; the disk image HTTP 200, 6,425,890 bytes, SHA-256 `c1166ba9…b937`, matching the record.
+- `node verify-live.mjs` with the alias: ucompute.org and ucompute-website.pages.dev serve the prelaunch page only and return 404 for the complete site; every other address, including the alias and the file URL, redirects to Access from outside; through Access the file matches its record. All checks passed.
+- `preview` (bd21b47) and `main` (5446992) are unchanged, as D-031 requires.
+
 ## 2026-10-29: candidate 2 (0.1.1) staged, awaiting the owner
 
 Engineering's promotion record (3470f8d, source 7d4d194): `UCompute_0.1.1_aarch64.dmg`, 6,425,890 bytes, SHA-256 `c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937`, ad-hoc signed, not notarized; packaged-app check ALL PASS 19/19 on one Mac. Re-checked here: same size and hash, `SHA256SUMS` OK. `reference/releases.json` holds it with empty `approval.owner` and `approval.cohort`, so the preview build shows "Awaiting the owner's approval" with no link, and no build contains the file. Its install notes say how to replace candidate 1 (D-029: nothing deleted automatically, models downloaded again or kept only where checksums match, devices paired again once). `npm test` passes.

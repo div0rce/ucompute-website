@@ -54,6 +54,20 @@ The Cloudflare Workers and Pages GitHub app is installed on `div0rce` with acces
 
 Run `npm test` before pushing; the Cloudflare build runs the same checks on the mode it builds.
 
+## Workstreams and hand-offs
+
+Since the owner's announcement of 2026-10-30, UCompute has four workstreams: Engineering (product, integration, security, testing, releases), Core Lab (distributed-computing research, benchmarks, verification), Website (this repository: the site, documentation, downloads, Cloudflare and the release gates) and Growth (marketing, positioning, technical content, community, developer adoption, growth analytics). Growth works in its own repository and environment. Website is its interface to the public product: Growth develops content and acquisition strategy, and Website integrates approved material into ucompute.org and keeps the implementation and deployment authority.
+
+What Website hands over, in this repository and with no new infrastructure:
+- approved public claims: `reference/claims.json` and the snapshot it names; nothing beyond it may be stated about the product;
+- release information: `reference/releases.json` (approved artifacts, sizes, SHA-256) and `/download/`;
+- verification evidence and the record of every deployed change: `docs/VERIFICATION.md`, newest first;
+- the launch dependencies and their status: `docs/LAUNCH.md`.
+
+What reaches Website from Growth is a request, never an approval. It is integrated only if it passes this repository's checks and content rules (`README.md`, "Content rules") and the owner's standing rules: the D-023 freeze, the D-030 names, no screenshots without the owner's approval, and no analytics (spec section 29.5; the zone rule that disables Cloudflare's beacon stays until the owner decides otherwise). Growth cannot change what this site deploys, expand the private-alpha cohort or the Access policy, publish unreleased source, or alter a release gate; those stay with the owner, engineering and this repository. For now, requests arrive as messages between the workstreams' sessions, with these files as the shared record, and each one acted on is logged in `docs/VERIFICATION.md`; a durable read-only channel (for example issues on this repository) is a later step, taken only if routine coordination needs it.
+
+Engineering recorded the same change as D-032 (engineering 29c0c8e), with a hand-off section in its `docs/design/critical-path.md`. Its side of the hand-off, which this site reads for claims and releases: `docs/VERIFICATION.md`, `docs/PROGRESS.md`, the `VERIFIED` rows of `docs/REQUIREMENTS.csv` with their evidence, and the release decisions in `docs/DECISIONS.md`. Only a `VERIFIED` row is a claimable capability.
+
 ## Claims and the capability snapshot
 
 Snapshot qualifiers live in `reference/claims.json` → `qualifiers` and are written `{{q:name}}` on pages, so a new snapshot changes each one in one place. Every capability statement on a page carries a `{{claim:ID}}` marker that resolves in `reference/claims.json` to its snapshot row, requirement IDs, evidence file and commit. The build strips the markers and fails on an unknown ID. `check.mjs` fails if an identifier, commit, milestone number or private address reaches a rendered page, and if a section 9 phrase appears without a limiting word in the same sentence. Wording that waits on an engineering run sits in `{{if:gate}}…{{else}}…{{/if}}`; the first branch renders only once that gate is `true` in `claims.json`.
@@ -84,13 +98,13 @@ The steps:
 1. Add the release to `reference/releases.json`. A release needs:
    - its version, stage and date;
    - the engineering promotion record and the date the owner approved publishing;
-   - for each artifact: platform, file name, https URL, size in bytes, SHA-256 and signature status.
+   - for each artifact: platform, file name, URL (https, or `/releases/<version>/<file>` for a file hosted with the site), size in bytes, SHA-256 and signature status.
 
    The build refuses a record with a missing or malformed field.
 2. Choose where the release appears:
    - Private alpha and developer alpha releases go to invited testers only. They render only on the preview build, behind Cloudflare Access; testers need their email on the Access policy.
    - Developer beta and stable releases render on every complete-site build.
-3. Optionally host the files with the site, in `public/releases/<version>/<file>`, with the URL `https://preview.ucompute.org/releases/<version>/<file>` (or `https://ucompute.org/…` for a public stage).
+3. Optionally host the files with the site, in `public/releases/<version>/<file>`, with the root-relative URL `/releases/<version>/<file>`, so the same record works on whichever alias serves the build (the stage-snapshot alias, preview.ucompute.org, or ucompute.org for a public stage).
    - A build copies those files only if it shows that release. A public build never contains alpha installers.
    - `check.mjs` fails if a hosted file's size or SHA-256 differs from its record.
    - Cloudflare Pages caps a single file at 25 MiB; larger installers need other storage, which is an owner decision.
@@ -102,6 +116,12 @@ Rehearsed on 2026-10-24 with a temporary private-alpha record and a hosted test 
 - the public build did neither;
 - a public page linking the file failed the check;
 - a wrong recorded SHA-256 failed the check.
+
+### Candidate 2 published to the stage-snapshot alias (2026-10-30)
+
+The owner approved UCompute 0.1.1 private-alpha candidate 2 in writing, and engineering recorded it as D-031 (ee56ffa): the exact disk image (SHA-256 `c1166ba9…b937`, 6,425,890 bytes), to the existing private-alpha channel, the stage-snapshot alias behind Access, with preview.ucompute.org and production unchanged. The owner named no cohort and manages it through the UCompute team Access policy, so `approval.cohort` cites that record and no Access change was requested.
+
+The disk image is in `public/releases/0.1.1/`, and the preview build at ce71dc1 links and ships it; public and prelaunch builds contain no `releases/` folder. Deployed checks: `npm run verify:release` and `node verify-live.mjs` (`docs/VERIFICATION.md`). An approval is read from the engineering repository's `docs/DECISIONS.md` with `git show`, never from a relayed message.
 
 ### Candidate 1 withdrawn (2026-10-29)
 
