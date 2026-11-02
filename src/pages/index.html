@@ -5,47 +5,24 @@ scripts: site home
 -->
 <section class="fabric" aria-labelledby="hero-title">
 <canvas class="fabric-canvas" aria-hidden="true"></canvas>
-<div class="fabric-tags" aria-hidden="true"><span class="fabric-tag" data-node="0">Windows laptop</span><span class="fabric-tag" data-node="1">MacBook Air</span></div>
 <div class="shell fabric-copy">
-<p class="fabric-lead">What we are building toward:</p>
 <h1 id="hero-title">Compute better.<br>Together<span class="brand-dot">.</span></h1>
 <p class="fabric-lede">Your devices were never meant to work alone. UCompute connects them. Today, in development builds, it runs small open models on your own computer, or on another computer you have paired and chosen to trust.{{claim:direction}}{{claim:run-local}}{{claim:mesh-pair-choose}}</p>
-<div class="hero-actions">
-<a class="btn btn-lime btn-lg" href="#story">Follow one request</a>
-<a class="link-arrow on-dark-link" href="/download/">Release status</a>
-</div>
-<p class="fabric-note"><strong>UCompute is in development. There is no public release or download yet.</strong>{{claim:no-release}} Running models on your own computer: {{q:run-local}}{{claim:run-local}} Running on another computer: {{q:mesh}} Credits do not exist yet. Free does not mean unlimited.{{claim:mesh-pair-choose}}</p>
-<button class="motion-toggle motion-toggle-hero" type="button" aria-pressed="false" hidden>Pause motion</button>
-</div>
-<div class="shell">
-<ul class="fabric-status" aria-label="Where each part stands">
-<li><span>Run</span><span class="pill pill-experimental">Experimental</span></li>
-<li><span>Mesh</span><span class="pill pill-experimental">Experimental</span></li>
-<li><span>One model across devices</span><span class="pill pill-planned">Planned</span></li>
-<li><span>Swarm</span><span class="pill pill-planned">Planned</span></li>
-<li><span>Cloud</span><span class="pill pill-planned">Planned</span></li>
-</ul>
+<div class="hero-actions">{{hero-cta}}</div>
+<p class="fabric-note">{{hero-note}}{{claim:no-release}}</p>
 </div>
 </section>
 
-<nav class="paths-band" aria-label="Where to start">
-<div class="shell paths-row">
-<a href="/start/#local"><strong>Run AI on your computer</strong><span>How the development builds run a model on your own machine, step by step.</span></a>
-<a href="/start/#trusted"><strong>Connect a computer you trust</strong><span>Pair with a six-digit code, then choose what it may run.</span></a>
-<a href="/start/#developers"><strong>Build on the local API</strong><span>Point the OpenAI client you know at your own machine.{{claim:openai-clients}}</span></a>
-<p class="paths-note">Development builds only; each path says where it was tested. The source has not been published yet.{{claim:no-release}}{{claim:license}}</p>
-</div>
-</nav>
 
-<section class="section story-sec" id="story" aria-labelledby="story-title">
+<section class="section story-sec" id="how" aria-labelledby="story-title">
 <div class="shell">
 <div class="section-head">
-<h2 class="h-display" id="story-title">One request.<br><span class="soft">Two computers.</span></h2>
-<p class="lede">In a test on 19 October 2026 (UTC), development builds of the desktop app on a MacBook Air (Apple M2, macOS 26.2) and a Windows 11 laptop (Intel Core Ultra 7 258V, Arc 140V) were paired through their own windows on one phone hotspot, and the Windows app ran a prompt on the Mac (the Mac's permission for the laptop to run prompts was set through the Mac's local API, not its window). A request in the other direction, sent through the Mac's local API rather than its app window, ran on the laptop's GPU. Each request ran whole on one device; no model was split. The test model was a 15-million-parameter fixture, so speeds from it are not performance figures.{{claim:demo-2026-10-19}}</p>
+<h2 class="h-section" id="story-title">How it works</h2>
+<p class="lede">Pair two computers once. Then pick where each request runs; it runs whole on that computer.{{claim:mesh-pair-choose}}</p>
 </div>
 <div class="story">
 <figure class="story-visual" data-step="5" aria-hidden="true">
-<svg viewBox="0 48 640 404">
+<svg viewBox="0 40 640 468">
 <g class="dev dev-win">
 <rect class="dev-screen" x="24" y="64" width="248" height="168" rx="12"/>
 <path class="dev-base" d="M8 240h280l-18 16H26z"/>
@@ -71,15 +48,15 @@ scripts: site home
 <line class="s-link" x1="282" y1="148" x2="358" y2="148"/>
 <circle class="s-packet" cx="282" cy="148" r="7"/>
 <g class="st st-4 st-5 lock"><rect x="250" y="360" width="140" height="34" rx="17"/><text x="320" y="382">QUIC + TLS 1.3</text></g>
-<text class="s-caption" x="320" y="432">Development builds, recorded 19 October 2026</text>
+<text class="s-caption" x="320" y="476">Development builds, recorded 19 October 2026</text>
 </svg>
 </figure>
 <ol class="story-steps">
-<li class="story-step" data-step="1"><h3>Pair</h3><p>The Mac shows a six-digit code. The laptop finds the Mac on the local network and joins with the code. A wrong code is refused.</p></li>
-<li class="story-step" data-step="2"><h3>Allow</h3><p>Each machine puts the other in a group that may run prompts. Without that, on both sides, nothing runs remotely. On the Mac this was set through its local API, not its window.</p></li>
-<li class="story-step" data-step="3"><h3>Choose</h3><p>In the laptop's chat, the paired Mac can be chosen as the device to run on. The request goes to the device you pick, and the response says where it ran.</p></li>
-<li class="story-step" data-step="4"><h3>Run</h3><p>The request crosses UCompute's own QUIC connection, encrypted with TLS 1.3 and pinned device keys. The Mac loads the model on demand and runs it on its GPU. Both sides log the request without its text.</p></li>
-<li class="story-step" data-step="5"><h3>Read the result</h3><p>112 tokens. First token after 2,325 ms, including loading the model on the Mac. 508 tokens a second on the stories15M test fixture: a path check, not a performance figure.</p><p class="story-after"><strong>Remote execution, not pooling.</strong> One whole request ran on one other machine. No model has been split across devices; that is planned and not started.{{claim:planned}} <a class="link-arrow" href="/demo/">Hardware, timings, open issues</a></p></li>
+<li class="story-step" data-step="1"><h3>Pair</h3><p>Open pairing on one computer and type its six-digit code on the other.</p></li>
+<li class="story-step" data-step="2"><h3>Allow</h3><p>On both computers, let the other one run prompts. Nothing runs remotely without it.</p></li>
+<li class="story-step" data-step="3"><h3>Choose</h3><p>In chat, pick the computer that should run the request.</p></li>
+<li class="story-step" data-step="4"><h3>Run</h3><p>The prompt crosses an encrypted connection and runs on that computer's own GPU or CPU.</p></li>
+<li class="story-step" data-step="5"><h3>Get the answer</h3><p>It streams back and says which computer ran it.</p><p class="story-after">Shown on 19 October 2026 between a Windows laptop and a Mac, with development builds. No model was split.{{claim:demo-2026-10-19}}{{claim:planned}} <a class="link-arrow" href="/demo/">The full record</a></p></li>
 </ol>
 </div>
 </div>
@@ -88,18 +65,18 @@ scripts: site home
 <section class="section section-white measure-sec" aria-labelledby="measure-title">
 <div class="shell">
 <div class="section-head">
-<h2 class="h-section" id="measure-title">Measured.<br><span class="soft">Not promised.</span></h2>
-<p class="lede">Each reading comes from a recorded test on named hardware with development builds in October 2026. Nothing here is a projection.</p>
+<h2 class="h-section" id="measure-title">What we have measured</h2>
+<p class="lede">Recorded tests on named hardware, October 2026.</p>
 </div>
 <div class="instruments">
 <figure class="ledger">
-<figcaption class="inst-head"><span class="inst-value"><span class="inst-num">36</span> of 148</span><span class="inst-what">original requirements verified with recorded evidence, as of 23 October 2026. Nothing is marked done on a report alone.{{claim:ledger}}</span></figcaption>
+<figcaption class="inst-head"><span class="inst-value"><span class="inst-num">36 of 148</span> requirements verified</span><span class="inst-what">Each one with recorded evidence, as of 23 October 2026.{{claim:ledger}}</span></figcaption>
 <div class="ledger-grid" role="img" aria-label="148 original requirements: 36 verified, 8 implemented and awaiting verification, 3 in progress, 101 not started" data-total="148" data-verified="36" data-implemented="8" data-progress="3"></div>
 <ul class="ledger-key"><li class="k-v">36 verified</li><li class="k-i">8 implemented, awaiting verification</li><li class="k-p">3 in progress</li><li>101 not started</li></ul>
 <a class="link-arrow" href="/roadmap/">All fifteen milestones</a>
 </figure>
 <figure class="instrument inst-revoke">
-<figcaption class="inst-head"><span class="inst-value">under 0.1 s</span><span class="inst-what">You can revoke a paired device at any time. In our two-machine tests, its connection closed less than a tenth of a second after the revoke (between 0.002 s and 0.061 s in four runs), and its next request was refused.{{claim:revocation}}</span></figcaption>
+<figcaption class="inst-head"><span class="inst-value">A revoked device is cut off in <span class="inst-num">under 0.1 s</span></span><span class="inst-what">Four two-machine tests: 0.002 to 0.061 s, and its next request was refused.{{claim:revocation}}</span></figcaption>
 <svg class="scale" viewBox="0 0 340 96" role="img" aria-label="Revoke to disconnect in four runs: 0.002, 0.012, 0.053 and 0.061 seconds, against a tenth of a second">
 <line class="axis" x1="16" y1="58" x2="324" y2="58"/><line class="tick" x1="16" y1="50" x2="16" y2="66"/><line class="tick bound" x1="324" y1="42" x2="324" y2="74"/>
 <text class="tick-t" x="16" y="88">0 s</text><text class="tick-t end" x="324" y="88">0.1 s</text>
@@ -108,16 +85,16 @@ scripts: site home
 <g class="mk mk-2"><circle cx="179" cy="58" r="7"/><text x="168" y="34">0.053</text></g>
 <g class="mk mk-3"><circle cx="204" cy="58" r="7"/><text x="214" y="34">0.061</text></g>
 </svg>
-<p class="inst-fine">{{q:mesh}}</p>
+<p class="inst-fine">Development builds: a Mac with a Windows laptop, and with a Linux desktop. Two Macs are not yet shown.{{claim:mesh-pair-choose}}</p>
 </figure>
 <figure class="instrument inst-memory">
-<figcaption class="inst-head"><span class="inst-value">−4.6% to +8.9%</span><span class="inst-what">Before loading a model, UCompute checks it fits in memory. Across 14 measured combinations of small models (stories260K to Qwen2.5 1.5B) and context sizes, its estimate fell within this range of the engine's real footprint; the allowed error is ±15%.{{claim:memory-fit}}</span></figcaption>
+<figcaption class="inst-head"><span class="inst-value">Memory estimates within <span class="inst-num">9%</span> of real use</span><span class="inst-what">Checked before every load: −4.6% to +8.9% across 14 small-model setups, against an allowed ±15%.{{claim:memory-fit}}</span></figcaption>
 <svg class="scale" viewBox="0 0 340 96" role="img" aria-label="Memory estimate error from minus 4.6 to plus 8.9 percent, inside a bound of plus or minus 15 percent">
 <rect class="bound-band" x="16" y="44" width="308" height="28" rx="6"/><line class="zero" x1="170" y1="36" x2="170" y2="80"/>
 <rect class="range" x="123" y="50" width="138" height="16" rx="4"/>
 <text class="tick-t" x="16" y="92">−15%</text><text class="tick-t mid" x="170" y="92">0</text><text class="tick-t end" x="324" y="92">+15%</text>
 </svg>
-<p class="inst-fine">Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental. Memory-fit estimates are calibrated for Apple Silicon Macs.</p>
+<p class="inst-fine">One Apple M2 Mac, macOS 26.2. Calibrated for Apple Silicon Macs only.</p>
 </figure>
 </div>
 </div>
@@ -131,24 +108,25 @@ scripts: site home
 <circle class="ring ring-4" cx="300" cy="300" r="232"/>
 <circle class="ring ring-3" cx="300" cy="300" r="178"/>
 <circle class="ring ring-2" cx="300" cy="300" r="122"/>
+<circle class="pulse" cx="300" cy="300" r="62"/>
 <circle class="ring ring-1" cx="300" cy="300" r="62"/>
-<g class="sat sat-2"><circle cx="300" cy="178" r="11"/><circle cx="406" cy="361" r="11"/><path d="M300 178A122 122 0 0 1 406 361"/></g>
-<g class="sat sat-3"><circle cx="122" cy="300" r="7"/><circle cx="478" cy="300" r="7"/></g>
-<g class="sat sat-4"><circle cx="300" cy="68" r="6"/><circle cx="99" cy="416" r="6"/><circle cx="501" cy="416" r="6"/></g>
+<g class="sat sat-2"><g class="spin spin-2"><circle cx="300" cy="178" r="11"/><circle cx="406" cy="361" r="11"/><path d="M300 178A122 122 0 0 1 406 361"/></g></g>
+<g class="sat sat-3"><g class="spin spin-3"><circle cx="122" cy="300" r="7"/><circle cx="478" cy="300" r="7"/></g></g>
+<g class="sat sat-4"><g class="spin spin-4"><circle cx="300" cy="68" r="6"/><circle cx="99" cy="416" r="6"/><circle cx="501" cy="416" r="6"/></g></g>
 <text class="core-t" x="300" y="306">u.</text>
 </svg>
 </div>
 <div class="vision-copy">
-<h2 class="h-section" id="vision-title">From one computer<br><span class="soft">to a network.</span></h2>
-<p class="lede">What exists today sits at the centre: Run, with Mesh around it. Each ring further out is planned, and is marked that way until it is built and verified.</p>
+<h2 class="h-section" id="vision-title">From one computer to a network.</h2>
+<p class="lede">Run and Mesh exist today. Every ring further out is planned.</p>
 <ol class="rings-list">
-<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Run</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Run runs small open models on your own computer, with no account and no UCompute service. By default, your requests stay on your device. {{q:run-local}}{{claim:run-local}}{{claim:platforms}}</p></li>
-<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Mesh</h3><span class="pill pill-experimental">Experimental</span></div><p>UCompute Mesh lets you pair your own devices with a short code and choose which one runs a request. Each request runs whole on one device; UCompute does not split a model across devices. {{q:mesh}}{{claim:mesh-pair-choose}}</p></li>
-<li class="ring-item"><div class="ring-top"><h3>One model across devices</h3><span class="pill pill-planned">Planned</span></div><p>One model split across several devices, each computing part of every token. Planned and not started.{{claim:planned}}</p></li>
-<li class="ring-item"><div class="ring-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>An opt-in open network, disabled until isolation, metering, verification and abuse protections pass independent review.{{claim:planned}}</p></li>
-<li class="ring-item"><div class="ring-top"><h3>UCompute Cloud</h3><span class="pill pill-planned">Planned</span></div><p>An optional managed service. It does not exist today, and it would never be required for local or private use.{{claim:planned}}</p></li>
+<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Run</h3><span class="pill pill-experimental">Experimental</span></div><p>Small open models on your own computer. No account, no UCompute service. Shown on one Apple M2 Mac and one Windows laptop.{{claim:run-local}}{{claim:platforms}}</p></li>
+<li class="ring-item is-real"><div class="ring-top"><h3>UCompute Mesh</h3><span class="pill pill-experimental">Experimental</span></div><p>Send a request to a computer you paired, on the same network. It runs whole there.{{claim:mesh-pair-choose}}</p></li>
+<li class="ring-item"><div class="ring-top"><h3>One model across devices</h3><span class="pill pill-planned">Planned</span></div><p>One model split across several computers. Not started.{{claim:planned}}</p></li>
+<li class="ring-item"><div class="ring-top"><h3>UCompute Swarm</h3><span class="pill pill-planned">Planned</span></div><p>An opt-in open network, off until an independent security review.{{claim:planned}}</p></li>
+<li class="ring-item"><div class="ring-top"><h3>UCompute Cloud</h3><span class="pill pill-planned">Planned</span></div><p>An optional managed service, never required for local use.{{claim:planned}}</p></li>
 </ol>
-<p class="vision-foot">Planned, with no date: running one model across several devices, an opt-in open network (UCompute Swarm), compute credits and an optional managed service (UCompute Cloud). None of these exists today. Our direction: “Free to use your own compute. Free to share when you choose. Earn when you contribute. Pay when you need more.” Credits do not exist yet. Free does not mean unlimited. <a class="link-arrow" href="/vision/#economics">The direction</a>{{claim:planned}}{{claim:direction}}</p>
+<p class="vision-foot">Credits and payments do not exist yet. <a class="link-arrow" href="/vision/#economics">Our direction</a>{{claim:direction}}</p>
 </div>
 </div>
 </section>
@@ -156,14 +134,14 @@ scripts: site home
 <section class="section section-dark-2 section-dark" aria-labelledby="dev-title">
 <div class="shell evidence">
 <div>
-<h2 class="h-section" id="dev-title">One API.<br><span class="soft">Real possibilities.</span></h2>
-<p class="lede stack">The daemon speaks the OpenAI-compatible HTTP API that existing clients already use. One extra field, <code>target</code>, chooses where a request runs, and every response says where it ran.</p>
+<h2 class="h-section" id="dev-title">OpenAI-compatible, on localhost.</h2>
+<p class="lede stack">Change the base URL and keep your client. Add <code>target</code> to pick the computer; every response says where it ran.</p>
 <ul class="ticks stack">
-<li><div><strong class="step-title">Official OpenAI Python and JavaScript clients</strong><p>They work with only the base URL changed: chat and completions with streaming. Tool calling is not yet verified. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:openai-clients}}</p></div></li>
-<li><div><strong class="step-title">Streaming and typed errors</strong><p>Server-sent events, and one error shape with stable codes.</p></div></li>
-<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target is refused unless policy allows it. Running on a paired device: {{q:mesh}}{{claim:mesh-pair-choose}}</p></div></li>
+<li><div><strong class="step-title">Official OpenAI clients</strong><p>Python and JavaScript, tested on an Apple M2 Mac. Tool calling is not verified yet.{{claim:openai-clients}}</p></div></li>
+<li><div><strong class="step-title">Streaming and typed errors</strong><p>Server-sent events, one error shape, stable codes.</p></div></li>
+<li><div><strong class="step-title">Local unless you say otherwise</strong><p>Listens on 127.0.0.1. A peer target needs your permission.{{claim:mesh-pair-choose}}</p></div></li>
 </ul>
-<p class="stack"><a class="btn btn-lime" href="/developers/">Read the developer guide</a></p>
+<p class="dev-cta"><a class="btn btn-lime" href="/developers/">Read the developer guide</a></p>
 </div>
 <div class="code-panel">
 <div class="code-bar">
@@ -223,7 +201,7 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
   process.stdout.<span class="tok-f">write</span>(chunk.choices[0]?.delta?.content ?? <span class="tok-s">""</span>);
 }</code></pre>
 </div>
-<p class="code-note">Local examples follow the repository's client smoke tests. The peer target is documented in the <a href="/docs/api/#targets">API reference</a>; use a label from <code>GET /api/peers</code>.</p>
+<p class="code-note">The peer target is in the <a href="/docs/api/#targets">API reference</a>.</p>
 </div>
 </div>
 </section>
@@ -231,17 +209,16 @@ remote = client.chat.completions.<span class="tok-f">create</span>(
 <section class="section" aria-labelledby="trust-title">
 <div class="shell split">
 <div>
-<p class="section-lead">Our direction:</p>
-<h2 class="h-section" id="trust-title">Share your compute.<br><span class="soft">Not your computer.</span></h2>
-<p class="lede stack">This is the design goal for sharing with others; the isolation that would make it safe with strangers is not built yet. Credits do not exist yet. Free does not mean unlimited.{{claim:direction}} What protects you today, between devices you pair and trust, is below; each item states its evidence and limits. {{q:mesh}}{{claim:mesh-pair-choose}}</p>
+<h2 class="h-section" id="trust-title">Share your compute, not your computer.</h2>
+<p class="lede stack">Our goal for sharing with others, which is not built yet. Today it protects the computers you pair yourself.{{claim:direction}}</p>
 <p class="stack"><a class="link-arrow" href="/open-source/#security">Trust boundaries and security reports</a></p>
 </div>
 <div class="rows">
-<div class="row"><h3>Local by default</h3><p>The API listens on 127.0.0.1 only. Peer networking and discovery stay off until you turn them on. Downloading a model or the engine uses the internet.{{claim:run-local}}{{claim:local-only}}</p></div>
-<div class="row"><h3>Permission, not assumption</h3><p>A device needs a one-time pairing code, a group that allows remote runs, and permission on both ends. Your device will not send work to a device you have not paired, and a revoked device is cut off.{{claim:transport}}{{claim:groups}}{{claim:revocation}} A device you have not paired cannot send you work; that was tested with several instances on one computer, not yet between two machines.{{claim:unpaired-inbound}}</p></div>
-<div class="row"><h3>Honest about the risk</h3><p>The device that runs your request processes your prompt. It can read, log or keep the prompt and the answer, so pair only devices you control or trust. You see this before trusted devices can be enabled.{{claim:device-sees-prompt}}{{claim:local-only}}</p></div>
-<div class="row"><h3>Prompts stay out of logs</h3><p>Audit logs record each off-device request without the prompt or the response.{{claim:audit}}</p></div>
-<div class="row"><h3>Public compute waits</h3><p>Running work for strangers stays disabled until isolation, verification and abuse protections pass independent review.{{claim:planned}}</p></div>
+<div class="row"><h3>Local by default</h3><p>The API listens on 127.0.0.1. Networking stays off until you turn it on.{{claim:run-local}}{{claim:local-only}}</p></div>
+<div class="row"><h3>Permission, not assumption</h3><p>A pairing code, a group that allows it, and permission on both ends. Revoke any time.{{claim:transport}}{{claim:groups}}{{claim:revocation}}</p></div>
+<div class="row"><h3>Honest about the risk</h3><p>The computer that runs your prompt can read it. Pair only computers you trust.{{claim:device-sees-prompt}}</p></div>
+<div class="row"><h3>Prompts stay out of logs</h3><p>Audit logs record each off-device request without the prompt or the answer.{{claim:audit}}</p></div>
+<div class="row"><h3>Public compute waits</h3><p>Running work for strangers stays off until an independent security review.{{claim:planned}}</p></div>
 </div>
 </div>
 </section>
