@@ -39,11 +39,15 @@ alpha: true
 <p>While the app is open, its background service answers on <code>http://127.0.0.1:8192</code>, on this computer only. On that address it needs no API key.{{claim:openai-clients}}</p>
 <p>Check that it is up:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="health"><code>curl http://127.0.0.1:8192/health</code></pre></div>
-<p>Ask the model you just ran:</p>
+<p>Ask the model you just ran. If no model is loaded, the first request loads it, so that one takes longer:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="chat"><code>curl http://127.0.0.1:8192/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model": "qwen2.5-0.5b-instruct-q4_k_m", "messages": [{"role": "user", "content": "Say hello in five words."}]}'</code></pre></div>
-<p>The official OpenAI clients work with only the base URL changed. In Python, after <code>pip install openai</code>:</p>
+<p>The official OpenAI clients work with your existing code. Set the base URL, use a model id from this computer, and pass any string as the API key, because the client requires one.</p>
+<p>For Python, keep the client in its own folder, so nothing else on your Mac changes:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="python-setup"><code>python3 -m venv ucompute-demo
+ucompute-demo/bin/pip install openai</code></pre></div>
+<p>Save this as <code>first.py</code>:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="python"><code>from openai import OpenAI
 
 client = OpenAI(base_url="http://127.0.0.1:8192/v1", api_key="unused-on-loopback")
@@ -52,7 +56,12 @@ reply = client.chat.completions.create(
     messages=[{"role": "user", "content": "Say hello in five words."}],
 )
 print(reply.choices[0].message.content)</code></pre></div>
-<p>In JavaScript, after <code>npm install openai</code>, in a file ending in <code>.mjs</code>:</p>
+<p>Run it:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="python-run"><code>ucompute-demo/bin/python first.py</code></pre></div>
+<p>If the first line fails with a <code>pyexpat</code> error, as Homebrew Python 3.14.8 does on macOS 26.2, delete the <code>ucompute-demo</code> folder and start again with <code>/usr/bin/python3</code> in place of <code>python3</code>.</p>
+<p>For JavaScript, with Node installed:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="javascript-setup"><code>npm install openai</code></pre></div>
+<p>Save this as <code>first.mjs</code>:</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="javascript"><code>import OpenAI from "openai";
 
 const client = new OpenAI({ baseURL: "http://127.0.0.1:8192/v1", apiKey: "unused-on-loopback" });
@@ -61,20 +70,26 @@ const reply = await client.chat.completions.create({
   messages: [{ role: "user", content: "Say hello in five words." }],
 });
 console.log(reply.choices[0].message.content);</code></pre></div>
+<p>Run it:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="javascript-run"><code>node first.mjs</code></pre></div>
 <p>Every route and error code is in the <a href="/docs/api/">API reference</a>. Tool calling is not yet verified, and this is a tested subset, not complete OpenAI compatibility.{{claim:openai-clients}}</p>
 
 <h2 id="cli">4. Use the command line</h2>
 <p>The <code>ucompute</code> command ships inside the app. To use the commands in these docs, point your shell at it. Whether macOS asks you to approve it separately after Open Anyway has not been tested; if it refuses, use the local API above.</p>
 <div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="alias"><code>alias ucompute=/Applications/UCompute.app/Contents/MacOS/ucompute
 ucompute doctor</code></pre></div>
-<p><code>ucompute doctor</code> changes nothing and downloads nothing. It prints the version, data folder, hardware, engine and models, and a warning for each problem. Add the alias line to <code>~/.zshrc</code> to keep it.</p>
+<p><code>ucompute doctor</code> changes nothing and downloads nothing. It prints the version, data folder, hardware, engine and models, and a warning for each problem. It doesn't check whether the service is running; the <code>curl</code> health check above does that. Add the alias line to <code>~/.zshrc</code> to keep it.</p>
+<p>To run the service without the app window, quit the app first, then:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="serve"><code>ucompute serve</code></pre></div>
+<p>It answers on the same address until you press Control-C.</p>
 
 <h2 id="stuck">If you get stuck</h2>
 <ul>
 <li><strong>macOS won't open the app.</strong> Go back to step 5 of <a href="#install">Install it</a>. The message appears in Privacy &amp; Security only after you have tried to open the app.</li>
-<li><strong><code>curl</code> can't connect.</strong> The service runs while the app is open. Open the app and try again.</li>
+<li><strong><code>curl</code> can't connect, or your client reports a connection error.</strong> The service runs while the app is open, or while <code>ucompute serve</code> runs. Start one and try again.</li>
+<li><strong><code>model_not_downloaded</code>.</strong> Download the model in the app first, as in <a href="#answer">step 2</a>.</li>
 <li><strong>Anything else.</strong> Run <code>ucompute doctor</code>, then see <a href="/docs/troubleshooting/">Troubleshooting</a>.</li>
 </ul>
 
 <h2 id="remove">Remove it</h2>
-<p>Quit the app, then delete UCompute from Applications. Models, the engine, device keys, settings and logs stay in <code>~/Library/Application Support/UCompute</code> until you delete that folder too. Nothing is removed for you.</p>
+<p>Quit the app, then delete UCompute from Applications. Models, the engine, device keys, settings and logs stay in <code>~/Library/Application Support/UCompute</code> until you delete that folder too. If you added the alias, remove its line from <code>~/.zshrc</code>. Nothing is removed for you.</p>

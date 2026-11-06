@@ -10,6 +10,8 @@ Status on 2026-10-30. The live page at ucompute.org stays frozen (D-023) until t
 
 **Onboarding:** the path from the approved build to a first answer and an API call is `/docs/first-run/`, on builds that offer a private-alpha download only. What has and has not been verified, and what comes next, is in `docs/DEVEX.md`.
 
+**Growth's docs-pages request (`ucompute-growth/handoffs/2026-10-30-website-docs-pages.md`, HO-005):** deferred to the next capability snapshot, on 2026-11-06. All four pages render claims verbatim and those claims change with it. They are on the roadmap in `docs/DEVEX.md`. The fifth, "Install: what your OS will say", still waits for engineering's signing row; `/docs/first-run/` covers it for the private-alpha build meanwhile.
+
 **Dependencies, in order:**
 1. Engineering: a release promotion record for a private-alpha build (artifact, size, SHA-256, signing status). Done for candidate 2: 3470f8d (source 7d4d194, packaged-app check ALL PASS 19/19). The DMG is about 6 MB, hosted on Pages.
 2. Owner: approval to publish that build, and the testers' emails on the Access policy (Cloudflare Zero Trust is the owner's). Done for candidate 2: D-031, 2026-10-30; the owner manages the policy directly.

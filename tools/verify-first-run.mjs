@@ -16,6 +16,8 @@ import { setTimeout as sleep } from 'node:timers/promises';
 
 const RESERVED = [8192, 8193, 5353, 18302, 19222]; // the project's own services and test tools use these
 const MODEL = 'qwen2.5-0.5b-instruct-q4_k_m';
+// The Python block runs with each python3 a Mac may have first on PATH: Apple's, python.org's and Homebrew's.
+const PYTHONS = ['/usr/bin', '/Library/Frameworks/Python.framework/Versions/3.13/bin', '/opt/homebrew/bin'].filter(d => existsSync(join(d, 'python3')));
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 const dmg = resolve(process.argv[2] || '');
 const port = +arg('--port', 18510), work = resolve(arg('--work', join(process.env.TMPDIR || '/tmp', `first-run-${process.pid}`)));
@@ -34,7 +36,7 @@ const app = join(work, 'Applications/UCompute.app'), bin = join(app, 'Contents/M
 const home = join(work, 'home'), data = join(home, 'Library/Application Support/UCompute');
 mkdirSync(data, { recursive: true }); mkdirSync(dirname(app), { recursive: true });
 if (data.startsWith(join(homedir(), 'Library'))) throw new Error('refusing the default data folder');
-const toolPath = [...new Set(['/usr/bin', '/bin', '/usr/sbin', '/sbin', dirname(process.execPath), dirname(execFileSync('/usr/bin/which', ['python3'], { encoding: 'utf8' }).trim())])].join(':');
+const toolPath = [...new Set(['/usr/bin', '/bin', '/usr/sbin', '/sbin', dirname(process.execPath)])].join(':'); // never the developer's own PATH, so a stray pip can't be reached
 const env = { HOME: home, UCOMPUTE_HOME: data, PATH: toolPath, LANG: 'en_US.UTF-8' };
 const rewrite = s => s.replaceAll('127.0.0.1:8192', `127.0.0.1:${port}`).replaceAll('~/Downloads/', `${dirname(dmg)}/`).replaceAll('/Applications/UCompute.app', app);
 
@@ -49,10 +51,11 @@ const step = async (name, fn) => {
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${name} (${seconds} s): ${detail.split('\n')[0].slice(0, 150)}`);
   return ok;
 };
-const sh = (script, opts = {}) => {
-  const r = spawnSync('/bin/zsh', ['-f', '-c', script], { env, cwd: home, encoding: 'utf8', timeout: 900000, ...opts });
+// Blocks run the way a pasted block runs in Terminal: one line at a time in one shell. Only stdout comes back.
+const sh = (script, cwd = home, path = env.PATH) => {
+  const r = spawnSync('/bin/zsh', ['-f', '-s'], { input: `${script}\n`, env: { ...env, PATH: path }, cwd, encoding: 'utf8', timeout: 900000 });
   if (r.status !== 0) throw new Error(`exit ${r.status}: ${(r.stderr || r.stdout || '').trim()}`);
-  return r.stdout + r.stderr;
+  return r.stdout;
 };
 const run = (...a) => { const r = spawnSync(bin, a, { env, cwd: home, encoding: 'utf8', timeout: 900000 }); if (r.status !== 0) throw new Error(`exit ${r.status}: ${(r.stderr || r.stdout).trim()}`); return r.stdout + r.stderr; };
 
@@ -61,7 +64,7 @@ await step('the disk image matches its release record', () => {
   if (b.length !== artifact.bytes || sha !== artifact.sha256) throw new Error(`${b.length} bytes, ${sha}`);
   return `${b.length} bytes, ${sha}`;
 });
-await step('every guide block is present', () => { for (const k of ['checksum', 'health', 'chat', 'python', 'javascript', 'alias']) if (!blocks[k]) throw new Error(`no block ${k}`); return Object.keys(blocks).join(' '); });
+await step('every guide block is present', () => { for (const k of ['checksum', 'health', 'chat', 'python-setup', 'python', 'python-run', 'javascript-setup', 'javascript', 'javascript-run', 'alias', 'serve']) if (!blocks[k]) throw new Error(`no block ${k}`); return Object.keys(blocks).join(' '); });
 await step('guide: checksum command', () => { const o = sh(rewrite(blocks.checksum)); if (!o.includes(artifact.sha256)) throw new Error(o); return o; });
 await step('app copied out of the disk image', () => {
   const mnt = join(work, 'mnt'); mkdirSync(mnt);
@@ -73,9 +76,10 @@ await step('app copied out of the disk image', () => {
 await step('guide: command line alias and doctor', () => { const o = sh(rewrite(blocks.alias)); if (!/data folder|engine|version/i.test(o)) throw new Error(o); return o; });
 await step('engine: setup downloads and verifies it', () => run('setup'));
 await step(`model: pull ${MODEL}`, () => run('models', 'pull', MODEL, '-y'));
+await step('first answer with no service running: ucompute run', () => run('run', MODEL, '--chat', '-p', 'Say hello in five words.', '-n', '32'));
 
 const out = [];
-const daemon = spawn(bin, ['serve', '--host', '127.0.0.1', '--port', String(port)], { env, cwd: home, stdio: ['ignore', 'pipe', 'pipe'] });
+const daemon = spawn(bin, [...blocks.serve.trim().split(/\s+/).slice(1), '--port', String(port)], { env, cwd: home, stdio: ['ignore', 'pipe', 'pipe'] }); // the guide's command, off the reserved port
 daemon.stdout.on('data', d => out.push(String(d))); daemon.stderr.on('data', d => out.push(String(d)));
 const up = await step('daemon: listening on the test port', async () => {
   for (let i = 0; i < 300 && !out.join('').includes('listening on'); i++) await sleep(100);
@@ -84,33 +88,46 @@ const up = await step('daemon: listening on the test port', async () => {
 });
 if (up) {
   await step('guide: health', () => { const o = sh(rewrite(blocks.health)); if (!o.includes('"ok"') || !o.includes(release.version)) throw new Error(o); return o; });
-  await step('guide: first answer through curl (loads the model)', () => { const o = sh(rewrite(blocks.chat)); const m = JSON.parse(o.slice(o.indexOf('{'))); return m.choices[0].message.content; });
+  await step('guide: first answer through curl (loads the model)', () => JSON.parse(sh(rewrite(blocks.chat))).choices[0].message.content);
+  await step('a model that is not downloaded gets a stable code', () => {
+    const o = sh(rewrite(blocks.chat).replaceAll(MODEL, 'smollm2-360m-instruct-q8_0'));
+    if (!o.includes('model_not_downloaded')) throw new Error(o);
+    return JSON.parse(o).error.message;
+  });
   await step('ports: only the test port and loopback', () => {
     const o = spawnSync('/usr/sbin/lsof', ['-nP', '-p', String(daemon.pid), '-a', '-i'], { encoding: 'utf8' }).stdout;
     for (const p of RESERVED) if (new RegExp(`:${p}\\b`).test(o)) throw new Error(`reserved port ${p} in use: ${o}`);
     if (/\*:\d+ \(LISTEN\)/.test(o)) throw new Error(`listening beyond loopback: ${o}`);
     return o.split('\n').filter(l => /LISTEN|UDP/.test(l)).map(l => l.split(/\s+/).slice(7).join(' ')).join(', ');
   });
-  await step('guide: Python, official openai client', () => {
-    sh('python3 -m venv py && py/bin/pip install -q openai');
-    writeFileSync(join(home, 'first.py'), rewrite(blocks.python));
-    return sh('py/bin/python first.py') + sh('py/bin/pip list 2>/dev/null | grep -E "^openai "');
+  if (/^\s*pip\b/m.test(blocks['python-setup'])) throw new Error('a bare pip installs wherever PATH points; call the folder\'s own pip');
+  for (const dir of PYTHONS) await step(`guide: Python, official openai client, with ${dir}/python3`, () => {
+    const cwd = join(home, `py-${dir.replace(/\W+/g, '-')}`); mkdirSync(cwd);
+    const path = `${dir}:${env.PATH}`, version = sh('python3 -V', cwd, path).trim();
+    let setup = '';
+    try { setup = sh(blocks['python-setup'], cwd, path); } catch (e) {
+      // The guide's documented failure: nothing may have been installed, and it must say what to do.
+      if (!/pyexpat/.test(page) || existsSync(join(cwd, 'ucompute-demo/bin/pip'))) throw e;
+      return `${version}: venv fails, as the guide says; nothing installed, the next line stops`;
+    }
+    writeFileSync(join(cwd, 'first.py'), rewrite(blocks.python));
+    return `${version}: ${sh(blocks['python-run'], cwd, path).trim()} (${sh('ucompute-demo/bin/pip list 2>/dev/null | grep -E "^openai "', cwd, path).trim().replace(/\s+/g, ' ')})`;
   });
   await step('guide: JavaScript, official openai client', () => {
-    sh('npm init -y >/dev/null && npm install --silent openai');
+    sh(blocks['javascript-setup']);
     writeFileSync(join(home, 'first.mjs'), rewrite(blocks.javascript));
-    return sh('node first.mjs') + sh('npm ls openai --depth=0 | tail -2 | head -1');
+    return sh(blocks['javascript-run']) + sh('npm ls openai --depth=0 | tail -2 | head -1');
   });
 }
 await step('daemon: stops cleanly and leaves nothing running', async () => {
   daemon.kill('SIGTERM');
   for (let i = 0; i < 150 && daemon.exitCode === null && daemon.signalCode === null; i++) await sleep(100);
   if (daemon.exitCode === null && daemon.signalCode === null) { daemon.kill('SIGKILL'); throw new Error('still running after 15 s'); }
-  const left = spawnSync('/usr/bin/pgrep', ['-fl', work], { encoding: 'utf8' }).stdout.trim();
+  const left = spawnSync('/usr/bin/pgrep', ['-fl', `${work}/(Applications|home)`], { encoding: 'utf8' }).stdout.trim();
   if (left) throw new Error(`left running: ${left}`);
   return `exit ${daemon.exitCode ?? daemon.signalCode}`;
 });
-await step('disk: what the first run used', () => sh(`du -sh ${JSON.stringify(data)} ${JSON.stringify(app)} | sed 's/\\t.*\\//  /'`));
+await step('disk: what the first run used', () => `data folder ${execFileSync('/usr/bin/du', ['-sh', data], { encoding: 'utf8' }).split('\t')[0]}, app ${execFileSync('/usr/bin/du', ['-sh', app], { encoding: 'utf8' }).split('\t')[0]}`);
 writeFileSync(join(work, 'evidence.json'), JSON.stringify(evidence, null, 2) + '\n');
 console.log(`\n${failed ? `${failed} step(s) failed` : 'all steps passed'}; evidence: ${join(work, 'evidence.json')}`);
 process.exit(failed ? 1 : 0);

@@ -1,0 +1,122 @@
+{
+  "label": "SINGLE-HOST (one Mac); packaged binary, no app window",
+  "date": "2026-11-06T08:41:50.338Z",
+  "version": "0.1.1",
+  "sha256": "c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937",
+  "steps": [
+    {
+      "name": "the disk image matches its release record",
+      "ok": true,
+      "seconds": 0,
+      "detail": "6425890 bytes, c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937"
+    },
+    {
+      "name": "every guide block is present",
+      "ok": true,
+      "seconds": 0,
+      "detail": "checksum health chat python-setup python python-run javascript-setup javascript javascript-run alias serve"
+    },
+    {
+      "name": "guide: checksum command",
+      "ok": true,
+      "seconds": 0.1,
+      "detail": "c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937  ~/UCompute-release-candidates/0.1.1-7d4d194/UCompute_0.1.1_aarch64.dmg"
+    },
+    {
+      "name": "app copied out of the disk image",
+      "ok": true,
+      "seconds": 2.4,
+      "detail": "ucompute 0.1.1"
+    },
+    {
+      "name": "guide: command line alias and doctor",
+      "ok": true,
+      "seconds": 0.3,
+      "detail": "ucompute 0.1.1 (UCOMPUTE_HOME <work>/home/Library/Application Support/UCompute)\nhost     macos 26.2 (aarch64, Apple M2)\ncpu      Apple M2 (8 physical / 8 logical cores)\nmemory   8.6 GB total, 1.0 GB available, unified\ngpu      Apple M2 (Apple, metal, 10 cores, 8.6 GB)\nbackend  cpu  "
+    },
+    {
+      "name": "engine: setup downloads and verifies it",
+      "ok": true,
+      "seconds": 2.2,
+      "detail": "engine   llama.cpp b11609 verified at <work>/home/Library/Application Support/UCompute/backends/llama.cpp/b11609\n\rengine: 7.3 KB / 12.1 MB\rengine: 8.5 MB / 12.1 MB\rengine: 12.1 MB / 12.1 MB done"
+    },
+    {
+      "name": "model: pull qwen2.5-0.5b-instruct-q4_k_m",
+      "ok": true,
+      "seconds": 14,
+      "detail": "downloaded qwen2.5-0.5b-instruct-q4_k_m (491.4 MB) sha256 74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db license Apache-2.0\nmodel    qwen2.5-0.5b-instruct-q4_k_m (Qwen2.5 0.5B Instruct (Q4_K_M))\nlicense  Apache-2.0 (https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/LICENSE)\nsize     491.4 MB\n\rqwen2.5-0.5b-instruct-q4_k_m: 2.7 KB / 491.4 MB\rqwen2.5-0.5b-instruct-q4_"
+    },
+    {
+      "name": "first answer with no service running: ucompute run",
+      "ok": true,
+      "seconds": 13.1,
+      "detail": "Hello!\ntarget=local device=MTL0 (Apple M2) offloaded=25/24 prompt_tokens=35 completion_tokens=3 ttft_ms=56.8 prefill_tok_s=763.3 decode_tok_s=122.0 load_ms=8476.8 manifest=<work>/home/Library/Application Support/UCompute/runs/20261106T084222Z-63594/manifest.json"
+    },
+    {
+      "name": "daemon: listening on the test port",
+      "ok": true,
+      "seconds": 1.4,
+      "detail": "listening on http://127.0.0.1:18510"
+    },
+    {
+      "name": "guide: health",
+      "ok": true,
+      "seconds": 0,
+      "detail": "{\"commit\":\"7d4d1943db741c18e8b558d048f878cdac69f1a0\",\"status\":\"ok\",\"version\":\"0.1.1\"}"
+    },
+    {
+      "name": "guide: first answer through curl (loads the model)",
+      "ok": true,
+      "seconds": 9.5,
+      "detail": "Hello, how are you?"
+    },
+    {
+      "name": "a model that is not downloaded gets a stable code",
+      "ok": true,
+      "seconds": 0.5,
+      "detail": "smollm2-360m-instruct-q8_0 is in the catalog but has not been downloaded"
+    },
+    {
+      "name": "ports: only the test port and loopback",
+      "ok": true,
+      "seconds": 0.9,
+      "detail": "TCP 127.0.0.1:18510 (LISTEN)"
+    },
+    {
+      "name": "guide: Python, official openai client, with /usr/bin/python3",
+      "ok": true,
+      "seconds": 79.1,
+      "detail": "Python 3.9.6: Hello, how are you? (openai 2.48.0)"
+    },
+    {
+      "name": "guide: Python, official openai client, with /Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
+      "ok": true,
+      "seconds": 16.7,
+      "detail": "Python 3.13.7: Hello, how are you? (openai 3.46.0)"
+    },
+    {
+      "name": "guide: Python, official openai client, with /opt/homebrew/bin/python3",
+      "ok": true,
+      "seconds": 2.3,
+      "detail": "Python 3.14.8: venv fails, as the guide says; nothing installed, the next line stops"
+    },
+    {
+      "name": "guide: JavaScript, official openai client",
+      "ok": true,
+      "seconds": 5.2,
+      "detail": "Hello! It's nice to meet you!\n└── openai@7.52.0"
+    },
+    {
+      "name": "daemon: stops cleanly and leaves nothing running",
+      "ok": true,
+      "seconds": 0.3,
+      "detail": "exit 0"
+    },
+    {
+      "name": "disk: what the first run used",
+      "ok": true,
+      "seconds": 0,
+      "detail": "data folder 522M, app  13M"
+    }
+  ]
+}

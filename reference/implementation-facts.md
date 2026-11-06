@@ -32,7 +32,7 @@ macOS `~/Library/Application Support/UCompute`; Windows `%LOCALAPPDATA%\UCompute
 
 ## HTTP API v1.0.0 (`crates/ucompute-api`, re-checked at d00fa7e)
 
-Routes and error codes: `reference/interfaces.json`. `GET /health` returns `{"status":"ok","version":"0.1.1"}` without auth.
+Routes and error codes: `reference/interfaces.json`. `GET /health` returns `{"commit":"<full commit>","status":"ok","version":"0.1.1"}` without auth (observed from the 0.1.1 binary, 2026-11-06).
 
 Auth: Bearer key on every route except /health when `--api-key` is set; 401 `unauthorized`. CORS allow-list: `tauri://localhost`, `http://tauri.localhost`, `https://tauri.localhost`, `http://localhost:1420`; allowed headers `authorization, content-type` only (so browsers use the `target` body field). Body cap 2 MiB. `target`: `local` (default) or `peer:<64-hex|xxxx-xxxx-xxxx>`, body wins over `X-UCompute-Target`; echoed in every response and chunk; embeddings local only.
 

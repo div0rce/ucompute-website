@@ -3,6 +3,46 @@
 > This record uses the current names. The builds and repositories it describes carried the project's earlier name; the original text is in this repository's git history (D-030).
 
 
+## 2026-11-06: first-run guide verified on the approved build; this workstream becomes DevEx
+
+The owner made this workstream Website & Developer Experience. Charter, measures and roadmap: `docs/DEVEX.md`.
+
+State recovered first, unchanged by this entry: `main` 5446992, `preview` bd21b47, `stage-snapshot` 6bba842, `home-refresh` 2f75cdc. `node verify-live.mjs` with both aliases: 36 checks, all passed. `npm run verify:release`: the 0.1.1 disk image through Access, 6,425,890 bytes, SHA-256 `c1166ba9…b937`. Engineering's newest commit at that point was 1038a7f. The Access token file exists; the Cloudflare token file does not, so the prune stays with the owner.
+
+Why this improvement: every path sent people to `cargo build` on unpublished source, while the approved disk image is the only thing anyone can get, and no page said it contains the `ucompute` command (`Contents/MacOS/ucompute`, seen by mounting the image read-only). That stops every invited developer at the first step of install, first inference and API use.
+
+Delivered: `/docs/first-run/`, on builds that offer a private-alpha download only (`alpha: true`; `check.mjs` fails otherwise); pointers from `/start/`, `/docs/`, `/docs/install/`, `/developers/`, `/docs/troubleshooting/` and `/download/`; `tools/verify-first-run.mjs`, which runs the page's own code blocks; `reference/interfaces.json` re-exported at the 0.1.1 source 7d4d194 (32 commands, 34 routes, 27 error codes; one new field, `commit`, on `/health`).
+
+The old handoff says the website team never starts a UCompute app or daemon. The owner's directive of this date requires verification in a supported environment, so the run was announced to the owner in chat and to engineering beforehand, and engineering declared the Mac clear after holding it for WP-04 P1. It used only the approved artifact, its own data folder and test ports 18510 and 18511, and no app window. No reserved port was bound and the default data folder was not touched. An earlier attempt was held back because P1 had just started on this Mac.
+
+Run on this Mac (Apple M2, 8 GB, macOS 26.2), level L1, evidence in `docs/evidence/first-run-2026-11-06.json`: all 19 steps passed.
+- Engine setup 2.2 s and the 491.4 MB model 14 s on this connection. First answer with `ucompute run` 13.1 s (6 s on the previous run, with less else running on the Mac).
+- Service up in 1.4 s, `/health` reports 0.1.1, first answer through `curl` 9.5 s including the model load (3.3 s on the previous run). A model that is not downloaded returns `model_not_downloaded`.
+- The official OpenAI Python client on Apple Python 3.9.6 (openai 2.48.0) and python.org 3.13.7 (openai 3.46.0), and the JavaScript client (openai 7.52.0), ran the page's code unchanged.
+- The daemon stopped cleanly with nothing left running. The data folder is 522 MB and the app 13 MB.
+
+Cold read, level L2, an agent given only the page and an installed copy; not a person and not user evidence.
+- `curl`, JavaScript, the command line and Control-C worked from the page alone. It answered all five comprehension questions correctly, with quotes.
+- Fixed from it: "only the base URL changed" was wrong, since the model and an API key string also change; the stuck list ignored `ucompute serve` and client errors; `ucompute doctor` does not report the service; nothing said to remove the alias line; `/docs/` still said version 0.1.0.
+- Python failed, and that was the most important finding. Homebrew Python 3.14.8 cannot load `pyexpat` on this macOS, so `python3 -m venv` fails partway. The guide's block then went on to a bare `pip install`, which installs wherever `pip` first appears on PATH. My checker hid this because it put Apple's Python first. The block now calls the folder's own `pip`, so a failed folder installs nothing; the guide names the failure and the way out; the checker runs the block with every Python on the Mac and refuses a bare `pip`. These fixes are verified at L1, not re-read at L2.
+
+Incident in that cold read: the agent's brief redirected HOME but not PATH, so the old block's bare `pip install openai` ran in the owner's `~/.platformio/penv` at 03:34. It added openai 3.46.0, httpx2 2.16.0, httpcore2 2.16.0 and truststore 0.10.5, and reinstalled idna 3.20 and jiter 0.18.0; their earlier versions were not captured. `pip check` is clean. The owner was told at once with the exact rollback command, and nothing further was changed there. Cold reads now run with a restricted PATH (`docs/DEVEX.md`).
+
+Not verified, and not claimed: anything through the app window, the Open Anyway path, and whether the bundled `ucompute` needs a second approval after it. Engineering confirms there is no evidence of a window-only first answer on an empty home (requirement still IMPLEMENTED_UNVERIFIED) and asks that the second approval be measured, not stated. The page says both. No measure has reached L3.
+
+WP-04: engineering reports P1's first generating run passed at 1038a7f, with no verdict; nothing about pooling is claimable, and no page changed for it. Growth's docs-pages request (HO-005) is deferred to the next snapshot in `docs/LAUNCH.md`.
+
+## 2026-11-02: home page refresh on its own branch preview
+
+At the owner's direction, `home-refresh` (2f75cdc) carries the refreshed home page: full-screen hero with a WebGL particle brain, "How it works" steps, a closable preview notice, tighter sections, and smoother motion site-wide. The owner approved pushing it to a private preview; it has not been merged into `stage-snapshot` or `preview`.
+
+Before and after the push:
+- At a real 60 Hz (Energy Saver off), 4 s idle: frames over 20 ms went from 2 to 0, and main-thread rendering work on the home page from about 138 ms to about 7 ms per 2 s. Chrome's Energy Saver caps every site at 30 fps at or below 20% battery; the site cannot change that.
+- `npm test` passes in all modes. D-023: the prelaunch tree and both pages match `origin/main` apart from asset hashes.
+- Deployed: the alias serves the same asset hashes as the local build. `verify-live.mjs` with the alias passes, and the alias stops at Access. `verify:release` passes on it. Rendered through Access with no console errors.
+
+Not done for this branch: the three-browser suite and Lighthouse, which are owed before any merge into `stage-snapshot`.
+
 ## 2026-10-30: candidate 2 (0.1.1) published to the stage-snapshot alias
 
 The owner approved candidate 2 in writing in the engineering session, and engineering recorded it as D-031 (ee56ffa, 2026-10-30): `UCompute_0.1.1_aarch64.dmg`, 6,425,890 bytes, SHA-256 `c1166ba91cf07d0af7d57e3563a4f592b0de077fefc9e0725192aae38c42b937`, to the existing private-alpha channel, the stage-snapshot alias behind Access, with preview.ucompute.org and production unchanged. The owner named no cohort and manages it directly through the Access policy, so no Access change was requested. The record was read from the engineering repository itself with `git show`, not taken from the relayed message.

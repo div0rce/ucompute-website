@@ -70,11 +70,11 @@ The site has no analytics (spec 29.5), so measures come from observed sessions, 
 
 | # | Best evidence so far | Level | Gap |
 |---|---|---|---|
-| T1 | Engineering's packaged-app check, 19 of 19, one Mac, covers the packaged app's lifecycle and golden output. It is not a human path and is not cited as one | L1 (engineering), lifecycle only | Open Anyway needs a person; not yet tried on a second Mac with this build. Whether the bundled `ucompute` needs its own approval afterwards is unmeasured |
-| T2 | Command-line path not yet run | L0 | Engineering confirms no evidence of a window-only first answer on an empty home (requirement F-10-01, still IMPLEMENTED_UNVERIFIED). It stays on engineering's list after P1 |
+| T1 | The approved disk image checked and the app copied out, in seconds. Engineering's packaged-app check, 19 of 19, covers lifecycle and golden output; it is not a human path and is not cited as one | L1 without the window | Open Anyway needs a person; not yet tried on a second Mac with this build. Whether the bundled `ucompute` needs its own approval afterwards is unmeasured |
+| T2 | Command-line path: engine and model in about 16 s on this connection, first answer in 6 to 13 s on one 8 GB M2. Window path: read from the source only | L1 command line, L0 window | Engineering confirms no evidence of a window-only first answer on an empty home (requirement F-10-01, still IMPLEMENTED_UNVERIFIED). It stays on engineering's list after P1 |
 | T3 | Physical pairs with development builds; 0.1.1 itself untested between two machines | Below L1 for 0.1.1 | Blocked on engineering evidence for this build |
-| T4 | Not yet run | L0 | No independent developer yet |
-| T5 | None | None | Needs L3 sessions |
+| T4 | `curl`, and the official Python and JavaScript clients, ran the page's code unchanged on the approved build. An agent cold read finished `curl` and JavaScript from the page alone; its Python failure led to the fix, which is verified at L1 | L1, L2 in part | No independent developer yet |
+| T5 | An agent answered five support, privacy and maturity questions correctly from the page alone | L2 | Needs L3 sessions |
 
 No measure has reached L3. The target of five testers has no date from the owner.
 
@@ -85,6 +85,10 @@ No measure has reached L3. The target of five testers has no date from the owner
 - `reference/interfaces.json` is exported at the release's source commit, so the reference matches what people can install.
 - A step that needs a person (Gatekeeper approval, anything through a window) is marked as such in the record until a person has done it.
 - Reserved ports stay reserved, and checks run with their own data folder; see the handoff's hard limits.
+- Before running anything on a shared host, check what is running there and get engineering's "Mac clear".
+- A cold read runs with HOME and PATH both restricted, so no tool outside its folder is reachable. A redirected HOME alone let one reach the owner's own Python environment on 2026-11-06 (`VERIFICATION.md`).
+- A guide's block must fail safely when a line fails. Copied blocks keep going after an error, so call a virtual environment's tools by path and never rely on `activate` before a bare `pip`.
+- A checker uses the tools a reader has, in the order they have them. Each Python on the machine is tried, because the first checker used Apple's and hid a failure with Homebrew's.
 
 ## Roadmap
 
@@ -92,15 +96,17 @@ Ordered by which measure each item moves. An item moves only with the evidence n
 
 | Order | Item | Moves | State | Waiting on |
 |---|---|---|---|---|
-| 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Drafted on branch `devex-first-run`; not yet run | Engineering's "Mac clear"; window steps need a person |
+| 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Done on 2026-11-06 for everything but the window; see `VERIFICATION.md` | Window steps need a person (item 3) |
 | 2 | Observed-session kit: consent, task sheet, stopwatch sheet, comprehension check, no prompt text recorded | All, to reach L3 | Next | Owner names testers; Growth may recruit through its hand-off |
 | 3 | Walk the window path once at L1 on a clean account: Open Anyway, Get started, Download, Run, Chat. Also measure whether the bundled `ucompute` runs from Terminal after Open Anyway | T1, T2 | Next | A person at the Mac, or engineering's F-10-01 run after P1 |
 | 4 | Troubleshooting from real failures, ordered by what people hit, with every error's next step | T1, T2, T4 | Next | Findings from 2 and 3 |
 | 5 | Release-specific compatibility notes and a versioned docs header | T5 | Next | Next approved build |
-| 6 | Device connection guide for an approved build | T3 | Blocked | Engineering evidence that the build connects between two machines; pairing two Macs is not yet shown |
+| 6 | Device connection guide for an approved build | T3 | Blocked | Engineering evidence that the build connects between two machines; pairing two Macs is not yet shown. Pooling is not claimable: WP-04 has no verdict |
 | 7 | One small reference application built on the local API, verified like the guide | T4 | After 2 | SDKs are planned; start from the OpenAI clients the snapshot allows |
-| 8 | Public install path: signed installers, source build instructions that work | T1 | Blocked | Publishing the source; signing identities; owner's decision |
-| 9 | Search and structured documentation for the public site | Discovery | Blocked | Owner's launch authorization |
+| 8 | SDK quickstarts for the external developer alpha, verified like the guide | T4 | Waiting | Engineering's Python and TypeScript SDKs, in progress; engineering will say when they land |
+| 9 | Growth's four claim pages: networks, platforms, data and connections, API compatibility | T5 | Deferred (HO-005) | The final capability snapshot |
+| 10 | Public install path: signed installers, source build instructions that work | T1 | Blocked | Publishing the source; signing identities; owner's decision |
+| 11 | Search and structured documentation for the public site | Discovery | Blocked | Owner's launch authorization |
 
 ## Readiness and open requests, 2026-11-06
 
@@ -117,3 +123,6 @@ For Program Control. Each line is a request or a dependency, not an approval.
 | Engineering | WP-04 verdict | Pooled options in the reference | Open |
 | Engineering | Connection evidence for an approved build | Roadmap 6 | Open |
 | Engineering | Signing identities | A first open without System Settings | Open (B-008) |
+| Engineering | Measure whether the bundled `ucompute` runs from Terminal after Open Anyway | The guide's command-line section | Open; engineering asked that it be measured, not stated |
+| Engineering | A window-only first answer on an empty home (F-10-01) | T2 at L1 | Open; after P1 |
+| Engineering | The three-browser suite needs a "sentinel clear" window | `home-refresh` before any merge | Open |
