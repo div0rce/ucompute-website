@@ -14,7 +14,7 @@ description: Use UCompute from your own app: an OpenAI-compatible API on 127.0.0
 <div>
 <h2 class="h-sub" id="quickstart">Quickstart</h2>
 <ol class="steps stack">
-<li><div><h3>Install and set up</h3><p>Once the source is published, build the <code>ucompute</code> command (see <a href="/docs/install/">Install</a>), then run <code>ucompute setup</code> to download and verify the pinned engine.</p></div></li>
+<li><div><h3>Install and set up</h3><p>Once the source is published, build the <code>ucompute</code> command (see <a href="/docs/install/">Install</a>), then run <code>ucompute setup</code> to download and verify the pinned engine.</p>{{alpha}}<p>Have the private-alpha build? It includes all of this, with no build step: follow <a href="/docs/first-run/">First run on a Mac</a>.</p>{{/alpha}}</div></li>
 <li><div><h3>Get a model</h3><p><code>ucompute models pull qwen2.5-0.5b-instruct-q4_k_m</code> shows the license, then downloads and verifies 491 MB.</p></div></li>
 <li><div><h3>Start the daemon</h3><p><code>ucompute serve</code> listens on <code>http://127.0.0.1:8192</code>. The desktop app starts the same daemon for you.</p></div></li>
 <li><div><h3>Call it</h3><p>Use the official OpenAI Python or JavaScript client with the base URL changed. The model loads on the first request. Demonstrated on an Apple M2 Mac (macOS 26.2); the platform is experimental.{{claim:openai-clients}}</p></div></li>

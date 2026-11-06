@@ -196,6 +196,8 @@ function claimCheck(root, pages, mode) {
     // Alpha releases are allowed only on the preview build (behind Access); a public build may link only public stages.
     const approved = new Set(downloadsFor(mode).flatMap(r => r.artifacts.map(a => a.url)));
     for (const href of attrs(html, 'href')) if (/\.(dmg|exe|msi|pkg|zip|appimage|deb|rpm)(\?|$)/i.test(href) && !approved.has(href)) fail(`${mode}/${f}`, `download link with no release record: ${href}`);
+    // The first-run guide describes a private-alpha build, so it exists only on a build that offers one.
+    if (f === 'docs/first-run/index.html' && !downloadsFor(mode).length) fail(`${mode}/${f}`, 'first-run guide on a build with no private-alpha download');
   }
 }
 

@@ -154,15 +154,16 @@ ${FOOTER.map(([h, links]) => `<div><h2>${h}</h2><ul>${links.map(([href, label]) 
 </footer>`;
 }
 
-function docsShell(path, body) {
-  const i = DOCS.findIndex(([href]) => href === path);
-  const prev = DOCS[i - 1], next = DOCS[i + 1];
+function docsShell(path, body, meta, mode) {
+  const docs = downloadsFor(mode).length ? [...DOCS.slice(0, 1), ['/docs/first-run/', 'First run on a Mac'], ...DOCS.slice(1)] : DOCS;
+  const i = docs.findIndex(([href]) => href === path);
+  const prev = docs[i - 1], next = docs[i + 1];
   return `<div class="shell docs">
 <nav class="docs-nav" aria-label="Documentation"><h2>Documentation</h2><ul>
-${DOCS.map(([href, label]) => `<li><a href="${href}"${href === path ? ' aria-current="page"' : ''}>${label}</a></li>`).join('\n')}
+${docs.map(([href, label]) => `<li><a href="${href}"${href === path ? ' aria-current="page"' : ''}>${label}</a></li>`).join('\n')}
 </ul></nav>
 <article class="docs-main prose">
-${path === '/docs/' ? body : body.replace('</h1>', '</h1>\n<p class="fine">Development code as of 23 October 2026. The source has not been published yet, so this page describes how the development builds work.</p>')}
+${path === '/docs/' || meta.alpha ? body : body.replace('</h1>', '</h1>\n<p class="fine">Development code as of 23 October 2026. The source has not been published yet, so this page describes how the development builds work.</p>')}
 <nav class="docs-pager" aria-label="Previous and next">${prev ? `<a href="${prev[0]}"><span>Previous</span>${prev[1]}</a>` : '<span></span>'}${next ? `<a href="${next[0]}"><span>Next</span>${next[1]}</a>` : ''}</nav>
 </article>
 </div>`;
@@ -327,6 +328,11 @@ ${r.install?.length ? `<h4>Before you install</h4>\n<ul>\n${r.install.map(s => `
 // Shared snippets pages can drop in, so icons and URLs live in one place.
 const fill = (s, file, mode) => {
   s = resolveClaims(s, file).replaceAll('{{brand}}', brand).replaceAll('{{preview}}', PREVIEW);
+  // {{alpha}}...{{/alpha}}: shown only on a build that offers a private-alpha download, which is never a public one.
+  // Inside it, {{alpha-version}} and {{alpha-file}} come from the release record, so a new build can't leave them stale.
+  const alpha = downloadsFor(mode)[0];
+  s = s.replace(/\{\{alpha\}\}([\s\S]*?)\{\{\/alpha\}\}/g, (_, inner) => alpha ? inner : '');
+  if (alpha) s = s.replaceAll('{{alpha-version}}', alpha.version).replaceAll('{{alpha-file}}', alpha.artifacts[0].file);
   if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml(mode));
   if (s.includes('{{api-bodies}}')) s = s.replace('{{api-bodies}}', apiBodies());
   if (s.includes('{{api-responses}}')) s = s.replace('{{api-responses}}', apiResponses());
@@ -337,7 +343,7 @@ export function render(page, mode, assets) {
   const { meta, path } = page;
   const body = fill(page.body, page.file, mode);
   if (meta.layout === 'bare') return `${head({ meta, path, mode, assets })}\n<body>\n${body}</body>\n</html>\n`;
-  const inner = meta.layout === 'docs' ? docsShell(path, body) : body;
+  const inner = meta.layout === 'docs' ? docsShell(path, body, meta, mode) : body;
   return `${head({ meta, path, mode, assets })}
 <body>
 ${header(path, mode)}
@@ -382,7 +388,8 @@ export function build(mode, out) {
     sources.push([join(ROOT, 'src/prelaunch/index.html'), '/'], [join(ROOT, 'src/prelaunch/404.html'), '/404.html']);
   }
 
-  const pages = sources.map(([file, path]) => ({ ...parsePage(readFileSync(file, 'utf8'), file), path, file }));
+  const pages = sources.map(([file, path]) => ({ ...parsePage(readFileSync(file, 'utf8'), file), path, file }))
+    .filter(p => p.meta.alpha !== 'true' || downloadsFor(mode).length);
   for (const p of pages) {
     const dest = p.path.endsWith('/') ? join(out, p.path, 'index.html') : join(out, p.path);
     mkdirSync(dirname(dest), { recursive: true });

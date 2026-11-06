@@ -43,8 +43,10 @@ layout: docs
 <li>On a Mac, the firewall in System Settings, Network, may block incoming connections (suspected, not confirmed); if the Mac cannot serve requests, allow the app there.</li>
 </ul>
 <h2 id="mac-blocked">macOS won't open the app</h2>
-<p>Development builds are ad-hoc signed and not notarized. Allow the app once in System Settings, Privacy &amp; Security.</p>
-<h2 id="port">Port 8192 is already in use</h2>
+<p>Development builds are ad-hoc signed and not notarized. Allow the app once in System Settings, Privacy &amp; Security.{{alpha}} The exact steps are in <a href="/docs/first-run/#install">First run on a Mac</a>.{{/alpha}}</p>
+{{alpha}}<h2 id="not-found"><code>ucompute</code> is not found</h2>
+<p>In the private-alpha build the command is inside the app, not on your path. <a href="/docs/first-run/#cli">Point your shell at it</a>.</p>
+{{/alpha}}<h2 id="port">Port 8192 is already in use</h2>
 <p>The desktop app checks <code>GET /health</code> on 127.0.0.1:8192 first and reuses a daemon that already answers. If something else holds the port, stop it: the desktop app only uses port 8192.</p>
 
 <h2 id="report">Reporting a problem safely</h2>

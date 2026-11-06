@@ -1,6 +1,6 @@
 {
   "source": "div0rce/ucompute-dev (unpublished)",
-  "commit": "851f275",
+  "commit": "7d4d194",
   "date": "2026-10-29",
   "global": [
     {
@@ -828,6 +828,12 @@
             "name": "version",
             "type": "string",
             "required": true
+          },
+          {
+            "name": "commit",
+            "type": "string",
+            "required": true,
+            "help": "The commit the binary was built from: HEAD, with -dirty when the tree had changes; the synced commit in a tree copied by scripts/mac-host.sh sync; or unknown."
           }
         ]
       }

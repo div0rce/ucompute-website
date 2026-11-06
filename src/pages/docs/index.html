@@ -4,10 +4,11 @@ description: UCompute documentation: install, run models, configure the daemon, 
 layout: docs
 -->
 <h1>Documentation</h1>
-<p class="lede">Everything here describes the development code as of 23 October 2026, version 0.1.0. There is no public release yet, and commands and routes may still change before one.{{claim:no-release}}</p>
+<p class="lede">Everything here describes the development code as of 23 October 2026, version 0.1.0. There is no public release yet, and commands and routes may still change before one.{{claim:no-release}}{{alpha}} The command and API references match version {{alpha-version}}, the private-alpha build.{{/alpha}}</p>
 <h2>Guides</h2>
 <div class="grid-2">
-<a class="card" href="/start/"><h3>Start here</h3><p>Four paths, step by step: run a model, connect a second computer, build on the API, follow the project.</p></a>
+{{alpha}}<a class="card" href="/docs/first-run/"><h3>First run on a Mac</h3><p>Install the private-alpha build, get a first answer and call the local API. For invited testers.</p></a>
+{{/alpha}}<a class="card" href="/start/"><h3>Start here</h3><p>Four paths, step by step: run a model, connect a second computer, build on the API, follow the project.</p></a>
 <a class="card" href="/docs/install/"><h3>Install</h3><p>How the development builds of the <code>ucompute</code> command and the desktop app are made on a Mac, and what exists for Windows. The source is not published yet.</p></a>
 <a class="card" href="/docs/run/"><h3>Run models</h3><p>Find, download, inspect and run models from the pinned catalog, on the CPU or a tested GPU.</p></a>
 <a class="card" href="/docs/configuration/"><h3>Configuration</h3><p>The data folder, <code>serve</code> options, <code>config.json</code> and environment variables.</p></a>

@@ -32,7 +32,7 @@ src/pages/           the complete site; each file starts with a front-matter com
 src/prelaunch/       the public page and its 404
 public/              copied as-is: assets/ucompute.css (the design system), site.js, home.js, prelaunch.js, fonts, images
 reference/           claims.json (the claim map), the original concept site, its renders, the OG image source, implementation facts
-docs/                deployment, release procedure and verification records
+docs/                deployment, release procedure, verification records, the DevEx charter and roadmap
 ```
 
 A page file looks like this:
@@ -46,7 +46,7 @@ layout: docs            (optional: "docs" adds the docs sidebar, "bare" means th
 <div class="page-hero shell">…</div>
 ```
 
-`{{brand}}` and `{{preview}}` are filled in by the build. Front matter can add `scripts: site home` to load more scripts from `public/assets/`.
+`{{brand}}` and `{{preview}}` are filled in by the build. `alpha: true` in the front matter builds a page only where a private-alpha download is offered, and `{{alpha}}…{{/alpha}}` does the same for part of a page; inside either, `{{alpha-version}}` and `{{alpha-file}}` come from `reference/releases.json`. Front matter can add `scripts: site home` to load more scripts from `public/assets/`.
 
 ### Claims
 
@@ -55,6 +55,10 @@ Every capability statement carries a `{{claim:ID}}` marker that resolves in `ref
 ### Interfaces
 
 `reference/interfaces.json` is exported read-only from the engineering repository: every CLI command and flag, HTTP route, error code with its status, and environment variable. Refresh it with `UCOMPUTE_REPO=<path> UCOMPUTE_REF=<commit> npm run interfaces:update`. `/docs/cli/` and the request and response tables on `/docs/api/` (from the API's OpenAPI document) are rendered from it, with website wording for empty help text in `reference/cli-notes.json`. The build fails on a stale or missing note, and `check.mjs` fails on anything a page names that the export lacks, including a JSON key in an example request that the route does not accept.
+
+### First run
+
+`npm run verify:first-run -- <dmg>` walks `/docs/first-run/` on this Mac against the approved disk image: it reads the commands from the built page, uses its own data folder and a test port, never opens the app window and never binds a reserved port. Run it when a new build is approved. See `docs/DEVEX.md`.
 
 ### Browsers
 

@@ -1,0 +1,79 @@
+<!--
+title: First run on a Mac
+description: Install the private-alpha build on a Mac, get a first answer from a local model, and call the local API. For invited testers.
+layout: docs
+alpha: true
+-->
+<h1>First run on a Mac</h1>
+<p class="fine">For invited testers, with UCompute {{alpha-version}}, the private-alpha build. This build is ad-hoc signed and not notarized.{{claim:installer}}</p>
+<p class="lede">From the disk image to a first answer and a first API call, using only what the download contains. You don't need the source or Rust.</p>
+
+<h2 id="need">What you need</h2>
+<ul>
+<li>A Mac like the one this build was tested on: Apple M2, 8 GB, macOS 26.2. The build is for Apple Silicon only, and other Macs are not qualified.</li>
+<li>About 600 MB of free disk: the app, the engine (about 12 MB) and the recommended model (491 MB).</li>
+<li>The internet, for the engine and the model. After that, a first answer runs on your Mac alone.{{claim:run-local}}</li>
+</ul>
+
+<h2 id="install">1. Install it</h2>
+<ol>
+<li>Download <code>{{alpha-file}}</code> from <a href="/download/#releases">Release information</a>.</li>
+<li>Check the file against the SHA-256 shown there:
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="checksum"><code>shasum -a 256 ~/Downloads/{{alpha-file}}</code></pre></div></li>
+<li>Open the disk image and drag <strong>UCompute</strong> to <strong>Applications</strong>.</li>
+<li>Open UCompute from Applications. macOS refuses the first time, because the build is not notarized.</li>
+<li>Open <strong>System Settings</strong>, then <strong>Privacy &amp; Security</strong>. Scroll to the message about UCompute, choose <strong>Open Anyway</strong> and confirm with your password. Opening from the Finder's context menu no longer gets past this.</li>
+</ol>
+
+<h2 id="answer">2. Get a first answer</h2>
+<p>The first launch downloads the inference engine and checks its hash. Then, in the app:</p>
+<ol>
+<li>On the first screen, under <strong>Get started</strong>, choose <strong>Download…</strong> next to the recommended model.</li>
+<li>Read the license and size, and confirm. A stopped download resumes next time.</li>
+<li>Choose <strong>Run</strong>. The model loads and the chat opens.</li>
+<li>Type a question. The answer is generated on this Mac, and the prompt stays here.{{claim:run-local}}</li>
+</ol>
+
+<h2 id="api">3. Call the local API</h2>
+<p>While the app is open, its background service answers on <code>http://127.0.0.1:8192</code>, on this computer only. On that address it needs no API key.{{claim:openai-clients}}</p>
+<p>Check that it is up:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="health"><code>curl http://127.0.0.1:8192/health</code></pre></div>
+<p>Ask the model you just ran:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="chat"><code>curl http://127.0.0.1:8192/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model": "qwen2.5-0.5b-instruct-q4_k_m", "messages": [{"role": "user", "content": "Say hello in five words."}]}'</code></pre></div>
+<p>The official OpenAI clients work with only the base URL changed. In Python, after <code>pip install openai</code>:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="python"><code>from openai import OpenAI
+
+client = OpenAI(base_url="http://127.0.0.1:8192/v1", api_key="unused-on-loopback")
+reply = client.chat.completions.create(
+    model="qwen2.5-0.5b-instruct-q4_k_m",
+    messages=[{"role": "user", "content": "Say hello in five words."}],
+)
+print(reply.choices[0].message.content)</code></pre></div>
+<p>In JavaScript, after <code>npm install openai</code>, in a file ending in <code>.mjs</code>:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="javascript"><code>import OpenAI from "openai";
+
+const client = new OpenAI({ baseURL: "http://127.0.0.1:8192/v1", apiKey: "unused-on-loopback" });
+const reply = await client.chat.completions.create({
+  model: "qwen2.5-0.5b-instruct-q4_k_m",
+  messages: [{ role: "user", content: "Say hello in five words." }],
+});
+console.log(reply.choices[0].message.content);</code></pre></div>
+<p>Every route and error code is in the <a href="/docs/api/">API reference</a>. Tool calling is not yet verified, and this is a tested subset, not complete OpenAI compatibility.{{claim:openai-clients}}</p>
+
+<h2 id="cli">4. Use the command line</h2>
+<p>The <code>ucompute</code> command ships inside the app. To use the commands in these docs, point your shell at it:</p>
+<div class="code-wrap"><button class="copy-btn" type="button" aria-live="polite">Copy</button><pre class="code-block" data-run="alias"><code>alias ucompute=/Applications/UCompute.app/Contents/MacOS/ucompute
+ucompute doctor</code></pre></div>
+<p><code>ucompute doctor</code> changes nothing and downloads nothing. It prints the version, data folder, hardware, engine and models, and a warning for each problem. Add the alias line to <code>~/.zshrc</code> to keep it.</p>
+
+<h2 id="stuck">If you get stuck</h2>
+<ul>
+<li><strong>macOS won't open the app.</strong> Go back to step 5 of <a href="#install">Install it</a>. The message appears in Privacy &amp; Security only after you have tried to open the app.</li>
+<li><strong><code>curl</code> can't connect.</strong> The service runs while the app is open. Open the app and try again.</li>
+<li><strong>Anything else.</strong> Run <code>ucompute doctor</code>, then see <a href="/docs/troubleshooting/">Troubleshooting</a>.</li>
+</ul>
+
+<h2 id="remove">Remove it</h2>
+<p>Quit the app, then delete UCompute from Applications. Models, the engine, device keys, settings and logs stay in <code>~/Library/Application Support/UCompute</code> until you delete that folder too. Nothing is removed for you.</p>

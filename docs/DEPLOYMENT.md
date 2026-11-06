@@ -56,6 +56,8 @@ Run `npm test` before pushing; the Cloudflare build runs the same checks on the 
 
 ## Workstreams and hand-offs
 
+Since 2026-11-06 this workstream is Website & Developer Experience (DevEx), responsible for the complete journey from discovery through installation, first inference, device connection, API learning, troubleshooting and developer integration. Its permanent charter, measures, release boundaries and roadmap are in `docs/DEVEX.md`, and Program Control reads readiness and open requests there. Engineering still owns the APIs, SDK implementations, runtime and installers. Growth still owns acquisition and campaigns, and its material still enters through the review below. Nothing here changes who approves a release, a cohort or a launch.
+
 Since the owner's announcement of 2026-10-30, UCompute has four workstreams: Engineering (product, integration, security, testing, releases), Core Lab (distributed-computing research, benchmarks, verification), Website (this repository: the site, documentation, downloads, Cloudflare and the release gates) and Growth (marketing, positioning, technical content, community, developer adoption, growth analytics). Growth works in its own repository and environment. Website is its interface to the public product: Growth develops content and acquisition strategy, and Website integrates approved material into ucompute.org and keeps the implementation and deployment authority.
 
 What Website hands over, in this repository and with no new infrastructure:
