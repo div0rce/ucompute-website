@@ -66,7 +66,7 @@ Every capability statement carries a `{{claim:ID}}` marker that resolves in `ref
 
 ### Motion
 
-`public/assets/home.js` runs the home page's WebGL device fabric, scroll story and header switch. `site.js` draws the instruments (ledger grids, scales), drives the scroll parallax (`.orbit`, `[data-parallax]`) and the "Pause motion" control. Every moving piece rests in a complete, readable state without JS, without WebGL, under `prefers-reduced-motion`, or when paused.
+`public/assets/home.js` runs the home page's WebGL particle brain, scroll story and header switch. `site.js` draws the instruments (ledger grids, scales), drives the scroll parallax (`.orbit`, `[data-parallax]`) and the "Pause motion" control. Every moving piece rests in a complete, readable state without JS, without WebGL, under `prefers-reduced-motion`, or when paused.
 
 ## Content rules
 

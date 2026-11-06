@@ -119,9 +119,10 @@ ${(meta.scripts || 'site').split(/\s+/).map(s => `<script src="/assets/${s}.js?v
 }
 
 function header(path, mode) {
+  const [ctaHref, ctaLabel] = downloadsFor(mode).length ? ['/download/', 'Download'] : ['/docs/', 'Read the docs'];
   const current = href => path === href || (href !== '/' && path.startsWith(href)) ? ' aria-current="page"' : '';
   const announce = mode === 'preview'
-    ? `<aside class="announce announce-preview" aria-label="Site notice"><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 23 October 2026 (draft 3).</aside>`
+    ? `<aside class="announce announce-preview" aria-label="Site notice"><span><span class="announce-dot" aria-hidden="true"></span>Team preview. Not public, not indexed. Claims follow the engineering capability snapshot of 23 October 2026 (draft 3).</span><button class="announce-close" type="button" aria-label="Close this notice">×</button></aside>`
     : `<aside class="announce" aria-label="News"><span class="announce-dot" aria-hidden="true"></span>Recorded on 19 October 2026 with development builds: a Windows laptop ran a prompt on a Mac across a paired connection. <a href="/demo/">See the evidence</a></aside>`;
   return `<a href="#main" class="skip-link">Skip to content</a>
 ${announce}
@@ -130,10 +131,10 @@ ${announce}
 <a class="brand" href="/" aria-label="UCompute home">${brand}</a>
 <div class="nav-links" id="nav-links">
 ${NAV.map(([href, label]) => `<a href="${href}"${current(href)}>${label}</a>`).join('\n')}
-<a class="nav-mobile-only" href="/start/"${current('/start/')}>Start here</a>
+<a class="nav-mobile-only" href="${ctaHref}"${current(ctaHref)}>${ctaLabel}</a>
 </div>
 <div class="nav-right">
-<a class="btn btn-dark" href="/start/">Start here</a>
+<a class="btn btn-dark" href="${ctaHref}">${ctaLabel}</a>
 <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
 </div>
 </nav>
@@ -334,6 +335,13 @@ const fill = (s, file, mode) => {
   s = s.replace(/\{\{alpha\}\}([\s\S]*?)\{\{\/alpha\}\}/g, (_, inner) => alpha ? inner : '');
   if (alpha) s = s.replaceAll('{{alpha-version}}', alpha.version).replaceAll('{{alpha-file}}', alpha.artifacts[0].file);
   if (s.includes('{{releases}}')) s = s.replace('{{releases}}', releasesHtml(mode));
+  const offered = downloadsFor(mode).length > 0;
+  s = s.replace('{{hero-cta}}', offered
+    ? '<a class="btn btn-lime btn-lg" href="/download/">Download for macOS</a><a class="link-arrow on-dark-link" href="#how">How it works</a>'
+    : '<a class="btn btn-lime btn-lg" href="#how">How it works</a><a class="link-arrow on-dark-link" href="/download/">Release status</a>');
+  s = s.replace('{{hero-note}}', offered
+    ? '<strong>Private alpha</strong> for invited testers. Apple Silicon Macs only; tested on one Apple M2.'
+    : '<strong>In development.</strong> No public release yet; development builds only.');
   if (s.includes('{{api-bodies}}')) s = s.replace('{{api-bodies}}', apiBodies());
   if (s.includes('{{api-responses}}')) s = s.replace('{{api-responses}}', apiResponses());
   return s.includes('{{cli-reference}}') ? s.replace('{{cli-reference}}', cliReference()) : s;

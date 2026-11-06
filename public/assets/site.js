@@ -2,6 +2,38 @@
 (() => {
   'use strict';
 
+  // The home hero fills exactly one screen under the header, so it needs the header's and the notice's heights.
+  // They are set on the hero itself: a variable changed on the root would restyle the whole page.
+  const hero = document.querySelector('.fabric');
+  const measure = () => {
+    if (!hero) return;
+    const head = document.querySelector('.site-header'), note = document.querySelector('.announce');
+    const h = head ? head.offsetHeight : 0, n = note ? note.offsetHeight : 0;
+    if (head) hero.style.setProperty('--head-h', `${h}px`);
+    hero.style.setProperty('--announce-h', `${n}px`);
+  };
+  addEventListener('resize', measure);
+
+  // The preview notice can be closed, and stays closed for this viewer.
+  const notice = document.querySelector('.announce-preview');
+  if (notice) {
+    let closed = false;
+    try { closed = localStorage.getItem('ucompute-notice') === 'closed'; } catch {}
+    if (closed) notice.remove();
+    else notice.querySelector('.announce-close')?.addEventListener('click', () => {
+      try { localStorage.setItem('ucompute-notice', 'closed'); } catch {}
+      notice.remove();
+      measure();
+      document.querySelector('.site-header a, .site-header button')?.focus();
+    });
+  }
+
+  measure();
+
+  // The orbit starts pulsing the first time it comes into view.
+  const orbit = document.querySelector('.orbit');
+  if (orbit) new IntersectionObserver(([e], io) => { if (e.isIntersecting) { orbit.classList.add('in-view'); io.disconnect(); } }, { threshold: .3 }).observe(orbit);
+
   // Mobile menu
   const toggle = document.querySelector('.menu-toggle');
   const links = document.getElementById('nav-links');
@@ -99,22 +131,37 @@
     instruments.forEach(el => io.observe(el));
   }
 
-  // Vision rings open as they scroll through the screen (--p runs 0 to 1).
+  // Looping animations pause while their section is off screen. SVG animations are not run by the compositor, so
+  // even off screen they would restyle and repaint the page on every frame.
+  const loops = new Set(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations === Infinity)
+    .map(a => a.effect.target.closest('section') || a.effect.target));
+  if (loops.size) {
+    const io = new IntersectionObserver(entries => { for (const e of entries) e.target.classList.toggle('is-offscreen', !e.isIntersecting); });
+    loops.forEach(el => io.observe(el));
+  }
+
+  // Vision rings open as they scroll through the screen (--p runs 0 to 1). Only elements near the screen are
+  // measured, all reads come before any write, and an unchanged value is not written again.
   const moving = [...document.querySelectorAll('.orbit, [data-parallax]')];
   if (moving.length && !still) {
+    const near = new Set();
     let queued = false;
     const update = () => {
       queued = false;
-      for (const el of moving) {
+      const next = [...near].map(el => {
         const r = el.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .5)));
-        el.style.setProperty('--p', p.toFixed(3));
-      }
+        return [el, Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .5))).toFixed(3)];
+      });
+      for (const [el, p] of next) if (el.style.getPropertyValue('--p') !== p) el.style.setProperty('--p', p);
     };
     const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) e.isIntersecting ? near.add(e.target) : near.delete(e.target);
+      queue();
+    }, { rootMargin: '25% 0px' });
+    moving.forEach(el => io.observe(el));
     addEventListener('scroll', queue, { passive: true });
     addEventListener('resize', queue);
-    update();
   }
 
   // Pause motion (WCAG 2.2.2): one switch for every looping animation on the site, remembered per viewer.
