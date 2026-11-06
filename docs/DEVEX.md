@@ -97,7 +97,7 @@ Ordered by which measure each item moves. An item moves only with the evidence n
 | Order | Item | Moves | State | Waiting on |
 |---|---|---|---|---|
 | 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Done on 2026-11-06 for everything but the window; see `VERIFICATION.md` | Window steps need a person (item 3) |
-| 2 | Observed-session kit: consent, task sheet, stopwatch sheet, comprehension check, no prompt text recorded | All, to reach L3 | Next | Owner names testers; Growth may recruit through its hand-off |
+| 2 | Onboarding test: cohort criteria, task sheet, consent and scoring, one instrument with engineering's U-04 study (`ONBOARDING-TEST.md`) | All, to reach L3 | Prepared on 2026-11-06; not started | Its gate: security route, approved artifacts, access, release requirements, and the owner's recruiting |
 | 3 | Walk the window path once at L1 on a clean account: Open Anyway, Get started, Download, Run, Chat. Also measure whether the bundled `ucompute` runs from Terminal after Open Anyway | T1, T2 | Waiting | Engineering's F-10-01 run after P1 (the owner's choice, 2026-11-06) |
 | 4 | Troubleshooting from real failures, ordered by what people hit, with every error's next step | T1, T2, T4 | Next | Findings from 2 and 3 |
 | 5 | Release-specific compatibility notes and a versioned docs header | T5 | Next | Next approved build |
@@ -114,7 +114,7 @@ For Program Control. Each line is a request or a dependency, not an approval.
 
 | To | Request | Needed for | State |
 |---|---|---|---|
-| Owner | Name the testers, or say who recruits them | L3 evidence for every measure | Open; "what I have is all I got for now" |
+| Owner | Recruit 3 to 5 independent developers, five if the private-alpha gate is to be met | L3 evidence for every measure | Approved in principle, relayed by Program Control on 2026-11-06 (HO-016); no invitations until the gate in `ONBOARDING-TEST.md` is met. Engineering is recording it |
 | Owner | Decide whether `home-refresh` moves to the stage-snapshot alias or `preview` | Home page | Open; private branch preview since 2026-11-02 |
 | Owner | Cloudflare Pages token, prune dry run and `--delete` | Old deployments | Open since 2026-10-30 |
 | Owner | Publish the source, security route, trademark clearance, launch authorization | Public release | Open |
