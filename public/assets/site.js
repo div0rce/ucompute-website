@@ -4,15 +4,17 @@
 
   // The home hero fills exactly one screen under the header, so it needs the header's and the notice's heights.
   // They are set on the hero itself: a variable changed on the root would restyle the whole page.
+  // A ResizeObserver reads them right after layout, so nothing here forces the first layout of the page.
   const hero = document.querySelector('.fabric');
+  const head = document.querySelector('.site-header');
   const measure = () => {
     if (!hero) return;
-    const head = document.querySelector('.site-header'), note = document.querySelector('.announce');
-    const h = head ? head.offsetHeight : 0, n = note ? note.offsetHeight : 0;
-    if (head) hero.style.setProperty('--head-h', `${h}px`);
-    hero.style.setProperty('--announce-h', `${n}px`);
+    const note = document.querySelector('.announce');
+    if (head) hero.style.setProperty('--head-h', `${head.offsetHeight}px`);
+    hero.style.setProperty('--announce-h', `${note ? note.offsetHeight : 0}px`);
   };
-  addEventListener('resize', measure);
+  // Work that needs layout waits until the page has painted.
+  const afterPaint = fn => requestAnimationFrame(() => setTimeout(fn));
 
   // The preview notice can be closed, and stays closed for this viewer.
   const notice = document.querySelector('.announce-preview');
@@ -28,7 +30,12 @@
     });
   }
 
-  measure();
+  if (hero && head) {
+    const sized = new ResizeObserver(measure);
+    sized.observe(head);
+    const note = document.querySelector('.announce');
+    if (note) sized.observe(note);
+  }
 
   // The orbit starts pulsing the first time it comes into view.
   const orbit = document.querySelector('.orbit');
@@ -84,8 +91,8 @@
       else el.removeAttribute('tabindex');
     }
   };
-  markScrollable();
-  document.fonts.ready.then(markScrollable); // web fonts change widths after first layout
+  // Web fonts change widths after first layout. Reading document.fonts.ready forces a full layout, so it waits too.
+  afterPaint(() => { markScrollable(); document.fonts.ready.then(markScrollable); });
   let pending = false;
   addEventListener('resize', () => { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; markScrollable(); }); } });
 
@@ -133,12 +140,13 @@
 
   // Looping animations pause while their section is off screen. SVG animations are not run by the compositor, so
   // even off screen they would restyle and repaint the page on every frame.
-  const loops = new Set(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations === Infinity)
-    .map(a => a.effect.target.closest('section') || a.effect.target));
-  if (loops.size) {
+  afterPaint(() => {
+    const loops = new Set(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations === Infinity)
+      .map(a => a.effect.target.closest('section') || a.effect.target));
+    if (!loops.size) return;
     const io = new IntersectionObserver(entries => { for (const e of entries) e.target.classList.toggle('is-offscreen', !e.isIntersecting); });
     loops.forEach(el => io.observe(el));
-  }
+  });
 
   // Vision rings open as they scroll through the screen (--p runs 0 to 1). Only elements near the screen are
   // measured, all reads come before any write, and an unchanged value is not written again.

@@ -108,7 +108,7 @@ code,kbd,samp,pre{font-family:var(--mono);font-size:.92em}
 .pill-verified{color:#2d6a1f}.pill-verified::before{background:#4caf3b;box-shadow:0 0 0 3px #4caf3b22}
 .pill-dev{color:#3a5a26}.pill-dev::before{background:var(--lime-deep)}
 .pill-experimental{color:#8a5a00}.pill-experimental::before{background:#e0a52a;box-shadow:0 0 0 3px #e0a52a26}
-.pill-planned{color:#6b756b}.pill-planned::before{background:transparent;border:1.5px solid #8d998c;width:6px;height:6px}
+.pill-planned{color:var(--text-2)}.pill-planned::before{background:transparent;border:1.5px solid #8d998c;width:6px;height:6px}
 .pill-research{color:#5b4b7a}.pill-research::before{background:#9b86c7}
 .section-dark .pill,.fabric .pill{color:var(--on-dark-3)}
 .section-dark .pill-experimental,.fabric .pill-experimental{color:#f0c463}

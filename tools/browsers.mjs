@@ -82,7 +82,8 @@ for (const [name, type] of [['chromium', chromium], ['firefox', firefox], ['webk
     console.log(`  motion: WebGL ${live ? 'live' : 'unavailable (static field)'}, ${frames} frames/s`);
     // Headless browsers draw WebGL in software (about 13 to 26 frames a second here); this only checks the loop runs.
     if (live && frames < 5) bad(`${name} motion`, `fabric is live but only ${frames} frames in a second`);
-    const toggle = page.locator('.motion-toggle-hero');
+    // The switch is in the footer; clicking it without scrolling keeps the hero, and its canvas, on screen.
+    const toggle = { click: () => page.evaluate(() => document.querySelector('.motion-toggle').click()) };
     await toggle.click();
     await page.waitForTimeout(300);
     const paused = await page.evaluate(() => document.documentElement.classList.contains('motion-paused') && document.querySelector('.motion-toggle').getAttribute('aria-pressed') === 'true');

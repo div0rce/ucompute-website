@@ -13,7 +13,7 @@
   if (gl) {
     let seed = 11; // deterministic: the same brain on every visit
     const rnd = () => { seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-    const narrow = innerWidth < 860;
+    const narrow = matchMedia('(max-width: 859px)').matches;
     // Smooth 3D value noise, for the folds.
     const hash = (x, y, z) => { let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1440670441); h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
     const noise = (x, y, z) => {
@@ -301,7 +301,7 @@
     // Clear only at the very top; as soon as the page moves, the header gets its own background so text never runs under it.
     const top = () => header.classList.toggle('is-scrolled', scrollY > 2);
     addEventListener('scroll', top, { passive: true });
-    top();
+    requestAnimationFrame(() => setTimeout(top)); // after first paint: reading scrollY here would force the page's first layout
   }
 
   // ---- Scroll story: the step crossing the middle of the screen drives the diagram.
