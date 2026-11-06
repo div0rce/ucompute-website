@@ -71,9 +71,9 @@ The site has no analytics (spec 29.5), so measures come from observed sessions, 
 | # | Best evidence so far | Level | Gap |
 |---|---|---|---|
 | T1 | Engineering's packaged-app check, 19 of 19, one Mac, covers the packaged app's lifecycle and golden output. It is not a human path and is not cited as one | L1 (engineering), lifecycle only | Open Anyway needs a person; not yet tried on a second Mac with this build. Whether the bundled `ucompute` needs its own approval afterwards is unmeasured |
-| T2 | See `VERIFICATION.md`, 2026-11-06, for the command-line path | L1 | Engineering confirms no evidence of a window-only first answer on an empty home (requirement F-10-01, still IMPLEMENTED_UNVERIFIED). It stays on engineering's list after P1 |
+| T2 | Command-line path not yet run | L0 | Engineering confirms no evidence of a window-only first answer on an empty home (requirement F-10-01, still IMPLEMENTED_UNVERIFIED). It stays on engineering's list after P1 |
 | T3 | Physical pairs with development builds; 0.1.1 itself untested between two machines | Below L1 for 0.1.1 | Blocked on engineering evidence for this build |
-| T4 | See `VERIFICATION.md`, 2026-11-06 | L1, L2 | No independent developer yet |
+| T4 | Not yet run | L0 | No independent developer yet |
 | T5 | None | None | Needs L3 sessions |
 
 No measure has reached L3. The target of five testers has no date from the owner.
@@ -92,7 +92,7 @@ Ordered by which measure each item moves. An item moves only with the evidence n
 
 | Order | Item | Moves | State | Waiting on |
 |---|---|---|---|---|
-| 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Done on 2026-11-06; see `VERIFICATION.md` | Window steps need a person |
+| 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Drafted on branch `devex-first-run`; not yet run | Engineering's "Mac clear"; window steps need a person |
 | 2 | Observed-session kit: consent, task sheet, stopwatch sheet, comprehension check, no prompt text recorded | All, to reach L3 | Next | Owner names testers; Growth may recruit through its hand-off |
 | 3 | Walk the window path once at L1 on a clean account: Open Anyway, Get started, Download, Run, Chat. Also measure whether the bundled `ucompute` runs from Terminal after Open Anyway | T1, T2 | Next | A person at the Mac, or engineering's F-10-01 run after P1 |
 | 4 | Troubleshooting from real failures, ordered by what people hit, with every error's next step | T1, T2, T4 | Next | Findings from 2 and 3 |
