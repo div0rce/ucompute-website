@@ -116,7 +116,6 @@ For Program Control. Each line is a request or a dependency, not an approval.
 
 | To | Request | Needed for | State |
 |---|---|---|---|
-| Owner | Decide whether `home-refresh` moves to the stage-snapshot alias or `preview` | Home page | Open; private branch preview since 2026-11-02 |
 | Owner | Cloudflare Pages token, prune dry run and `--delete` | Old deployments | Open since 2026-10-30 |
 | Owner | Publish the source, security route, trademark clearance, launch authorization | Public release | Open |
 | Engineering | Record the owner's decision that user counts do not gate a release (HO-017) | `/download/` still lists the spec's tester targets; it changes once this is recorded | Open |
@@ -126,4 +125,3 @@ For Program Control. Each line is a request or a dependency, not an approval.
 | Engineering | Signing identities | A first open without System Settings | Open (B-008) |
 | Engineering | Measure whether the bundled `ucompute` runs from Terminal after Open Anyway | The guide's command-line section | Open; engineering asked that it be measured, not stated |
 | Engineering | A window-only first answer on an empty home (F-10-01), following `/docs/first-run/` and reporting where the page differs | T1, T2 at L1 | Open; after P1. The owner left this with engineering on 2026-11-06 |
-| Engineering | The three-browser suite needs a "sentinel clear" window | `home-refresh` before any merge | Open |

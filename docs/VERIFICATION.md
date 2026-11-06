@@ -3,6 +3,23 @@
 > This record uses the current names. The builds and repositories it describes carried the project's earlier name; the original text is in this repository's git history (D-030).
 
 
+## 2026-11-06: refreshed home page merged into the private-alpha channel
+
+The owner asked for `home-refresh` and `stage-snapshot` to be merged, and said that branch's home page changes are the better ones. The merge had no conflicts: the refreshed home page, the brain hero and the smoothness work join the first-run guide. All 11 of the guide's code blocks are unchanged from the verified run, so it was not rerun.
+
+The owed checks found three problems, all fixed before the merge reached `stage-snapshot`:
+- The Planned pill's text was just under 4.5:1 (accessibility 95 to 96 on five pages). It now uses the site's secondary text colour.
+- Mobile performance on the home page was 88, below the threshold of 90, with 420 ms of blocking time. A trace showed scripts forcing the page's first layout: `offsetHeight`, then `document.fonts.ready`, then `scrollY`. The hero's sizes now come from a ResizeObserver and the others wait for first paint. No script forces that layout now.
+- That change exposed a layout shift of 0.045 on the home page. The hero now starts from correct per-width values in CSS, and the shift is 0.
+- The browser suite still looked for the hero's Pause button, which the owner had removed. It now uses the footer switch, which remains.
+
+Results:
+- On sentinel in the windows engineering declared clear, 08:56 to 09:02 and 09:09 to 09:16 UTC, with engineering's SDK verification also running there: Chromium, Firefox and WebKit pass on every page at 1440 and 390 px. All 40 Lighthouse audits meet the thresholds; the home page is 99 on mobile and 100 on desktop, with accessibility, best practices and SEO 100, and blocking time 90 ms on mobile.
+- The layout-shift fix came after that run. It adds five lines of CSS and was checked afterwards in Chrome only: every page at 1440 and 390 px with no errors or sideways scroll, and a layout shift of 0 in both build modes.
+- `npm test` passes in all modes. D-023: the prelaunch tree and both pages match `origin/main` apart from asset hashes.
+
+The owner withdrew the cohort work the same day (HO-016, HO-017), so user counts gate nothing in `docs/DEVEX.md`. `docs/ONBOARDING-TEST.md` is shelved as a reference. `/download/` still shows the spec's tester targets, and stays that way until engineering records the change.
+
 ## 2026-11-06: first-run guide verified on the approved build; this workstream becomes DevEx
 
 The owner made this workstream Website & Developer Experience. Charter, measures and roadmap: `docs/DEVEX.md`.
