@@ -8,6 +8,8 @@ An independent developer can find UCompute, understand its capabilities, install
 
 Success is measured by those tasks being completed, not by page counts or visual polish.
 
+**Measures inform; they do not gate.** No tester count or evidence level holds up a build or a release: the owner's decision of 2026-11-06, relayed by Program Control (HO-017). Access and release rules stay as they are until engineering records the change.
+
 ## What this workstream owns
 
 1. ucompute.org's implementation, navigation, accessibility, performance and maintainability.
@@ -57,7 +59,7 @@ Five measures, in the owner's order. Each has one task, one stopping point and o
 
 Evidence levels, lowest to highest. A step is described by the highest level it has actually reached.
 
-| Level | Meaning | Counts as success? |
+| Level | Meaning | Independent evidence? |
 |---|---|---|
 | L0 Read | Matches the release's source; nothing was run | No |
 | L1 Run | Run on the approved artifact in a supported environment by the people writing the page | No |
@@ -76,7 +78,7 @@ The site has no analytics (spec 29.5), so measures come from observed sessions, 
 | T4 | `curl`, and the official Python and JavaScript clients, ran the page's code unchanged on the approved build. An agent cold read finished `curl` and JavaScript from the page alone; its Python failure led to the fix, which is verified at L1 | L1, L2 in part | No independent developer yet |
 | T5 | An agent answered five support, privacy and maturity questions correctly from the page alone | L2 | Needs L3 sessions |
 
-No measure has reached L3. The target of five testers has no date from the owner.
+No measure has reached L3. That is information, not a gate.
 
 ## Rules for examples and guides
 
@@ -97,7 +99,7 @@ Ordered by which measure each item moves. An item moves only with the evidence n
 | Order | Item | Moves | State | Waiting on |
 |---|---|---|---|---|
 | 1 | First-run guide for the approved build, from disk image to API call, with a repeatable checker | T1, T2, T4 | Done on 2026-11-06 for everything but the window; see `VERIFICATION.md` | Window steps need a person (item 3) |
-| 2 | Onboarding test: cohort criteria, task sheet, consent and scoring, one instrument with engineering's U-04 study (`ONBOARDING-TEST.md`) | All, to reach L3 | Prepared on 2026-11-06; not started | Its gate: security route, approved artifacts, access, release requirements, and the owner's recruiting |
+| 2 | Task sheet and consent form, for recording any developer who tries UCompute the same way (`ONBOARDING-TEST.md`) | All, as information | Shelved on 2026-11-06: the cohort work was withdrawn (HO-016, HO-017). Ready if wanted | Nothing |
 | 3 | Walk the window path once at L1 on a clean account: Open Anyway, Get started, Download, Run, Chat. Also measure whether the bundled `ucompute` runs from Terminal after Open Anyway | T1, T2 | Waiting | Engineering's F-10-01 run after P1 (the owner's choice, 2026-11-06) |
 | 4 | Troubleshooting from real failures, ordered by what people hit, with every error's next step | T1, T2, T4 | Next | Findings from 2 and 3 |
 | 5 | Release-specific compatibility notes and a versioned docs header | T5 | Next | Next approved build |
@@ -114,10 +116,10 @@ For Program Control. Each line is a request or a dependency, not an approval.
 
 | To | Request | Needed for | State |
 |---|---|---|---|
-| Owner | Recruit 3 to 5 independent developers, five if the private-alpha gate is to be met | L3 evidence for every measure | Approved in principle, relayed by Program Control on 2026-11-06 (HO-016); no invitations until the gate in `ONBOARDING-TEST.md` is met. Engineering is recording it |
 | Owner | Decide whether `home-refresh` moves to the stage-snapshot alias or `preview` | Home page | Open; private branch preview since 2026-11-02 |
 | Owner | Cloudflare Pages token, prune dry run and `--delete` | Old deployments | Open since 2026-10-30 |
 | Owner | Publish the source, security route, trademark clearance, launch authorization | Public release | Open |
+| Engineering | Record the owner's decision that user counts do not gate a release (HO-017) | `/download/` still lists the spec's tester targets; it changes once this is recorded | Open |
 | Engineering | Final capability snapshot | Claims on every page | Open; claims follow draft 3 |
 | Engineering | WP-04 verdict | Pooled options in the reference | Open |
 | Engineering | Connection evidence for an approved build | Roadmap 6 | Open |

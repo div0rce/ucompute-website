@@ -1,12 +1,12 @@
 # Onboarding test
 
-One instrument for three things: the owner's cohort decision of 2026-11-06 (HO-016), engineering's U-04 study, and the measures in `DEVEX.md`. It answers one question: can someone who is not on this project install UCompute and use it successfully without the founder's help?
+A task sheet and consent form for recording how a developer who is not on this project gets on with UCompute, without the founder's help.
 
-**Status: prepared, not started.** Nobody has been invited and nothing has been distributed. This file gives no one access to anything.
+**Status: shelved, and it gates nothing.** The owner withdrew the cohort work on 2026-11-06 (HO-016, HO-017): user counts do not hold up a release. This stays only so that anyone who does try UCompute can be recorded the same way. Results are information. Nobody has been invited, nothing has been distributed, and this file gives no one access to anything.
 
-## The gate
+## Before inviting anyone
 
-Every line must be true before anyone is invited. Program Control tracks them; DevEx does not decide them.
+These are the Access and release rules as they stand, not rules of this test. They apply until engineering records a change.
 
 | Condition | Who | State on 2026-11-06 |
 |---|---|---|
@@ -21,7 +21,7 @@ Part B also needs the versioned SDKs, which engineering is building.
 
 ## Cohort
 
-Three to five developers. **Size matters:** three meets U-04, but only five can meet the private-alpha gate (at least five consenting testers). Aim for five.
+Any number of developers. The notes below keep results comparable.
 
 **Eligible:**
 - writes code regularly and is comfortable in a terminal;
@@ -134,9 +134,9 @@ Each problem gets one severity: **S1** stopped them; **S2** cost more than five 
 
 The five questions are scored against the published pages: correct, partly, wrong.
 
-**Passing:**
+**For comparison only.** These targets come from the spec and U-04. They are not gates, and engineering owns the wording:
 
-| Target | Pass | Source |
+| Target | Figure | Source |
 |---|---|---|
 | Private alpha | At least five consenting testers, and at least 4 of 5 reach a first answer through the interface alone on a clean account within 15 minutes, with a pinned licensed model of 1 GB or less at recorded bandwidth | Spec, private alpha |
 | U-04 | Three independent developers; at least 2 of 3 reach a real streamed result unaided within 30 minutes; at least two separately maintained applications, collectively using the versioned Python and TypeScript SDKs; every application demonstrates cancellation, typed refusal and default-local execution; run and issue records kept with consent and without private prompts | Requirement U-04 |
