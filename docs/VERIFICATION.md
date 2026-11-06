@@ -30,6 +30,8 @@ Incident in that cold read: the agent's brief redirected HOME but not PATH, so t
 
 Not verified, and not claimed: anything through the app window, the Open Anyway path, and whether the bundled `ucompute` needs a second approval after it. Engineering confirms there is no evidence of a window-only first answer on an empty home (requirement still IMPLEMENTED_UNVERIFIED) and asks that the second approval be measured, not stated. The page says both. No measure has reached L3.
 
+Deployed: reviewed on the `devex-first-run` alias, then `stage-snapshot` fast-forwarded to 56c44e1. `npm test` passes in all modes (preview 23 pages; public 21, without the guide). D-023: the prelaunch tree and both pages match `origin/main` apart from asset hashes. Checked at 08:50 UTC, GET only: the alias serves the guide identical to the local build; rendered through Access with no console errors, and its link lands on `/download/#releases` with the disk image link; `verify-live.mjs` with the three aliases, 38 checks passed; `verify:release`, 6,425,890 bytes, SHA-256 matching the record. `main` 5446992, `preview` bd21b47 and `home-refresh` 2f75cdc are unchanged. No release, cohort, Access or DNS change.
+
 WP-04: engineering reports P1's first generating run passed at 1038a7f, with no verdict; nothing about pooling is claimable, and no page changed for it. Growth's docs-pages request (HO-005) is deferred to the next snapshot in `docs/LAUNCH.md`.
 
 ## 2026-11-02: home page refresh on its own branch preview
